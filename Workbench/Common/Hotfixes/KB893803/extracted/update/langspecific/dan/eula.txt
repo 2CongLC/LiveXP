@@ -1,0 +1,101 @@
+TILLÆG TIL SLUTBRUGERLICENSAFTALE TIL MICROSOFT-
+SOFTWARE ("Tillæg")
+
+
+VIGTIGT: BØR LÆSES OMHYGGELIGT - Komponenterne til 
+operativsystemet tilhørende Microsoft Corporation ("Microsoft"), 
+der leveres sammen med nærværende Tillæg til 
+Slutbrugerlicensaftale, herunder eventuel onlinedokumentation 
+eller elektronisk dokumentation ("Komponenter til 
+operativsystemet"), er underlagt vilkårene og betingelserne i 
+den aftale, i henhold til hvilken De har erhvervet licens til det 
+pågældende Microsoft-operativsystemprodukt, der er beskrevet 
+nedenfor (hver er en "Slutbrugerlicensaftale"), og vilkårene og 
+betingelserne i nærværende Tillæg til Slutbrugerlicensaftale. 
+VED AT INSTALLERE, KOPIERE, INDLÆSE, ÅBNE ELLER 
+PÅ ANDEN VIS BRUGE KOMPONENTERNE TIL 
+OPERATIVSYSTEMET ACCEPTERER DE VILKÅRENE OG 
+BETINGELSERNE I SLUTBRUGERLICENSAFTALEN FOR 
+DET TILHØRENDE OPERATIVSYSTEMPRODUKT SAMT I 
+NÆRVÆRENDE TILLÆG TIL 
+SLUTBRUGERLICENSAFTALEN. SÅFREMT DE IKKE KAN 
+ACCEPTERE DISSE VILKÅR OG BETINGELSER, HAR DE 
+IKKE RET TIL AT INSTALLERE, KOPIERE, INDLÆSE, ÅBNE 
+ELLER BRUGE KOMPONENTERNE TIL 
+OPERATIVSYSTEMET.
+
+BEMÆRK: SÅFREMT DE IKKE HAR EN GYLDIG 
+LICENSERET KOPI AF MICROSOFT 
+OPERATIVSYSTEMPRODUKTET, HERUNDER, MEN IKKE 
+BEGRÆNSET TIL, MICROSOFT WINDOWS XP 
+PROFESSIONAL, MICROSOFT WINDOWS 2000 
+PROFESSIONAL, MICROSOFT WINDOWS 2000 SERVER 
+ELLER MICROSOFT WINDOWS 2000 ADVANCED SERVER), 
+SOM HVER KOMPONENT TIL OPERATIVSYSTEMET 
+LEVERES SAMMEN MED (hver et "Operativsystemprodukt"), 
+HAR DE IKKE RET TIL AT INSTALLERE, KOPIERE, 
+INDLÆSE, ÅBNE ELLER PÅ ANDEN VIS BRUGE 
+KOMPONENTERNE TIL OPERATIVSYSTEMET, OG DE HAR 
+INGEN RETTIGHEDER I HENHOLD TIL NÆRVÆRENDE 
+TILLÆG TIL SLUTBRUGERLICENSAFTALEN.
+
+Udtryk, der er skrevet med store bogstaver og brugt i 
+nærværende Tillæg, men ikke defineret heri, har samme 
+betydning som angivet i den gældende Slutbrugerlicensaftale til 
+Operativsystemproduktet.
+
+Generelt. Komponenterne til operativsystemet er udelukkende 
+givet til Dem som en opdatering af, et supplement til eller en 
+erstatning af eksisterende funktioner i det pågældende 
+operativsystemprodukt, og når Komponenterne til 
+operativsystemet installeres, bliver de en del af 
+operativsystemproduktet. De får hermed licens til at bruge 
+Komponenterne til operativsystemet under de vilkår og 
+betingelser, der er angivet i Slutbrugerlicensaftalen for det 
+pågældende Operativsystemprodukt (der herved inkorporeres 
+som henvisning), og de vilkår og betingelser, der er angivet i 
+nærværende Tillæg, forudsat at De overholder alle disse vilkår 
+og betingelser. I det omfang, at der er uoverensstemmelser 
+mellem disse vilkår og betingelser, der gælder for 
+Komponenterne til operativsystemet, skal vilkårene og 
+betingelserne i nærværende Tillæg til slutbrugerlicensaftalen 
+være gældende.
+
+Yderligere rettigheder og begrænsninger. 
+
+* Hvis De har flere gyldigt licenserede kopier af Komponenterne 
+til operativsystemet, har De ret til at reproducere, installere og 
+bruge én kopi af Komponenterne på alle de computere, der 
+kører gyldigt licenserede kopier af Operativsystemproduktet, 
+såfremt De bruger sådanne yderligere kopier af Komponenterne 
+til operativsystemet i henhold til ovenstående vilkår og 
+betingelser. 
+
+* Medmindre De har erhvervet Komponenterne til 
+operativsystemet på et eksternt medie, har De ret til at lave en 
+enkelt kopi af Komponenterne til operativsystemet udelukkende 
+til arkiveringsformål eller til geninstallation af Komponenterne til 
+operativsystemet på den samme computer, som 
+Komponenterne til operativsystemet tidligere var installeret på. 
+Microsoft Corporation, Microsofts datterselskaber og/eller 
+leverandører forbeholder sig alle rettigheder, herunder 
+ejendomsrettigheder, og interesser med hensyn til 
+Komponenterne til operativsystemet. Alle rettigheder, der ikke 
+udtrykkeligt er givet til Dem, tilhører Microsoft Corporation, 
+Microsofts datterselskaber og/eller leverandører.
+
+DET EVENTUELT BEGRÆNSEDE ANSVAR, DER ER 
+OMFATTET AF DEN GÆLDENDE 
+SLUTBRUGERLICENSAFTALE FOR KOMPONENTERNE TIL 
+OPERATIVSYSTEMET, GÆLDER FOR KOMPONENTERNE 
+TIL OPERATIVSYSTEMET, FORUDSAT AT 
+KOMPONENTERNE TIL OPERATIVSYSTEMET ER GIVET TIL 
+DEM I LICENS I HENHOLD TIL VILKÅRENE I DET 
+BEGRÆNSEDE ANSVAR I DEN GÆLDENDE 
+SLUTBRUGERLICENSAFTALE FOR 
+OPERATIVSYSTEMPRODUKTET. NÆRVÆRENDE TILLÆG 
+FORLÆNGER IKKE DEN PERIODE, DET BEGRÆNSEDE 
+ANSVAR ER GÆLDENDE.
+
+
+

@@ -1,0 +1,88 @@
+CONTRATO COMPLEMENTARIO DE LICENCIA PARA EL 
+USUARIO FINAL DE SOFTWARE DE MICROSOFT ("CLUF 
+complementario")
+
+
+IMPORTANTE:  LEA DETENIDAMENTE: los componentes de 
+sistema operativo de Microsoft que acompañan a este CLUF 
+complementario, incluida cualquier documentación "en pantalla" 
+o electrónica ("Componentes de SO"), están sujetos a los 
+términos y condiciones del contrato bajo el cual obtuvo la 
+licencia para el producto de sistema operativo de Microsoft 
+aplicable descrito a continuación (cada uno de ellos un 
+"Contrato de licencia para el usuario final" o "CLUF") y a los 
+términos y condiciones de este CLUF complementario.  AL 
+INSTALAR, COPIAR, DESCARGAR, TENER ACCESO A O DE 
+OTRA MANERA UTILIZAR LOS COMPONENTES DE SO, 
+USTED ACEPTA QUEDAR OBLIGADO POR LOS TÉRMINOS 
+Y CONDICIONES DEL CLUF DEL PRODUCTO DE SISTEMA 
+OPERATIVO APLICABLE Y DE ESTE CLUF 
+COMPLEMENTARIO.  SI NO ACEPTA ESTOS TÉRMINOS Y 
+CONDICIONES, NO PUEDE INSTALAR, COPIAR, 
+DESCARGAR, TENER ACCESO A NI USAR LOS 
+COMPONENTES DE SO.
+
+NOTA:  SI NO TIENE UNA LICENCIA VÁLIDA DEL 
+PRODUCTO DE SISTEMA OPERATIVO DE MICROSOFT 
+(INCLUYENDO, PERO SIN LIMITARSE A, MICROSOFT 
+WINDOWS XP PROFESSIONAL, MICROSOFT WINDOWS 
+2000 PROFESSIONAL, MICROSOFT WINDOWS 2000 
+SERVER O MICROSOFT WINDOWS 2000 ADVANCED 
+SERVER) PARA CADA UNO DE LOS CUALES SE 
+DISTRIBUYE CADA COMPONENTE DE SO (cada uno de ellos 
+un "Producto de SO"), NO ESTÁ AUTORIZADO A INSTALAR, 
+COPIAR, DESCARGAR, TENER ACCESO A NI DE OTRA 
+FORMA UTILIZAR LOS COMPONENTES DE SO Y NO TIENE 
+DERECHOS BAJO ESTE CLUF COMPLEMENTARIO.
+
+Los términos en mayúsculas que se usan en este CLUF 
+complementario y no se definen de otra forma en la presente 
+tendrán los significados que se les asignan en el CLUF del 
+Producto de SO aplicable.
+
+General.  Los Componentes de SO se le proporcionan para 
+que actualice, complemente o reemplace la funcionalidad 
+existente del Producto de SO aplicable y tras la instalación los 
+Componentes de SO pasarán a formar parte del Producto de 
+SO.  Por la presente se le concede una licencia para utilizar los 
+Componentes de SO bajo los términos y condiciones del CLUF 
+del Producto de SO aplicable (que se incorporan a la presente 
+por referencia) y los términos y condiciones establecidos en 
+este CLUF complementario, siempre que cumpla todos dichos 
+términos y condiciones.  En la medida en que haya un conflicto 
+entre cualquiera de dichos términos y condiciones aplicables a 
+los Componentes de SO, los términos y condiciones de este 
+CLUF complementario tendrán precedencia.
+
+Derechos y limitaciones adicionales.  
+
+* Si tiene múltiples copias con licencia válida del Producto de 
+SO, puede reproducir, instalar y utilizar una copia de los 
+Componentes de SO en todos los equipos que ejecuten copias 
+con licencia válida del Producto de SO siempre que utilice 
+dichas copias adicionales de los Componentes de SO de 
+acuerdo con los términos y condiciones anteriores.  
+
+* A menos que adquiriera los Componentes de SO en un medio 
+externo, puede realizar una única copia de los Componentes 
+de SO sólo con fines de archivo o para la reinstalación de los 
+Componentes de SO en el mismo equipo en el que se 
+instalaron anteriormente los Componentes de SO.  
+ Microsoft Corporation, sus subsidiarias y/o proveedores 
+retienen todos los derechos, titularidad e intereses de y sobre 
+los Componentes de SO.  Todos los derechos que no se 
+conceden expresamente están reservados por Microsoft 
+Corporation, sus subsidiarias y/o proveedores.
+
+LA GARANTÍA LIMITADA (SI EXISTIERA) INCLUIDA EN EL 
+CLUF DEL PRODUCTO DE SO APLICABLE SE APLICA A 
+LOS COMPONENTES DE SO SIEMPRE QUE LOS 
+COMPONENTES DE SO LE HAYAN SIDO CONCEDIDOS 
+BAJO LICENCIA DENTRO DEL PERÍODO DE LA GARANTÍA 
+LIMITADA DEL CLUF DEL PRODUCTO DE SO APLICABLE.  
+ESTE CLUF COMPLEMENTARIO NO AMPLÍA EL PERÍODO 
+DE TIEMPO PARA EL QUE SE PROPORCIONA LA 
+GARANTÍA LIMITADA.
+
+
+

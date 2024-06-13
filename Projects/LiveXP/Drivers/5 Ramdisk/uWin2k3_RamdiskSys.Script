@@ -1,0 +1,102 @@
+[main]
+Title=Win2k3_Ramdisk
+Description=Will add Win2k3 Ramdisk.Sys Disk Driver & Win2k3 setupldr.bin
+Selected=False
+Level=6
+Author=Lancelot
+Contact=http://www.boot-land.net/forums/index.php?showforum=52
+Credits=Galapo
+Version=4
+Date=
+Download_Level=1
+Depend=
+NoWarning=False
+CertifiedBy=pscEx
+Certification=9dbbe46c58447790be502a9a07000d4f
+History01=Transferring 2k3 addings from bootsdi to current script
+History02=Minor addings to interface
+History03=Galapo updated Interface variable names
+History04=Lancelot Interface edit with Oriensol reminding (Thanks)
+Certification81=f4d0d3efe59321f7dee7a9f9f1474402
+
+[Interface]
+pBevel1=pBevel7,1,12,4,35,505,36
+pTextLabel1="This script needs W2003 SP1 / R2 as source!",1,1,14,4,282,18,9,Bold
+pTextLabel2="(Or define the path to needed files below.)",1,1,298,4,208,18,8,Normal
+pCheckBox1="I provide the files",1,3,6,40,105,23,True
+pTextLabel3=" ramdisk.sys  setupldr.bin",1,1,114,37,60,30,8,Normal
+pTextLabel4="from              at",1,1,177,42,88,18,8,Normal
+pFileBox1=%GlobalTemplates%\BootSDI,1,13,250,38,204,26,dir
+Opensourcebootsdidirbutton="Open Dir",1,8,454,39,48,25,Opensourcebootsdidir
+pWebLabel1="2k3 sp1",1,10,201,42,200,18,http://www.google.com/search?hl=en&q=2k3+sp1+download&aq=f&oq=&aqi=
+pTextLabel5="Notes:#$xYou have to use either FiraDisk OR Win2k3_Ramdisk.sys to use BootSDI#$x#$xBootSDI + Win2k3_RamdiskSys= have size limit (512MB - practically: 470MB)#$xBootSDI + Firadisk = NO size limit#$x#$xAdvice: Use Firadisk with BootSDI",1,1,11,123,380,97,8,Normal
+
+[Interface_Taken_From_BootSDI]
+pBevel7=pBevel7,1,12,24,235,505,36
+pCheckBox1="I provide the files",1,3,26,240,105,23,False
+pTextLabel12=" ramdisk.sys  setupldr.bin",1,1,134,237,60,30,8,Normal
+pTextLabel13="from              at",1,1,197,242,88,18,8,Normal
+pFileBox1=%GlobalTemplates%\BootSDI,1,13,270,238,204,26,dir
+Opensourcebootsdidirbutton="Open Dir",1,8,474,239,48,25,Opensourcebootsdidir
+pWebLabel1="2k3 sp1",1,10,221,242,200,18,http://www.google.com/search?hl=en&q=2k3+sp1+download&aq=f&oq=&aqi=
+
+[Process]
+Run,%scriptfile%,FileCheckingAndReadying
+
+[FileCheckingAndReadying]
+//If 2k3Source
+IniRead,%ProjectInfo%,OS,Type,%OS%
+IniRead,%ProjectInfo%,OS,ServicePack,%SP%
+If,%OS%%SP%,Equal,W2003sp1,Begin
+Run,%ScriptFile%,TargetFileDeleteIniWritetxtsetup
+CopyOrExpand,%source_win%\SETUPLDR.BIN,%target_win%
+CopyOrExpand,%source_win%\ramdisk.sys,%target_sys%\drivers
+Set,%OK%,1
+End
+If,%pCheckBox1%,Equal,True,If,%OK%,NotEqual,1,Run,%ScriptFile%,process-winxp
+If,%OK%,NotEqual,1,Run,%ScriptFile%,Check-Version,"%target_win%\setupldr.bin","%ProjectTemp%\version.txt"
+If,%OK%,NotEqual,1,Run,%ScriptFile%,Halt,"You need SETUPLDR.BIN of W2003 SP1!"
+
+[TargetFileDeleteIniWritetxtsetup]
+IniWrite,%target_win%\txtsetup.sif,ScsiClass.Load,ramdisk,ramdisk.sys
+ShellExecute,Hide,attrib.exe,"-R #$q%target_win%\SETUPLDR.BIN#$q"
+If,ExistFile,%target_sys%\drivers\ramdisk.sy_,FileDelete,%target_sys%\drivers\ramdisk.sy_
+If,ExistFile,%target_sys%\drivers\ramdisk.sys,FileDelete,%target_sys%\drivers\ramdisk.sys
+If,ExistFile,%target_win%\SETUPLDR.BIN,FileDelete,%target_win%\SETUPLDR.BIN
+
+[process-winxp]
+Echo,"Copying files.."
+If,NotExistFile,%pFileBox1%\setupldr.bin,Run,%ScriptFile%,Halt,"Some needed files missing"
+If,ExistFile,%pFileBox1%\setupldr.bin,Run,%ScriptFile%,Copy-W2003-Files
+
+[Copy-W2003-Files]
+Run,%ScriptFile%,TargetFileDeleteIniWritetxtsetup
+FileCopy,%pFileBox1%\SETUPLDR.BIN,%target_win%
+CopyOrExpand,%pFileBox1%\ramdisk.sys,%target_sys%\drivers
+
+[Check-Version]
+If,ExistFile,#2,FileDelete,#2
+If,ExistFile,#1,FileByteExtract,#1,#2,"2800730072007600300033005F007300700031005F00720074006D002E003000350030003300320034002D00310034003400370029",53
+If,ExistFile,#2,Set,%OK%,1
+If,NotExistFile,#2,Set,%OK%,0
+
+[Opensourcebootsdidir]
+If,%pFileBox1%,Equal,"",Exit,""
+If,NotExistDir,"%pFileBox1%",DirMake,"%pFileBox1%"
+System,FILEREDIRECT,OFF
+ShellExecuteEx,Open,explorer.exe,"/e#$c#$q%pFileBox1%#$q",%pFileBox1%
+System,FILEREDIRECT,ON
+
+[EncodedFolders]
+Folder
+
+[Folder]
+
+[AuthorEncoded]
+w2k3ramdisk_icon.ico=573,764
+Logo=w2k3ramdisk_icon.ico
+
+[EncodedFile-AuthorEncoded-w2k3ramdisk_icon.ico]
+lines=0
+0=eJztlzFuwkAQRccBKWWo0gaJJjegJKfxFShBisQRkNxRpEjNCXwAeiokIl8gVGkQm/1OPhpGuxiEASEx0c8ax9735+86cUQS/9VuC77LZ0vkWURevfwpeZO/86hhS26+ms2muyZ7NBq5S3sAj7L8c3vB/Hmeu/F4XHL7/f6Wf+48yIbI4UhpP7ynLj7mtvxsNtvxofuvMw/OBfZqtSqPNTOWx6n7g/OwZ7AXi4Wbz+cuzbIyb823eZyyP3g9c8fxdDrd8in44HVVeRy6P9gz+yMfo+bPfL8QfDEPSuehvVXlYfcZPoMJ4bNlQ7g25INsy4/tDxT7hFDME3NodsiD1rF5WD6Kfds1t+wQH1kck4fmW3ZozW32PAZT80M+0jTdycPyi6KIsvVIdqh3jh+TydYDjumDHjjaNYg9b7ZvPZJr+6cHjBR8gB3i8/ngsw0PuH/fmuueQ/mHPGTw4FX1O4l5oH/6CGUfYoe4ZGcHsEN5HMKtkx3Lo2q9Q2zyT/27qPOI9Rxa7zrYtnQe+3KHzvl+pPO4JNuWzuPSbJbO45r/J9zrXrdS5YvPj1fh9T5w7qHnNtL16ri1NAbf8tBbinRzkc5QpPGvhPLnE//zZO3Pb0QeXS5Pbikv/mZM5CfEe92Xi9UvqUTg+nicEyk3yjYuSsxNySzOjs9Mzs/TAxIMo2CkgH0CEPoVI3b5e2fj3zAwAQCMcAxpflpghwEAAAACAAAALwAAAOoBAAAAAAAAAQAAAAAAAAAAAAAA
+

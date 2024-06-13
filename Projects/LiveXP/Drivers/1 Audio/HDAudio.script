@@ -1,0 +1,197 @@
+[Main]
+Title=HD Audio
+Author=cdob
+Selected=False
+Version=10
+Level=6
+Download_Level=1
+Description=(x86/x64) This script adds HD Audio Bus Driver and some HD Audio device drivers
+Mandatory=False
+CertifiedBy=pscEx
+Certification=34094694794e161afbc59d07a7262227
+Contact=http://www.boot-land.net/forums/index.php?showforum=65
+History002=Galapo changed location of user-provided HDAudio drivers to '%GlobalTemplates%\drivers\HDAudio';
+History002=changed HWPnp.exe start to RunOnceEx entry; repaired [Verify]; added image;
+History002=added option to grab files from host system
+History003=Galapo added 64-bit system check when gathering files from host system
+History004=Galapo modified RunOnceEx entry
+History005=Galapo corrected interface under new WB version; updated [Verify]
+History006=Galapo removed /p from hwpnp RunOnceEx entry
+History007=Lancelot add pButton2 + fix typo (thanks to dera) "ImagePath","system32\Files\hdaudbus.sys" to "ImagePath","system32\DRIVERS\hdaudbus.sys"
+History009=Lancelot hiderun line fixed
+History010a=Lancelot x64 modifications (update your device_drivers location--script file attachment locations if you are using your own) // I believe LiveXP will only support 2k3/xp-x64-sp2 , for 2k3/xp-x64-sp0 there is an update WindowsServer2003.WindowsXP-KB901105-v3-x64-ENU.exe which I believe will not be required so not added to current script http://www.microsoft.com/downloads/details.aspx?FamilyID=dab139f1-065c-41e8-a148-9d79bd9d24f9&displaylang=en
+History010b=Lancelot autocheck mechanisms added (I get tired changing settings when source xpsp3/xpsp2/x64 , time to have automagic ;))
+Certification81=a34a9b133a0e4b599036f4f1715bad51
+
+[Verify]
+Call "WBVersion" ($$$,075);
+If {%HD Audio:Main.Selected%}
+& !{%XPE - pnp multimedia:Main.Selected%}
+& !{%Driver Import PE:Main.Selected%} Then
+"HD Audio script requires either 'XPE - pnp multimedia' or 'Driver Import PE' with audio selected";
+If {%HD Audio:Main.Selected%}
+& !{%XPE - pnp multimedia:Main.Selected%}
+& {%Driver Import PE:Main.Selected%}
+& !{%Driver Import PE:Interface.pCheckBox7%} Then
+"HD Audio script requires audio option on 'Driver Import PE' to be selected, or alternatively enable 'XPE - pnp multimedia'";
+
+[Interface]
+pTextLabel2="Bus driver: HDAudBus.inf HDAudBus.sys",1,1,9,6,249,18,10,Normal
+pFileBox1=%GlobalTemplates%\drivers\HDAudBus,1,13,15,149,260,30,dir
+pButton1="open device drivers directory",1,8,221,261,169,25,open_device_drivers
+pRadioButton1="use windows source files (XP SP3, 2003 SP1 source files, or KB888111 integrated OR XP/2k3-x64-sp2)",1,11,10,26,513,18,True
+pRadioButton2="or select directory",1,11,10,132,108,18,False
+pWebLabel1=KB888111,1,10,324,147,48,18,http://support.microsoft.com/kb/888111/
+pWebLabel2="High Definition Audio class driver (Q888111) ",1,10,324,166,229,18,http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-65456
+pTextLabel3="Device Driver",1,1,12,197,87,18,10,Normal
+pCheckBox1="add available HDAudio.inf HDAudio.sys",1,3,11,219,223,19,True
+pCheckBox2="add .script integrated drivers",1,3,11,239,200,19,False
+pCheckBox3="add HDAudio drivers from '%GlobalTemplates%\drivers\HDAudio'",1,3,11,259,208,28,False
+pRadioButton3="take files from host OS",1,11,10,112,136,18,False
+pButton2="open dir",1,8,274,150,46,24,open_drivers_directorya
+pBevel1=pBevel1,1,12,7,97,534,91
+pTextLabel4="PEx86 Additional Settings (When source x64 'use windows source files' will be used overriding the settings here)",1,1,17,78,281,32,8,Normal
+checkbox_autocheck="AutoCheck 'select directory' if missing at source",1,3,260,44,258,18,True
+pBevel2=pBevel2,1,12,5,2,540,189
+pBevel3=pBevel3,1,12,5,193,393,100
+CheckBox_hwpnp="Add ""HWPnp.exe HdAudio"" to runonce (Requires HWPnP script enabled)",1,3,166,296,378,18,False
+
+[open_drivers_directorya]
+If,NOT,EXISTVAR,%GlobalSupport%,Set,%GlobalSupport%,%BaseDir%\Workbench
+If,NOT,EXISTVAR,%GlobalTemplates%,Set,%GlobalTemplates%,%GlobalSupport%\Common
+If,NOT,EXISTDIR,%pFileBox1%,DirMake,%pFileBox1%
+System,FILEREDIRECT,OFF
+If,ExistDir,%pFileBox1%,ShellExecuteEx,Open,explorer,"/e#$c#$q%pFileBox1%#$q",%pFileBox1%
+System,FILEREDIRECT,ON
+
+[Process]
+If,%SourceArch%,Equal,IA64,Exit,"HDAudio.script IA64 support not exists"
+If,%SourceArch%,Equal,x64,Begin
+Set,%pRadioButton1%,TRUE
+Set,%pRadioButton2%,False
+Set,%pRadioButton3%,False
+End
+If,%SourceArch%,Equal,x86,Begin
+If,%pRadioButton1%,EQUAL,TRUE,If,%checkbox_autocheck%,Equal,True,Begin
+set,%foundini%,0
+set,%foundsys%,0
+If,EXISTFILE,%source_sys%\HDAudBus.in?,set,%foundini%,1
+If,EXISTFILE,%source_sys%\HDAudBus.sy?,set,%foundsys%,1
+If,Not,%foundini%%foundsys%,Equal,11,Begin
+set,%foundini%,0
+set,%foundsys%,0
+If,EXISTFILE,%pFileBox1%\HDAudBus.in?,set,%foundini%,1
+If,EXISTFILE,%pFileBox1%\HDAudBus.sy?,set,%foundsys%,1
+If,%foundini%%foundsys%,Equal,11,Set,%pRadioButton1%,False
+If,%foundini%%foundsys%,Equal,11,Set,%pRadioButton2%,TRUE
+End
+End
+End
+If,%pRadioButton1%,EQUAL,TRUE,Run,%ScriptFile%,Process_HD-Audio,"%source_sys%","%source_sys%","%source_sys%"
+If,%pRadioButton2%,EQUAL,TRUE,Run,%ScriptFile%,Process_HD-Audio,"%pFileBox1%","%pFileBox1%","%pFileBox1%"
+If,%pRadioButton3%,EQUAL,TRUE,Begin
+_Calculate,"@ProcessorArch",architecture_test
+_Calculate,"StringInStr('%architecture_test%'#$c'64')",architecture_test
+If,Not,%architecture_test%,Equal,0,Begin
+Message,"Gathering of HDAudBus files is only supported under x86 architecture",ERROR
+Halt,"Gathering of HDAudBus files is only supported under x86 architecture"
+End
+Else,Run,%ScriptFile%,Process_HD-Audio,"%WindowsDir%\Inf","%WindowsDir%\system32\drivers","%WindowsDir%\system32"
+End
+
+[Process_HD-Audio]
+Echo,"add HDAudio Bus driver"
+If,%SourceArch%,Equal,x86,Begin
+If,Not,EXISTFILE,"#1\HDAudBus.in?",Halt,"Error: file #$q#1\HDAudBus.in?#$q not found"
+If,Not,ExistFile,"#2\HDAudBus.sy?",Halt,"Error: file #$q#2\HDAudBus.sy?#$q not found"
+CopyOrExpand,"#1\HDaudbus.inf",%target_win%\Inf
+CopyOrExpand,"#2\hdaudbus.sys",%target_sys%\Drivers
+End
+If,%SourceArch%,Equal,x64,Begin
+CopyOrExpand,"#1\HDaudbus.inf",%target_win%\Inf
+require_file,drivers\hdaudbus.sys,%source_sys%\%spcabfile%
+End
+//
+Hive_Load,HKLM
+reg_add,0x1,%reg%\ControlSet001\Control\CriticalDeviceDatabase\PCI#CC_0403,ClassGUID,{4D36E97D-E325-11CE-BFC1-08002BE10318}
+reg_add,0x1,%reg%\ControlSet001\Control\CriticalDeviceDatabase\PCI#CC_0403,Service,HDAudBus
+reg_add,0x4,%reg%\ControlSet001\Services\HDAudBus,Type,1
+reg_add,0x4,%reg%\ControlSet001\Services\HDAudBus,Start,3
+reg_add,0x1,%reg%\ControlSet001\Services\HDAudBus,Group,"Extended Base"
+reg_add,0x1,%reg%\ControlSet001\Services\HDAudBus,DisplayName,"Microsoft UAA Bus Driver for High Definition Audio"
+reg_add,0x2,%reg%\ControlSet001\Services\HDAudBus,ImagePath,system32\DRIVERS\hdaudbus.sys
+reg_add,0x4,%reg%\ControlSet001\Services\HDAudBus,ErrorControl,0
+Hive_Unload,HKLM
+//
+// additional files
+If,%SourceArch%,Equal,x86,Begin
+If,ExistFile,"#3\hdaprop.dl?",CopyOrExpand,"#3\hdaprop.dll","%target_sys%"
+If,ExistFile,"#3\hdashcut.ex?",CopyOrExpand,"#3\hdashcut.exe","%target_sys%"
+If,ExistFile,"#3\hdaudres.dl?",CopyOrExpand,"#3\hdaudres.dll","%target_sys%"
+If,ExistFile,"#2\portcls.sy?",CopyOrExpand,"#2\portcls.sys","%target_sys%\drivers"
+End
+If,%SourceArch%,Equal,x64,Begin
+require_file,hdaprop.dll,%source_sys%\%drcabfile%
+require_file,hdashcut.exe,%source_sys%\%drcabfile%
+require_file,hdaudres.dll,%source_sys%\%drcabfile%
+require_file,drivers\portcls.sys,%source_sys%\%spcabfile%
+End
+//
+//
+echo,"add HD Audio device driver"
+//
+If,%CheckBox_hwpnp%,Equal,True,Begin
+// PNP HD Audio device driver
+//Run,%AutoRunScript%,Add,"HWPnp.exe -all +HDAUDIO"
+If,Not,ExistFile,%tools%\%SourceArch%\hiderunEx_%SourceArch%.exe,WebGet,http://livexp.boot-land.net/repository/%SourceArch%/hiderunEx_%SourceArch%.exe,%Tools%\%SourceArch%\hiderunEx_%SourceArch%.exe
+If,Not,ExistFile,%target_sys%\hiderun.exe,FileCopy,%Tools%\%SourceArch%\hiderunEx_%SourceArch%.exe,%target_sys%\hiderun.exe
+Hive_Load,HKU
+reg_add,0x1,%reg%\Microsoft\Windows\CurrentVersion\RunOnceEx\998,HDAudio,"hiderun /w HWPnp.exe -all +PCI\CC_04 +HDAUDIO /cid /d+ /log+"
+Hive_Unload,HKU
+End
+//
+If,%pCheckBox1%,Equal,True,begin
+If,ExistFile,"#1\HDAudio.in?",CopyOrExpand,"#1\HDAudio.inf","%target_win%\Inf"
+If,ExistFile,"#2\HDAudio.sy?",CopyOrExpand,"#2\HDAudio.sys","%target_sys%\Drivers"
+end
+//
+If,%pCheckBox2%,Equal,True,begin
+ExtractAllFiles,%ScriptFile%,%SourceArch%_Inf,%target_win%\Inf
+ExtractAllFiles,%ScriptFile%,%SourceArch%_Drivers,%target_sys%\Drivers
+ExtractAllFiles,%ScriptFile%,%SourceArch%_System32,%target_sys%
+end
+//
+If,%pCheckBox3%,Equal,True,begin
+If,ExistFile,%GlobalTemplates%\drivers\HDAudio\%SourceArch%_inf\*.inf,FileCopy,%GlobalTemplates%\drivers\HDAudio\inf\*.inf,%target_win%\Inf
+If,ExistFile,%GlobalTemplates%\drivers\HDAudio\%SourceArch%_drivers\*.sys,FileCopy,%GlobalTemplates%\drivers\HDAudio\drivers\*.*,%target_sys%\Drivers
+If,ExistFile,%GlobalTemplates%\drivers\HDAudio\%SourceArch%_system32\*.dll,FileCopy,%GlobalTemplates%\drivers\HDAudio\system32\*.*,%target_sys%
+end
+
+[open_device_drivers]
+If,NOT,EXISTDIR,%GlobalTemplates%\drivers\HDAudio\x86_inf,DirMake,%GlobalTemplates%\drivers\HDAudio\x86_inf
+If,NOT,EXISTDIR,%GlobalTemplates%\drivers\HDAudio\x86_drivers,DirMake,%GlobalTemplates%\drivers\HDAudio\x86_drivers
+If,NOT,EXISTDIR,%GlobalTemplates%\drivers\HDAudio\x86_system32,DirMake,%GlobalTemplates%\drivers\HDAudio\x86_system32
+If,NOT,EXISTDIR,%GlobalTemplates%\drivers\HDAudio\x64_inf,DirMake,%GlobalTemplates%\drivers\HDAudio\x64_inf
+If,NOT,EXISTDIR,%GlobalTemplates%\drivers\HDAudio\x64_drivers,DirMake,%GlobalTemplates%\drivers\HDAudio\x64_drivers
+If,NOT,EXISTDIR,%GlobalTemplates%\drivers\HDAudio\x64_system32,DirMake,%GlobalTemplates%\drivers\HDAudio\x64_system32
+System,FILEREDIRECT,OFF
+ShellExecuteEx,Open,explorer.exe,"/e,#$q%GlobalTemplates%\drivers\HDAudio#$q",%GlobalTemplates%\drivers\HDAudio
+System,FILEREDIRECT,ON
+
+[EncodedFolders]
+x86_Inf
+x86_Drivers
+x86_System32
+x64_Inf
+x64_Drivers
+x64_System32
+
+[EncodedFile-AuthorEncoded-HDAudio.gif]
+lines=1
+0=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
+1=Jc8hJXbFTamLhRjhuuIDJ0X0HafkYkT+Ay4BVk33OaGdwxJySbG1slW8ELnuL7Mm+jGfURV/61TAj/VJr1Ok28sLzGrcTf5OEywoLbonuepD0zk07gEO9mgMBhm8RHhOUyRIoe+/aJIF65iiCAEZToh1pwECv5h95/lJUsmMHE63MD3CCpwxtyToGIOIhJVvKmXzAdD9lCB0XpIUE4xCnuOnFwMkyVkkawOWWGFZhh9e4Hc5bilsvsYVyUl1HgTY3FGyE+esh5GeQ1dy1ny1rj70gtGwxOALKgUcwcpO0wPJAe9I+jUL0gotoKrIe8r4C5a8ECZVLWSYZ0BuZJg4I74ItvJTPVqIBg628NmTolD8re6IcrzTOWP5RBknGY0oUyjkyJ9dSiIcSSyXxBzjbkJhUmuhoRQBPXj4N3OJQa8rGvtFa/mAElFE3JRy02g1b8AaovAJo+l6XrYRPDRwOUdn5sLNgNMNAgCw3oKJkVzYy5l492oYM2PcFyxuCpoxWItYgzNPR3WnnkewCPA0FpNi+nYF046VWisJp45AUdU+sGidFXPMjBQVjwPMHx2AbXYLcIGHdRwAw0ZQaoZQOBAhvPMSk8A7kXh8kW2Ezo4TF6KOYpnDgMx6GqszyrfhqxY1Blf04ktkGQ6aNr9tDQ74EaNAv+WYuYUQJobrbDU5xdAB48W+PfZXtnPWSjA0bUURMG/YIDgYDI/wGGpxl2eJzj9nBxLE3JzNdLz0xjGAUjDsjzQWgZPuzyJ8rOfGVgAgBx9AdGmH7tQQEAAAACAAAAJwAAABwOAAAAAAAAAQAAAAAAAAAAAAAA
+
+[AuthorEncoded]
+HDAudio.gif=3687,4916
+Logo=HDAudio.gif
+

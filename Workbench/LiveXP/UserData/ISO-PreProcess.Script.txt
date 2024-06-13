@@ -1,0 +1,11 @@
+[BootScreen]
+BootScreen=F:\Microsoft\Windows PE\LiveXP\Workbench\Common\BootScreen\Kernels
+
+
+[Process]
+Echo,"Pre-Processing:BuildModel"
+Exec,F:\Microsoft\Windows PE\LiveXP\Projects\LiveXP\Basic\Build\4 - BuildModel.Script,Build-Model
+Exec,F:\Microsoft\Windows PE\LiveXP\Projects\LiveXP\Basic\Build\3 - hivesFactory.Script,Cleanup
+Exec,%API%,Process-RegAdd_boot
+Echo,"Change Boot Screen"
+Exec,F:\Microsoft\Windows PE\LiveXP\Projects\LiveXP\Finish\1 Optimizations\YY-BootScreen.script,Process-PreISOScript

@@ -1,0 +1,91 @@
+[main]
+Title=Auto Keyboard
+Description=Change the keyboard layout of your build based on your PC's settings
+Selected=False
+Level=1
+Author=Peter Schlang
+Contact=http://BootLand.pt.vu
+Credits=To all of those who support free software and bernat who initially proposed a way to customize the keyboard - thanks!
+Date=2009-Aug-15
+Version=9
+Locked=True
+Updates=http://www.psc.boot-land.net/Scripts
+Download_Level=0
+Upload=2008-Jan-11 14:31:59
+CertifiedBy=pscEx
+Certification=d315a4405ee63c28c8b85d7cc9604a94
+History07=psc changed to logging by [OnProcessExit]
+History07b=Lancelot Download_Level=0 + 'Add locl PC's keyboard as primary keyboard' selected default
+History08=Lancelot Fix for turkish keyboard c_1254.nls (sourcecd English - keyboard Turkish  --> Keyboard does NOT work on some utilities, Ex: Off by One (File->Go to Web Page) // XPE logon with password. -- Minor issue left for 2 letters ð þ ) -- Peter informed and version incremented
+History09=Thanks to Rui Paz post 6 RegRead now from CurrentControlSet, NOT ControlSet001 http://www.boot-land.net/forums/index.php?showtopic=11949&view=findpost&p=104604
+Certification81=b8467307eedbafa565d5e42f6a270913
+
+[AuthorEncoded]
+authorlogo.jpg=3257,4345
+
+[process]
+If,%pRadioButton2%,Equal,True,Set,%number%,2
+RegRead,HKCU,"Control Panel\International",Locale,%DOSKEYBKEY%
+RegRead,HKLM,"SYSTEM\CurrentControlSet\Control\Keyboard Layouts\%DOSKEYBKEY%","Layout Display Name",%LAYOUTNAME%
+RegRead,HKLM,"SYSTEM\CurrentControlSet\Control\Keyboard Layouts\%DOSKEYBKEY%","Layout File",%KBDDLL%
+RegRead,HKLM,"SYSTEM\CurrentControlSet\Control\Keyboard Layouts\%DOSKEYBKEY%","Layout Text",%LAYOUTTEXT%
+RegRead,HKLM,"SYSTEM\CurrentControlSet\Control\Keyboard Layout\DosKeybCodes",%DOSKEYBKEY%,%DOSKEYBVALUE%
+Echo,"Copying %KBDDLL% from %sourceDir%.."
+If,ExistFile,%source_win%\%KBDDLL%,FileCopy,%source_win%\%KBDDLL%,%target_sys%\%KBDDLL%
+If,Not,ExistFile,%source_win%\%KBDDLL%,FileCopy,%WindowsDir%\System32\%KBDDLL%,%target_sys%\%KBDDLL%
+Echo,"Writing to Default Hive.."
+RegHiveLoad,WB-Default,%target_sys%\config\default
+If,%pRadioButton1%,Equal,True,RegWrite,HKLM,0x1,"WB-Default\Keyboard Layout\Preload",1,%DOSKEYBKEY%
+If,%pRadioButton2%,Equal,True,Run,%ScriptFile%,Set-Secondary
+If,%pRadioButton3%,Equal,True,Run,%ScriptFile%,Set-Primary
+RegHiveUnLoad,WB-Default
+Echo,"Writing to Software Hive.."
+RegHiveLoad,WB-Software,%target_sys%\setupreg.hiv
+RegWrite,HKLM,0x1,"WB-Software\ControlSet001\Control\Keyboard Layout\DosKeybCodes",%DOSKEYBKEY%,%DOSKEYBVALUE%
+RegWrite,HKLM,0x1,"WB-Software\ControlSet001\Control\Keyboard Layouts\%DOSKEYBKEY%","Layout Text",%LAYOUTTEXT%
+RegWrite,HKLM,0x1,"WB-Software\ControlSet001\Control\Keyboard Layouts\%DOSKEYBKEY%","Layout Display Name",%LAYOUTNAME%
+RegWrite,HKLM,0x1,"WB-Software\ControlSet001\Control\Keyboard Layouts\%DOSKEYBKEY%","Layout File",%KBDDLL%
+RegHiveUnLoad,WB-Software
+IniWrite,%ProjectInfo%,CustomLogs,KeyboardLayout,%LAYOUTTEXT%
+Echo,"All done.."
+Run,%scriptfile%,sourcekeyboard_mismatch_fix
+
+[Set-Secondary]
+RegWrite,HKLM,0x1,"WB-Default\Keyboard Layout\Preload",2,"%DOSKEYBKEY%"
+Run,%ScriptFile%,Set-Toggle
+
+[Set-Primary]
+RegRead,HKLM,"WB-Default\Keyboard Layout\Preload",1,%temp%
+RegWrite,HKLM,0x1,"WB-Default\Keyboard Layout\Preload",1,%DOSKEYBKEY%
+RegWrite,HKLM,0x1,"WB-Default\Keyboard Layout\Preload",2,%temp%
+Run,%ScriptFile%,Set-Toggle
+
+[Set-Toggle]
+RegWrite,HKLM,0x1,"WB-Default\Keyboard Layout\Toggle",Hotkey,1
+RegWrite,HKLM,0x1,"WB-Default\Keyboard Layout\Toggle","Language Hotkey",1
+RegWrite,HKLM,0x1,"WB-Default\Keyboard Layout\Toggle","Layout Hotkey",2
+
+[sourcekeyboard_mismatch_fix]
+IniRead,%ProjectInfo%,Project,LangID,%LangIDNumberProjectInfo%
+If,%KBDDLL%,Equal,KBDTUQ.DLL,If,Not,%LangIDNumberProjectInfo%,Equal,0000041F,Begin
+Echo,"KBDTUQ Fix Turkish Q Keyboard"
+//Lancelot: c_1026.nls must be extracted when sourcecd is not Turkish
+If,ExistFile,%target_sys%\c_1254.nl_,FileDelete,%target_sys%\c_1254.nl_
+If,Not,ExistFile,%target_sys%\c_1254.nls,CopyOrExpand,%source_sys%\c_1254.nls,%target_sys%
+RegHiveLoad,WB-SYSTEM,%target_sys%\SETUPREG.HIV
+RegWrite,HKLM,0x1,WB-SYSTEM\ControlSet001\Control\Nls\CodePage,1254,c_1254.nls
+RegHiveUnLoad,WB-SYSTEM
+End
+
+[EncodedFile-AuthorEncoded-authorlogo.jpg]
+lines=1
+0=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
+1=cTL1IhBYUrGMRLTFdPI4u6cxnLHYk1i48ZSKCSCflEIy24hVFQnk2PAbESTuO3JJSGJI9ZlCajPxuwE+Re804PVBTwjiSefx1UeWFoJP7YGulb6VLXzDENQaclz5N1ygOY2G9FL5NuH77/J8G/rzp4nONLLC3JyC/KyU/P18sqSGcYBSMLtPNA6Gwe7PKLo6/uZWACAGSPCV4A1StMAQAAAAIAAAAqAAAAawwAAAAAAAABAAAAAAAAAAAAAAA
+
+[Interface]
+pRadioButton1="Overwrite source CD's keyboard with local PC's keyboard",1,11,8,23,310,20,False
+pRadioButton2="Add local PC's keyboard as secondary keyboard",1,11,26,121,289,20,False
+pRadioButton3="Add local PC's keyboard as primary keyboard",1,11,26,101,253,20,True
+pTextLabel1="In this case you can toggle between the keyboards by using <left alt> <shift> :",1,1,26,64,334,35,9,Bold
+pBevel1=pBevel1,1,12,9,63,351,85
+

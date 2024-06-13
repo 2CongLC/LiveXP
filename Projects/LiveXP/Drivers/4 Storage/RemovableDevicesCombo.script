@@ -1,0 +1,1109 @@
+[main]
+Title=Removable Devices Combo
+Description=Peripheral Devices; USB Mass Storage, USB Keyboard & Mouse Hotplug, Ieee1394 Support are added by this script.
+Selected=True
+Level=6
+Author=fxscrpt
+Credits=Radoi Ovidiu, Draugen for MicroPE, Mick Leong for his USB&IEEE1394 plugin , Alexei for USB keyboards and mice support, Galapo, cdob's BartPE plugin: http://www.911cd.net/forums//index.php?showtopic=20987
+Date=12.09.2009
+Download_Level=1
+Mandatory=False
+CertifiedBy=pscEx
+Certification=eee20df25bd831ff8a3e7b24627cd805
+NoWarning=False
+Version=8
+HistoryNote=Oriensol note - Use this script before vUSBDummyDisk.Script (USB Mass Storage) & vFiraDisk.Script
+HistoryNote=Lancelot - There are hardcoded paths (X:\i386 - X:\AMD64) on the script, I do not know if regaddbot can be used to fix....
+History004=Lancelot minor modifications for pex64
+History005=Lancelot Download_Level=1
+History006=Lancelot - Thanks to JFX for pointing 1394#609E&10483 issue with wb080 - another trick used to fit wb needs.
+History007=Galapo added storport.sys copy
+History008=Galapo added %hash% variable, reversed 006
+Certification81=8e8d449de0b57c92197e30532d2fb5f6
+
+[Variables]
+%hash%=#
+
+[process]
+Set,"%PInfo%","%ProjectInfo%"
+IniRead,"%PInfo%","TargetPaths","Target","%tmp%"
+If,%tmp%,Equal,"",Set,%PInfo%,"%ProjectTemp%\ProjectInfo.ini"
+IniRead,"%PInfo%","OS","Type","%OS%"
+IniRead,"%PInfo%","Cabs","SP_CAB","%SPCAB%"
+IniRead,"%PInfo%","Cabs","DR_CAB","%DRCAB%"
+CopyOrExpand,"%source_win%\reg.exe","%target_sys%"
+CopyOrExpand,"%source_win%\certclas.inf","%target_win%\inf"
+//
+Run,%ScriptFile%,CheckRegWriteIssue
+Set,%runstorageshared%,False
+Run,%ScriptFile%,Process-USB
+If,%pCheckBox3%,Equal,True,Run,%ScriptFile%,Process-IEEE1394
+//Run,%ScriptFile%,Other-shared
+If,%runstorageshared%,Equal,True,Run,%ScriptFile%,Storage-shared
+If,%pCheckBox4%,Equal,True,Run,%ScriptFile%,process-saferem
+//--
+//History006
+//If,%pCheckBox3%,Equal,True,Begin
+// trick no. 17 (key: 1394#609E&10483) -- Lancelot -- unstable trick, failed with wb080 -- adding entry directly under [process] seems more stable.
+//RegHiveLoad,WB-Setup,%target_sys%\setupreg.hiv
+//RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\1394#609E&10483","ClassGUID","{d48179be-ec20-11d1-b6b8-00c04fa372a7}"
+//RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\1394#609E&10483","Service","sbp2port"
+//RegHiveUnLoad,WB-Setup
+//End
+
+[Process-USB]
+// usb core
+Echo,"Copying files for USB Core support..."
+//
+If,ExistDir,"%ProjectTemp%\USBInf",DirDelete,"%ProjectTemp%\USBInf"
+DirMake,"%ProjectTemp%\USBInf"
+//
+CopyOrExpand,"%source_win%\usb.inf","%ProjectTemp%\USBInf"
+CopyOrExpand,"%source_win%\usbport.inf","%ProjectTemp%\USBInf"
+//
+Run,%ScriptFile%,getfile,usbhub.sys,system32\drivers
+Run,%ScriptFile%,getfile,usbccgp.sys,system32\drivers
+Run,%ScriptFile%,getfile,usbehci.sys,system32\drivers
+Run,%ScriptFile%,getfile,usbohci.sys,system32\drivers
+Run,%ScriptFile%,getfile,usbuhci.sys,system32\drivers
+Run,%ScriptFile%,getfile,usbport.sys,system32\drivers
+Run,%ScriptFile%,getfile,usbd.sys,system32\drivers
+// usb storage
+If,%pCheckBox1%,Equal,True,Begin
+Echo,"Copying files for USB Mass Storage Devices support..."
+Run,%ScriptFile%,getfile,disk.sys,system32\drivers
+Run,%ScriptFile%,getfile,partmgr.sys,system32\drivers
+Run,%ScriptFile%,getfile,volsnap.sys,system32\drivers
+Run,%ScriptFile%,getfile,usbstor.sys,system32\drivers
+//note: crcdisk.sys is always in driver cabs with x64 sources
+If,%OS%%SourceArch%,Equal,W2003x86,Run,%ScriptFile%,getfile,crcdisk.sys,system32\drivers
+If,%SourceArch%,Equal,x64,Run,%ScriptFile%,getfile,crcdisk.sys,system32\drivers
+Run,%ScriptFile%,getfile,storprop.dll,system32
+Run,%ScriptFile%,getfile,shsvcs.dll,system32
+Run,%ScriptFile%,getfile,hccoin.dll,system32
+Run,%ScriptFile%,getfile,usbui.dll,system32
+//
+CopyOrExpand,"%source_win%\disk.inf","%ProjectTemp%\USBInf"
+CopyOrExpand,"%source_win%\cdrom.inf","%ProjectTemp%\USBInf"
+CopyOrExpand,"%source_win%\volume.inf","%ProjectTemp%\USBInf"
+CopyOrExpand,"%source_win%\usbstor.inf","%ProjectTemp%\USBInf"
+End
+// usb HID
+If,%pCheckBox2%,Equal,True,Begin
+Echo,"Copying files for USB keyboard and USB mouse support..."
+Run,%ScriptFile%,getfile,hidusb.sys,system32\drivers
+Run,%ScriptFile%,getfile,hidparse.sys,system32\drivers
+Run,%ScriptFile%,getfile,mouhid.sys,system32\drivers
+Run,%ScriptFile%,getfile,mouclass.sys,system32\drivers
+Run,%ScriptFile%,getfile,kbdhid.sys,system32\drivers
+Run,%ScriptFile%,getfile,kbdclass.sys,system32\drivers
+Run,%ScriptFile%,getfile,hidclass.sys,system32\drivers
+Run,%ScriptFile%,getfile,hid.dll,system32
+Run,%ScriptFile%,getfile,hidserv.dll,system32
+//
+CopyOrExpand,"%source_sys%\input.inf","%ProjectTemp%\USBInf"
+CopyOrExpand,"%source_sys%\hidserv.inf","%ProjectTemp%\USBInf"
+CopyOrExpand,"%source_sys%\msmouse.inf","%ProjectTemp%\USBInf"
+CopyOrExpand,"%source_sys%\keyboard.inf","%ProjectTemp%\USBInf"
+End
+//
+ExtractFile,"%ScriptFile%","files","UpdateInfs.exe","%ProjectTemp%"
+ShellExecute,hide,"%ProjectTemp%\UpdateInfs.exe","#$q%ProjectTemp%\USBInf\*.*#$q"
+FileCopy,"%ProjectTemp%\USBInf\*.*","%target_win%\inf"
+FileDelete,"%ProjectTemp%\UpdateInfs.exe"
+//
+Run,%ScriptFile%,Process-usbsif
+Run,%ScriptFile%,Process-usbregistry
+If,%pCheckBox1%,Equal,True,Set,%runstorageshared%,True
+
+[Process-usbsif]
+Echo,"Processing USB txtsetup.sif values"
+//
+Set,%TXTSIF%,"%ProjectTemp%\TXTSETUP.INI"
+If,ExistFile,"%TXTSIF%",FileDelete,"%TXTSIF%"
+IniAddSection,"%TXTSIF%","HardwareIdsDatabase"
+IniAddSection,"%TXTSIF%","HwIdsDatabase"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","PCI\CC_0C0320=#$qusbehci#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","PCI\CC_0C0310=#$qusbohci#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","PCI\CC_0C0300=#$qusbuhci#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\ROOT_HUB=#$qusbhub#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\ROOT_HUB20=#$qusbhub#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\CLASS_09&SUBCLASS_01=#$qusbhub#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\CLASS_09=#$qusbhub#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\COMPOSITE=#$qusbccgp#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","PCI\CC_0C0320=#$qusbehci#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","PCI\CC_0C0310=#$qusbohci#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","PCI\CC_0C0300=#$qusbuhci#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\ROOT_HUB=#$qusbhub#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\ROOT_HUB20=#$qusbhub#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\CLASS_09&SUBCLASS_01=#$qusbhub#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\CLASS_09=#$qusbhub#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\COMPOSITE=#$qusbccgp#$q"
+//
+If,%pCheckBox1%,Equal,True,Begin
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\VID_03EE&PID_0000=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\VID_03EE&PID_6901=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\VID_03F0&PID_0107=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\VID_04B3&PID_4427=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\VID_04DA&PID_0B01=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\VID_04E6&PID_0001=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\VID_054C&PID_0023=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\VID_057B&PID_0000=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\VID_059F&PID_A601=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\VID_059F&PID_A602=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\VID_0644&PID_0000=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\VID_0644&PID_1000=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\VID_55AA&PID_1234=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\Class_08&SubClass_02&Prot_50=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\Class_08&SubClass_05&Prot_50=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\Class_08&SubClass_06&Prot_50=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\VID_03EE&PID_0000=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\VID_03EE&PID_6901=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\VID_03F0&PID_0107=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\VID_04B3&PID_4427=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\VID_04DA&PID_0B01=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\VID_04E6&PID_0001=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\VID_054C&PID_0023=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\VID_057B&PID_0000=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\VID_059F&PID_A601=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\VID_059F&PID_A602=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\VID_0644&PID_0000=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\VID_0644&PID_1000=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\VID_55AA&PID_1234=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\Class_08&SubClass_02&Prot_50=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\Class_08&SubClass_05&Prot_50=#$qusbstor#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\Class_08&SubClass_06&Prot_50=#$qusbstor#$q"
+End
+If,%pCheckBox2%,Equal,True,Begin
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","HID_DEVICE_SYSTEM_MOUSE=#$qmouhid#$q,{4D36E96F-E325-11CE-BFC1-08002BE10318}"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","HID_DEVICE_SYSTEM_KEYBOARD=#$qkbdhid#$q,{4D36E96B-E325-11CE-BFC1-08002BE10318}"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\Class_03&SubClass_01&Prot_02=#$qhidusb#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\Class_03&SubClass_01=#$qhidusb#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","USB\Class_03=#$qhidusb#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","HID_DEVICE_SYSTEM_MOUSE=#$qmouhid#$q,{4D36E96F-E325-11CE-BFC1-08002BE10318}"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","HID_DEVICE_SYSTEM_KEYBOARD=#$qkbdhid#$q,{4D36E96B-E325-11CE-BFC1-08002BE10318}"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\Class_03&SubClass_01&Prot_02=#$qhidusb#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\Class_03&SubClass_01=#$qhidusb#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","USB\Class_03=#$qhidusb#$q"
+End
+//
+IniAddSection,"%TXTSIF%","InputDevicesSupport"
+IniAddSection,"%TXTSIF%","InputDevicesSupport.Load"
+//
+If,%pCheckBox2%,Equal,True,Begin
+IniWriteTextLine,"%TXTSIF%","InputDevicesSupport","hidusb=#$qHuman Interface Parser#$q,files.hidusb,hidusb"
+IniWriteTextLine,"%TXTSIF%","InputDevicesSupport.Load","hidusb=hidusb.sys"
+IniAddSection,"%TXTSIF%","Keyboard"
+IniAddSection,"%TXTSIF%","Keyboard.Load"
+IniAddSection,"%TXTSIF%","Mouse"
+IniAddSection,"%TXTSIF%","MouseDrivers"
+IniAddSection,"%TXTSIF%","MouseDrivers.Load"
+IniWriteTextLine,"%TXTSIF%","Keyboard","kbdhid=#$qUSB Keyboard#$q,files.kbdhid,kbdhid"
+IniWriteTextLine,"%TXTSIF%","Keyboard","USB=#$qUSB Keyboard#$q,files.kbdhid,kbdhid"
+IniWriteTextLine,"%TXTSIF%","Keyboard.Load","kbdhid=kbdhid.sys"
+IniWriteTextLine,"%TXTSIF%","Mouse","mouhid=#$qUSB Mouse#$q,files.mouhid,mouhid"
+IniWriteTextLine,"%TXTSIF%","Mouse","USB=#$qUSB Mouse#$q,files.mouhid,mouhid"
+IniWriteTextLine,"%TXTSIF%","MouseDrivers","mouclass=#$qMouse Class Driver#$q"
+IniWriteTextLine,"%TXTSIF%","MouseDrivers","mouhid=#$qHID Mouse Filter Driver#$q"
+IniWriteTextLine,"%TXTSIF%","MouseDrivers.Load","mouclass=mouclass.sys"
+IniWriteTextLine,"%TXTSIF%","MouseDrivers.Load","mouhid=mouhid.sys"
+End
+//
+If,%pCheckBox1%,Equal,True,Begin
+//IniWriteTextLine,"%TXTSIF%","InputDevicesSupport","usbstor=#$qUSB Storage Class Driver#$q,files.usbstor,usbstor"
+//IniWriteTextLine,"%TXTSIF%","InputDevicesSupport.Load","usbstor=usbstor.sys"
+IniAddSection,"%TXTSIF%","SCSI"
+IniAddSection,"%TXTSIF%","SCSI.Load"
+IniWriteTextLine,"%TXTSIF%","SCSI","usbstor=#$qUSB Storage Class Driver#$q"
+IniWriteTextLine,"%TXTSIF%","SCSI.Load","usbstor=USBSTOR.SYS,4"
+IniWriteTextLine,"%TXTSIF%","SourceDisksFiles","USBSTOR.SYS=1#$c#$c#$c#$c#$c#$c4_#$c4#$c1#$c3#$c#$c1#$c4"
+End
+IniWriteTextLine,"%TXTSIF%","InputDevicesSupport","usbccgp=#$qUSB Generic Parent Driver#$q,files.usbccgp,usbccgp"
+IniWriteTextLine,"%TXTSIF%","InputDevicesSupport","usbhub=#$qGeneric USB Hub Driver#$q,files.usbhub,usbhub"
+IniWriteTextLine,"%TXTSIF%","InputDevicesSupport","usbuhci=#$qUniversal Host Controller#$q,files.usbuhci,usbuhci"
+IniWriteTextLine,"%TXTSIF%","InputDevicesSupport","usbohci=#$qOpen Host Controller#$q,files.usbohci,usbohci"
+IniWriteTextLine,"%TXTSIF%","InputDevicesSupport","usbehci=#$qEnhanced Host Controller#$q,files.usbehci,usbehci"
+IniWriteTextLine,"%TXTSIF%","InputDevicesSupport.Load","usbccgp=usbccgp.sys"
+IniWriteTextLine,"%TXTSIF%","InputDevicesSupport.Load","usbhub=usbhub.sys"
+IniWriteTextLine,"%TXTSIF%","InputDevicesSupport.Load","usbuhci=usbuhci.sys"
+IniWriteTextLine,"%TXTSIF%","InputDevicesSupport.Load","usbohci=usbohci.sys"
+IniWriteTextLine,"%TXTSIF%","InputDevicesSupport.Load","usbehci=usbehci.sys"
+IniMerge,"%TXTSIF%","%target_win%\TXTSETUP.SIF"
+//
+Set,%TXTSIF%,"%target_win%\TXTSETUP.SIF"
+If,%pCheckBox1%,Equal,True,Begin
+If,ExistSection,"%TXTSIF%","files.usbstor",IniDeleteSection,"%TXTSIF%","files.usbstor"
+IniDelete,"%TXTSIF%","InputDevicesSupport","usbstor"
+End
+If,%pCheckBox2%,Equal,True,Begin
+If,ExistSection,"%TXTSIF%","files.hidusb",IniDeleteSection,"%TXTSIF%","files.hidusb"
+If,ExistSection,"%TXTSIF%","files.kbdhid",IniDeleteSection,"%TXTSIF%","files.kbdhid"
+If,ExistSection,"%TXTSIF%","files.mouhid",IniDeleteSection,"%TXTSIF%","files.mouhid"
+IniAddSection,"%TXTSIF%","files.hidusb"
+IniWriteTextLine,"%TXTSIF%","files.hidusb","hidusb.sys,4"
+IniAddSection,"%TXTSIF%","files.kbdhid"
+IniWriteTextLine,"%TXTSIF%","files.kbdhid","kbdhid.sys,4"
+IniAddSection,"%TXTSIF%","files.mouhid"
+IniWriteTextLine,"%TXTSIF%","files.mouhid","mouhid.sys,4"
+End
+//If,%pCheckBox1%,Equal,True,Begin
+//If,ExistSection,"%TXTSIF%","files.usbstor",IniDeleteSection,"%TXTSIF%","files.usbstor"
+//IniAddSection,"%TXTSIF%","files.usbstor"
+//IniWriteTextLine,"%TXTSIF%","files.usbstor","usbstor.sys,4"
+//End
+If,ExistSection,"%TXTSIF%","files.usbohci",IniDeleteSection,"%TXTSIF%","files.usbohci"
+If,ExistSection,"%TXTSIF%","files.usbehci",IniDeleteSection,"%TXTSIF%","files.usbehci"
+If,ExistSection,"%TXTSIF%","files.usbuhci",IniDeleteSection,"%TXTSIF%","files.usbuhci"
+If,ExistSection,"%TXTSIF%","files.usbhub",IniDeleteSection,"%TXTSIF%","files.usbhub"
+IniAddSection,"%TXTSIF%","files.usbohci"
+IniWriteTextLine,"%TXTSIF%","files.usbohci","usbohci.sys,4"
+IniWriteTextLine,"%TXTSIF%","files.usbohci","usbport.sys,4"
+IniWriteTextLine,"%TXTSIF%","files.usbohci","usbd.sys,4"
+IniWriteTextLine,"%TXTSIF%","files.usbohci","hidparse.sys,4"
+IniWriteTextLine,"%TXTSIF%","files.usbohci","hidclass.sys,4"
+IniWriteTextLine,"%TXTSIF%","files.usbohci","hid.dll,2"
+IniAddSection,"%TXTSIF%","files.usbehci"
+IniWriteTextLine,"%TXTSIF%","files.usbehci","usbehci.sys,4"
+IniWriteTextLine,"%TXTSIF%","files.usbehci","usbport.sys,4"
+IniWriteTextLine,"%TXTSIF%","files.usbehci","usbd.sys,4"
+IniWriteTextLine,"%TXTSIF%","files.usbehci","hidparse.sys,4"
+IniWriteTextLine,"%TXTSIF%","files.usbehci","hidclass.sys,4"
+IniWriteTextLine,"%TXTSIF%","files.usbehci","hccoin.dll,2"
+IniWriteTextLine,"%TXTSIF%","files.usbehci","hid.dll,2"
+IniAddSection,"%TXTSIF%","files.usbuhci"
+IniWriteTextLine,"%TXTSIF%","files.usbuhci","usbuhci.sys,4"
+IniWriteTextLine,"%TXTSIF%","files.usbuhci","usbport.sys,4"
+IniWriteTextLine,"%TXTSIF%","files.usbuhci","usbd.sys,4"
+IniWriteTextLine,"%TXTSIF%","files.usbuhci","hidparse.sys,4"
+IniWriteTextLine,"%TXTSIF%","files.usbuhci","hidclass.sys,4"
+IniWriteTextLine,"%TXTSIF%","files.usbuhci","hid.dll,2"
+IniAddSection,"%TXTSIF%","files.usbhub"
+IniWriteTextLine,"%TXTSIF%","files.usbhub","usbhub.sys,4"
+//
+// 006 +
+//Commented out because creates problems with Acronis, Paragon, etc
+//If,%OS%%SourceArch%,Equal,W2003x86,IniDelete,"%target_win%\TXTSETUP.SIF","HardwareIdsDatabase","STORAGE\Volume"
+//If,%SourceArch%,Equal,x64,IniDelete,"%target_win%\TXTSETUP.SIF","HardwareIdsDatabase","STORAGE\Volume"
+//Maybe adding storport.sys fixes the issue?
+If,%OS%%SourceArch%,Equal,W2003x86,FileCopy,%source_win%\STORPORT.SY?,%target_sys%\DRIVERS
+If,%SourceArch%,Equal,x64,FileCopy,%source_win%\STORPORT.SY?,%target_sys%\DRIVERS
+// 006 -
+
+[Process-usbregistry]
+RegHiveLoad,WB-Software,"%target_sys%\config\software"
+If,%pCheckBox1%,Equal,True,Begin
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows\CurrentVersion\RunOnceEx\980","disk","hiderun /w reg add HKLM\SYSTEM\CurrentControlSet\Services\Disk /v ImagePath /t REG_EXPAND_SZ /d system32\DRIVERS\disk.sys /f"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows\CurrentVersion\RunOnceEx\980","partmgr","hiderun /w reg add HKLM\SYSTEM\CurrentControlSet\Services\PartMgr /v ImagePath /t REG_EXPAND_SZ /d system32\DRIVERS\partmgr.sys /f"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows\CurrentVersion\RunOnceEx\980","usbstor","hiderun /w reg add HKLM\SYSTEM\CurrentControlSet\Services\usbstor /v ImagePath /t REG_EXPAND_SZ /d system32\DRIVERS\usbstor.sys /f"
+End
+If,%pCheckBox2%,Equal,True,Begin
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows\CurrentVersion\RunOnceEx\980","hidusb","hiderun /w reg add HKLM\SYSTEM\CurrentControlSet\Services\hidusb /v ImagePath /t REG_EXPAND_SZ /d system32\DRIVERS\hidusb.sys /f"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows\CurrentVersion\RunOnceEx\980","mouhid","hiderun /w reg add HKLM\SYSTEM\CurrentControlSet\Services\mouhid /v ImagePath /t REG_EXPAND_SZ /d system32\DRIVERS\mouhid.sys /f"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows\CurrentVersion\RunOnceEx\980","kbdhid","hiderun /w reg add HKLM\SYSTEM\CurrentControlSet\Services\kbdhid /v ImagePath /t REG_EXPAND_SZ /d system32\DRIVERS\kbdhid.sys /f"
+End
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows\CurrentVersion\RunOnceEx\980","usbhub","hiderun /w reg add HKLM\SYSTEM\CurrentControlSet\Services\usbhub /v ImagePath /t REG_EXPAND_SZ /d system32\DRIVERS\usbhub.sys /f"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows\CurrentVersion\RunOnceEx\980","usbccgp","hiderun /w reg add HKLM\SYSTEM\CurrentControlSet\Services\usbccgp /v ImagePath /t REG_EXPAND_SZ /d system32\DRIVERS\usbccgp.sys /f"
+If,%SourceArch%,Equal,x86,RegWrite,HKLM,0x7,"WB-Software\Microsoft\Windows\CurrentVersion\Setup","Installation#$sSources","X:\I386\SYSTEM32\DRIVERS","X:\I386\SYSTEM32","X:\I386\INF"
+If,%SourceArch%,Equal,x64,RegWrite,HKLM,0x7,"WB-Software\Microsoft\Windows\CurrentVersion\Setup","Installation#$sSources","X:\AMD64\SYSTEM32\DRIVERS","X:\AMD64\SYSTEM32","X:\AMD64\INF"
+RegWrite,HKLM,0x4,"WB-Software\Microsoft\Windows\CurrentVersion\Setup","MinimizeFootprint","1"
+RegWrite,HKLM,0x4,"WB-Software\Microsoft\Windows\CurrentVersion\Usb","ErrorCheckingEnabled","0"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0409&PID_002C","DeviceGroup","PortableAudioPlayer"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0409&PID_002C","Label","Iomega HipZip"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_040A&PID_0100","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_040A&PID_0110","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_040A&PID_0111","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_040A&PID_0112","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_040A&PID_0120","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_040A&PID_0121","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_040A&PID_0130","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_040A&PID_0140","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_040A&PID_0200","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0471&PID_0302&MI_00","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0471&PID_0303&MI_00","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0471&PID_0307&MI_00","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0471&PID_0308&MI_00","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_0010","DeviceGroup","MemoryStick"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_0010","Label","Sony MemoryStick"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_0025","DeviceGroup","MemoryStick"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_0025","Label","Sony MemoryStick"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_002d","DeviceGroup","MemoryStick"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_002d","Label","Sony MemoryStick"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_002E","DeviceGroup","MemoryStick"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_002E","Label","Sony MemoryStick"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_0032","DeviceGroup","MemoryStick-MG"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_0032","Label","Sony MemoryStick - MG"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_0037","DeviceGroup","MemoryStick-MG"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_0037","Label","Sony MemoryStick - MG"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_0046","DeviceGroup","MemoryStick-MG"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_0046","Label","Sony MemoryStick - MG"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_004a","DeviceGroup","MemoryStick-MG"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_004a","Label","Sony MemoryStick - MG"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_0056","DeviceGroup","MemoryStick-MG"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_0056","Label","Sony MemoryStick - MG"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_0058","DeviceGroup","MemoryStick-MG"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_0058","Label","Sony MemoryStick - MG"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_0069","DeviceGroup","MemoryStick-MG"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_0069","Label","Sony MemoryStick - MG"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_006d","DeviceGroup","MemoryStick"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_054C&PID_006d","Label","Sony MemoryStick - MG"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0585&PID_0001","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0585&PID_0002","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0585&PID_0003","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0585&PID_0004","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0585&PID_0005","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0585&PID_0006","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0585&PID_0007","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0585&PID_0008","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0585&PID_0009","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0585&PID_000a","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0585&PID_000b","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0585&PID_000c","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0585&PID_000d","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0585&PID_000e","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0585&PID_000f","DeviceGroup","Camera"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_059B&PID_0001","DeviceGroup","ZipDrive100"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_059B&PID_0001","Label","Iomega Zip 100"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_059B&PID_0030","DeviceGroup","ZipDrive250"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_059B&PID_0030","Label","Iomega Zip 250"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_059b&PID_0031","DeviceGroup","ZipDrive100"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_059b&PID_0031","Label","Iomega Zip 100"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_059B&PID_006D","DeviceGroup","PortableAudioPlayer"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_059B&PID_006D","Label","Iomega HipZip Player"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_059B&PID_006D","DeviceHandlers","IomegaHipZipHandler"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0693&PID_0002","DeviceGroup","SMStorage"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0693&PID_0003","DeviceGroup","CFStorage"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0693&PID_0005","DeviceGroup","CFStorage"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0693&PID_0005","Label","Dual Slot Reader/Writer"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0693&PID_0005","DeviceGroup","CFStorage"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0693&PID_0005","Label","Dual Slot Reader/Writer"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0781&PID_0001","DeviceGroup","ImageMate"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0781&PID_0001","Label","SanDisk ImageMate"
+If,%RegWriteIssue%,Equal,False,RegWrite,HKLM,0x7,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0781&PID_0001","Icons","%SystemRoot%\system32\shell32.dll#$c-303"
+Else,RegWrite,HKLM,0x7,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0781&PID_0001","Icons","%SystemRoot%\system32\shell32.dll##$c-303"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0781&PID_0002","DeviceGroup","ImageMate"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0781&PID_0002","Label","SanDisk ImageMate"
+If,%RegWriteIssue%,Equal,False,RegWrite,HKLM,0x7,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0781&PID_0002","Icons","%SystemRoot%\system32\shell32.dll#$c-308"
+Else,RegWrite,HKLM,0x7,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0781&PID_0002","Icons","%SystemRoot%\system32\shell32.dll##$c-308"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0781&PID_0002&MI_00","DeviceGroup","ImageMate"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0781&PID_0002&MI_00","Label","SanDisk ImageMate"
+If,%RegWriteIssue%,Equal,False,RegWrite,HKLM,0x7,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0781&PID_0002&MI_00","Icons","%SystemRoot%\system32\shell32.dll#$c-303"
+Else,RegWrite,HKLM,0x7,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0781&PID_0002&MI_00","Icons","%SystemRoot%\system32\shell32.dll##$c-303"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0781&PID_0005","DeviceGroup","ImageMate"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0781&PID_0005","Label","SanDisk ImageMate"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0781&PID_0200","DeviceGroup","ImageMate"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_0781&PID_0200","Label","SanDisk ImageMate"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_08BB&PID_2702&MI_00","DeviceGroup","MemoryStick-MG"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\USB#VID_08BB&PID_2702&MI_00","Label","Sony MemoryStick - MG"
+RegHiveUnLoad,WB-Software
+RegHiveLoad,WB-Setup,"%target_sys%\setupreg.hiv"
+//
+RegWrite,HKLM,0x3,"WB-Setup\ControlSet001\Control\UsbFlags","GlobalDisableSerNumGen",00
+RegWrite,HKLM,0x3,"WB-Setup\ControlSet001\Control\UsbFlags","IgnoreHWSerNum04710302",01
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\UsbFlags","GenericUSBDeviceString","USB Device"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\UsbFlags","GenericCompositeUSBDeviceString","Composite USB Device"
+//
+If,%pCheckBox1%,Equal,True,Begin
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\gendisk","ClassGUID","{4D36E967-E325-11CE-BFC1-08002BE10318}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\gendisk","Service","disk"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USBSTOR#Disk","ClassGUID","{4D36E967-E325-11CE-BFC1-08002BE10318}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USBSTOR#Disk","Service","disk"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#Class_08","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#Class_08","Service","usbstor"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#Class_08&subclass_02&prot_50","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#Class_08&subclass_02&prot_50","Service","usbstor"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#Class_08&subclass_05&prot_50","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#Class_08&subclass_05&prot_50","Service","usbstor"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#Class_08&subclass_06&prot_50","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#Class_08&subclass_06&prot_50","Service","usbstor"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_03EE&PID_0000","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_03EE&PID_0000","Service","usbstor"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_03EE&PID_6901","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_03EE&PID_6901","Service","usbstor"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_03F0&PID_0107","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_03F0&PID_0107","Service","usbstor"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_04B3&PID_4427","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_04B3&PID_4427","Service","usbstor"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_04DA&PID_0B01","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_04DA&PID_0B01","Service","usbstor"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_04E6&PID_0001","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_04E6&PID_0001","Service","usbstor"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_054C&PID_0023","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_054C&PID_0023","Service","usbstor"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_057B&PID_0000","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_057B&PID_0000","Service","usbstor"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_059F&PID_A601","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_059F&PID_A601","Service","usbstor"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_059F&PID_A602","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_059F&PID_A602","Service","usbstor"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_0644&PID_0000","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_0644&PID_0000","Service","usbstor"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_0644&PID_1000","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_0644&PID_1000","Service","usbstor"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_55AA&PID_1234","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#VID_55AA&PID_1234","Service","usbstor"
+End
+If,%pCheckBox2%,Equal,True,Begin
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#Class_03&SubClass_01&Prot_02","ClassGUID","{745A17A0-74D3-11D0-B6FE-00A0C90F57DA}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#Class_03&SubClass_01&Prot_02","Service","hidusb"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#Class_03&SubClass_01","ClassGUID","{745A17A0-74D3-11D0-B6FE-00A0C90F57DA}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#Class_03&SubClass_01","Service","hidusb"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#Class_03","ClassGUID","{745A17A0-74D3-11D0-B6FE-00A0C90F57DA}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#Class_03","Service","hidusb"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\GENERIC_HID_DEVICE","ClassGUID","{745A17A0-74D3-11D0-B6FE-00A0C90F57DA}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\GENERIC_HID_DEVICE","Service","hidusb"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\hid_device_system_keyboard","Service","kbdhid"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\hid_device_system_keyboard","ClassGUID","{4D36E96B-E325-11CE-BFC1-08002BE10318}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\hid_device_system_mouse","Service","mouhid"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\hid_device_system_mouse","ClassGUID","{4D36E96F-E325-11CE-BFC1-08002BE10318}"
+End
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\pci#cc_0c0300","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\pci#cc_0c0300","Service","usbuhci"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\pci#cc_0c0310","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\pci#cc_0c0310","Service","usbohci"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\pci#cc_0c0320","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\pci#cc_0c0320","Service","usbehci"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#root_hub","Service","usbhub"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#root_hub","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#root_hub20","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#root_hub20","Service","usbhub"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#Class_09","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#Class_09","Service","usbhub"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#COMPOSITE","Service","usbccgp"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\USB#COMPOSITE","ClassGUID","{36FC9E60-C465-11CF-8056-444553540000}"
+//
+If,%pCheckBox1%,Equal,True,Begin
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\USBSTOR","Type","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\USBSTOR","Start","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\USBSTOR","ErrorControl","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\USBSTOR","DisplayName","USB Mass Storage Driver"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\USBSTOR","ImagePath","system32\DRIVERS\USBSTOR.SYS"
+//RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\USBSTOR","Group","Input Device Support"
+//RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\USBSTOR","Tag","25"
+//RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\USBSTOR","Group","SCSI miniport"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\USBSTOR","Group",""
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\USBSTOR","Tag","99"
+End
+//
+If,%pCheckBox2%,Equal,True,Begin
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\hidusb","Type","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\hidusb","Start","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\hidusb","ErrorControl","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\hidusb","DisplayName","Microsoft HID Class Driver"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\hidusb","ImagePath","system32\DRIVERS\hidusb.sys"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\hidusb","Group","Input Device Support"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\hidusb","Tag","20"
+//
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\kbdhid","Type","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\kbdhid","Start","3"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\kbdhid","ErrorControl","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\kbdhid","DisplayName","Keyboard HID Driver"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\kbdhid","ImagePath","System32\DRIVERS\kbdhid.sys"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\kbdhid","Group","Input Device Support"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\kbdhid","Tag","21"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\kbdhid\Parameters","WorkNicely","0"
+//
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\mouhid","Type","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\mouhid","Start","3"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\mouhid","ErrorControl","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\mouhid","DisplayName","Mouse HID Driver"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\mouhid","ImagePath","system32\DRIVERS\mouhid.sys"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\mouhid","Group","Input Device Support"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\mouhid","Tag","22"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\mouhid\Parameters","UseOnlyMice","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\mouhid\Parameters","TreatAbsoluteAsRelative","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\mouhid\Parameters","TreatAbsolutePointerAsAbsolute","0"
+//
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\kbdclass","Type","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\kbdclass","Start","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\kbdclass","ErrorControl","1"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\kbdclass","ImagePath","system32\DRIVERS\kbdclass.sys"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\kbdclass","DisplayName","USB Root Hub"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\kbdclass","Group","Input Device Support"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\kbdclass","Tag","23"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\kbdclass\Parameters","ConnectMultiplePorts","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\kbdclass\Parameters","ConnectMultiplePortsChanged","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\kbdclass\Parameters","ConnectMultiplePortsUpgraded","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\kbdclass\Parameters","KeyboardDataQueueSize","100"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\kbdclass\Parameters","KeyboardDeviceBaseName","KeyboardClass"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\kbdclass\Parameters","MaximumPortsServiced","3"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\kbdclass\Parameters","SendOutputToAllPorts","1"
+//
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\mouclass","Type","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\mouclass","Start","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\mouclass","ErrorControl","1"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\mouclass","ImagePath","system32\DRIVERS\mouclass.sys"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\mouclass","DisplayName","USB Root Hub"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\mouclass","Group","Input Device Support"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\mouclass","Tag","24"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\mouclass\Parameters","ConnectMultiplePorts","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\mouclass\Parameters","ConnectMultiplePortsChanged","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\mouclass\Parameters","ConnectMultiplePortsUpgraded","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\mouclass\Parameters","KeyboardDataQueueSize","100"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\mouclass\Parameters","KeyboardDeviceBaseName","PointerClass"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\mouclass\Parameters","MaximumPortsServiced","3"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\mouclass\Parameters","SendOutputToAllPorts","1"
+//
+RegWrite,HKLM,0x7,"WB-Setup\ControlSet001\Services\HidServ","DependOnService","RpcSs"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\HidServ","Description","Enables generic input access to Human Interface Devices (HID), which activates and maintains the use of predefined hot buttons on keyboards, remote controls, and other multimedia devices. If this service is stopped, hot buttons controlled by this service will no longer function. If this service is disabled, any services that explicitly depend on it will fail to start."
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\HidServ","DisplayName","HID Input Service"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\HidServ","ErrorControl","1"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\HidServ","ImagePath","%SystemRoot%\System32\svchost.exe -k netsvcs"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\HidServ","ObjectName","LocalSystem"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\HidServ","Start","2"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\HidServ","Type","32"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\HidServ\Parameters","ServiceDll","%SystemRoot%\System32\hidserv.dll"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\HidServ\Enum","0","Root\LEGACY_HIDSERV\0000"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\HidServ\Enum","Count","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\HidServ\Enum","NextInstance","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\LEGACY_HIDSERV","NextInstance","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\LEGACY_HIDSERV\0000","Service","HidServ"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\LEGACY_HIDSERV\0000","Legacy","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\LEGACY_HIDSERV\0000","ConfigFlags","32"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\LEGACY_HIDSERV\0000","Class","LegacyDriver"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\LEGACY_HIDSERV\0000","ClassGUID","{8ECC055D-047F-11D1-A537-0000F8753ED1}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\LEGACY_HIDSERV\0000","DeviceDesc","HID Input Service"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\LEGACY_HIDSERV\0000\Control","ActiveService","HidServ"
+End
+//
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbehci","Type","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbehci","Start","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbehci","ErrorControl","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\usbehci","DisplayName","Microsoft USB 2.0 Enhanced Host Controller Miniport Driver"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\usbehci","ImagePath","system32\DRIVERS\usbehci.sys"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\usbehci","Group","Input Device Support"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbehci","Tag","15"
+//
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbohci","Type","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbohci","Start","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbohci","ErrorControl","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\usbohci","DisplayName","Microsoft USB Open Host Controller Miniport Driver"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\usbohci","ImagePath","system32\DRIVERS\usbohci.sys"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\usbohci","Group","Input Device Support"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbohci","Tag","16"
+//
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbuhci","Type","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbuhci","Start","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbuhci","ErrorControl","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\usbuhci","DisplayName","Microsoft USB Universal Host Controller Miniport Driver"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\usbuhci","ImagePath","system32\DRIVERS\usbuhci.sys"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\usbuhci","Group","Input Device Support"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbuhci","Tag","17"
+//
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbhub","Type","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbhub","Start","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbhub","ErrorControl","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\usbhub","DisplayName","USB2 Enabled Hub"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\usbhub","ImagePath","system32\DRIVERS\usbhub.sys"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\usbhub","Group","Input Device Support"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbhub","Tag","18"
+//
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbccgp","Type","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbccgp","Start","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbccgp","ErrorControl","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\usbccgp","DisplayName","USB Composite Device"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\usbccgp","ImagePath","system32\DRIVERS\usbccgp.sys"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\usbccgp","Group","Input Device Support"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usbccgp","Tag","19"
+//
+If,%pCheckBox2%,Equal,True,Begin
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{745A17A0-74D3-11D0-B6FE-00A0C90F57DA}",,"Human Interface Devices"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{745A17A0-74D3-11D0-B6FE-00A0C90F57DA}","Class","HIDClass"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{745A17A0-74D3-11D0-B6FE-00A0C90F57DA}","Icon","-24"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{745A17A0-74D3-11D0-B6FE-00A0C90F57DA}","NoInstallClass","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E96B-E325-11CE-BFC1-08002BE10318}",,"Keyboards"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E96B-E325-11CE-BFC1-08002BE10318}","Class","Keyboard"
+RegWrite,HKLM,0x7,"WB-Setup\ControlSet001\Control\Class\{4D36E96B-E325-11CE-BFC1-08002BE10318}","UpperFilters","kbdclass"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E96B-E325-11CE-BFC1-08002BE10318}","Icon","-3"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E96B-E325-11CE-BFC1-08002BE10318}","Installer32","SysSetup.Dll#$cKeyboardClassInstaller"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E96B-E325-11CE-BFC1-08002BE10318}","NoInstallClass","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E96B-E325-11CE-BFC1-08002BE10318}","TroubleShooter-0","hcp://help/tshoot/hdw_keyboard.htm"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E96F-E325-11CE-BFC1-08002BE10318}",,"Mice and other pointing devices"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E96F-E325-11CE-BFC1-08002BE10318}","Class","Mouse"
+RegWrite,HKLM,0x7,"WB-Setup\ControlSet001\Control\Class\{4D36E96F-E325-11CE-BFC1-08002BE10318}","UpperFilters","mouclass"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E96F-E325-11CE-BFC1-08002BE10318}","Icon","-2"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E96F-E325-11CE-BFC1-08002BE10318}","Installer32","SysSetup.Dll#$cMouseClassInstaller"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E96F-E325-11CE-BFC1-08002BE10318}","NoInstallClass","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E96F-E325-11CE-BFC1-08002BE10318}","TroubleShooter-0","hcp://help/tshoot/hdw_mouse.htm"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{8ECC055D-047F-11D1-A537-0000F8753ED1}",,"Non-Plug and Play Drivers"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{8ECC055D-047F-11D1-A537-0000F8753ED1}","Class","LegacyDriver"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{8ECC055D-047F-11D1-A537-0000F8753ED1}","NoDisplayClass","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{8ECC055D-047F-11D1-A537-0000F8753ED1}","SilentInstall","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{8ECC055D-047F-11D1-A537-0000F8753ED1}","NoInstallClass","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{8ECC055D-047F-11D1-A537-0000F8753ED1}","EnumPropPages32","SysSetup.Dll#$cLegacyDriverPropPageProvider"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{8ECC055D-047F-11D1-A537-0000F8753ED1}","Icon","-19"
+If,%RegWriteIssue%,Equal,False,RegWrite,HKLM,0x7,"WB-Setup\ControlSet001\Control\CoDeviceInstallers","{4D36E96B-E325-11CE-BFC1-08002BE10318}","SysSetup.Dll#$cCriticalDeviceCoInstaller"
+Else,RegWrite,HKLM,0x7,"WB-Setup\ControlSet001\Control\CoDeviceInstallers","{4D36E96B-E325-11CE-BFC1-08002BE10318}","SysSetup.Dll##$cCriticalDeviceCoInstaller"
+If,%RegWriteIssue%,Equal,False,RegWrite,HKLM,0x7,"WB-Setup\ControlSet001\Control\CoDeviceInstallers","{4D36E96F-E325-11CE-BFC1-08002BE10318}","SysSetup.Dll#$cCriticalDeviceCoInstaller"
+Else,RegWrite,HKLM,0x7,"WB-Setup\ControlSet001\Control\CoDeviceInstallers","{4D36E96F-E325-11CE-BFC1-08002BE10318}","SysSetup.Dll##$cCriticalDeviceCoInstaller"
+End
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{36FC9E60-C465-11CF-8056-444553540000}",,"Universal Serial Bus Controllers"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{36FC9E60-C465-11CF-8056-444553540000}","Class","USB"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{36FC9E60-C465-11CF-8056-444553540000}","Icon","-20"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{36FC9E60-C465-11CF-8056-444553540000}","NoInstallClass","1"
+// Currently no Dot4 support
+//RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{48721B56-6795-11D2-B1A8-0080C72E74A2}",,"IEEE 1284.4 devices"
+//RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{48721B56-6795-11D2-B1A8-0080C72E74A2}","Class","Dot4"
+//RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{48721B56-6795-11D2-B1A8-0080C72E74A2}","Icon","-4"
+//RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{48721B56-6795-11D2-B1A8-0080C72E74A2}","NoInstallClass","1"
+//RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{49CE6AC8-6F86-11D2-B1E5-0080C72E74A2}",,"IEEE 1284.4 compatible printers"
+//RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{49CE6AC8-6F86-11D2-B1E5-0080C72E74A2}","Class","Dot4Print"
+//RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{49CE6AC8-6F86-11D2-B1E5-0080C72E74A2}","Icon","-4"
+//RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{49CE6AC8-6F86-11D2-B1E5-0080C72E74A2}","NoInstallClass","1"
+//
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usb","EnIdleEndPointSupportEx","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usb","EnableIdleTimer","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usb","EnSoftRetry","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\usb","DisableSelectiveSuspend","1"
+RegHiveUnLoad,WB-Setup
+
+[Process-IEEE1394]
+Echo,"Copying files for IEEE1394 support..."
+If,ExistDir,"%ProjectTemp%\1394Inf",DirDelete,"%ProjectTemp%\1394Inf"
+DirMake,"%ProjectTemp%\1394Inf"
+//
+CopyOrExpand,"%source_win%\sbp2.inf","%ProjectTemp%\1394Inf"
+CopyOrExpand,"%source_win%\1394.inf","%ProjectTemp%\1394Inf"
+CopyOrExpand,"%source_win%\enum1394.inf","%ProjectTemp%\1394Inf"
+CopyOrExpand,"%source_win%\61883.inf","%ProjectTemp%\1394Inf"
+CopyOrExpand,"%source_win%\disk.inf","%ProjectTemp%\1394Inf"
+CopyOrExpand,"%source_win%\cdrom.inf","%ProjectTemp%\1394Inf"
+CopyOrExpand,"%source_win%\volume.inf","%ProjectTemp%\1394Inf"
+// 1394 NIC
+//CopyOrExpand,"%source_win%\net1394.inf,"%ProjectTemp%\1394Inf"
+Run,%ScriptFile%,getfile,sbp2port.sys,system32\drivers
+Run,%ScriptFile%,getfile,ohci1394.sys,system32\drivers
+Run,%ScriptFile%,getfile,1394bus.sys,system32\drivers
+Run,%ScriptFile%,getfile,61883.sys,system32\drivers
+// 1394 NIC
+//Run,%ScriptFile%,getfile,enum1394.sys,system32\drivers
+//Run,%ScriptFile%,getfile,nic1394.sys,system32\drivers
+//Run,%ScriptFile%,getfile,arp1394.sys,system32\drivers
+ExtractFile,"%ScriptFile%","files","UpdateInfs.exe","%ProjectTemp%"
+ShellExecute,hide,"%ProjectTemp%\UpdateInfs.exe","#$q%ProjectTemp%\1394Inf\*.*#$q"
+FileCopy,"%ProjectTemp%\1394Inf\*.*","%target_win%\inf"
+FileDelete,"%ProjectTemp%\UpdateInfs.exe"
+//
+Run,%ScriptFile%,Process-1394sif
+Run,%ScriptFile%,Process-1394registry
+Set,%runstorageshared%,True
+
+[Process-1394sif]
+Echo,"Writing txtsetup.sif values"
+//
+Set,%TXTSIF%,"%ProjectTemp%\TXTSETUP.INI"
+If,ExistFile,"%TXTSIF%",FileDelete,"%TXTSIF%"
+IniAddSection,"%TXTSIF%","HardwareIdsDatabase"
+IniAddSection,"%TXTSIF%","HwIdsDatabase"
+//
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","PCI\CC_0C0010=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","PCI\VEN_1033&DEV_0063=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","PCI\VEN_1033&CC_0C0010=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","PCI\VEN_1106&DEV_3044=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","PCI\VEN_1106&CC_0C0010=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","PCI\VEN_100B&DEV_000F=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","PCI\VEN_100B&CC_0C0010=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","PCI\VEN_104C&DEV_8009=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","PCI\VEN_104C&DEV_8019=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","PCI\VEN_104C&CC_0C0010=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","PCI\VEN_104C&DEV_8009&SUBSYS_8032104D=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","PCI\VEN_104D&DEV_8039=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","PCI\VEN_104D&DEV_8039&REV_03=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","PCI\VEN_10CF&CC_0C0010=#$qohci1394#$q"
+//
+IniWriteTextLine,"%TXTSIF%","HardwareIdsDatabase","1394\609E&10483=#$qsbp2port#$q"
+//
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","PCI\CC_0C0010=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","PCI\VEN_1033&DEV_0063=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","PCI\VEN_1033&CC_0C0010=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","PCI\VEN_1106&DEV_3044=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","PCI\VEN_1106&CC_0C0010=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","PCI\VEN_100B&DEV_000F=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","PCI\VEN_100B&CC_0C0010=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","PCI\VEN_104C&DEV_8009=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","PCI\VEN_104C&DEV_8019=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","PCI\VEN_104C&CC_0C0010=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","PCI\VEN_104C&DEV_8009&SUBSYS_8032104D=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","PCI\VEN_104D&DEV_8039=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","PCI\VEN_104D&DEV_8039&REV_03=#$qohci1394#$q"
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","PCI\VEN_10CF&CC_0C0010=#$qohci1394#$q"
+//
+IniWriteTextLine,"%TXTSIF%","HwIdsDatabase","1394\609E&10483=#$qsbp2port#$q"
+//
+IniAddSection,"%TXTSIF%","BusExtenders"
+IniWriteTextLine,"%TXTSIF%","BusExtenders","sbp2port=#$qIEEE 1394 SBP2 Storage Port Driver#$q,files.sbp2port,sbp2port"
+IniAddSection,"%TXTSIF%","BusExtenders.Load"
+IniWriteTextLine,"%TXTSIF%","BusExtenders.Load","sbp2port=sbp2port.sys"
+//
+IniAddSection,"%TXTSIF%","BootBusExtenders"
+IniWriteTextLine,"%TXTSIF%","BootBusExtenders","ohci1394=#$qIEEE 1394 Bus OHCI Compliant Port Driver#$q,files.ohci1394,ohci1394"
+IniAddSection,"%TXTSIF%","BootBusExtenders.Load"
+IniWriteTextLine,"%TXTSIF%","BootBusExtenders.Load","ohci1394=ohci1394.sys"
+//
+IniMerge,"%TXTSIF%","%target_win%\TXTSETUP.SIF"
+//
+Set,%TXTSIF%,"%target_win%\TXTSETUP.SIF"
+If,ExistSection,"%TXTSIF%","files.sbp2port",IniDeleteSection,"%TXTSIF%","files.sbp2port"
+If,ExistSection,"%TXTSIF%","files.ohci1394",IniDeleteSection,"%TXTSIF%","files.ohci1394"
+IniAddSection,"%TXTSIF%","files.sbp2port"
+IniWriteTextLine,"%TXTSIF%","files.sbp2port","sbp2port.sys,4"
+IniAddSection,"%TXTSIF%","files.ohci1394"
+IniWriteTextLine,"%TXTSIF%","files.ohci1394","ohci1394.sys,4"
+IniWriteTextLine,"%TXTSIF%","files.ohci1394","1394bus.sys,4"
+
+[Process-1394registry]
+RegHiveLoad,WB-Software,"%target_sys%\config\software"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows\CurrentVersion\RunOnceEx\980","ohci1394","hiderun /w reg add HKLM\SYSTEM\CurrentControlSet\Services\ohci1394 /v ImagePath /t REG_EXPAND_SZ /d system32\DRIVERS\ohci1394.sys /f"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows\CurrentVersion\RunOnceEx\980","sbp2port","hiderun /w reg add HKLM\SYSTEM\CurrentControlSet\Services\sbp2port /v ImagePath /t REG_EXPAND_SZ /d system32\DRIVERS\sbp2port.sys /f"
+If,%SourceArch%,Equal,x86,RegWrite,HKLM,0x7,"WB-Software\Microsoft\Windows\CurrentVersion\Setup","Installation#$sSources","X:\I386\SYSTEM32\DRIVERS","X:\I386\SYSTEM32","X:\I386\INF"
+If,%SourceArch%,Equal,x64,RegWrite,HKLM,0x7,"WB-Software\Microsoft\Windows\CurrentVersion\Setup","Installation#$sSources","X:\AMD64\SYSTEM32\DRIVERS","X:\AMD64\SYSTEM32","X:\AMD64\INF"
+RegWrite,HKLM,0x4,"WB-Software\Microsoft\Windows\CurrentVersion\Setup","MinimizeFootprint","1"
+RegHiveUnLoad,WB-Software
+RegHiveLoad,WB-Setup,"%target_sys%\setupreg.hiv"
+//
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\pci#cc_0c0010","ClassGUID","{6BDD1FC1-810F-11D0-BEC7-08002BE2092F}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\pci#cc_0c0010","Service","ohci1394"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_1033&DEV_0063","ClassGUID","{6BDD1FC1-810F-11D0-BEC7-08002BE2092F}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_1033&DEV_0063","Service","ohci1394"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_1033&CC_0C0010","ClassGUID","{6BDD1FC1-810F-11D0-BEC7-08002BE2092F}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_1033&CC_0C0010","Service","ohci1394"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_1106&DEV_3044","ClassGUID","{6BDD1FC1-810F-11D0-BEC7-08002BE2092F}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_1106&DEV_3044","Service","ohci1394"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_1106&CC_0C0010","ClassGUID","{6BDD1FC1-810F-11D0-BEC7-08002BE2092F}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_1106&CC_0C0010","Service","ohci1394"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_100B&DEV_000F","ClassGUID","{6BDD1FC1-810F-11D0-BEC7-08002BE2092F}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_100B&DEV_000F","Service","ohci1394"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_100B&CC_0C0010","ClassGUID","{6BDD1FC1-810F-11D0-BEC7-08002BE2092F}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_100B&CC_0C0010","Service","ohci1394"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_104C&DEV_8009","ClassGUID","{6BDD1FC1-810F-11D0-BEC7-08002BE2092F}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_104C&DEV_8009","Service","ohci1394"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_104C&DEV_8019","ClassGUID","{6BDD1FC1-810F-11D0-BEC7-08002BE2092F}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_104C&DEV_8019","Service","ohci1394"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_104C&CC_0C0010","ClassGUID","{6BDD1FC1-810F-11D0-BEC7-08002BE2092F}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_104C&CC_0C0010","Service","ohci1394"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_104C&DEV_8009&SUBSYS_8032104D","ClassGUID","{6BDD1FC1-810F-11D0-BEC7-08002BE2092F}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_104C&DEV_8009&SUBSYS_8032104D","Service","ohci1394"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_104D&DEV_8039","ClassGUID","{6BDD1FC1-810F-11D0-BEC7-08002BE2092F}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_104D&DEV_8039","Service","ohci1394"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_104D&DEV_8039&REV_03","ClassGUID","{6BDD1FC1-810F-11D0-BEC7-08002BE2092F}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_104D&DEV_8039&REV_03","Service","ohci1394"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_10CF&CC_0C0010","ClassGUID","{6BDD1FC1-810F-11D0-BEC7-08002BE2092F}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\PCI#VEN_10CF&CC_0C0010","Service","ohci1394"
+//--// trick no. 17 (key: 1394#609E&10483)
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\1394%hash%609E&10483","ClassGUID","{d48179be-ec20-11d1-b6b8-00c04fa372a7}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\1394%hash%609E&10483","Service","sbp2port"
+//
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\ohci1394","Type","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\ohci1394","Start","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\ohci1394","ErrorControl","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\ohci1394","DisplayName","OHCI Compliant IEEE 1394 Host Controller"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\ohci1394","Group","Boot Bus Extender"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\ohci1394","Tag","4"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\ohci1394","ImagePath","system32\DRIVERS\ohci1394.sys"
+//
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\sbp2port","Type","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\sbp2port","Start","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\sbp2port","ErrorControl","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\sbp2port","DisplayName","SBP-2 Transport/Protocol Bus Driver"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\sbp2port","Group","System Bus Extender"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\sbp2port","Tag","14"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\sbp2port","ImagePath","system32\DRIVERS\sbp2port.sys"
+//
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4658EE7E-F050-11D1-B6BD-00C04FA372A7}",,"IEEE 1394 and SCSI printers"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4658EE7E-F050-11D1-B6BD-00C04FA372A7}","Class","PnpPrinters"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4658EE7E-F050-11D1-B6BD-00C04FA372A7}","NoInstallClass","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4658EE7E-F050-11D1-B6BD-00C04FA372A7}","Icon","-21"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{6BDD1FC1-810F-11D0-BEC7-08002BE2092F}",,"IEEE 1394 Bus host controllers"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{6BDD1FC1-810F-11D0-BEC7-08002BE2092F}","Class","1394"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{6BDD1FC1-810F-11D0-BEC7-08002BE2092F}","Icon","-21"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{D48179BE-EC20-11D1-B6B8-00C04FA372A7}",,"SBP2 IEEE 1394 Devices"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{D48179BE-EC20-11D1-B6B8-00C04FA372A7}","Class","SBP2"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{D48179BE-EC20-11D1-B6B8-00C04FA372A7}","Icon","-21"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{7EBEFBC0-3200-11D2-B4C2-00A0C9697D07}",,"61883 Device Class"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{7EBEFBC0-3200-11D2-B4C2-00A0C9697D07}","Class","61883"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{7EBEFBC0-3200-11D2-B4C2-00A0C9697D07}","Icon","-21"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{7EBEFBC0-3200-11D2-B4C2-00A0C9697D07}","NoInstallClass","1"
+RegHiveUnLoad,WB-Setup
+
+[Other-shared]
+RegHiveLoad,WB-Setup,"%target_sys%\setupreg.hiv"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E979-E325-11CE-BFC1-08002BE10318}",,"Printers"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E979-E325-11CE-BFC1-08002BE10318}","Class","Printer"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E979-E325-11CE-BFC1-08002BE10318}","Icon","-4"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E979-E325-11CE-BFC1-08002BE10318}","Installer32","ntprint.dll#$cClassInstall32"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E979-E325-11CE-BFC1-08002BE10318}","NoDisplayClass","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E979-E325-11CE-BFC1-08002BE10318}","EnumPropPages32","printui.dll#$cPrinterPropPageProvider"
+RegHiveUnLoad,WB-Setup
+
+[Storage-shared]
+RegHiveLoad,WB-Setup,"%target_sys%\setupreg.hiv"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\PartMgr","Type","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\PartMgr","Start","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\PartMgr","ErrorControl","0"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\PartMgr","DisplayName","Partition Manager"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\PartMgr","Group","System Bus Extender"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\PartMgr","Tag","10"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\PartMgr","ImagePath","system32\DRIVERS\partmgr.sys"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\PartMgr\Enum","0","Root\LEGACY_PARTMGR\0000"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\PartMgr\Enum","Count","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\PartMgr\Enum","NextInstance","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\LEGACY_PARTMGR","NextInstance","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\LEGACY_PARTMGR\0000","Service","PartMgr"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\LEGACY_PARTMGR\0000","Legacy","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\LEGACY_PARTMGR\0000","ConfigFlags","32"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\LEGACY_PARTMGR\0000","Class","LegacyDriver"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\LEGACY_PARTMGR\0000","ClassGUID","{8ECC055D-047F-11D1-A537-0000F8753ED1}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\LEGACY_PARTMGR\0000","DeviceDesc","Partition Manager"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\LEGACY_PARTMGR\0000","Capabilities","0"
+//
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\MountMgr","Type","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\MountMgr","Start","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\MountMgr","ErrorControl","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\MountMgr","DisplayName","Mount Point Manager"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\MountMgr","Group","System Bus Extender"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\MountMgr","Tag","8"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\MountMgr","ImagePath","system32\DRIVERS\mountmgr.sys"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\MountMgr","NoAutoMount",0
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\MountMgr\Enum","0","Root\LEGACY_MOUNTMGR\0000"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\MountMgr\Enum","Count","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\MountMgr\Enum","NextInstance","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\LEGACY_MOUNTMGR","NextInstance","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\LEGACY_MOUNTMGR\0000","Service","mountmgr"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\LEGACY_MOUNTMGR\0000","Legacy","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\LEGACY_MOUNTMGR\0000","ConfigFlags","0"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\LEGACY_MOUNTMGR\0000","Class","LegacyDriver"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\LEGACY_MOUNTMGR\0000","ClassGUID","{8ECC055D-047F-11D1-A537-0000F8753ED1}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\LEGACY_MOUNTMGR\0000","DeviceDesc","mountmgr"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\LEGACY_MOUNTMGR\0000","Capabilities","0"
+//
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\Ftdisk","Start","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\Ftdisk","Type","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\Ftdisk","ErrorControl","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\Ftdisk","DisplayName","Volume Manager Driver"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\Ftdisk","Group","System Bus Extender"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\Ftdisk","Tag","9"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\Ftdisk","ImagePath","system32\DRIVERS\ftdisk.sys"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\Ftdisk\Enum","0","Root\ftdisk\0000"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\Ftdisk\Enum","Count","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\Ftdisk\Enum","NextInstance","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\ftdisk\0000","NoResourceAtInitTime","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\ftdisk\0000","ConfigFlags","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\ftdisk\0000","Legacy","0"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\ftdisk\0000","Service","ftdisk"
+RegWrite,HKLM,0x7,"WB-Setup\ControlSet001\Enum\Root\ftdisk\0000","HardwareID","ROOT\FTDISK"
+RegWrite,HKLM,0x7,"WB-Setup\ControlSet001\Enum\Root\ftdisk\0000","CompatibleIDs","DETECTEDInternal\ftdisk","DETECTED\ftdisk"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\ftdisk\0000","Capabilities","96"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\ftdisk\0000","ClassGUID","{4D36E97D-E325-11CE-BFC1-08002BE10318}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\ftdisk\0000","Class","System"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\ftdisk\0000","ParentIdPrefix","1&30a96598&0"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\ftdisk\0000","Mfg","(Standard system devices)"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\ftdisk\0000","DeviceDesc","Volume Manager"
+Set,%TMP%,""
+SYSTEM,ERROROFF
+RegRead,HKLM,"WB-Setup\ControlSet001\Enum\Root\ftdisk\0000","Driver",%TMP%
+If,%TMP%,Equal,"",Begin
+//RegGetNext,HKLM,WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318},"%TMP%"
+Set,%TMP%,"0003"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\ftdisk\0000","Driver","{4D36E97D-E325-11CE-BFC1-08002BE10318}\%TMP%"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}\%TMP%","InfPath","machine.inf"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}\%TMP%","InfSection","FTDISK_DRV"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}\%TMP%","ProviderName","Microsoft"
+RegWrite,HKLM,0x3,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}\%TMP%","DriverDateData","00","80","62","c5","c0","01","c1","01"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}\%TMP%","DriverDate","7-1-2001"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}\%TMP%","DriverVersion","5.2.9999.9999"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}\%TMP%","MatchingDeviceId","root\ftdisk"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}\%TMP%","DriverDesc","Volume Manager"
+End
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\root#ftdisk","Service","ftdisk"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\root#ftdisk","ClassGUID","{4D36E97D-E325-11CE-BFC1-08002BE10318}"
+//
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\dmio","Start","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\dmio","Type","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\dmio","ErrorControl","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\dmio","DisplayName","Logical Disk Manager Driver"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\dmio","Group","System Bus Extender"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\dmio","Tag","13"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\dmio","ImagePath","system32\DRIVERS\dmio.sys"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Services\dmio\Enum","0","Root\dmio\0000"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\dmio\Enum","Count","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Services\dmio\Enum","NextInstance","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\dmio\0000","NoResourceAtInitTime","1"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\dmio\0000","ConfigFlags","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\dmio\0000","Legacy","0"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\dmio\0000","DeviceReported","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\dmio\0000","Service","dmio"
+RegWrite,HKLM,0x7,"WB-Setup\ControlSet001\Enum\Root\dmio\0000","HardwareID","ROOT\DMIO"
+RegWrite,HKLM,0x7,"WB-Setup\ControlSet001\Enum\Root\dmio\0000","CompatibleIDs","DETECTEDInternal\dmio","DETECTED\dmio"
+RegWrite,HKLM,0x4,"WB-Setup\ControlSet001\Enum\Root\dmio\0000","Capabilities","96"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\dmio\0000","ClassGUID","{4D36E97D-E325-11CE-BFC1-08002BE10318}"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\dmio\0000","Class","System"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\dmio\0000","Mfg","(Standard system devices)"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\dmio\0000","DeviceDesc","Logical Disk Manager"
+Set,%TMP%,""
+SYSTEM,ERROROFF
+RegRead,HKLM,"WB-Setup\ControlSet001\Enum\Root\dmio\0000","Driver",%TMP%
+If,%TMP%,Equal,"",Begin
+//RegGetNext,HKLM,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}\",%TMP%
+Set,%TMP%,"0003"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Enum\Root\dmio\0000","Driver","{4D36E97D-E325-11CE-BFC1-08002BE10318}\0004"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}\%TMP%","InfPath","machine.inf"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}\%TMP%","InfSection","DMIO_DRV"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}\%TMP%","ProviderName","Microsoft"
+RegWrite,HKLM,0x3,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}\%TMP%","DriverDateData","00","80","62","c5","c0","01","c1","01"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}\%TMP%","DriverDate","7-1-2001"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}\%TMP%","DriverVersion","5.2.9999.9999"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}\%TMP%","MatchingDeviceId","root\dmio"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}\%TMP%","DriverDesc","Logical Disk Manager"
+If,%RegWriteIssue%,Equal,False,RegWrite,HKLM,0x7,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}\%TMP%","CoInstallers32","dmutil.DLL#$cCoDisableDynamicVolumes"
+Else,RegWrite,HKLM,0x7,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}\%TMP%","CoInstallers32","dmutil.DLL##$cCoDisableDynamicVolumes"
+End
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\root#dmio","Service","dmio"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\CriticalDeviceDatabase\root#dmio","ClassGUID","{4D36E97D-E325-11CE-BFC1-08002BE10318}"
+//
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E967-E325-11CE-BFC1-08002BE10318}",,"Disk drives"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E967-E325-11CE-BFC1-08002BE10318}","Class","DiskDrive"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E967-E325-11CE-BFC1-08002BE10318}","Installer32","StorProp.Dll#$cDiskClassInstaller"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E967-E325-11CE-BFC1-08002BE10318}","SilentInstall","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E967-E325-11CE-BFC1-08002BE10318}","NoInstallClass","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E967-E325-11CE-BFC1-08002BE10318}","TroubleShooter-0","hcp://help/tshoot/tsdrive.htm"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E967-E325-11CE-BFC1-08002BE10318}","Icon","-53"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{71A27CDD-812A-11D0-BEC7-08002BE2092F}",,"Storage volumes"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{71A27CDD-812A-11D0-BEC7-08002BE2092F}","Class","Volume"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{71A27CDD-812A-11D0-BEC7-08002BE2092F}","EnumPropPages32","StorProp.Dll#$cVolumePropPageProvider"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{71A27CDD-812A-11D0-BEC7-08002BE2092F}","SilentInstall","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{71A27CDD-812A-11D0-BEC7-08002BE2092F}","NoInstallClass","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{71A27CDD-812A-11D0-BEC7-08002BE2092F}","Icon","-53"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{71A27CDD-812A-11D0-BEC7-08002BE2092F}","Installer32","syssetup.Dll#$cVolumeClassInstaller"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}",,"System devices"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}","Class","System"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E97D-E325-11CE-BFC1-08002BE10318}","Icon","-27"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E965-E325-11CE-BFC1-08002BE10318}",,"DVD/CD-ROM drives"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E965-E325-11CE-BFC1-08002BE10318}","Class","CDROM"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E965-E325-11CE-BFC1-08002BE10318}","EnumPropPages32","MmSys.Cpl,MediaPropPageProvider"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E965-E325-11CE-BFC1-08002BE10318}","Installer32","storprop.Dll#$cDvdClassInstaller"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E965-E325-11CE-BFC1-08002BE10318}","SilentInstall","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E965-E325-11CE-BFC1-08002BE10318}","NoInstallClass","1"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E965-E325-11CE-BFC1-08002BE10318}","TroubleShooter-0","hcp://help/tshoot/tsdrive.htm"
+RegWrite,HKLM,0x1,"WB-Setup\ControlSet001\Control\Class\{4D36E965-E325-11CE-BFC1-08002BE10318}","Icon","-51"
+RegWrite,HKLM,0x7,"WB-Setup\ControlSet001\Control\CoDeviceInstallers","{4D36E967-E325-11CE-BFC1-08002BE10318}","SysSetup.Dll#$cStorageCoInstaller","SysSetup.Dll#$cCriticalDeviceCoInstaller"
+If,%RegWriteIssue%,Equal,False,RegWrite,HKLM,0x7,"WB-Setup\ControlSet001\Control\CoDeviceInstallers","{4D36E97D-E325-11CE-BFC1-08002BE10318}","SysSetup.Dll#$cCriticalDeviceCoInstaller"
+Else,RegWrite,HKLM,0x7,"WB-Setup\ControlSet001\Control\CoDeviceInstallers","{4D36E97D-E325-11CE-BFC1-08002BE10318}","SysSetup.Dll##$cCriticalDeviceCoInstaller"
+RegWrite,HKLM,0x7,"WB-Setup\ControlSet001\Control\CoDeviceInstallers","{4D36E965-E325-11CE-BFC1-08002BE10318}","SysSetup.Dll#$cStorageCoInstaller","SysSetup.Dll#$cCriticalDeviceCoInstaller"
+RegHiveUnLoad,WB-Setup
+
+[Process-saferem]
+Echo,"Adding Safely remove device icon in systray..."
+CopyOrExpand,"%source_win%\batmeter.dll","%target_sys%"
+CopyOrExpand,"%source_win%\stobject.dll","%target_sys%"
+CopyOrExpand,"%source_win%\wtsapi32.dll","%target_sys%"
+CopyOrExpand,"%source_win%\hotplug.dll","%target_sys%"
+Echo,"Loading registry hive: [%target_sys%\config\software]"
+RegHiveLoad,WB-Software,"%target_sys%\config\software"
+Echo,"Writing new values on registry hive.."
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows\CurrentVersion\ShellServiceObjectDelayLoad","SysTray","{35CEC8A3-2BE6-11D2-8773-92E220524153}"
+RegWrite,HKLM,0x1,"WB-Software\Classes\CLSID\{35CEC8A3-2BE6-11D2-8773-92E220524153}",,"systray"
+RegWrite,HKLM,0x1,"WB-Software\Classes\CLSID\{35CEC8A3-2BE6-11D2-8773-92E220524153}\InprocServer32",,"stobject.dll"
+RegWrite,HKLM,0x1,"WB-Software\Classes\CLSID\{35CEC8A3-2BE6-11D2-8773-92E220524153}\InprocServer32","ThreadingModel","Both"
+RegHiveUnLoad,WB-Software
+
+[CheckRegWriteIssue]
+Set,%tmp%,""
+RegHiveLoad,WB-Software,"%target_sys%\config\software"
+RegWrite,HKLM,0x7,"WB-Software\XdghsgdsFRRA","Test",x#$cy
+RegRead,HKLM,"WB-Software\XdghsgdsFRRA","Test",%tmp%
+RegDelete,HKLM,"WB-Software\XdghsgdsFRRA"
+StrFormat,CTRIM,%tmp%,#$q,%tmp%
+If,%tmp%,Equal,"x#$cy",Set,%RegWriteIssue%,False
+Else,Set,%RegWriteIssue%,True
+RegHiveUnLoad,WB-Software
+
+[getfile]
+Set,"%tmptarget%","%target_win%"
+If,Not,#2,Equal,"",Set,"%tmptarget%","%target_win%\#2"
+ShellExecute,"hide","expand.exe","#$q%source_win%\%SPCAB%#$q -F:#1 #$q%tmptarget%#$q"
+If,Not,ExistFile,"%tmptarget%\#1",Begin
+ShellExecute,"hide","expand.exe","#$q%source_win%\SP3.cab#$q -F:#1 #$q%tmptarget%#$q"
+If,Not,ExistFile,"%tmptarget%\#1",ShellExecute,"hide","expand.exe","#$q%source_win%\SP2.cab#$q -F:#1 #$q%tmptarget%#$q"
+If,Not,ExistFile,"%tmptarget%\#1",ShellExecute,"hide","expand.exe","#$q%source_win%\SP1.cab#$q -F:#1 #$q%tmptarget%#$q"
+If,Not,ExistFile,"%tmptarget%\#1",ShellExecute,hide,"expand.exe","#$q%source_win%\%DRCAB%#$q -F:#1 #$q%tmptarget%#$q"
+End
+System,ErrorOff
+If,Not,ExistFile,"%tmptarget%\#1",CopyOrExpand,"%source_win%\#1","%tmptarget%"
+//If,Not,ExistFile,"%tmptarget%\#1",HALT,"File not found."
+
+[save]
+IniAddSection,"%TXTSIF%","SourceDisksFiles"
+IniWriteTextLine,"%TXTSIF%","SourceDisksFiles","hidusb.sys=1,,,,,,,4,1,3,,1,4"
+IniWriteTextLine,"%TXTSIF%","SourceDisksFiles","kbdhid.sys=1,,,,,,,4,1,3,,1,4"
+IniWriteTextLine,"%TXTSIF%","SourceDisksFiles","mouhid.sys=1,,,,,,,4,1,3,,1,4"
+IniWriteTextLine,"%TXTSIF%","SourceDisksFiles","partmgr.sys=1,,,,,,3_,4,3,0,,1,4"
+IniWriteTextLine,"%TXTSIF%","SourceDisksFiles","usbhub.sys=1,,,,,,4_,4,1,3,,1,4"
+IniWriteTextLine,"%TXTSIF%","SourceDisksFiles","usbd.sys=1,,,,,,4_,4,1,3,,1,4"
+IniWriteTextLine,"%TXTSIF%","SourceDisksFiles","usbstor.sys=1,,,,,,4_,4,1,3,,1,4"
+IniWriteTextLine,"%TXTSIF%","SourceDisksFiles","usbehci.sys=1,,,,,,4_,4,1,3,,1,4"
+IniWriteTextLine,"%TXTSIF%","SourceDisksFiles","usbohci.sys=1,,,,,,4_,4,1,3,,1,4"
+IniWriteTextLine,"%TXTSIF%","SourceDisksFiles","usbport.sys=1,,,,,,4_,4,1,3,,1,4"
+IniWriteTextLine,"%TXTSIF%","SourceDisksFiles","usbuhci.sys=1,,,,,,4_,4,1,3,,1,4"
+IniWriteTextLine,"%TXTSIF%","SourceDisksFiles","usbccgp.sys=1,,,,,,4_,4,1,3,,1,4"
+IniWriteTextLine,"%TXTSIF%","SourceDisksFiles","disk.sys=1,,,,,,5_,4,3,0,,1,4"
+IniWriteTextLine,"%TXTSIF%","SourceDisksFiles","hidclass.sys=1,,,,,,4_,4,1,3,,1,4"
+IniWriteTextLine,"%TXTSIF%","SourceDisksFiles","hidparse.sys=1,,,,,,4_,4,1,3,,1,4"
+IniWriteTextLine,"%TXTSIF%","SourceDisksFiles","hid.dll=1,,,,,,,2,1,3,,1,2"
+IniWriteTextLine,"%TXTSIF%","SourceDisksFiles","hccoin.dll=1,,,,,,,2,1,3,,1,2"
+
+[Interface]
+pTextLabel1="You don't have to plug the USB sticks during boot time, it will work even if they're plugged in after Windows has started. However, some fixed USB Hard Disks won't work unless they are plugged in at boot time",1,1,9,163,406,46,8,Normal
+pTextLabel2=Notes:,1,1,3,141,412,19,8,Normal
+pTextLabel3="Explorer and A43 MIGHT not refresh themselves automatically! (it happens if resource limitations are not removed). In that case, after you plug in your USB stick, wait a few seconds, and then manually refresh your file manager, and the ""removable device"" will appear.",1,1,10,212,405,60,8,Normal
+pCheckBox1="Add USB Mass Storage support",1,3,8,14,200,18,True
+pCheckBox2="USB Keyboard & Mouse support",1,3,8,38,200,18,True
+pCheckBox3="Add IEEE1394 support",1,3,8,62,200,18,True
+pCheckBox4="Add ""Safely remove devices"" icon in the system tray",1,3,8,86,274,18,True
+
+[AuthorEncoded]
+Combo_Icon.jpg=7786,10382
+Logo=Combo_Icon.jpg
+
+[EncodedFolders]
+old_icons
+files
+
+[EncodedFile-files-UpdateInfs.exe]
+lines=7
+0=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
+1=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
+2=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
+3=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
+4=XCqXDi2LIm0iIVp3fbTulsLbJsA0586CVY1DNkNWJ2Nwfp034cv+HpfsjAb7i5lhVHfGVkr5rhO89npwF3EnpWoDKAaML8wAHpNK1/PUtJ86h9zzowLUKvZbqH7eInKyGc/5FtPwfY2/MQMG98jmkyOU+G7N1WPGxfD+iFBIEbjmZZwwQW2gEFYAL3QEFjgBoSAK4qBBPYPW1R3Yx3d5pH34hZYGEASaSDfprSxW43TZAZlTORYFhjACGDdq7P4GiwBs8JYj3hhNZbuf/MS1P/UJPjs77/7GyH1+eXl1dQPh9MZoY2uLsCn2Xs9qGbyBFq76gKV1nlSGMsU/BjNMahoqisuQ2+KG6hDZcnExLbm8BgyfuS8qw3yLo742FqeH3v64lToatT62ZH4p7we/IOrsL63mTr3vk5HaxfNwhFlLXccXcBzYKsFzEegfltD7Ywn40EOt+K+WvLuLe0AFGu91FIp3qz8apj9+qAN+6D4LuFzdUhNQBDsHvnoLcaUy+l7t49dRV/40/BKPx+GkpIz+mFgsCoUIU3F/g4BA1GQPVBNnocvg51ek6DrtTRoNdTzcqO1FzAlJx4v+ti1OKtQPPF2JJ7deAQ0mypzEORpX62ClSjHfAtPu5XTdXqmpSLXzNCZ1linN7JG88o5dtn9WIGHmRb4wl0VG5fwGqCbttEnh3XpqmXO1J2qWYX9BT2IbmDta6Vd+Q59+69pqX7r8OroXAporApJN5RvtL5Y+EXOZ1pkpzb8jMYLz5uP38eQXHDmS515StqAvcoSgfgSQG4RiMdt/Q6612Auyf1ungGOs/XmudWiWLYZZTowh2LOT5abeCCa39R4MgmbeqAQ22u+IsNTYKnKCa8ceKqQfmJG72vhMBw+LE4ha0SCXvSsDEEFjJfFZYHd7f3FfqFeYzojoPdmzMSwT01mroA3Ox6LV3FMA1sZPhaFF8fZNiHyvazDxXcorywn/dqcNY+IwSXwshcUZ5jKDg3lHHh3ZDrDPInI2CU/rX7xZXB9WYTLms6fvu4EhLJVz+wTyfNcZ2dqqej/itDzM2uG+SxjtlYntQSQEgQg/VJaU/5K+GniHXlGe4GYeNNE3rbPMRw3waOrBUJ2D6AtVTCii4GBooVRBTebIsjtmp92hAJmswc7EWIuNVmPLDngbM0XkkPcG4vKC7P8Swd1VD0JeDMNSNA5jmulto2pz/LwGEXkH4KhfO2xevy3tYn6pgtM6g/bP9lPgZCm6Fn3y3ojok4+AzPb3GLAj9cmhR44k72PKBmtaz9oDRMgahiQsPkp5LZNzq4ABkN5xthN1ll3ir2HZ6XZ/lYRCdsTfSBgHIfZHe4smujsjhp5IiGAbAjZw3Z940h8g7PaZxz2a/hnl0jdJ4vOe/Nj8O9jd8kGBwb+zFCvQekSoaopzHELq6+1d1xTtFmRf+z9b4lpWBoQ8CELXwGxE9HdLr9Utdhh5cckRZI4ptfATG64401zKubYrbojDeXAdvcs9wJJSYTOCSIz5nNuAnsq3npH0ccRO2sVAfHMZHtWEg6VUxR4xhkqJq4QldUPwVKpOB37Q1SMLIoQCoaXPI+z85PdI1OwNGX+J2Bs/uT/uiJnhBGNgJvmWQpBz5i/z6LZXefqhm5RKxJQ/l4QAQfIdF6CFB1iruQrjyJTgy9iv6Sh6obWmFY4UGsTgX5jpclWoI/5e2Uq1Y2i9ftqmE3wZxXca4zgrcQrmMc3Vw9VwfrGKPha+9Hp7HVrRTdpaFiNDutmzCFQKsKIVGuXCetFpAN0Y9ivlmHtkOv9oWo5I5l9HlNiEX7cHHM3pDhjiPr5upmVX2FMYT/cFfr1fcNDO9DndZ+B37JW59cGrrJ4hFTLeYQg1/Pf1y0wsSMz24eTPES3PUdn2uX80ayENbR5bVi4+GuOa15V5fKw+c3XAUcx3ofO5g24qZxw8FnmKKJKjMT5jawNxOW4deqFqqiMF5kKD80K+hNhxwgXRxb/k4ze+Ah92nY0q3qXMccYLxFxG5oo9EO5cxLFY5AQoWyRdrFjrFTAlZRxvo15ScUrkZtzPat92IcRDzdqpvu2779jPkNWzmy2+sQ8qjgRYI6C0kogXPDeaK41WEX05ggqXFMLlwekleMnXy+pBS8OPxAUEBTuPRGddk7xamUXssH8A8dRNE4MDyWPP0SYjW1/E+TNc2+4Y2aEPBshQ54lQ14CGtvcYvp7T4B7aQRVX/BY6wSTQcOtO+w7kIGfH2h5XUvpVcvDLFrsAOiamprSFc/vOIOOpHjuvdDl2o0xYghj1YJkG1hHGiElQHHWcSU1ORXikgF68G+aC47inEsvx7ztfrK7w0g9wj4W4Qt5Y9LXNUGAYRys19x0Y5lXrUuxXuXTzV5hLeO1LecB0ykF0Y79PJpiE24IDgcly76RAYR8q5D233i97l3PfDby9RDlMvU7gW+SCofyAzEwk51XUIich5ujZcsTRHsO1N7M7ZQv06a7t0a+rxGmB526i2jl/RquG2g7yNcuwUw2c8Elmb8HFr3Ad3rigbulSjbiK6ChhFva266T4Lq4i2e7RUYWZ5tO/hYQTRf2HMbH5kz/NTHgSarLX2TL7jJ3F9qklvJVn5CBtIR2803ktVZOHFO46bMWbG4ww7wa53P+2u87NR2lzKTdT7RUrLiIshhAiCOYcQwDahzOIstceJy217xKR49g2aTct39Dwnkc9CKhtE2fiiNCW/JTAWNocC9jLMctGObkC1WObDjsNvHfKt2u4ltPrlunz67qolvTyYQXHlbqsLE3ierDJ01Ix6oGyA4EcoRFr/GBm7mvrfLMB+Yzkwvh5tcACCrgy9cHjuxiW4byMClKg7dOlLRG1q0hfp7ss+WWd+r5h9b0qhWNJHAfHjSi9o+UpJRHpB45mP7wWGdBVQ+B6qkeh6qGIC8E1yErc8c+Zakiz026yC8CPSyLEli2RjNteId8MmlXRDSIifz9uVBrbJfN0UcR0eobxxDcPyRVFir+4VhKjyrIdWJRQz1Ug2C0S+OnA6nbuBV95omLOgmuTnCKPqMOCLzwX3sSlevBtIZtJAqAjptG44UM9jNzEkFtBizn2y0iPL+q8SPnlEPJ3wxwEE/1LP0MUTGrRMcuW+qbPtsq64YcwQ7EhNqqCKbbuimmFTjALtD66dC5HNFAqfRDTDi4RT1RymzbPsdDEs/SZT+PNv2uzapgkCAPBZD8GgKfxLLSMsxieZSf55ziNwADgDeby7Aw2tK1ytJ85Hfom8wuetWoEJvmwlJIABtONKfSUqSUL28cs7eI+5PJ3VXAKGJfyxy0jag5pTAkwch9BM2BMcEZeURvb/c25q/dTpplTIipqPdB+8EwtADW6mjKNehsp2Re+hYfcbtOWE+XPt70ztvkrdfCiBBXDucgL/Btu2Q7l45N0bKroKzPDhXv82AHlkNsjbK5CY4DU5Sf3DL8U+dwAMkB5TPrH2/5NkG11KtUzLc6a5PfM6/xfRPbQ8vrSI0Ne/m1zh2LuEy7m+I+Z9Wk1w2Itvizf4RyRvytZA7BVNZRxRaNQwob9W1TThN065JDXBUCTdrEhCyX+Z5z+AfRlvBmeMh5dPaeVbVZApiLJyRP3JVeFRvqxNGWeLHDdv2XIoWgoQ0Xk8LEnKhLLUcT8JK5ArBU4Cktg3JLl7Unj3WuvXG+VYNJioH7mitfL+8beJaDTMiPcCzyFdTbQ29uWyWPxYiMzRYKahLSFnCDBTR24AmOGJigD4EpIaz5/YX21ZKzYZvIatSsLo5Jqe/EjlokyWr+9MpFQGQ0UwBkcqWIg8uJiGaDvrKbJVbAYrq23PNmylNe/nTNdckE5eQACZGo8j/ejkQGPCAFRn/4OGBXgP3VJzMVSzFocgODkCNryF7PY90qLwZjdwR/Kd73c53zdjql8GmzPx8fNhkNnoH/HJ7J+nDAV2SejxIPz2YRtpX5QrO/qy1IwHoQ3fv8P1kb19nOt1R0Y0AWF6LbBKexHHWMunom0kcJJgOgi/s8lEjlhB4DDoTBxAnoS7rmBjqFyXgtvn3oYw4Ns7b/NYRpRlDaATiB5NaeD8ecmHkqXvh3ReC1hjD
+5=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
+6=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
+7=EuRT7iTBc5fzWVLk8+MIEuND4wjS477tatGzBrey+voCuJr6+g64ev+dHjdV+63reYK4fpeqDCdaayyJem6z6MgT9dGFzEocuGG4+6F3nTtcP/TbHZs2ysqfeL1dyN2NqnTx96/fvRZbv1h+Y07h3TuGdU495xD3dbNu60eLh/XMOOoQ1JQxt3WzXutmxIHt6YPALTg8QhD+KNGhMG1n9mXL+9b2PCIDSujzP8fZfFn/uG30+0PBvrdjN2VHmYgo4mvf9W8OBmmFrVuj5V0d0qIzUrV2pURqhVRqhWrlKvjFCpDFetWqVZFYlJqyqqcyWm1doVK9UqVqlXRKiUhyuWBgGminClUh6U8eCnlXAvEu6uYl3xfX8f2f6nRPyCiP7nTsmSfiHC46Zr+PTf5E9N6Uur01uA2quKfFeA8FF0jYxYi1iJcNjvYJS7aVK/mpiJfeso1op0a4gar1+3wdawwcmkcxH6B5Rk7Hr69M8/yJM/fyePEY8QT9qA2JZrO6ia+pef2veQjpn4dwnP3wDxbwMCbQZUUv/KU7seit6qZcIzJsZLwptkzPjfytnxl/xDpwj9f8pNemv/5+gfYWfE+N/NT5D4P5MxxktkEGnfn/H/5XS8zOcX/3aU+kfPEPrXnRXyJ+TV7xbEaK2OSsz0vsLxy4h8WHO7lNytKiI11ddITZUQd6XziDsVlxFXyL3Ki6Su4gzZ4jG2gvrneyg9PrNUmxR4aJAzS8XQZMoF7mqoKdTJhTATcilIn2T5W5JVc51IcsTcq+jvVBKucfbu9oEPazb3rq3Z2LP27ibd2rsbetTe3axXe5eW13ep/Xltp9qaDbq19zbq1P60ybDucpT5A4GvWgD6q/yVF/vfKdEwkvmW420hFq/nNApdJayvr83sWEp3VWaBtrawRPdOZoOZmdCG7pAsh5aikjKgBRoyJbrbsYLIUp/Z01hRZKnD7FysJLLUZ/YnpquSrVMAUtnDMDcHnMENj7bghDk7cIAZWLbD4yTMUzkj/+Cl8IsyFrP3tFh3F42DPDT/Go3N9MQZeMAFDvjBcozGAR/wxMh+sAz80eYWi9qYwTDEJ4x2Z9bzjQU1rBfb2yCCwIOJE4DxOOjrx5xjNpaXwhKsE0cNYupHvOY/B8HFlld+5jAYR8JM6mgh5Ucj8RgfP4ztg+OwBHyZvZtbO58L9EI/e6xdznhMxDMFQDjDeDl4oT20UKcPhxEfIwPac31wRF8uYjlG4OB5KAPAXmhhbAeRH0fESdw3vza5mWI+jGkFsAJ1jOOIcfzRLhjHkyfVM3qva7l3I5kxed2v6Yi2Np42zHUxh+lX89kHMGSunFlMr/0wng9z9lfzpCKf8domvlaRLDCMbPkLWxusd0K4I7gim2m2TjNs7S0+NrWxtwew91+y1J7jzl3CDR8PMNmT58j196D/QYFnEHZ0DofLC17ig3U8Tw+cMNswDmPANKJMafktQCYx62QNjv2todUt098g/w8b8nEUeJzjCy1ISSxJ9cxLK9ZLrUhlGAUjDCyBUO4R2KWfrfq2mYEJAMPaCfCoFN60AQAAAAIAAAApAAAAR1gAAAAAAAABAAAAAAAAAAAAAAA
+
+[files]
+UpdateInfs.exe=22676,30235
+
+[EncodedFile-AuthorEncoded-Combo_Icon.jpg]
+lines=2
+0=eJydl3dQE8zX74OAiEiXIkqRItJFQQQjPIiEJlVqICAgQggB6QECUalSFSFIlxJAIIQSCCWAUqVIL0ovglRJKKEFeHl+c+87d+b+8977PbO7s3POzH52Z8vZs59ncwA2XZAOCEBzbs/PDXB2ChB8qqn+RMjUydHF3cPNwxnq5C2k4+4oK2QuL3tHHnA2CQgDXPgfiJb2vPzb0tGei46O7sK/FR3deU1L83+E/Sf0/1VnbTS5AAANPc1/BPhfojkfgv4iwyXGy0w0AFqa/63/y8kGuEBzjkdHS09PR3fuCT73AejY6Tluyqtf5DS2ZxD2vHr3zYecSyKPK75xmQySRO85eL1lvMzNw3uNT+yW+G0JSQXF+0oPlFU0nmiCtLR1dJ+ZmplbWFqBHV84vXR2gbp6+/j6+SMCAkPDwiMio95FJ35MSkanfEpNy83LxxQUFn0prqzCV9cQauvqW1rb2js6v3d1Dw2PjI6N//w1Mb+w+Htp+c/K6hp5e2d3j7J/cHjEfo584d/FY/gXmeaC/7/zYaejvyl/kUPdmMHek1P47ptLVx9/yKn4xihyz4TE5eA1eJlbVGFejPwv9X+g/2fMb/+/oP+b+b+Rz74C2C8BjABGtDTn9Ow0tOw0ZxOAK7Q05x1adoAa4IS6ehp8+4R29zKtx3tjwvf726q3Tz6rwSSQDAsxamGCDMiHPG0JsUeffSH8VktDRKB5N4wskI8eZ+tBlVx/YDsHHTR0dwy75pwGbOfqxL3pCS4VEOGUc4yMJwSbjB5J+R6u5iEfxNpVpVTm1xWHaC0LdrDG2dVkh1Xrq6LeNUmR/7yRVUxqTNGqqLpvy1OZNjGkzT0PxwJV34t2ubvLDPfW7oi1va6quid/BBSglcCyTj1WNPX3gARD+mVrRHj0cS6H7vgnSoH+mz1Oc55k2Z32Zr5NItsEMy6ax+7jQtMX/ooBHDaHiB+hLyK71LH3eHgy5ds5c4TsWfQwRH9qFfPNpL/snusOJJYsgBW3y9XKbkumbU+sHl7LYveYDO0MdAN3hlXPTtyzGhKHUCZKVeXIU3zwiQs0QVLrPxxuy3Eu32jZGjgD+MyPFibOL3WZK+SJ1uA1WctMLeI2apTtriGyKTgSusF+7gxw46BnEf0Bu5YIRjlBVWZjqS/U8Pn1H2Q27Qyg1X5v9+/13pylrdVhArVDrEAHrtfcciR/IlrREtMdPZr1wwVhBpafdB77W/xSPRaEnnYbIVEHULKg1fip4oE3JXTMxwUo71uwcuTxEwhZOBYfw3nsdmmut1JWsSjPQmvbDtyOPe7BzffjCWmj38Zz+BDg8mUTA4tkPMHw4eSSN+FSiUm2omWD10rCEDPTYvabPbi3PqmjkDWayL4g81IrRmOoSQih0SbACvd6AemY1Ryphl0d9tVbqBPunqDo5XIlfAwXRR63jBr5CifN80+B/fas9w5lNgI9cUxFzb6NHweolJMCNXdUtB3T6b0DwlcBuhqSzxFrBKpS+nSw1GV/fzxxTYlPMSLvCy2Qr71yI+Lvth68yUhoUkn6kvhsj1cgb4aMyugzk+SjRlxBf3XCQ664LyB8DnMuQo4K/EgJOwNkC0YCUSOEYsoZoC6x4QwwShXe2u+h9vl+GoP40Z4B6EVOcrSFrJAqNm+VWJnXUm3i81RFRESm+LjVQ/Vdpuu99ajflhWxkzlVZwC6/SFfNcHTIVXRg5iFa39G9piZWpuEyfx/S149/WiDSG9PqYDCpftjA1K4wRHN4sanpa/lM5yzvOwrjywRsmY/ePPrRcuaby6tjrR1e411NRy+PwN800SqBy2yTnC2NtEOG/We8pHGwvMmJoWBiXplBwXb+pqkipJ712Rk8dqj7FZV7CJiJAFNei0ZHJgC78IlElaAQX/aht8OdYns4igxRBIq9PQaVYWkFOVcOUy9vuDxTu1yk+AaU7AYkQ9BGssuAcNUwrNyRHs/qGMM8xEOsIcpDkXlkFrRi7isFhAGCbpVKjyt3YLRhK3e2t2czopz5jMtagFr1rZndnbApRafHXg8Rv06A1iRImJKVuqTeJSOxN/5rMzqkS+Gw93NH7EMbcoU8Bm91B7e13GzEmQMgC0tP33Vz1L8w1HkFgYVuE10wk7W4MgjQ8VfugRLqgVs0+BHghywLNmDOrIHJeyAh5S3qPQtTvDreBMv+etBKgYRaTjiNDpPHEaKYVzBmaOYrIKsYGxfij8Kmi/TK99dduttuyw7Lb0qUcL+1SdpAxGm6GRNE5b0OCz0Uf2ttGb0UYasmesYxgArxsONQWmsNydoUFKC+hk1jtUEL1pPcI1qxbgTLeGzjl2yn+rVqyMsf1GLHCHGS/IML3fY4N2yW+JMe4p82VbNSr/00gn7qGf1uGqTaMyL+g2H0wG/u4hJyDl0rkQufnzPIyrQok3vh5Eounx1gqFlXgC7wIi3rlN6MF5YP6IwqWfp4Jws3FSbZVL+dWnvm46RZRqlUZHxscRWgCJsEmZlpwf77QzxrjetSXQ1LOjsn2VDzWUcebQJ8iOaO8GR7T/Mh7bam0RGqeoyiQjdIcQGj2lT2l8ZVYl0OxD6uuWL+Gn+ZD3Ry9p04+6Cj9B8cSryrYV8rl116wdPWspsivV/jFRTm+cyUFSVSXXBHcu9ELU1/arNM4A3s8dppenkWo/hVvPpk4SNItxhACGFypGVc77la4eHWvbwzTHjVWswqNeED88M59uZbthS+I8Mi4/fsD9EubGvRKxE4yWsjCpMHS6kCIhmKwSUr8nrQ3YaeSDKvgR7IFZ002RThqt57pMdyZDZQvvAmky7cAZo2YoSJOsgNUbESBv30/xqKRTh3wdekJdM07J90CVjxWMd7MRU+1Wx9uk6zhbbB/5mzp5ZkvGCnBqzuehilS3YQ5nN4u1m2MQrZuMvKs/2X9Q0f6BElBzfQgIbD06UNq/h1tMal/Ngt7KxcQxGwcpANaeSFT59dGrBWr/Xc51wbFxBOtzzhuycKGVVStfR8PahUW9JK+Oe5Kslk313gv/wC0LwVvOUH1BGyXpSV2d7LQUmqISEHYSSeCjZB5PzuDeqN8m7R3ZvkIp5MDBe4A5prCHnF/Roq60h1eeTz/TFcfCozw8tg3TDGtIWZYVTSNCliRg/dk2pjWOrgSmyY+6OV4dJ4XFXl/jF9JC+ye2Sh9Nr9WLYzL7AURcHKcm7yTlceZMzE50Ddiwo561ryKvkl6mo3JCBLKmGA7E8qNf1LdqD4+N7Nsn3wURjddiCxNDYuMbg0PxiA7OTs8tg1BVe39qAjxE1krxFuve+4bBK5G+KhH1ff/NJSL0bAaM5kOhK+Jv4C41PiGm+fCp0OiDnj0E0tPIE+rewAmB8yuPXLcpj9GvJSm2Z/qDE7XG9ptpM4ZF0w6EQwWIgBS79z/pQh029/dVyRNoDRXEDndGM4Em7KR38hO66BZaKjl8pGseo/B0yj57tnT8VRgokLPB0XD14hzkdG8/iGNDvCFWjCgnwj43CyTkT4HYV9SCG+IUawxo9l2Fdg/g5xow73ilKGpySvP6RCHHlh8d/V0sOvRobdTJlA6Nzcd15w8PL/ncPOjUOxsmz8+241p49MkOEKnPXQjbX+Wnhk5IZj2RpKD0I/NOSpvQWP8tmzRBpNCIWCiaOeAgRknO5KZ4XX3rXSCeLh7f0mcGvjeMdGZplqWMr4wZ90z5S6RNjsfal9iUp2Y6r+WTm9N2IjWAT9oTuwANtcgh44feKgyNvwWSSS37iNGGzNHGNojWgJ9GmEZjUTJI4A2zTR1WnW0U46ny6APon6rXpXOy7BKGxT+7S3WQfqMOdYizyEeLL8BfDn30Zc6OLtw24Mpy4qw1kCqdaLC+XD3azE/R6DKlJn1zvnAH6lZu3khYFKUOEM4BlOezUxkGNxIei4hOKTe1c+QLOz+thECX8JPWUCxlUwxcZ5VBP6o+V3tQsyFyESMigyTcTehHSezE6S5aKmSrK/J+0pDTvMvfQ99LMviJqd2+LaTpgTMJv6LsYF17uZ9U3w5qsZUoa+I4r6jRHsDckZ37osZZA36JiJdoh1T9yIRB0Tx3JoOT8Wjg4GA+gXb
+1=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
+2=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
+
+[EncodedFile-old_icons-usblogo.jpg]
+lines=1
+0=eJyllXs41Gu7x39CDhWpHKuZlEOOs8r5kFmLEEKIHMKiV8wIK8eJYXIuh+S8EkkT4zTmDePMhEFqSWjIlJixIqfMkOlXZn6zp7339e5/9h/72u/9/PVcz3197+tz3c/9vfnv+AvAQXsbOxtASEgI+F1wAP57wOrn7d+KnyL/roYQ/zkgIw4cB9yFhU4Ce2SEhGWE+FQADgBCov+VAPx3CO0RFhHdKyYuIblPkEA+COwREhbeIyIsKioiInhNFLwDIjKih5TP/Lb3sEuA2MmbR84m51eJn7J81i/rOsFS0QuMTJGQlJNXUFRSVVM/raGpb2BoZGxianXe2sb2gp2922V3jyueXt7X/hF0PTgEhY6KjomNw9yKT01Lz8i8czeroLCouKT0zwdlT/BPq2sItXX1zS2t5Lb2js6ugUHq0PDIi9GXk1NvadMz72bpDObi35+Wlj+vrLK3tr/ucL6B33/85BIChP+F/r9yyQi49oiICIuI/eQS2hP3M0FGRFT5zN5Dv7mIBdw8fPJssvgRy/yqZ/0Sp/RcWbKBkROScir6DFX2T7T/JPu/gaX8v8j+BfY/XHRgv7CQoHnCMgASgKDTpL/xkOQ1PiD6mleHC+ID75HM+efwZKWI/ld8QIirxwfSrGxNM3PM4aTQsqH5OzvSe0NgymzNczt5OfoXzCv0PKbD9d3TUOzWKFRhvsrnUS2uIh+QUcH1W1I+i+2a8AFGG9uZD5ijd/cjhJf/7DGEy9obWzsctimOR2MyFXdN/5l7Icp2ts8rctTXd/YzJgaTisB7VCt2vY6udyovRxFgIQ4lHlh6AyE4LGwFt6nZmacETg3gpLCqTCQM3KaaOqdxFRkHlPgAFabG1u2+JZuR/ySEHtQ954+W/xZ1dmS/HMvmLyeH7rB7qrd8ZSjp4+DdU5CkLB/4FTk7zgcOtGfhvi9e+YtCpnDlcJzXvGbowCpuD6Q+xzVkbd6OmfO3oWHtIljLA/TxTAO4zODjORwK9UO35VYt2ODnkCthgGnlXfdRIC6gyDrqF4uXz/j0nOUwuOdeE/yKbh4amKrSvO9e79a0ejndrClOPEG/2uDoVs1kJJl+5bqs8UOgbmwyF/XWJbw8yNHmbEUvTSPKzGa39WFzbDeZD6D7jPlAvwduAT/f9vSRfiok4cY6PNQ2L9yjzHyYt3eO+0c7KyOZibtjoUIjat/YbJKbsWMn+GFC+5XCoIq6937enmOPVyFth30VRm6JwYPxRTNKBqWM9nQK2h/Uwo3gcsN2jUE9zj1eQ8x4bukjFXZ4wbx0D5JdSrXYT2OyxVKIBnPOQ13XfD3Bh4Nlfg9h6aiqtcg5rwqbGUfrqb/k2N3VjbY/2vlAyi/gNWdeCWUhv0x+qCL+Rb9aN557nVdj7hU+VGUkJ2d7OftC+YWJL/sSWbvP/RQ7vM6H17fsybjsfp1rxgdSo7DIeq6vQOYO9jrIYDY4b+zjA9JYOJjO3B0LNEPJ0WeYYtR5GOgxEt95zzPM33UCwY09kd7kunThWkWAFyNrA//DXBTbLZzBfBDQnENZ/YDczTE8SUSE+StmuzZYmzuiCyLLz5H16TUrTd5tTxdjIhAyzrJ3GooSrsZq0Zdi67yL1NdXLj2hmZDty11dsAXoraW47Mgl9PIQUolrKxiRx7xH5qEL/plweQsD6AN0lC34cu90v2CFF8bMOIXgg0XkIbBJ62haayf0YqLnABtOLZ160X5W/MntgcIPzY6ckE8HL17b0WMNQlLivociDhrWCUS1HS0+Dqy5lKiDQ+xnBjfDUEdaLtYxltkDYIrPwH1KPsG6xqIqdsmYGHa9ICSfDxA30/oMQWc2ApLM3vVZoeduZkZAutA4TpgSTMpIkphC/D0F958w12G+w4ayrZh+7YwLKrFvsbneuyP+Ul8RSmg5u2Zaa8T+lbhmK04ts2Nrni4/hGN54pIrFSx0MHxggZLctzdpprKljRwagWOtMdx833NNQDzrtY4pnba5YT6cZ1c43C7fRL+9RWGcYjtVNfYYRq2YxmUE6Tyej9RVK1+9NDCi8eIXsDRlgLnqAJs+lKHMrLLpNcV4OWpG06u8H0ZSA48En3b/I+5S6uynMzloD8yHl0TVOw2WWlK9ZHu/YVeCyXRO4oq6azmtzi1c06XrowM4DrovIkFN3IYRE6GEwklApyF6pby5z4LZaZJ5RM0KXD5Jew126g2xZNVX98jb9Sauh4HzOd2NoH86HMnyoZaJ3fbJyKmFegSAFZWt0lT/2WXOedCLNcXJAAVmICrEJg37mkGHiP5M5N0d0m2cvIXyB4tqEoZylXZDe2Em4m+aga/9uCWLNpz91PpAwcXj66qGsUSVAUOq4Nuqo+MJI47+nGVeu/kVVqkjqLXoT5deHMnokWZKZ/6INs2RoxsSWc7P4xMJWRGB5Gntxh0zLYFTYsaHuyA8k9rjlnBzUTwmHyu7ceIeogl5XTD9KRXju27caz28mqegcsCumkTfCenULtt0UeIyVS1reZjTjDVWKuZUHBMY7KF54aFbUr2Gje5NpCZljevfVAnNTObVyZKzmL/aMNrdEg46nhfPLzxzwWc13MWEaL7zPoy3j2Zr5qJpvxedErdzy/WgFZiebTz22SZD0zjHHcXsJRuPTsRoWBY0fHGvU3x59umqZbnKh/Ky5SKZnZl+aTpiYXlDHh8aPz7gLN/UB8nR7iUvIqRWuxB3sEcXK4VDmXqnJ8yjWHxguMw5kxu6wHPydCe0ktlyqQTDKnTNtrORR1CwatIfSePzYhtIVB6dwGHzCPqbChjS84+iM30qWAteRY9e0MKYN04SQ/KZoQQRxagwaTCb6QxDrYWHn/DiBjB95qT7S+j1Q43w/WDSAW/mx4+DXlPKrn16iqn9l6imLtS3BDTm1stieyeivYEmY8W9wTJGeR1v8qbOZLKo2Nh30HNoDhGbHr+jUdflUklx1bxZloa2lA0Sd8/5x9Ki0v2s2lL91oLWsjgLI14VcmFO+gD0hnI8CcGNZottRDF7tTzAdjZ8GH5QtzXEQmbFaJp+CIO/2ksjYpGoBETexlJ385sbX8K+Jmg9eJyFIt6oKvCctvndPAFSDmPJ82DIbD7A+uvzPJet9YP8pFcSG0CNrpK8vK1hU2FsczBr8PcNhd9OD2uCsetFrjTKubnv1QVBUUUEbc3IovKnc94/RrvbuX4kf0o3sogEprc/9/+KgRB8YFAPj9umksYjQA1p7kHcMPxZ8PN3kBn3NPigiRvPGs+MMfkdrKsZXTDuMWrEaA2WGq5G8wGl/r0VApUYuJTnvK1OaVb4sfcOT2wTq1dzj3Vd9B77Usqbdw99ZeZoM7nm/FYnjNSIIBJaept7UrQeOrxy+LNs30OfBhSN0dHWkf5RceEBTCMw9p71PwKl/Q7fM07JUMv1BseJEwQDzQ7UxKBbbkjY6QT76FPGhuScJ7xZFXpBT1BuOPwV2rVc4w3HQFWuysNAc3TA2/tqS+2iakx96OW5svDlT7brVqSkcUrbPPfQIoMPPB8Xwiz5+Euh+UBzTf6uCdZusudc3ecSwWSZi8WJDZJB/8V9iW4OxTHI9TnLL6G+rt8uUmjRy21sqYpbYY3UwvermiPlvEfIYNI7CiQet2vKtWXLZyfpaDsw5yyXqR812eN54dxzBMw88/h4+te1Ydb8bXNRRqiJ9tL0l6/dZt2LeDDCzrQEH9OwFt9GiIkSLZ4cISQFCNa2I24hiw+IQAc+Qyd4dZQg0h3oF96jcOKmeqEPePOxz9VVSCH0wUbTTkxhv3c57CTrC2XhoVVM9fcWlHQC89xJRdhstJmO1OuBo2pQFNZ69xymcFipMNRCB+wkggRPTGB7og/VOwhqrzvX26ElciCxDqxZXalKt5M5H6ShoHKyVq0vFTHKMunVvsjq5Jwtcb43zAtWLHUWWbzDeVNQW/uWqvGy/INJYa7ncPT7S4UEjWH29hnjDzaS0dd8dPHm4bDMZ1VZnmkrW8a1XfnVL6thofoMdUX0ZFl2C3SHD1xDzO7jXBG4VP1HzDfO6hQS7U+XX8BtPGOS7sKP7Ag6AFoxxIYi9nwWJO1VNHdrXJ
+1=mXCJpqDWbtx8mQuAahLAp0UMHgeOTUEEcOpjp9gg17QED/UGF9QNGR65sDlYroeZbT/Oz7q12CIneT5vyUwM4G1I82EhGDG4ZpTOg77wWzIRmz0ITQMKOB+L2ZqLjERcTdvpMdnSnLrgU4rSvTudO1+j5BHc2Tbpe6IBGDvNm7+hWn3Gk4hr5P3vqY4e6lLSRDUeYWHwgklyyPbuPan25xxxHBDz6NtsRu5OUSPvne5dH4QJ8teOVNIOht0vrJyWvMLuh+g+NE/yvdwXGZNLzI9186Lg40cN6GDCMKNPXnGAr19Xgn1+2Q65uisqrJaTcj04rWGh2tnXo+vRrzblPaVxBz9ErYaMJYx9bHVzxFZBD8OBfOpqxrNdhUHoWOYY+yxzcCAnZ/5d54GyPLnk9nsI0GSYeh6aQz7G/UOd0tHwWuO35VzBtMJIB84PwUkcgHyNG9VpBG9wW4S2u3R4+zGC/PQhErsIEU1AofOALpJ00IXMbDlofn6pBCSvyOkdvA5EX3dhYnPe6ayfR9TNxgHB+Qh7TRkDJ7aF1u5o/ZWQx2sO7qSrOvlVxxDLnGfxAHGllx/gA12IucZEFdHJvAyBvkA9mmzqkW0ihDOiLdQhVUH7QwYw31VTPzFFeaHZkKrRFHVrpqKqU6CXQw7OvaAUszlxjRe+SGXwtV4lwbK9+pZ1ICNt+RBkyXipmCjf4C3ryZYe5Q5ddfF/JImfXtuXTaD91OPNqwSaXtrT7Rx5FVTIYqEyJOSIvSqql61AX9SK39M9Tg7H2Fiy3aTZ49YWjjriK2cX0060+F7QSHKwSbErVuol9WWpD49tTVLl10FDkPh4h59u6Gro5LlcRETp1LUUPg8c4wJ7diTWzRapTx6NbofKi9UScTznLyPTVUNpKcZJr0pk+L1X4XgpE2gndtMWuLpDSLY2C3U6JgGx0BY9QyGchMmHAnWzpzPwqWz8QpYiIYO3m5O/dJ5u1nMKlORleM5H8Z1Sr+ccoam4Q4yPbMIn+XNTAs0rDu1LxcpTBVbWe3pupUpCyFSpj8tFRCfPRJ0m+4SGPbxJgUH+b1OjLc7aGD9ZiRhlcIKeiJLX/2PwCrIgqTeJzjLi1OyslPz9fLKkhnGAUjDqgJQGgzfuzy277dKGFgAgCaEAfrpYBTUgEAAAACAAAAJwAAADYPAAAAAAAAAQAAAAAAAAAAAAAA
+
+[old_icons]
+usblogo.jpg=3969,5292
+IEEE_ICON.jpg=6147,8196
+usb_kbd_mouse.gif=1867,2490
+
+[EncodedFile-old_icons-IEEE_ICON.jpg]
+lines=2
+0=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
+1=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
+2=AQAAAAAAAAAAAAAA
+
+[EncodedFile-old_icons-usb_kbd_mouse.gif]
+lines=0
+0=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
+

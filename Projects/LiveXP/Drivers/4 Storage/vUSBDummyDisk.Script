@@ -1,0 +1,87 @@
+[main]
+Title=USB Mass Storage Dummy Filter Driver
+Description=(x86 only) Will add USB Mass Storage Filter Driver to convert USB memory sticks to fixed-disks
+Selected=False
+Level=6
+Author=oriensol
+Contact=http://www.boot-land.net/forums/index.php?showtopic=8752&hl=
+Credits=http://www.codeproject.com/Members/Anton-Bassov;Dietmar;cdob;etc.
+Version=9
+Date=Sep 19, 2009
+Download_Level=1
+Depend="%scriptdir%\RemovableDevicesCombo.script"
+NoWarning=False
+CertifiedBy=pscEx
+Certification=b1fcc73aa0e1928d10d5aaee0e8dbbd6
+History2=psc move registry entries to build time
+History3=oriensol added check for MountStor, changed icon, changed interface text
+History3b=Lancelot (nothing much left :)), Changed name of script (added USB to the name), and title (Dummy), added topic link to Contact= moving email to Author=
+History4a=Lancelot - mounstorpe removed from Depend + interface additions + Download_Level=1 + Verify section of psc added but cancelled since it is not needed !
+History4b=oriensol - added back the Verify section, but for USBSupport.script; deleted dummy.reg from attachments (now inline);
+History5=oriensol - renamed to vUSBDummyDisk.script, so that it always runs after USBSupport.script
+History6=oriensol - changed depend and verify after change in name of USBSupport.script
+History7=oriensol - changed from InputDevicesLoad to SCSI.Load because of the change in approach in RemovableDevicesCombo
+Certification81=dc8f3179c78cfd145766c98e4e14d06b
+
+[Verify]
+If {%$$$:Main.Selected%} & !{%Removable Devices Combo:Main.Selected%} Then
+"You must select USB Mass Storage Devices when you select USB Mass Storage Dummy Filter Driver";
+
+[process]
+If,Not,%SourceArch%,Equal,x86,Exit,"vUSBDummyDisk.Script is compatible with only PEx86 builds"
+echo,"Copying USB Mass Storage Filter Driver ..."
+ExtractFile,"%ScriptFile%","Folder","dummy.sys","%TargetDir%\i386\system32\drivers"
+echo,"Ensuring the service starts up at boot time ..."
+//IniWriteTextLine,"%TargetDir%\I386\TXTSETUP.SIF","InputDevicesSupport.Load","usbstor=dummy.sys"
+//IniWriteTextLine,"%TargetDir%\I386\TXTSETUP.SIF","files.usbstor","dummy.sys,4"
+IniWriteTextLine,"%TargetDir%\I386\TXTSETUP.SIF","SCSI.Load","usbstor=dummy.sys,4"
+echo,"Updating Registry for LEGACY_DUMMY and dummy service ..."
+Hive_Load,System
+reg_add,0x0,%reg%\ControlSet001\Control\Class\{8ECC055D-047F-11D1-A537-0000F8753ED1}\0000
+reg_add,0x4,%reg%\ControlSet001\Enum\Root\LEGACY_DUMMY,NextInstance,1
+reg_add,0x1,%reg%\ControlSet001\Enum\Root\LEGACY_DUMMY\0000,Service,dummy
+reg_add,0x4,%reg%\ControlSet001\Enum\Root\LEGACY_DUMMY\0000,Legacy,1
+reg_add,0x4,%reg%\ControlSet001\Enum\Root\LEGACY_DUMMY\0000,ConfigFlags,0
+reg_add,0x1,%reg%\ControlSet001\Enum\Root\LEGACY_DUMMY\0000,Class,LegacyDriver
+reg_add,0x1,%reg%\ControlSet001\Enum\Root\LEGACY_DUMMY\0000,ClassGUID,{8ECC055D-047F-11D1-A537-0000F8753ED1}
+reg_add,0x1,%reg%\ControlSet001\Enum\Root\LEGACY_DUMMY\0000,DeviceDesc,USB#$sMass#$sStorage#$sFilter#$sDriver
+reg_add,0x4,%reg%\ControlSet001\Enum\Root\LEGACY_DUMMY\0000,Capabilities,0
+reg_add,0x1,%reg%\ControlSet001\Enum\Root\LEGACY_DUMMY\0000,Driver,{8ECC055D-047F-11D1-A537-0000F8753ED1}\0000
+reg_add,0x1,%reg%\ControlSet001\Enum\Root\LEGACY_DUMMY\0000\Control,ActiveService,dummy
+reg_add,0x4,%reg%\ControlSet001\Services\dummy,Type,1
+reg_add,0x4,%reg%\ControlSet001\Services\dummy,Start,0
+reg_add,0x4,%reg%\ControlSet001\Services\dummy,ErrorControl,1
+reg_add,0x2,%reg%\ControlSet001\Services\dummy,ImagePath,system32\DRIVERS\dummy.sys
+reg_add,0x1,%reg%\ControlSet001\Services\dummy,DisplayName,USB#$sMass#$sStorage#$sFilter#$sDriver
+reg_add,0x1,%reg%\ControlSet001\Services\dummy,Group,System#$sReserved
+reg_add,0x4,%reg%\ControlSet001\Services\dummy,Tag,1
+reg_add,0x1,%reg%\ControlSet001\Services\dummy\Enum,0,Root\LEGACY_DUMMY\0000
+reg_add,0x4,%reg%\ControlSet001\Services\dummy\Enum,Count,1
+reg_add,0x4,%reg%\ControlSet001\Services\dummy\Enum,NextInstance,1
+Hive_Unload,System
+
+[EncodedFolders]
+Folder
+
+[Folder]
+dummy.sys=1703,2271
+
+[Interface]
+pTextLabel2=Notes:,1,1,11,16,40,18,8,Normal
+pTextLabel3="You have to plug in the USB stick during boot time. Script Depends on USB Mass Storage Devices script, which MUST be selected for this to work.",1,1,11,36,393,28,8,Normal
+pTextLabel6="In case the USB key is plugged in AFTER booting LiveXP, MountStorPE can be used to mount the partitions.  MountStorPE is available on LiveXP project under Apps\System.",1,1,11,65,520,28,8,Bold
+pTextLabel5="Dummy.sys is the renamed dummydisk.sys  from the zip from codeproject.com (needs signing up) - link which explains this : ",1,1,11,100,520,34,8,Normal
+pWebLabel1=soviet_direct_hooking/soviet_direct_hooking_src.zip,1,10,111,116,251,18,http://www.codeproject.com/KB/system/soviet_direct_hooking.aspx?msg=1771112
+
+[AuthorEncoded]
+usb-hdd.ico=2531,3375
+Logo=usb-hdd.ico
+
+[EncodedFile-Folder-dummy.sys]
+lines=0
+0=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
+
+[EncodedFile-AuthorEncoded-usb-hdd.ico]
+lines=0
+0=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
+

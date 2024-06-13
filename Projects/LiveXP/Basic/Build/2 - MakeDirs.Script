@@ -1,0 +1,60 @@
+[main]
+Title=Make directories
+Description=This script will create all basic directories needed for this build
+Selected=True
+Mandatory=True
+Level=1
+Author=Peter Schlang
+Version=12
+Contact=http://Bootland.pt.vu
+Date=2009-Dec-04
+Credits=
+Download_Level=0
+History009=psc removed unnecessary quotes
+History010=psc changed to logging by [OnProcessExit]
+Certification=b1881b9d647acc7c976fbfe780312792
+CertifiedBy=pscEx
+Certification81=dc1550f4e3393f2f1122d2d1177c51fd
+
+[ClearTarget]
+If,ExistDir,%TargetDir%,Echo,"Deleting [%targetdir%]"
+If,ExistDir,%TargetDir%,DirDelete,%TargetDir%
+If,ExistDir,%TargetDir%,Halt,"%TargetDir% could not be deleted!"
+
+[Check_for_certfication]
+
+[MakeDirs]
+Echo,"Making directories using path [%targetdir%].."
+DirMake,%TargetDir%
+DirMake,%Target_win%
+DirMake,%Target_win%\Fonts
+DirMake,%Target_win%\Inf
+DirMake,%target_sys%
+DirMake,%target_sys%\config
+DirMake,%target_sys%\drivers
+
+[process]
+If,%ClearTarget%,Equal,1,Run,%ScriptFile%,ClearTarget
+If,notExistDir,%ISODir%,DirMake,%ISODir%
+If,NotExistDir,%targetdir%,Run,%ScriptFile%,MakeDirs
+If,%pCheckBox1%,Equal,true,Run,%ScriptFile%,Custom
+// now done automatically
+//Run,%ScriptLog%,Process-log
+
+[Custom]
+If,ExistDir,%pFileBox1%,DirCopy,%pFileBox1%,%TargetDir%
+
+[Interface]
+pTextLabel2="Use custom folder",1,1,87,25,108,18,8,Bold
+pTextLabel3="If selected, all files and subfolders from the selected path will be copied into your build. ",1,1,261,13,204,54,8,Normal
+pCheckBox1=,1,3,39,25,40,18,False
+pFileBox1=%BaseDir%\Custom,1,13,18,76,198,28,file
+
+[EncodedFile-AuthorEncoded-makedirs.jpg]
+lines=0
+0=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
+
+[AuthorEncoded]
+makedirs.jpg=1Kb,2Kb
+Logo=makedirs.jpg
+

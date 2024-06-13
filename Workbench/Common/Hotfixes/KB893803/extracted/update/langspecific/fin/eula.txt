@@ -1,0 +1,96 @@
+TÄYDENNYS MICROSOFT-OHJELMISTON 
+KÄYTTÖOIKEUSSOPIMUKSEEN ("Käyttöoikeussopimuksen 
+täydennys")
+
+
+TÄRKEÄÄ:  LUE TARKKAAN - Tämän käyttöoikeussopimuksen 
+täydennykseen liittyviin Microsoftin 
+käyttöjärjestelmäkomponentteihin, mukaan luettuna online-
+dokumentaatio tai muu sähköisessä muodossa oleva 
+dokumentaatio ("Käyttöjärjestelmäkomponentit"), sovelletaan 
+sen sopimuksen ("Käyttöoikeussopimus") ehtoja, jonka nojalla 
+asiakas on hankkinut Microsoft-käyttöjärjestelmätuotteen 
+käyttöoikeuden, sekä tämän Käyttöoikeussopimuksen 
+täydennyksen ehtoja  ASENTAMALLA, KOPIOIMALLA, 
+LATAAMALLA, OTTAMALLA KÄYTTÖÖN TAI MUUTEN 
+KÄYTTÖJÄRJESTELMÄKOMPONENTTEJA KÄYTTÄMÄLLÄ 
+ASIAKAS SITOUTUU SOVELLETTAVAN 
+KÄYTTÖJÄRJESTELMÄN KÄYTTÖOIKEUSSOPIMUKSEEN 
+SEKÄ TÄHÄN KÄYTTÖOIKEUSSOPIMUKSEEN.  JOS 
+ASIAKAS EI HYVÄKSY NÄITÄ EHTOJA, HÄN EI SAA 
+ASENTAA, KOPIOIDA, LADATA, OTTAA KÄYTTÖÖN EIKÄ 
+KÄYTTÄÄ KÄYTTÖJÄRJESTELMÄKOMPONENTTEJA.
+
+HUOMAUTUS:  JOS ASIAKKAALLA EI OLE MICROSOFT-
+KÄYTTÖJÄRJESTELMÄTUOTTEEN (MUKAAN LUKIEN 
+RAJOITUKSETTA MICROSOFT WINDOWS XP 
+PROFESSIONAL, MICROSOFT WINDOWS 2000 
+PROFESSIONAL, MICROSOFT WINDOWS 2000 SERVER 
+TAI MICROSOFT WINDOWS 2000 ADVANCED SERVER), 
+JONKA OSIKSI KAIKKI 
+KÄYTTÖJÄRJESTELMÄKOMPONENTIT LASKETAAN, 
+(KUKIN "KÄYTTÖJÄRJESTELMÄTUOTE") VOIMASSA 
+OLEVIA KÄYTTÖOIKEUKSIA, ASIAKAS EI SAA ASENTAA, 
+KOPIOIDA, LADATA, OTTAA KÄYTTÖÖN EIKÄ KÄYTTÄÄ 
+MUUTEN KÄYTTÖJÄRJESTELMÄKOMPONENTTEJA, EIKÄ 
+ASIAKKAALLA OLE MITÄÄN OIKEUKSIA TÄMÄN 
+KÄYTTÖOIKEUSSOPIMUKSEN TÄYDENNYKSEN NOJALLA.
+
+Tässä Käyttöoikeussopimuksen täydennyksessä isolla 
+alkukirjaimella kirjoitetut termit, joita ei ole erikseen määritelty, 
+on määritelty kyseisen Käyttöjärjestelmätuotteen 
+Käyttöoikeussopimuksessa.
+
+Yleistä.  Käyttöjärjestelmäkomponentit on toimitettu asiakkaalle 
+ainoastaan Käyttöjärjestelmätuotteen toimintojen 
+päivittämiseksi, täydentämiseksi tai korvaamiseksi. 
+Asennettaessa Käyttöjärjestelmäkomponenteista tulee 
+Käyttöjärjestelmätuotteen osa.  Asiakkaalle myönnetään oikeus 
+käyttää Käyttöjärjestelmäkomponentteja 
+Käyttöjärjestelmäntuotteen (johon tässä viitataan) 
+Käyttöoikeussopimuksen ja tämän Käyttöoikeussopimuksen 
+täydennyksen ehtojen mukaisesti edellyttäen, että asiakas 
+noudattaa kaikkia näitä ehtoja.  Jos tämän 
+Käyttöoikeussopimuksen täydennyksen ehdot ovat ristiriidassa 
+Käyttöjärjestelmätuotteen Käyttöoikeussopimuksen ehtojen 
+kanssa, tämän Käyttöoikeussopimuksen täydennyksen ehtoja 
+sovelletaan Käyttöjärjestelmäkomponentteihin
+
+Lisäoikeudet ja -rajoitukset.  
+
+* Jos asiakkaalla on useita Käyttöjärjestelmäntuotteen 
+voimassa olevia käyttöoikeuksia, yksi 
+Käyttöjärjestelmäkomponenttien kopio voidaan kopioida ja 
+asentaa ja sitä voidaan käyttää osana Käyttöjärjestelmätuotetta 
+kaikissa asiakkaan tietokoneissa, joissa käytetään voimassa 
+olevien käyttöoikeussopimusten mukaisia 
+Käyttöjärjestelmäntuotteita edellyttäen, että asiakas käyttää 
+kyseisiä Käyttöjärjestelmäkomponenttien lisäkopioita edellä 
+mainittuja ehtoja noudattaen.  
+
+* Jos Käyttöjärjestelmäkomponenttia ei toimitettu erillisellä 
+tietovälineellä, asiakas saa tehdä yhden 
+Käyttöjärjestelmäkomponentin kopion arkistointitarkoituksiin tai 
+uudelleen asennettavaksi samaan tietokoneeseen, johon 
+Käyttöjärjestelmäkomponentti on aikaisemmin asennettu  
+Microsoft Corporation ja sen tytäryhtiöt ja jakelijat pidättävät 
+itsellään kaikki Käyttöjärjestelmäkomponenttien omistus- ja 
+muut oikeudet.  Microsoft Corporation sekä sen tytäryhtiöt ja 
+toimittajat pidättävät itsellään kaikki oikeudet, joita ei ole 
+nimenomaisesti myönnetty tässä Käyttöoikeussopimuksessa.
+
+ KÄYTTÖJÄRJESTELMÄTUOTTEEN 
+KÄYTTÖOIKEUSSOPIMUKSEEN (MAHDOLLISESTI) 
+SISÄLTYVÄT RAJOITETTUA TAKUUTA KOSKEVAT 
+MÄÄRÄYKSET KOSKEVAT MYÖS 
+KÄYTTÖJÄRJESTELMÄKOMPONENTTEJA, MIKÄLI ASIAKAS 
+ON HANKKINUT KÄYTTÖJÄRJESTELMÄKOMPONENTTIEN 
+KÄYTTÖOIKEUDEN KÄYTTÖJÄRJESTELMÄTUOTTEEN 
+KÄYTTÖOIKEUSSOPIMUKSEN MUKAISEN RAJOITETUN 
+TAKUUN VOIMASSAOLON AIKANA  TÄMÄ 
+KÄYTTÖOIKEUSSOPIMUKSEN TÄYDENNYS EI PIDENNÄ 
+MYÖNNETYN RAJOITETUN TAKUUN KESTOAIKAA.
+
+
+
+

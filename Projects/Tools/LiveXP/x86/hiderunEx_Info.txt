@@ -1,0 +1,10 @@
+Utilty to hide GUI of other programs.
+
+HomePage: http://www.boot-land.net/forums/index.php?showtopic=9487
+
+Mostly used for utilities (and .cmd files) executed at Startup.
+
+Project Administrators:
+***** Use hiderun.exe on the PE you build
+Example:
+If,Not,ExistFile,%target_sys%\hiderun.exe,FileCopy,%Tools%\%SourceArch%\hiderunEx_%SourceArch%.exe,%target_sys%\hiderun.exe

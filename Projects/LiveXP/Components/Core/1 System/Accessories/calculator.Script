@@ -1,0 +1,45 @@
+[Main]
+Title=Calculator
+Level=1
+Description=Will add Calculator to the PE compilation.
+Author=John Adamopoulos
+Version=5
+History002=Galapo fixed quicklaunch shortcut
+Date=2007-Jan-13
+Selected=True
+Download_Level=1
+Contact=http://www.boot-land.net/forums/index.php?showforum=65
+CertifiedBy=pscEx
+Certification=acd3dfc1cf75a1b7ce949d68eec52215
+History005=Lancelot source - Accessories naming
+Certification81=7fb8b26c6226ccc16e13f4258e36ad46
+
+[Interface]
+pBevel1=pBevel1,1,12,18,49,135,215
+pCheckBox1="Quick Launch",1,3,30,98,90,18,False
+pCheckBox2=Desktop,1,3,30,79,90,18,False
+pCheckBox3=StartMenu,1,3,30,117,90,18,True
+pTextLabel1="Create shortcuts in :",1,1,24,55,105,18,8,Normal
+pTextBox1="Shortcut Name",1,0,29,230,115,21,Calculator
+pRadioGroup1="Start Menu:",1,14,30,139,115,56,Accessories,"Folder Name",0
+pTextBox2=,1,0,30,190,115,21,Accessories
+
+[process]
+If,%pCheckBox2%,Equal,True,Add_Shortcut,Desktop,,#$pSystemRoot#$p\system32\calc.exe,%pTextBox1%
+If,%pCheckBox1%,Equal,True,Add_Shortcut,QuickLaunch,,#$pSystemRoot#$p\system32\calc.exe,%pTextBox1%
+//If,%pCheckBox3%,Equal,True,Add_Shortcut,StartMenu,%pTextBox2%,#$pSystemRoot#$p\system32\calc.exe,%pTextBox1%
+If,%pCheckBox3%,Equal,True,Begin
+If,%pRadioGroup1%,Equal,0,IniRead,%ProjectInfo%,TargetStrings,sStartmenu_Accessories,%Startmenu_Folder_Name%
+If,%pRadioGroup1%,Equal,1,Set,%Startmenu_Folder_Name%,%pTextBox2%
+Add_Shortcut,StartMenu,%Startmenu_Folder_Name%,#$pSystemRoot#$p\system32\calc.exe,%pTextBox1%
+End
+If,ExistFile,%ProjectInfo%,IniWrite,%ProjectInfo%,UPX-Switches,calc.exe,"-9 --compress-resources=0"
+require_file,calc.exe
+
+[AuthorEncoded]
+authorlogo.jpg=783,1044
+
+[EncodedFile-AuthorEncoded-authorlogo.jpg]
+lines=0
+0=eJz7f+P/AwYBLzdPNwZGRkYGDyBk+H+bwZlBiI9PmF9YRkhIRlVaXFpVVU5GRk7VQB0EDIx09YFA18jI1MzMzNTIysrGxsrKCRWADGEUFhWVlJCUExWVU5ORllEzUFNUVDMwM9DX1DcwszY1AgJTawsroCFWFra21ta2tuiGHGAQ5GAwYDBgZhRkYBJkZBZk/H+EQRLkVJBr4YCFmZWRiQ0oZSDAwMjEzMrKxg6TYmRgYmYRZBVWNHQUCiycuFHJyCSx6YOycdHkgxcfAnVIMDIwIxvFADKAhQEoowK0komRmQVJmpFJ0JBZSNHIMbCQRTixceH/Www8zEAbBJkFGewZfkvuuK6z7pN0nOaitRckxR/OcZdzXuA3/UHvfsUzmYVznL/br9xmz3T7k+floKoLH1f6bXn6+I/YfwZv76NMiWvb7xRnO07qOXXkSrAM7+pP7Ffurfzyq1GHaYtjscOFS3umzbXyn2RsfGRzeV+2/y3vxDdevccnen9rTzhpUV5scKMk8dXGrN1lGW28RwUP3NonD9Y9QY75SJlzLZuN6EmbSfq8pTftFr43qfzXMPmZFK9MtcWFp3HR0/wnarpNenD540PJ2G/aap6zEsvK66ece2U+S7i7tNvsUovo6of9Yl/9l19p+MBm7eIgvXKpSVSBR+8dww/yfaZ652/Gnv7GPH3DzJv1BeFpM8KnPb1y8+iTTmMfdeutsnFHFXJX9LFd+7Duy1fOh0ADmLTzpa69ynRdzeIxI+Dgzo7s4KA314v+zin6Jcx3evdMoxnhk17V9QkqBpvcer6xq21doId0l3LzlhsvJp3nEbVIsOnK+HBBcrLIzjNM73RrZtR7h734qepjeuf0sQMNj9cmqVZt/Ca7ZrfOzRs7LG8zFxz0fW13OMdtTescVWuXtxavltyu2Xh8QeH/mwDQjhV1eJzjSywtycgvyslPz9fLKkhnGAUjC3xigtAHmbDLn9nJm8LABAB6kglxP11kOAEAAAACAAAAKgAAAMECAAAAAAAAAQAAAAAAAAAAAAAA
+

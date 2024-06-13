@@ -1,0 +1,94 @@
+[Main]
+Title=Word Pad
+Type=script
+Level=1
+Description=Will add Word pad to the PE compilation.
+Author=John Adamopoulos
+Contact=http://www.boot-land.net/forums/index.php?showforum=65
+Version=14
+Date=2006-Okt-30 11:27:20
+Selected=True
+Updates=http://beta.boot-land.net
+Download_Level=1
+CertifiedBy=pscEx
+Certification=9d1df667cf4c36c0b8a3d7b086dc8c8d
+History014=Lancelot source - Accessories naming
+Certification81=f4548be1629fab67d5c861d7bb6fbf14
+
+[Interface]
+pBevel1=pBevel1,1,12,8,49,154,234
+pBevel2=pBevel2,1,12,195,49,204,96
+pCheckBox2=Desktop,1,3,20,74,87,18,False
+pCheckBox3=StartMenu,1,3,20,128,87,18,True
+pCheckBox1="Quick Launch",1,3,20,93,87,18,False
+pCheckBox8="Send To",1,3,20,112,87,15,True
+pTextLabel1="Create shortcuts in :",1,1,14,55,117,18,8,Normal
+pTextBox1="Shortcut name",1,0,19,243,115,21,WordPad
+pTextLabel2="File types to associate with Wordpad:",1,1,204,55,186,18,8,Normal
+pCheckBox4=.doc,1,3,222,76,50,18,True
+pCheckBox5=.rtf,1,3,222,97,50,18,True
+pCheckBox6=.wri,1,3,222,118,50,18,True
+pRadioGroup1="Start Menu:",1,14,23,149,115,56,Accessories,"Folder Name",0
+pTextBox2=,1,0,23,202,115,21,Accessories
+
+[variables]
+%ProgramTitle%=WordPad
+%ProgramEXE%=WordPad.exe
+%ProgramFolder%=#$pSystemRoot#$p\system32
+
+[process]
+//If,%pCheckBox2%,Equal,True,Run,%ScriptFile%,ShorcutDesktop
+//If,%pCheckBox3%,Equal,True,Run,%ScriptFile%,ShorcutStart
+//If,%pCheckBox1%,Equal,True,Run,%ScriptFile%,ShorcutQL
+//If,%pCheckBox2%,Equal,True,Add_Shortcut,Desktop,,#$pSystemroot#$p\system32\wordpad.exe,%pTextBox1%
+//If,%pCheckBox1%,Equal,True,Add_Shortcut,QuickLaunch,,#$pSystemroot#$p\system32\wordpad.exe,%pTextBox1%
+//If,%pCheckBox8%,Equal,True,Add_Shortcut,SendTo,,#$pSystemRoot#$p\system32\wordpad.exe,%pTextBox1%
+//If,%pCheckBox3%,Equal,True,Add_Shortcut,StartMenu,%pTextBox2%,#$pSystemroot#$p\system32\wordpad.exe,%pTextBox1%
+If,%pCheckBox2%,Equal,True,Add_Shortcut,Desktop,,%ProgramFolder%\%ProgramEXE%,%pTextBox1%
+If,%pCheckBox1%,Equal,True,Add_Shortcut,QuickLaunch,,%ProgramFolder%\%ProgramEXE%,%pTextBox1%
+If,%pCheckBox8%,Equal,True,Add_Shortcut,SendTo,,%ProgramFolder%\%ProgramEXE%,%pTextBox1%
+If,%pCheckBox3%,Equal,True,Begin
+If,%pRadioGroup1%,Equal,0,IniRead,%ProjectInfo%,TargetStrings,sStartmenu_Accessories,%Startmenu_Folder_Name%
+If,%pRadioGroup1%,Equal,1,Set,%Startmenu_Folder_Name%,%pTextBox2%
+Add_Shortcut,StartMenu,%Startmenu_Folder_Name%,%ProgramFolder%\%ProgramEXE%,%pTextBox1%
+End
+Echo,"Loading registry hive: [%target_sys%\Config\software]"
+RegHiveLoad,Tmp_software,%target_sys%\Config\software
+Echo,"Writing new values on registry hive.."
+If,%pCheckBox4%,Equal,True,RegWrite,HKLM,0x1,Tmp_software\Classes\.doc,"",WordPad.Document.1
+If,%pCheckBox4%,Equal,True,RegWrite,HKLM,0x1,Tmp_software\Classes\WordPad.Document.1,"","WordPad Document"
+If,%pCheckBox4%,Equal,True,RegWrite,HKLM,0x1,Tmp_software\Classes\WordPad.Document.1,FriendlyTypeName,"@#$q%SystemRoot%\System32\WORDPAD.EXE#$q#$c-209"
+If,%pCheckBox4%,Equal,True,RegWrite,HKLM,0x1,Tmp_software\Classes\WordPad.Document.1\DefaultIcon,,"#$q%SystemRoot%\System32\WORDPAD.EXE#$q#$c1"
+If,%pCheckBox4%,Equal,True,RegWrite,HKLM,0x1,Tmp_software\Classes\WordPad.Document.1\shell\open\command,,"#$qWORDPAD.EXE#$q#$s#$q#$p1#$q"
+If,%pCheckBox5%,Equal,True,RegWrite,HKLM,0x1,Tmp_software\Classes\.rtf,"",rtffile
+If,%pCheckBox5%,Equal,True,RegWrite,HKLM,0x1,Tmp_software\Classes\rtffile,"","Rich Text Document"
+If,%pCheckBox5%,Equal,True,RegWrite,HKLM,0x2,Tmp_software\Classes\rtffile,FriendlyTypeName,"@#$q%SystemRoot%\System32\WORDPAD.EXE#$q#$c-190"
+If,%pCheckBox5%,Equal,True,RegWrite,HKLM,0x2,Tmp_software\Classes\rtffile\DefaultIcon,,"#$q%SystemRoot%\System32\WORDPAD.EXE#$q#$c1"
+If,%pCheckBox5%,Equal,True,RegWrite,HKLM,0x2,Tmp_software\Classes\rtffile\shell\open\command,,"#$qWORDPAD.EXE#$q#$s#$q#$p1#$q"
+If,%pCheckBox6%,Equal,True,RegWrite,HKLM,0x1,Tmp_software\Classes\.wri,"",wrifile
+If,%pCheckBox6%,Equal,True,RegWrite,HKLM,0x1,Tmp_software\Classes\wrifile,"","Write Document"
+If,%pCheckBox6%,Equal,True,RegWrite,HKLM,0x2,Tmp_software\Classes\wrifile,FriendlyTypeName,"@#$q%SystemRoot%\System32\WORDPAD.EXE#$q#$c-208"
+If,%pCheckBox6%,Equal,True,RegWrite,HKLM,0x2,Tmp_software\Classes\wrifile\DefaultIcon,,"#$q%SystemRoot%\System32\WORDPAD.EXE#$q#$c1"
+If,%pCheckBox6%,Equal,True,RegWrite,HKLM,0x2,Tmp_software\Classes\wrifile\shell\open\command,,"#$qWORDPAD.EXE#$q#$s#$q#$p1#$q"
+RegHiveUnLoad,Tmp_software
+Expand,%source_win%\wordpad.ex_,%target_sys%
+If,Not,ExistFile,%target_sys%\mfc42u.dll,Expand,%source_win%\mfc42u.dl_,%target_sys%
+Expand,%source_win%\msftedit.dl_,%target_sys%
+If,ExistFile,%ProjectInfo%,IniWrite,%ProjectInfo%,UPX-Switches,WORDPAD.exe,"-9 --compress-resources=0"
+
+[ShorcutDesktop]
+Run,%BuildModelScript%,Add-Shortcut,"DE","#$pSystemroot#$p\system32\wordpad.exe","WordPad"
+
+[ShorcutStart]
+Run,%BuildModelScript%,Add-Shortcut,"SM\Productivity","#$pSystemroot#$p\system32\wordpad.exe","WordPad"
+
+[ShorcutQL]
+//TXTAddLine,"%target_sys%\shortcut.inf","1,!WD\system32\wordpad.exe,!QL\%pTextBox1%","Append"
+
+[AuthorEncoded]
+authorlogo.jpg=973,1298
+
+[EncodedFile-AuthorEncoded-authorlogo.jpg]
+lines=0
+0=eJz7f+P/AwYBLzdPNwZGRkYGDyBk+H+bwZlBkIeHn49fXEBAXF5MSExeUVJMTFJRQwEENDSVVYFAWVNTV09fT1fT1NTCwtTUERWADGEUEhISExWTEhGRkhOXEJdTk5ORkVPTV1NTVlPTN9PVBAJdMyMTfX19EyMrKzMzKytHRwcUQw4wCHIwGDAYMDMKMjAJMjILMv4/wiDFwMDEDHQsArCwMjGzMTIA5UwEGJgYmFnYOJnYoXKMQL4gC6uQorChkWPiRiWTwsamiQsvPgxMYhNxKpp08CNQlyQjAzMjiomMTMxAU4FSWkCLGZlYWFmAAjA5QSZmIUXDRCUjx8CJLIWNG50WHvzw8f8tBh5mRqArmQUZ7Blu3l7Ldl7lTGDYCYaKp7xe09lEdRfde/jC4eJ1j2KF4ILT8Sme0Y9XtcfmzfArKd5wecohi/MVD92PeNRMYcj++u6h8EGzj74VLwv9/Xaa7d3KH3GKu143L7Mtckbm3peOq8u9Lcrz5tRPk5p89OjjG8LTL2rvS3kpXFJ8crGe3rRXzoE+Xl5ieqIbtOojeydePRpypaCNQfb91T3e5+TuG3aznF+8vuBn57kXc96Vy9+5e/oj84n08gc9N1frcu+sUY40kbsQlHtoWtpjc7Ww73taFyUYHWb0UrCcfOQ/g5Mtd9nKrX5an+vv9Fm9LpeTKpGpkxZ2MlNwerrmuu3Hk6WPVm7e1splzX7vb/SRPQ+in0lO5v/+n0H0P0NSvUrK5zMcS2/O5zgzefqWlOWqOsbv0vK57741nhK5uiVHO727m3mq8sWtL6+KnI36euPpqs/5zX+1Jpb7zs0KPbV+zuG3wnuLdWy7by/1Lly5caJqygLXuzLpDqYwT83UcZt1+9SchzYTBO9fXu5zUCtwldml63Z/bySvv7RkdqnPO79Pq/k/OL3dtT/kjOVbY3lH/qpfURZvVHfXHtt0Ney+bjAvk+y8G49mnt1prXn7i1mDAS/c5Efculbupx8JnzzXoBpbUmyUVtHrZyxWPitg00/mR1cSZgQEGvBxbX0qkFecU7pFJGx7V5q/w2uR+6wZgbzKPLx5k5dNCN/wM51tOp8PU+7qbo6ppi+fvnLJcCkwXm115bZYqkzkPmUnaUZb2WePzabN31r81XCTNGfpvKOGai+X+1yyEJFkPGVwcANP/f+bADkeYlJ4nONLLC3JyC/KyU/P18sqSGcYBSMLrGKG0A3M2OUtG/Q1GZgAY84IBaLQWxABAAAAAgAAACkAAACAAwAAAAAAAAEAAAAAAAAAAAAAAA
+

@@ -1,0 +1,98 @@
+UZUPE£NIAJ¥CA UMOWA LICENCYJNA U¯YTKOWNIKA 
+OPROGRAMOWANIA FIRMY MICROSOFT ("Uzupe³niaj¹ca 
+Umowa Licencyjna")
+
+
+WA¯NE:  PRZECZYTAÆ DOK£ADNIE - Sk³adniki systemu 
+operacyjnego firmy Microsoft towarzysz¹ce niniejszej 
+Uzupe³niaj¹cej Umowie Licencyjnej, ³¹cznie z dokumentacj¹ 
+„online" i dokumentacj¹ elektroniczn¹ (zwane wspólnie 
+„Sk³adnikami SO"), podlegaj¹ postanowieniom umowy, na mocy 
+której Licencjobiorca otrzyma³ licencjê na odpowiedni system 
+operacyjny firmy Microsoft opisany poni¿ej (umowa ta jest dalej 
+zwana „Umow¹ Licencyjn¹") oraz postanowieniom niniejszej 
+Uzupe³niaj¹cej Umowy Licencyjnej. POPRZEZ 
+INSTALOWANIE, KOPIOWANIE, POBIERANIE Z SIECI, 
+UZYSKIWANIE DOSTÊPU LUB U¯YWANIE W INNY SPOSÓB 
+SK£ADNIKÓW SO, LICENCJOBIORCA ZGADZA SIÊ 
+PRZESTRZEGAÆ POSTANOWIEÑ ODPOWIEDNIEJ UMOWY 
+LICENCYJNEJ SYSTEMU OPERACYJNEGO ORAZ 
+NINIEJSZEJ UZUPE£NIAJ¥CEJ UMOWY LICENCYJNEJ. 
+JEŒLI LICENCJOBIORCA NIE ZGADZA SIÊ PRZESTRZEGAÆ 
+TYCH POSTANOWIEÑ, NIE MA ON PRAWA DO 
+INSTALOWANIA, KOPIOWANIA, POBIERANIA Z SIECI, 
+UZYSKIWANIA DOSTÊPU ANI U¯YWANIA SK£ADNIKÓW 
+SO.
+
+UWAGA:  JEŒLI LICENCJOBIORCA NIE POSIADA WA¯NIE 
+LICENCJONOWANEJ KOPII SYSTEMU OPERACYJNEGO 
+FIRMY MICROSOFT (W TYM, MIÊDZY INNYMI, MICROSOFT 
+WINDOWS XP PROFESSIONAL, MICROSOFT WINDOWS 
+2000 PROFESSIONAL, MICROSOFT WINDOWS 2000 
+SERVER LUB MICROSOFT WINDOWS 2000 ADVANCED 
+SERVER), DLA KTÓREGO PRZEZNACZONY JEST KA¯DY 
+SK£ADNIK SO (ka¿dy z tych systemów jest zwany „Produktem 
+SO"), NIE MO¯E ON INSTALOWAÆ, KOPIOWAÆ, POBIERAÆ 
+Z SIECI, UZYSKIWAÆ DOSTÊPU ANI U¯YWAÆ W INNY 
+SPOSÓB SK£ADNIKÓW SO, ANI TE¯ NIE MA ON ¯ADNYCH 
+PRAW NA MOCY NINIEJSZEJ UZUPE£NIAJ¥CEJ UMOWY 
+LICENCYJNEJ.
+
+Terminy pisane wielk¹ liter¹, u¿ywane w niniejszej 
+Uzupe³niaj¹cej Umowie Licencyjnej, a w niej w inny sposób nie 
+okreœlone, maj¹ znaczenie nadane im w odpowiedniej Umowie 
+Licencyjnej dotycz¹cej Produktu SO.
+
+Postanowienia ogólne. Sk³adniki SO s¹ dostarczane 
+Licencjobiorcy wy³¹cznie po to, aby uaktualniæ, uzupe³niæ lub 
+zast¹piæ istniej¹ce funkcje odpowiedniego Produktu SO i po 
+instalacji sk³adników SO staj¹ siê one czêœci¹ Produktu SO. 
+Niniejszym przyznaje siê Licencjobiorcy prawo do u¿ywania 
+Sk³adników SO zgodnie z postanowieniami Umowy Licencyjnej 
+dotycz¹cej odpowiedniego Produktu SO (które s¹ w³¹czone do 
+niniejszej Uzupe³niaj¹cej Umowy Licencyjnej przez ich 
+przywo³anie) oraz postanowieniami niniejszej Uzupe³niaj¹cej 
+Umowy Licencyjnej, pod warunkiem, ¿e Licencjobiorca bêdzie 
+przestrzegaæ tych wszystkich postanowieñ. W zakresie, w 
+którym postanowienia niniejszej Uzupe³niaj¹cej Umowy 
+Licencyjnej pozostaj¹ w sprzecznoœci z postanowieniami 
+Umowy Licencyjnej odpowiednich sk³adników SO, podstaw¹ 
+wyk³adni s¹ postanowienia niniejszej Uzupe³niaj¹cej Umowy 
+Licencyjnej.
+
+Dodatkowe prawa i ograniczenia.
+
+* Jeœli Licencjobiorca posiada kilka wa¿nie licencjonowanych 
+kopii Produktu SO, to Licencjobiorca mo¿e kopiowaæ, 
+instalowaæ i u¿ywaæ jednej kopii Sk³adników SO na wszystkich 
+swoich komputerach, na których s¹ uruchomione wa¿nie 
+licencjonowane kopie Produktu SO, pod warunkiem, ¿e 
+Licencjobiorca bêdzie u¿ywaæ tych dodatkowych kopii 
+Sk³adników SO zgodnie z postanowieniami okreœlonymi 
+powy¿ej. 
+
+* Jeœli Licencjobiorca nie naby³ Sk³adników SO na 
+zewnêtrznych noœnikach, to Licencjobiorca ma prawo 
+sporz¹dziæ jedn¹ kopiê Sk³adników SO wy³¹cznie w celach 
+archiwalnych lub do ponownej instalacji tych sk³adników na tym 
+samym komputerze, na którym by³y one poprzednio 
+zainstalowane. Firma Microsoft Corporation, jej przedstawiciele 
+i/lub dostawcy zachowuj¹ wszelkie prawa, prawa w³asnoœci i 
+dobra zwi¹zane ze Sk³adnikami SO. Wszelkie prawa nie 
+udzielone wyraŸnie s¹ zastrze¿one przez firmê Microsoft 
+Corporation, jej przedstawicieli i/lub dostawców.
+
+OGRANICZONA GWARANCJA (JEŒLI TAKA ISTNIEJE) 
+ZNAJDUJ¥CA SIÊ W UMOWIE LICENCYJNEJ DOTYCZ¥CEJ 
+TEGO PRODUKTU OBEJMUJE RÓWNIE¯ SK£ADNIKI SO, 
+POD WARUNKIEM, ¯E LICENCJA NA TE SK£ADNIKI 
+OBEJMUJE POSTANOWIENIA OGRANICZONEJ 
+GWARANCJI ZNAJDUJ¥CE SIÊ W UMOWIE LICENCYJNEJ 
+ODPOWIEDNIEGO PRODUKTU SO. NINIEJSZA 
+UZUPE£NIAJ¥CA UMOWA LICENCYJNA NIE PRZED£U¯A 
+OKRESU CZASU, NA JAKI OGRANICZONA GWARANCJA 
+ZOSTA£A UDZIELONA.
+
+
+
+

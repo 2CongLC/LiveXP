@@ -1,0 +1,45 @@
+[main]
+Title=Log script process
+Description=This script writes a time stamp into the ProjectInfo.ini file
+Selected=None
+Level=20
+Locked=True
+Author=Peter Schlang
+Version=6
+Contact=http://Bootland.pt.vu
+Date=2007-Jan-19 17:25:19
+Credits=
+Upload=2008-Jan-11 14:31:59
+Download_Level=0
+CertifiedBy=pscEx
+Certification=1f27b263df9f2a04537e8741bedddd80
+Certification81=5251dd28b2f2a9f3e83eb10cdeb4b417
+
+[Variables]
+%Title%=
+%TimeStamp%=xxx
+%scriptversion%=
+
+[Process-log]
+IniRead,"%ScriptFile%","Main","Title","%Title%"
+If,ExistFile,"%ProjectInfo%",IniDelete,"%ProjectInfo%","Scripts","%Title%"
+IniRead,"%ScriptFile%","Main","Version","%scriptversion%"
+StrFormat,Date,"%TimeStamp%","yyyy-mm-dd hh:nn:ss"
+IniWrite,"%ProjectInfo%","Scripts","%Title%","Version %scriptversion% at %TimeStamp%"
+
+[EncodedFolders]
+Folder
+
+[Folder]
+
+[Interface]
+pTextLabel1="This script cannot been run inside a project, even it is checked for run.",1,1,12,52,453,36,9,Bold
+
+[EncodedFile-AuthorEncoded-log.jpg]
+lines=0
+0=eJz7f+P/AwYBLzdPNwZGRkaGBCBk+P+QQcm1IjONgcHTU4uBg4GBgZGBIZAFRMLB/9sMzgwcbGzsbKwc7OzsnJwcXDwivDzc3DySQsL8IrJS8nKyUjIyCip66gpKOsoyMhrmmjoGhiYmJvLqlrYWRjZ6xiZGIEMYOTk5ebh5JHh5JYwUZRSNSAb/DzAIcjBEMUQxMyoxMAkyMgsy/j/CIA90NCsjGMCczMjEzMLKxs7BycUNVLBVgIGJkZmZiYWZlZWFBShbC5RnYBFkFVI0dGQTDkxkVyoUMWqcuJBD2WnjQdGgix9UjJOKmji5xMQlJKVU1dQ1NLVMTM3MLSytnF1c3dw9PL2CQ0LDwiMio5JTUtPSMzKziktKy8orKquaW1rb2js6uyZNnjJ12vQZM2ctWrxk6bLlK1au2rR5y9Zt23fs3HXo8JGjx46fOHnq0uUrV69dv3Hz1sNHj588ffb8xctXHz99/vL12/cfP3+B/MXIwMwIA1j9JQj0FxMLCzMLO8hfjEzlIAWCLKyKhmxCjoHsiYXCSkaNHCJOExduPMipbBz0QTSp6CKXmIrJQ9WPIK+BfUacx5rI8hncYwh/3WLgYWYERh6zIIM9w/dfGosauHDiZbvXFG7pK1jFqX6Bi6FU1Pl3uv9/hnn/GX48rm+Vvx1V/+dP/ePefyKMdV0L/25e/tiu8vhvIPfJ1TUpE5MjP5257X7izny/KXxndruKBCgs6tJgAOEV+vufyBf/Z4iZ/VNq3ur79Sfsnv/baf7JRMHmc8yOaZcP/5p6RkcsIjd1okRDwUFOdvbms5U6Vn2bF7Z2cd6SVtsxL9phvwFj6kSuSTctg4y3q/CeqJozP+ZaTeOCV06vz/623DbFK/H4DPHEu1vmmScvqzhbtE9u34d9yx/O9jUOTi7XKYo5tV3w5uYlGZfzi2Ij1mjtvmDnwdw8zWndheeZEe8OXm+VXHml9+pXi/s/PE0LbPZv9wjR6J8afMDyubLN/L3nzx4rvn/RTub1p6xNa7fe+Zf6JJzJ9+zVi7MtX9+Yu4OZQUSU557oxbfPMma79c6s32nzia/2gPLOX8U/8iqqD+8Km7vqVuzNWzPU7zV2nXreVMlieM7InX3/0vA9VRZn0pi2inM4nb9YP/NlSaCr8QF4JKyvK1weM6+i81ctb8SKvItLNs8zkUzrbZB858qTXetv9cG+Q8d0d/bvuX7R1pW63Sc2bDnA0uigelt90eSmuhcr6xRu3onN3FXesUXFc9Z9Y+9ilo8LP7HkvXjklrCATZn3cy7ffwbtxbuM4v7YeE/bN0vafnNcnLOKvk3Rx/YgTg0ZzTeFjSfYV5zV6/5w3+dykOW6Pfas9xZt5y/8dveRJbPJ0usS6qxFDAp9Mx8tdN2amVeSlO5VKvMyY77fMfam0tnywtFZUbFXvq0sTC+wO8llk7fhQJBd8t/HCkG397nqPn0XcoLRtfRWTpr0bo8+Y5mOOQIOB5m3yy+zNYxidnFccXhlffLpby/cru74d6FYWVHhTdrdaT6fNzwtPmeU+XLZfdlAPan7WT8Pnj+3h/fm19XRkXOee8KT2abS+4IRFWX3JPNnOaXVTlziuXPGb652h49xsx9Z6ilt+jwpumCZx3Pf3uY5MnXyp6aeejJd33SLucairpRWkUAHViQs87zri/Td5DfGN6TN5l2987N89p7t4U7Lpz4RnNNT/ivEjvfDlX/y3puL05ceVFlaNltYW4iteOcSlV8F2isXTd26c/mW6frqDou6NGeiGyz//yYAAkKBknicY8/JT9fLKkhnGAUjEgiyQWhHVuzyk1iOtTMwAQDiyQT7b0g5gQEAAAACAAAAIwAAAEEFAAAAAAAAAQAAAAAAAAAAAAAA
+
+[AuthorEncoded]
+log.jpg=1Kb,1Kb
+Logo=log.jpg
+

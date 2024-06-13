@@ -1,0 +1,77 @@
+MICROSOFT YAZILIMI EK SON KULLANICI LÝSANS 
+SÖZLEÞMESÝ ("Ek EULA")
+
+
+ÖNEMLÝ:  DÝKKATLE OKUYUN - Tüm "çevrimiçi" veya 
+elektronik belgeler dahil olmak üzere iþbu Ek EULA'ya eþlik 
+eden Microsoft iþletim sistemi bileþenleri ("OS Bileþenleri"), 
+aþaðýda belirtilen ilgili Microsoft iþletim sistemi ürünü için lisans 
+aldýðýnýz sözleþmenin (her biri "Son Kullanýcý Lisans 
+Sözleþmesi" veya "EULA") ve iþbu Ek EULA hüküm ve 
+koþullarýna tabidir.  OS BÝLEÞENLERÝ'NÝ YÜKLEMEK, 
+KOPYALAMAK, KARÞIDAN YÜKLEMEK, ERÝÞMEK YA DA 
+HERHANGÝ BÝR ÞEKÝLDE KULLANMAK, ÝLGÝLÝ ÝÞLETÝM 
+SÝSTEMÝ ÜRÜNÜ EULA'SI ÝLE ÝÞBU EK EULA 
+HÜKÜMLERÝNE VE KOÞULLARINA TABÝ OLMAYI KABUL 
+ETTÝÐÝNÝZ ANLAMINA GELÝR.  ÝÞBU HÜKÜMLERÝ VE 
+KOÞULLARI KABUL ETMÝYORSANIZ OS BÝLEÞENLERÝ'NÝ 
+YÜKLEYEMEZ, KOPYALAYAMAZ, KARÞIDAN YÜKLEYEMEZ, 
+ONLARA ERÝÞEMEZ VEYA KULLANAMAZSINIZ.
+
+NOT:  OS BÝLEÞENLERÝNÝN SAÐLANMIÞ OLDUÐU 
+(MICROSOFT WINDOWS XP PROFESSIONAL, MICROSOFT 
+WINDOWS 2000 PROFESSIONAL, MICROSOFT WINDOWS 
+2000 SERVER veya MICROSOFT WINDOWS 2000 
+ADVANCED SERVER DAHÝL ANCAK BUNLARLA SINIRLI 
+OLMAKSIZIN) MICROSOFT ÝÞLETÝM  SÝSTEMÝ ÜRÜNÜ'NÜN 
+LÝSANSLI BÝR KOPYASINA SAHÝP DEÐÝLSENÝZ (her biri bir 
+"OS Ürünü"), OS BÝLEÞENLERÝ'NÝ YÜKLEMEYE, 
+KOPYALAMAYA, KARÞIDAN YÜKLEMEYE, ERÝÞMEYE YA 
+DA KULLANMAYA ÝZNÝNÝZ YOKTUR VE ÝÞBU EK EULA 
+NEZDÝNDE HÝÇBÝR HAKKINIZ BULUNMAZ.
+
+Bu Ek EULA'da kullanýlan ve bu belgede baþka bir þekilde 
+tanýmlanmayan büyük harflerle yazýlan terimler uygun Ýþletim 
+Sistemi Ürünü EULA'sýnda kendilerine verilen anlamlara sahip 
+olacaktýr.
+
+Genel.  OS Bileþenleri, yalnýzca, ilgili OS Ürünü'nün varolan 
+iþlevselliðini güncelleþtirmek, tamamlamak veya deðiþtirmek 
+amacýyla saðlanýr ve OS Bileþenleri'nin yüklenmesini takiben 
+OS Ürünü'nün bir parçasý haline gelir.  Tüm söz konusu 
+hükümlere ve koþullara uymanýz kaydýyla, OS Bileþenleri'ni ilgili 
+OS Ürünü'ne ait OS Ürün EULA'sý (iþbu þekilde atýfta 
+bulunularak dahil edilmiþ bulunan) ile iþbu Ek EULA hükümleri 
+ve koþullarýna tabi olarak kullanmak üzere tarafýnýza lisans 
+verilmektedir.  OS Bileþenleri'ne iliþkin bu koþul ve hükümlerin 
+çeliþmesi durumunda, iþbu Ek EULA içindeki hüküm ve 
+koþullara öncelik verilecektir.
+
+Ek Haklar ve Sýnýrlamalar.  
+
+* OS Ürünü'nün geçerli lisansý olan birden çok kopyasýna sahip 
+olmanýz durumunda, OS Bileþenleri'nin söz konusu ek 
+kopyalarýný yukarýdaki hüküm ve koþullar uyarýnca kullanmanýz 
+kaydýyla, OS Bileþenleri'nin bir kopyasýný, geçerli lisansý olan 
+ilgili OS Ürünü kopyalarýnýn çalýþtýðý sahip olduðunuz bütün 
+bilgisayarlar için çoðaltabilir, yükleyebilir veya kullanabilirsiniz.  
+
+* OS Bileþenleri'ni, bilgisayar dýþýndaki ayrý bir ortam üzerinden 
+edinmediyseniz, yalnýzca arþiv amacýyla ya da OS 
+Bileþenleri'nin önceden yüklü olduklarý ayný bilgisayara yeniden 
+yüklenmesi için OS Bileþenleri'nin bir kopyasýný alabilirsiniz  
+Microsoft Corporation, yan kuruluþlarý ve/veya bayileri, OS 
+Bileþenleri ile ilgili tüm hak, mülkiyet hakký ve faydalanma 
+haklarýna sahiptir.  Açýkça verildiði belirtilmemiþ tüm haklar 
+Microsoft Corporation, yan kuruluþlarý ve/veya bayilerine aittir.
+
+ÝLGÝLÝ OS ÜRÜN EULA'SINA DAHÝL EDÝLMÝÞ OLAN (VARSA) 
+SINIRLI GARANTÝ, OS BÝLEÞENLERÝ ÝÇÝN SÝZE ÝLGÝLÝ OS 
+ÜRÜNÜ EULA'SINDA BULUNAN SINIRLI GARANTÝ SÜRESÝ 
+ÝÇÝNDE LÝSANS VERÝLMÝÞ OLMASI KAYDIYLA, ÝLGÝLÝ OS 
+BÝLEÞENLERÝ ÝÇÝN GEÇERLÝDÝR.  ÝÞBU EK EULA, SINIRLI 
+GARANTÝ ÝÇÝN VERÝLMÝÞ OLAN SÜREYÝ UZATMAZ.
+
+
+
+

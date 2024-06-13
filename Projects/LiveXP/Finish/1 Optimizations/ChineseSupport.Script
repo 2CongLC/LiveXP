@@ -1,0 +1,200 @@
+[main]
+Title=Chinese PRC Support
+Description=Change Language for non-Unicode Program, Standards and Formats and Timezone to Chinese (PRC)
+Selected=False
+Level=8
+Author=Peter Schlang, Xiaodi Ma, TintinBT
+Date=2009-Dec-03
+Download_Level=0
+Version=9
+CertifiedBy=pscEx
+Certification=9ff4391c5555ee535e3d6f790deb48ce
+Contact=http://www.boot-land.net/forums/index.php?showtopic=4698
+History002=psc add setButton
+History003=psc small fix: caption of pCheckBox4 was lost
+History004=psc changed to logging by [OnProcessExit]
+History008=Lancelot version+level updated to syncronise with nativeex development
+History009=Lancelot Download_Level=0
+Certification81=f2837a4f06068ee8ee74223a4480056e
+
+[process]
+If,%pCheckBox1%,Equal,True,Run,%ScriptFile%,setChinese
+If,%pCheckBox2%,Equal,True,Run,%ScriptFile%,setTimezone
+If,%pCheckBox3%,Equal,True,Run,%ScriptFile%,setStandard
+If,%pCheckBox4%,Equal,True,Run,%ScriptFile%,setButton
+// now done automatically
+//Run,%ScriptLog%,Process-log
+
+[setButton]
+RegHiveLoad,"WB-Setup","%target_sys%\setupreg.hiv"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\Nls\Language","InstallLanguage","0804"
+RegHiveUnLoad,"WB-Setup"
+
+[setChinese]
+Echo,"Adding fonts files ..."
+Expand,%Source_win%\Lang\simsun.tt_,%Target_win%\Fonts
+Expand,%Source_win%\Lang\svgafix.fo_,%Target_win%\Fonts
+Expand,%Source_win%\Lang\svgasys.fo_,%Target_win%\Fonts
+Expand,%Source_win%\Lang\vga936.fo_,%Target_win%\Fonts
+Expand,%Source_win%\tahoma.tt_,%Target_win%\Fonts
+Expand,%Source_win%\lucon.tt_,%Target_win%\Fonts
+Echo,"Adding code pages files ..."
+Expand,%Source_win%\prc.nl_,%Target_sys%
+Expand,%Source_win%\prcp.nl_,%Target_sys%
+If,ExistFile,%Target_sys%\c_1252.nl_,FileDelete,%Target_sys%\c_1252.nl_
+Expand,%Source_win%\c_1252.nl_,%Target_sys%
+Expand,%Source_win%\c_936.nl_,%Target_sys%
+Expand,%Source_win%\c_g18030.dl_,%Target_sys%
+Echo,"Adding Command prompt properties ..."
+Expand,%Source_win%\timedate.cp_,%Target_sys%
+Expand,%Source_win%\console.dl_,%Target_sys%
+Echo,"Modifying txtsetup.sif ..."
+IniWrite,"%Target_win%\TXTSETUP.SIF","NLS","AnsiCodepage",c_936.nls#$c936
+IniWrite,"%Target_win%\TXTSETUP.SIF","NLS","OemCodepage",c_936.nls#$c936
+IniWrite,"%Target_win%\TXTSETUP.SIF","NLS","MacCodepage",c_10008.nls#$c10008
+IniWrite,"%Target_win%\TXTSETUP.SIF","NLS","UnicodeCasetable",l_intl.nls#$c0804
+IniWrite,"%Target_win%\TXTSETUP.SIF","NLS","DefaultLayout",00000804
+IniWrite,"%Target_win%\TXTSETUP.SIF","SourceDisksFiles","c_10008.nls","1#$c#$c#$c#$c#$c#$c#$c22#$c0#$c0#$c#$c1#$c2"
+IniWrite,"%Target_win%\TXTSETUP.SIF","SourceDisksFiles","c_936.nls","1#$c#$c#$c#$c#$c#$c#$c22#$c0#$c0#$c#$c1#$c2"
+Echo,"Writing to registry ..."
+RegHiveLoad,"WB-Software","%Target_sys%\config\software"
+RegWrite,"HKLM","0x1","WB-Software\Microsoft\Windows NT\CurrentVersion\Console\Nls","00000804",""
+RegWrite,"HKLM","0x1","WB-Software\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont","0","Lucida Console"
+RegWrite,"HKLM","0x7","WB-Software\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont","936","*新宋体", "*NSimSun"
+RegWrite,"HKLM","0x4","WB-Software\Microsoft\Windows NT\CurrentVersion\FontLink","FontLinkDefaultChar","12288"
+RegWrite,"HKLM","0x4","WB-Software\Microsoft\Windows NT\CurrentVersion\FontLink","FontLinkControl","16384"
+RegWrite,"HKLM","0x7","WB-Software\Microsoft\Windows NT\CurrentVersion\FontLink\SystemLink","Lucida Console","SimSun.TTC,SimSun"
+RegWrite,"HKLM","0x7","WB-Software\Microsoft\Windows NT\CurrentVersion\FontLink\SystemLink","Tahoma","SimSun.TTC,SimSun"
+//RegWrite,"HKLM","0x4","WB-Software\Microsoft\Windows NT\CurrentVersion\FontMapper","DEFAULT","134"
+//RegWrite,"HKLM","0x4","WB-Software\Microsoft\Windows NT\CurrentVersion\FontMapper","宋体","134"
+//RegWrite,"HKLM","0x4","WB-Software\Microsoft\Windows NT\CurrentVersion\FontMapper","新宋体","32902"
+//RegWrite,"HKLM","0x4","WB-Software\Microsoft\Windows NT\CurrentVersion\FontMapper","@宋体","8326"
+//RegWrite,"HKLM","0x4","WB-Software\Microsoft\Windows NT\CurrentVersion\FontMapper","@新宋体","41094"
+RegWrite,"HKLM","0x1","WB-Software\Microsoft\Windows NT\CurrentVersion\Fonts","Tahoma (TrueType)","tahoma.ttf"
+RegWrite,"HKLM","0x1","WB-Software\Microsoft\Windows NT\CurrentVersion\Fonts","宋体 & 新宋体 (TrueType)","simsun.ttc"
+RegWrite,"HKLM","0x1","WB-Software\Microsoft\Windows NT\CurrentVersion\GRE_Initialize","FIXEDFON.FON","svgafix.fon"
+RegWrite,"HKLM","0x1","WB-Software\Microsoft\Windows NT\CurrentVersion\GRE_Initialize","FONTS.FON","svgasys.fon"
+RegWrite,"HKLM","0x1","WB-Software\Microsoft\Windows NT\CurrentVersion\GRE_Initialize","OEMFONT.FON","vga936.fon"
+RegWrite,"HKLM","0x4","WB-Software\Microsoft\Windows NT\CurrentVersion\LanguagePack","SURROGATE","2"
+RegHiveUnLoad,"WB-Software"
+RegHiveLoad,"WB-Setup","%Target_sys%\setupreg.hiv"
+RegWrite,"HKLM","0x4","WB-Setup\ControlSet001\Control\FileSystem","NtfsAllowExtendedCharacterIn8dot3Name","1"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\FontAssoc\Associated Charset","ANSI(00)","YES"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\FontAssoc\Associated Charset","OEM(FF)","YES"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\FontAssoc\Associated Charset","SYMBOL(02)","NO"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\FontAssoc\Associated DefaultFonts","AssocSystemFont","simsun.ttc"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\FontAssoc\Associated DefaultFonts","FontPackage","新宋体"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\FontAssoc\Associated DefaultFonts","FontPackageDontCare","新宋体"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\FontAssoc\Associated DefaultFonts","FontPackageRoman","新宋体"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\FontAssoc\Associated DefaultFonts","FontPackageSwiss","新宋体"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\FontAssoc\Associated DefaultFonts","FontPackageModern","新宋体"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\FontAssoc\Associated DefaultFonts","FontPackageScript","新宋体"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\FontAssoc\Associated DefaultFonts","FontPackageDecorative","新宋体"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\Nls\CodePage","1252","c_1252.nls"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\Nls\CodePage","10008","c_10008.nls"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\Nls\CodePage","936","c_936.nls"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\Nls\CodePage","ACP","936"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\Nls\CodePage","OEMCP","936"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\Nls\CodePage","MACCP","10008"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\Nls\CodePage","OEMHAL","vgaoem.fon"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\Nls\CodePage","54936","c_g18030.dll"
+//RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\Nls\CodePage\EUDCCodeRange","936","AAA1-AFFE,F8A1-FEFE,A140-A7A0"
+//RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\Nls\CodePage\EUDCCodeRange","Unicode","E000-F8FF"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\Nls\Language","0804","l_intl.nls"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\Nls\Language","Default","0804"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\Nls\Language","InstallLanguage","0409"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\Nls\Language Groups","a","1"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\Nls\Locale","00000804","a"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\Nls\Locale","@","00000804"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\Nls\Locale\Alternate Sorts","00020804","a"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\Nls\Locale\Alternate Sorts","00021004","a"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Hardware Profiles\0001\Software\Fonts","FIXEDFON.FON","svgafix.fon"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Hardware Profiles\0001\Software\Fonts","FONTS.FON","svgasys.fon"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Hardware Profiles\0001\Software\Fonts","OEMFONT.FON","vga936.fon"
+RegWrite,"HKLM","0x4","WB-Setup\ControlSet001\Hardware Profiles\0001\Software\Fonts","LogPixels","96"
+RegHiveUnLoad,"WB-Setup"
+
+[setTimezone]
+Echo,"Setting the Timezone to China GMT +8:00 ..."
+RegHiveLoad,"WB-Setup","%Target_sys%\setupreg.hiv"
+RegWrite,"HKLM","0x4","WB-Setup\ControlSet001\Control\TimeZoneInformation","Bias","-480"
+RegWrite,"HKLM","0x4","WB-Setup\ControlSet001\Control\TimeZoneInformation","DisableAutoDaylightTimeSet","1"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\TimeZoneInformation","StandardName","China Standard Time"
+RegWrite,"HKLM","0x4","WB-Setup\ControlSet001\Control\TimeZoneInformation","StandardBias","0"
+RegWrite,"HKLM","0x3","WB-Setup\ControlSet001\Control\TimeZoneInformation","StandardStart","00","00","00","00","00","00","00","00","00","00","00","00","00","00","00","00"
+RegWrite,"HKLM","0x1","WB-Setup\ControlSet001\Control\TimeZoneInformation","DaylightName","China Standard Time"
+RegWrite,"HKLM","0x4","WB-Setup\ControlSet001\Control\TimeZoneInformation","DaylightBias","0"
+RegWrite,"HKLM","0x3","WB-Setup\ControlSet001\Control\TimeZoneInformation","DaylightStart","00","00","00","00","00","00","00","00","00","00","00","00","00","00","00","00"
+RegWrite,"HKLM","0x4","WB-Setup\ControlSet001\Control\TimeZoneInformation","ActiveTimeBias","-480"
+RegWrite,"HKLM","0x3","WB-Setup\ControlSet001\Control\TimeZoneInformation","StandardTime","99","71","ff","ff"
+RegHiveUnLoad,"WB-Setup"
+
+[setStandard]
+RegHiveLoad,"WB-Default","%Target_sys%\config\default"
+ShellExecute,Hide,"Reg.exe","Delete HKLM\WB-Default\Control Panel\International /f"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","iCalendarType","1"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","iCountry","86"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","iCurrDigits","2"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","iCurrency","0"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","iDate","2"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","iDigits","2"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","iFirstDayOfWeek","6"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","iFirstWeekOfYear","0"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","iLZero","0"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","iMeasure","0"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","iNegCurr","2"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","iNegNumber","1"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","iTime","1"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","iTimePrefix","1"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","iTLZero","1"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","Locale","00000804"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","NumShape","1"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","s1159","上午"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","s2359","下午"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","sCountry","People's Republic of China"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","sCurrency","￥"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","sDate","-"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","sDecimal","."
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","sGrouping","3;0"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","sLanguage","CHS"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","sList",","
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","sLongDate","yyyy'年'M'月'd'日'"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","sMonDecimalSep","."
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","sMonGrouping","3;0"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","sMonThousandSep",","
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","sNativeDigits","0123456789"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","sNegativeSign","-"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","sPositiveSign",""
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","sShortDate","yyyy-MM-dd"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","sThousand",","
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","sTime",":"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International","sTimeFormat","HH:mm:ss"
+RegWrite,"HKLM","0x1","WB-Default\Control Panel\International\Geo","Nation","45"
+RegHiveUnLoad,"WB-Default"
+
+[Interface]
+pCheckBox1="Add Chinese Language Support (Set default language to Chinese)",1,3,113,47,350,18,True
+pCheckBox2="Set TimeZone To China (GMT +8:00)",1,3,113,77,200,18,False
+pCheckBox3="Set Standards and Formats to Chinese (PRC)",1,3,116,107,237,18,False
+pTextLabel1=Number:,1,1,172,134,48,18,8,Normal
+pTextLabel2="123,456,789.00",1,1,228,134,89,18,8,Normal
+pTextLabel3=Currency:,1,1,165,154,55,18,8,Normal
+pTextLabel4="￥123,456,789.00",1,1,228,154,97,18,8,Normal
+pTextLabel5=Time:,1,1,187,174,33,18,8,Normal
+pTextLabel6=8:05:16,1,1,228,174,46,18,8,Normal
+pTextLabel7="Short Date:",1,1,157,194,63,18,8,Normal
+pTextLabel8=2008-5-17,1,1,228,194,61,18,8,Normal
+pTextLabel9="Long Date:",1,1,161,214,59,18,8,Normal
+pTextLabel10=2008年5月17日,1,1,228,214,94,18,8,Normal
+pBevel1=pBevel1,1,12,112,101,245,143
+pCheckBox4="Chinese Button and Window Captions",1,3,113,261,200,18,True
+pTextLabel11="Provide Chinese support in English PE Environment.",1,1,13,15,256,18,8,Normal
+
+[EncodedFile-AuthorEncoded-Snap2.gif]
+lines=0
+0=R0lGODdhKwArAIAAAO7y9yIiIiwAAAAAKwArAAACtoSPqcudAR0MbDplW8bxor2AX+cZ4kOiVGmS0wvHcsqtwIznkpv38G4L0Q4noFEYrPlGSeKQuWSVfBaqbPq0xrDNm/blAddYRVW3PL5sod/wj61VX53fJ3yDVgGrvC5yHyGWx6SxBlaHNneI6Ldo88hYwef3JyVoV8nVMUho2XeHiNHZwihWGFT6duoWiClHSUdhKuUFqzpLhqlayzkKp+Sqd3eKWznDupa5i+wKErxDGy09TV0AADt4nOMMzkssMNJLz0xjGAUjEFwnIF/6Iz6AkQEA9+UGJtg61soBAAAAAgAAACAAAADXAAAAAAAAAAEAAAAAAAAAAAAAAA
+
+[AuthorEncoded]
+Snap2.gif=283,378
+Logo=Snap2.gif
+

@@ -1,0 +1,123 @@
+[main]
+Title=CMD Window Settings
+Description=This script gives you the ability to change some CMD window properties
+Selected=True
+Level=1
+Author=Peter Schlang
+Version=6
+Date=2009-Oct-28
+Contact=http://BootLand.pt.vu
+Download_Level=1
+History2=psc add full screen support. Thanks schumy!
+History 4=psc changed to logging by [OnProcessExit]
+Certification=41b4b128fc5774d614ddb780333f627a
+CertifiedBy=pscEx
+History4=psc changed to logging by [OnProcessExit]
+History5=Lancelot no full screen support (no ega.cpi) with AMD64 builds, required lines and interface added // removed Process-log line
+History3a=Lancelot no full screen support (no ega.cpi) with AMD64 builds, required lines and interface added // removed Process-log line
+History6a=Lancelot %SourceArch% added, IA64 warning/precaution added. (note: IA64 full screen not tested, besides there is no ega.cpi on IA64 source, for now warning line added with comment //)
+History6b=Lancelot Download_Level=1
+Certification81=0cc3dca58f01236b43b4c11778722d39
+
+[Interface]
+pBevel1=pBevel1,1,12,10,18,210,130
+pTextLabel1="Initial Window Size",1,1,20,27,150,18,9,Bold
+pNumberBox1=pNumberBox1,1,2,27,54,40,22,30,10,50,5
+pTextLabel2=Rows,1,1,75,54,38,18,8,Normal
+pNumberBox2=pNumberBox2,1,2,27,85,40,20,75,40,100,5
+pTextLabel3=Columns,1,1,73,85,48,18,8,Normal
+pTextLabel4="Screen Buffer",1,1,18,113,71,18,8,Normal
+pNumberBox3=pNumberBox3,1,2,92,112,40,18,10,1,25,1
+pTextLabel5=Windows,1,1,138,114,66,18,8,Normal
+pBevel2=pBevel2,1,12,225,76,327,72
+pTextLabel6=Colors,1,1,238,86,48,18,9,Bold
+pTextLabel7=Background,1,1,237,118,65,18,8,Normal
+pTextLabel8=Foreground,1,1,398,118,65,18,8,Normal
+pScrollBox1=Red,1,4,306,116,80,21,Black,Blue,Green,Aqua,Red,Purple,Yellow,White,Gray,"Light Blue","Light Green","Light Aqua","Light Red","Light Purple","Light Yellow","Bright Whit"
+pScrollBox2="Bright White",1,4,467,117,80,21,Black,Blue,Green,Aqua,Red,Purple,Yellow,White,Gray,"Light Blue","Light Green","Light Aqua","Light Red","Light Purple","Light Yellow","Bright White"
+pWebLabel1="Info about Console Registry entries",1,10,361,7,176,18,http://www.microsoft.com/technet/prodtechnol/windows2000serv/reskit/regentry/34503.mspx?mfr=true
+pBevel3=pBevel3,1,12,11,160,541,141
+pTextLabel9="You can add ega.cpi to the build (about 125 KB)",1,1,20,169,310,18,9,Bold
+pTextLabel10="This will allow you to switch the CMD window to FullScreen by clicking <Alt+Enter>",1,1,20,194,520,18,9,Bold
+pCheckBox2="Add ega.cpi",1,3,20,223,87,18,True
+pCheckBox1="Start CMD with full screen window",1,3,76,278,194,18,False
+pTextLabel11="The 'FullScreen' option is recommended for 'Command Line Shell' PEs only!",1,1,76,253,469,18,9,Bold
+pTextLabel12="Use size and colors",1,1,231,31,148,18,9,Bold
+pRadioButton1="Windows Standard",1,11,230,52,114,20,True
+pRadioButton2=Custom,1,11,357,53,61,18,False
+pTextLabel13="(NOT AVAILABLE with AMD64 Builds)",1,1,114,222,217,18,8,Normal
+pTextLabel14="(NOT AVAILABLE with AMD64 Builds)",1,1,277,278,208,18,8,Normal
+
+[process]
+If,%pRadioButton1%,EQUAL,True,Begin
+RegHiveLoad,WB-Default,%target_sys%\config\default
+If,%pCheckBox1%,EQUAL,True,Begin
+RegWrite,HKLM,0x4,WB-Default\Console,FullScreen,1,nowarn
+End
+Else,Begin
+RegWrite,HKLM,0x4,WB-Default\Console,FullScreen,0,nowarn
+End
+RegWrite,HKLM,0x4,WB-Default\Console,ScreenBufferSize,19660880,nowarn
+RegWrite,HKLM,0x4,WB-Default\Console,WindowsSize,1638480,nowarn
+RegWrite,HKLM,0x4,WB-Default\Console,ScreenColors,7,nowarn
+RegHiveUnLoad,WB-Default
+End
+Else,Begin
+Set,%Size%,%pNumberBox1%
+StrFormat,MULT,%Size%,65536
+Set,%Buf%,%Size%
+StrFormat,INC,%Size%,%pNumberBox2%
+StrFormat,MULT,%Buf%,%pNumberBox3%
+StrFormat,INC,%Buf%,%pNumberBox2%
+Run,%ScriptFile%,Color,%pScrollBox1%
+Set,%MyColor%,%col%
+StrFormat,MULT,%MyColor%,16
+Run,%ScriptFile%,Color,%pScrollBox2%
+StrFormat,INC,%MyColor%,%col%
+RegHiveLoad,WB-Default,%target_sys%\config\default
+RegWrite,HKLM,0x4,WB-Default\Console,ScreenBufferSize,%Buf%,nowarn
+RegWrite,HKLM,0x4,WB-Default\Console,WindowsSize,%Size%,nowarn
+RegWrite,HKLM,0x4,WB-Default\Console,ScreenColors,%MyColor%,nowarn
+If,%pCheckBox1%,EQUAL,True,Begin
+If,%SourceArch%,Equal,X64,ECHO,"CMDTweaks - Full Screen option is NOT available with AMD64 builds",WARN
+//History6a NOt tested so not added yet If,%SourceArch%,Equal,IA64,ECHO,"CMDTweaks - Full Screen option is NOT available with IA64 builds",WARN
+RegWrite,HKLM,0x4,WB-Default\Console,FullScreen,1,nowarn
+End
+Else,Begin
+RegWrite,HKLM,0x4,WB-Default\Console,FullScreen,0,nowarn
+End
+RegHiveUnLoad,WB-Default
+End
+If,%pCheckBox2%,EQUAL,True,Begin
+If,%SourceArch%,Equal,X64,ECHO,"CMDTweaks - ega.cpi option is NOT available with AMD64 builds",WARN
+If,%SourceArch%,Equal,IA64,ECHO,"CMDTweaks - ega.cpi option is NOT available with IA64 builds",WARN
+If,%SourceArch%,Equal,X86,If,Not,EXISTFILE,%target_sys%\ega.cpi,CopyOrExpand,%source_win%\ega.cpi,%target_sys%
+End
+//Run,%ScriptLog%,Process-log
+
+[Color]
+If,#1,Equal,Black,Set,%Col%,0
+If,#1,Equal,Blue,Set,%Col%,1
+If,#1,Equal,Green,Set,%Col%,2
+If,#1,Equal,Aqua,Set,%Col%,3
+If,#1,Equal,Red,Set,%Col%,4
+If,#1,Equal,Purple,Set,%Col%,5
+If,#1,Equal,Yellow,Set,%Col%,6
+If,#1,Equal,White,Set,%Col%,7
+If,#1,Equal,Gray,Set,%Col%,8
+If,#1,Equal,Light Blue,Set,%Col%,9
+If,#1,Equal,Light Green,Set,%Col%,10
+If,#1,Equal,Light Aqua,Set,%Col%,11
+If,#1,Equal,Light Red,Set,%Col%,12
+If,#1,Equal,Light Purple,Set,%Col%,13
+If,#1,Equal,Light Yellow,Set,%Col%,14
+If,#1,Equal,Bright White,Set,%Col%,15
+
+[EncodedFile-AuthorEncoded-cmd.jpg]
+lines=0
+0=eJz7f+P/AwYBLzdPNwZGRkaGBCBk+P+QQcy1IjONgcHTU4uBgwEG/t9mcGbgYGNjZ2PlYGdn5+Tk4OIR4eXh5uaRFBLmF5GVkpeTlZKRUVDRU1dQ0lGWkdEw19QxMDQxMZFXt7S1MLLRMzYxAhnCyMnJycPNI8HLK2GkKKNoRDL4f4BBkIMhiiGKmVGJgUmQkVmQ8f8RBnkGBkZWRjCAOZmRiZmFlY2dg5OLG6hgqwADEyMzMxMLMysrCwtQthYoz8AiyCqkaOjIJhyYyK5UKGLUOHEhh7LTxoOiQRc/qBgnFTVxcomJS0hKqaqpa2hqmZiamVtYWjm7uLq5e3h6BYeEhoVHREYlp6SmpWdkZhWXlJaVV1RWNbe0trV3dHZNmjxl6rTpM2bOWrR4ydJly1esXLVp85at27bv2Lnr0OEjR48dP3Hy1KXLV65eu37j5q2Hjx4/efrs+YuXrz5++vzl67fvP37+AvmLkYGZEQaw+ksQ6C8mFhZmFnaQvxiZykEKBFlYFQ3ZhBwD2RMLhZWMGjlEnCYu3HiQU9k46INoUtFFLjEVk4eqH0FeA/uMOI81keUzuMcQ/rrFwMPMCIw8ZkEGe4bvFxaseP5RZMeCgkXTGpzLugIMNDMWMHVpoGGHCplLFxhdRWbKbWHYEsRk6yopt6hBrMunP9D7WgOXxiIE/vyfoUfc4GaFlfbq6TNzH+3pOflkRZpCG0PCBH6VUtMXos/s5Rr+M7QmF/jLvzT4z/AiNGByz2SXc1qBm22S/wnz8zde+77z0SH5f3oTfhx3YJd/efM/w4Ya+z+xgdf+THzYIjb/Q199+t+uy2k267fXLs6qvF/+fef9Z+lnfpr9vVd21Xqv1fGQy7pv19gdTl1xM84z7eP5Wq7OhUmf3BVnTHXX7hSc3+A+hT1Ae+sz0T37Hk9+JVLz71vJ/g9zKoLTWOe+eyA8f5PrjaK6/wz1l+/tTX+wbanq37Z1+3L6cya7XXvkwBiS4HFC1uJozeUVL8yrYnfMe5Rr5ZJ+g3Xb4vyCm0/+3rjbIVOqLPfn+oX/DAz1TwRX1eru/xK5ZnlcaMLP3odeJrc8vklpLNrp2wQL1D2XH2/JNz+cmdTp7fE9kJV557n6heu9V0XNm5y45rbutsU50wVWt3P8NbL+t2zWHckPPy6VMjiKre2zOP+fIa5xSRaD4Lf0538XxqfUH9r3YZ79E/bsn/IfF/8T/d4CDFUwZ/V3m5Pf+3v/M2wy5f/5rahu0b7eHxw9s+LWrDM4cLvJlqOn691/hofxFf7/Gsrur/9xbdnkBS9nSZ3YlTqn7LQed8uLwkvtGp+2NJ17udmtS2PNKXD0am1bWJ+/9IZ/bdlvhVbv3ck2YWwzH7+VDr3y9o1S9IplO85PSW9P2sZW9WzqqYDJ4R6vNBZ1pbSKBDqwImHJeUqXZkd/+Ptu1iSOexXfVm84wb7i/HbRMy/qBK/k7vGatW5x4gL9e2nVYTvS2WVyw3O7by94UKC9c9HUXuWgwO4uoDtmzgh0FWFAwoz/bwIA1MY2bnicY0/OTdHLKkhnGAUjEgSyQuh2FuzyAeLavxmYANQABRt61vZkAQAAAAIAAAAiAAAAhwQAAAAAAAABAAAAAAAAAAAAAAA
+
+[AuthorEncoded]
+cmd.jpg=1Kb,1Kb
+Logo=cmd.jpg
+

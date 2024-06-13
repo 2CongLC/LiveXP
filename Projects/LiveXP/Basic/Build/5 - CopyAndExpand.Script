@@ -1,0 +1,279 @@
+[main]
+Title=Copy and Expand files
+Description=(v33b) Copy and expand compressed files from your Windows Install CD/DVD or folder into your build. This step is fundamental to add all needed system files.
+Selected=True
+Mandatory=True
+Level=1
+Author=Peter Schlang
+Version=33
+History=020 psc use project variables like %OS% rather then reading them from projectinfo.ini
+Date=2009-Dec-16
+Contact=http://BootLand.pt.vu
+Credits=All credits go to Microsoft for developing this Operative System and to everybody on the BootLand forums for helping on the debuggind and improvement of this script.
+Download_Level=0
+CertifiedBy=pscEx
+Certification=608fd34523eeef226e4fea7f490a90fa
+History024=psc added WB 077 RC 2 features
+History028=psc changed to logging by [OnProcessExit]
+History030=psc changed for 64 bit sources
+History031=psc some 64 bit fixes
+History033b=Lancelot amd64 line from JFX added for bootflag
+Certification81=2712b896a88e82ad2e0289320a49f799
+
+[variables]
+%icon%=0
+
+[Verify]
+Call "WBVersion" ($$$,077.102);
+
+[process]
+//IniRead,"%ProjectInfo%","OS","Type","%OS%"
+//IniRead,"%ProjectInfo%","OS","ServicePack","%OSServicePack%"
+If,NotExistFile,%Source_32%\NTDETECT.COM,run,%ScriptFile%,process-NoFileFound
+Echo,"Copying boot files.."
+FileCopy,%Source_32%\NTDETECT.COM,%Target_win%
+FileCopy,%Source_32%\SETUPLDR.BIN,%Target_win%
+FileCopy,%source_sys%\BIOSINFO.INF,%Target_sys%
+FileCopy,%source_sys%\BIOSINFO.INF,%Target_win%
+If,ExistFile,%SourceDir%\BOOTFONT.BIN,FileCopy,%SourceDir%\BOOTFONT.BIN,%TargetDir%
+echo,"Copying System32 files.."
+FileCopy,%source_win%\BOOTVID.DL_,%target_sys%
+FileCopy,%source_win%\HAL.DL_,%target_sys%
+If,%SourceArch%,EQUAL,x86,Begin
+FileCopy,%source_win%\HALAACPI.DL_,%target_sys%
+FileCopy,%source_win%\HALACPI.DL_,%target_sys%
+FileCopy,%source_win%\HALAPIC.DL_,%target_sys%
+FileCopy,%source_win%\HALMACPI.DL_,%target_sys%
+FileCopy,%source_win%\HALMPS.DL_,%target_sys%
+If,%OS%,Equal,XP,FileCopy,%source_win%\HALSP.DL_,%target_sys%
+End
+FileCopy,%source_win%\IMAGEHLP.DLL,%target_sys%
+FileCopy,%source_win%\NTDLL.DLL,%target_sys%
+FileCopy,%source_win%\NTOSKRNL.EX_,%target_sys%
+echo,"Expanding System32 files.."
+CopyOrExpand,%source_win%\ADVAPI32.DLL,%target_sys%
+If,NotExistFile,%target_sys%\ADVAPI32.DLL,Halt,"This script needs WinBuilder version 071 beta 3 or newer!"
+CopyOrExpand,%source_win%\AUTHZ.DLL,%target_sys%
+CopyOrExpand,%source_win%\BASESRV.DLL,%target_sys%
+CopyOrExpand,%source_win%\CMD.EXE,%target_sys%
+CopyOrExpand,%source_win%\CRYPT32.DLL,%target_sys%
+CopyOrExpand,%source_win%\CRYPTDLL.DLL,%target_sys%
+CopyOrExpand,%source_win%\CSRSRV.DLL,%target_sys%
+CopyOrExpand,%source_win%\CSRSS.EXE,%target_sys%
+CopyOrExpand,%source_win%\CTYPE.NLS,%target_sys%
+CopyOrExpand,%source_win%\DNSAPI.DLL,%target_sys%
+CopyOrExpand,%source_win%\FRAMEBUF.DLL,%target_sys%
+CopyOrExpand,%source_win%\GDI32.DLL,%target_sys%
+CopyOrExpand,%source_win%\KERNEL32.DLL,%target_sys%
+CopyOrExpand,%source_win%\LOCALE.NLS,%target_sys%
+CopyOrExpand,%source_win%\L_INTL.NLS,%target_sys%,NOWARN
+CopyOrExpand,%source_win%\MPR.DLL,%target_sys%
+CopyOrExpand,%source_win%\MSASN1.DLL,%target_sys%
+CopyOrExpand,%source_win%\MSPRIVS.DLL,%target_sys%
+CopyOrExpand,%source_win%\MSVCRT.DLL,%target_sys%
+CopyOrExpand,%source_win%\NDDEAPI.DLL,%target_sys%
+CopyOrExpand,%source_win%\NETAPI32.DLL,%target_sys%
+CopyOrExpand,%source_win%\NTDSAPI.DLL,%target_sys%
+If,%OS%%OSServicePack%,Equal,XPSP1,Expand,%source_win%\%spCabFile%,%target_sys%,NTKRNLMP.EXE
+If,%OS%%OSServicePack%,Equal,W2003none,CopyOrExpand,%source_win%\NTKRNLMP.EXE,%target_sys%
+CopyOrExpand,%source_win%\PROFMAP.DLL,%target_sys%
+CopyOrExpand,%source_win%\PSAPI.DLL,%target_sys%
+CopyOrExpand,%source_win%\REGAPI.DLL,%target_sys%
+CopyOrExpand,%source_win%\RPCRT4.DLL,%target_sys%
+CopyOrExpand,%source_win%\SAMLIB.DLL,%target_sys%
+CopyOrExpand,%source_win%\SAMSRV.DLL,%target_sys%
+CopyOrExpand,%source_win%\SCESRV.DLL,%target_sys%
+CopyOrExpand,%source_win%\SECUR32.DLL,%target_sys%
+CopyOrExpand,%source_win%\SETUPAPI.DLL,%target_sys%
+CopyOrExpand,%source_win%\SMSS.EXE,%target_sys%
+CopyOrExpand,%source_win%\SORTKEY.NLS,%target_sys%
+CopyOrExpand,%source_win%\SORTTBLS.NLS,%target_sys%
+CopyOrExpand,%source_win%\UNICODE.NLS,%target_sys%
+CopyOrExpand,%source_win%\UNTFS.DLL,%target_sys%
+CopyOrExpand,%source_win%\USER32.DLL,%target_sys%
+CopyOrExpand,%source_win%\USERENV.DLL,%target_sys%
+CopyOrExpand,%source_win%\VERSION.DLL,%target_sys%
+CopyOrExpand,%source_win%\VGA.DLL,%target_sys%
+CopyOrExpand,%source_win%\VGA850.FON,%target_sys%,NOWARN
+CopyOrExpand,%source_win%\VGAOEM.FON,%target_sys%,NOWARN
+If,%OS%,Equal,XP,CopyOrExpand,%source_win%\WATCHDOG.SYS,%target_sys%
+CopyOrExpand,%source_win%\WIN32K.SYS,%target_sys%
+CopyOrExpand,%source_win%\WINLOGON.EXE,%target_sys%
+CopyOrExpand,%source_win%\WINMM.DLL,%target_sys%
+CopyOrExpand,%source_win%\WINSRV.DLL,%target_sys%
+CopyOrExpand,%source_win%\WINSTA.DLL,%target_sys%
+CopyOrExpand,%source_win%\WINTRUST.DLL,%target_sys%
+CopyOrExpand,%source_win%\WS2HELP.DLL,%target_sys%
+CopyOrExpand,%source_win%\WS2_32.DLL,%target_sys%
+echo,"Copying Driver files.."
+If,%SourceArch%,EQUAL,x64,CopyOrExpand,%source_win%\WATCHDOG.SYS,%target_sys%\Drivers
+CopyOrExpand,%source_win%\ACPI.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\ACPIEC.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\ALIIDE.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\ATAPI.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\CDFS.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\CDROM.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\CMDIDE.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\FDC.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\DISK.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\DMBOOT.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\DMIO.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\DMLOAD.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\FASTFAT.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\FLPYDISK.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\FTDISK.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\HIDCLASS.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\HIDPARSE.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\I8042PRT.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\INTELIDE.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\ISAPNP.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\KBDCLASS.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\KBDHID.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\KSECDD.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\MOUNTMGR.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\NTFS.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\OPRGHDLR.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\PARTMGR.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\PCI.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\PCIIDE.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\SETUPDD.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\SPDDLANG.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\VIAIDE.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\WMILIB.SYS,%target_sys%\drivers
+echo,"Expanding Driver files.."
+CopyOrExpand,%source_win%\DXAPI.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\DXG.SYS,%target_sys%\drivers
+If,%SourceArch%,EQUAL,x86,CopyOrExpand,%source_win%\DXGTHK.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\NPFS.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\PCIIDEX.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\VGA.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\VIDEOPRT.SYS,%target_sys%\drivers
+If,%OS%,Equal,W2003,CopyOrExpand,%source_win%\WATCHDOG.SYS,%target_sys%\drivers
+//
+IniWrite,"%ProjectInfo%","UPX-Switches","WIN32K.SYS","-9"
+Run,%ScriptFile%,Load-Driver,mouclass.sys
+Run,%ScriptFile%,Load-Driver,mouhid.sys
+Run,%ScriptFile%,process-%HoJoPElevel%
+If,%bootfix%,Equal,True,FileCopy,%source_32%\BOOTFIX.BIN,%Target_win%
+FileCreateBlank,%TargetDir%\%BootFlag%
+IniWrite,%target_win%\TXTSETUP.SIF,SourceDisksNames.x86,1,#$qBoot#$sDisk#$q#$c#$q\%BootFlag%#$q#$c#$c\I386
+If,%SourceArch%,EQUAL,x64,Begin
+IniWrite,%target_win%\TXTSETUP.SIF,SourceDisksNames,1,#$qBoot#$sDisk#$q#$c#$q\%BootFlag%#$q#$c#$c\AMD64
+IniWrite,%target_win%\TXTSETUP.SIF,SourceDisksNames.AMD64,1,#$qBoot#$sDisk#$q#$c#$q\%BootFlag%#$q#$c#$c\AMD64
+End
+// now done automatically
+//Run,%ScriptLog%,Process-log
+
+[Load-Driver]
+System,ERROROFF,2
+If,ExistFile,%source_win%\%spCabFile%,Expand,%source_win%\%spCabFile%,%target_sys%\drivers,#1,NOWARN
+If,NotExistFile,%target_sys%\drivers\#1,If,ExistFile,%source_win%\%drCabFile%,Expand,%source_win%\%drCabFile%,%target_sys%\drivers,#1,NOWARN
+If,NotExistFile,%target_sys%\drivers\#1,CopyOrExpand,%source_win%\#1,%target_sys%\drivers,NOWARN
+
+[process-1]
+Echo,"Expanding Font files.."
+Expand,"%source_win%\MARLETT.TT_","%Target_win%\Fonts"
+//
+echo,"Copying Driver files.."
+FileCopy,%source_win%\KDCOM.DL*,%target_sys%
+FileCopy,%source_win%\NULL.SY*,%target_sys%\drivers
+FileCopy,%source_win%\NDIS.SY*,%target_sys%\drivers
+FileCopy,%source_win%\CLASSPNP.SY*,%target_sys%\drivers
+FileCopy,%source_win%\FS_REC.SY*,%target_sys%\drivers
+FileCopy,%source_win%\MCD.SY*,%target_sys%\drivers
+FileCopy,%source_win%\MUP.SY*,%target_sys%\drivers
+If,%SourceArch%,EQUAL,x64,CopyOrExpand,%source_win%\SXS.DLL,%target_sys%
+//
+//Run,%ScriptFile%,driver-compress,mouclass.sy
+//Run,%ScriptFile%,driver-compress,mouhid.sy
+//Run,%ScriptFile%,driver-compress,ntfs.sy
+
+[Process-2]
+Echo,"Copying GUI dependent files.."
+CopyOrExpand,%source_win%\APPHELP.DLL,%target_sys%
+CopyOrExpand,%source_win%\COMCTL32.DLL,%target_sys%
+CopyOrExpand,%source_win%\COMDLG32.DLL,%target_sys%
+CopyOrExpand,%source_win%\CRYPTUI.DLL,%target_sys%
+CopyOrExpand,%source_win%\DESK.CPL,%target_sys%
+CopyOrExpand,%source_win%\DISKCOPY.DLL,%target_sys%
+CopyOrExpand,%source_win%\IMM32.DLL,%target_sys%
+CopyOrExpand,%source_win%\IPHLPAPI.DLL,%target_sys%
+CopyOrExpand,%source_win%\KDCOM.DLL,%target_sys%
+CopyOrExpand,%source_win%\LSASRV.DLL,%target_sys%
+CopyOrExpand,%source_win%\LSASS.EXE,%target_sys%
+CopyOrExpand,%source_win%\MSGINA.DLL,%target_sys%
+CopyOrExpand,%source_win%\MSV1_0.DLL,%target_sys%
+CopyOrExpand,%source_win%\MSVCP60.DLL,%target_sys%
+CopyOrExpand,%source_win%\NCOBJAPI.DLL,%target_sys%
+CopyOrExpand,%source_win%\ODBC32.DLL,%target_sys%
+CopyOrExpand,%source_win%\OLE32.DLL,%target_sys%
+CopyOrExpand,%source_win%\OLEAUT32.DLL,%target_sys%
+CopyOrExpand,%source_win%\OLEDLG.DLL,%target_sys%
+If,%SourceArch%,EQUAL,x86,CopyOrExpand,%source_win%\OLEPRO32.DLL,%target_sys%
+CopyOrExpand,%source_win%\POWRPROF.DLL,%target_sys%
+CopyOrExpand,%source_win%\RUNDLL32.EXE,%target_sys%
+CopyOrExpand,%source_win%\SERVICES.EXE,%target_sys%
+CopyOrExpand,%source_win%\SHELL32.DLL,%target_sys%
+CopyOrExpand,%source_win%\SHLWAPI.DLL,%target_sys%
+CopyOrExpand,%source_win%\SYSSETUP.DLL,%target_sys%
+CopyOrExpand,%source_win%\SXS.DLL,%target_sys%
+CopyOrExpand,%source_win%\UMPNPMGR.DLL,%target_sys%
+CopyOrExpand,%source_win%\URLMON.DLL,%target_sys%
+CopyOrExpand,%source_win%\USP10.DLL,%target_sys%
+If,%SourceArch%,EQUAL,x86,CopyOrExpand,%source_win%\VGA256.DLL,%target_sys%
+CopyOrExpand,%source_win%\WININET.DLL,%target_sys%
+CopyOrExpand,%source_win%\WINSPOOL.DRV,%target_sys%
+CopyOrExpand,%source_win%\WLDAP32.DLL,%target_sys%
+CopyOrExpand,%source_win%\WSOCK32.DLL,%target_sys%
+CopyOrExpand,%source_win%\BEEP.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\CLASSPNP.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\FS_REC.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\MCD.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\MNMDD.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\MUP.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\NDIS.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\NULL.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\RAMDISK.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\RDBSS.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\SCSIPORT.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\SFLOPPY.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\SLIP.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\TDI.SYS,%target_sys%\drivers
+CopyOrExpand,%source_win%\UDFS.SYS,%target_sys%\drivers
+Echo,"CopyOrExpanding Font files.."
+CopyOrExpand,%source_win%\ARIAL.TTF,%Target_win%\Fonts
+CopyOrExpand,%source_win%\MARLETT.TTF,%Target_win%\Fonts
+If,%pCheckBox1%,Equal,True,Set,%Icon%,1
+If,%pCheckBox2%,Equal,True,Set,%Icon%,1
+If,%icon%,Equal,1,Run,%ScriptFile%,icons
+
+[icons]
+RegHiveLoad,"WB-Software","%target_sys%\config\software"
+If,%pCheckBox1%,Equal,True,RegWrite,"HKLM","0x1","WB-Software\Classes\CLSID\{D20EA4E1-3957-11d2-A40B-0C5020524152}",,"Fonts"
+If,%pCheckBox1%,Equal,True,RegWrite,"HKLM","0x2","WB-Software\Classes\CLSID\{D20EA4E1-3957-11d2-A40B-0C5020524152}\DefaultIcon",,"%SystemRoot%\system32\main.cpl#$c9"
+If,%pCheckBox2%,Equal,True,RegWrite,"HKLM","0x1","WB-Software\Classes\CLSID\{D20EA4E1-3957-11d2-A40B-0C5020524153}",,"Administrative Tools"
+If,%pCheckBox2%,Equal,True,RegWrite,"HKLM","0x2","WB-Software\Classes\CLSID\{D20EA4E1-3957-11d2-A40B-0C5020524153}\DefaultIcon",,"%SystemRoot%\system32\main.cpl#$c10"
+RegHiveUnLoad,"WB-Software"
+CopyOrExpand,%source_win%\MAIN.CPL,%target_sys%
+
+[driver-compress]
+Echo,"Cab Compressing file #1s"
+If,ExistFile,"%target_sys%\drivers\#1s",ShellExecute,"hide","makecab.exe","#$q%target_sys%\drivers\#1s#$q #$q%target_sys%\drivers\#1_#$q"
+If,ExistFile,"%target_sys%\drivers\#1_",FileDelete,"%target_sys%\drivers\#1s"
+
+[process-NoFileFound]
+Message,"The path you specified as your windows files source is not valid! #$x#$xPlease select a valid source dir in the paths window to run this script.."
+exit,"Exiting..."
+
+[Interface]
+pCheckBox1="Copy 'Fonts' icon",1,3,32,24,121,18,True
+pCheckBox2="Copy 'Administrative Tools' Icon",1,3,31,54,200,18,True
+
+[AuthorEncoded]
+c&e.jpg=2Kb,3Kb
+Logo=c&e.jpg
+
+[EncodedFile-AuthorEncoded-c&e.jpg]
+lines=0
+0=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
+

@@ -1,0 +1,6 @@
+[main]
+description=This folder has the basic scripts needed to create a boot disk. You only need to enable this folder and the "Finish" folder to get a working project.
+Only the scripts from this folder and the ones on "Finish" are considere to be the minimum required to build your project. You can deselect all other folders to create a project as small as possible.
+Download_Level=0
+Locked=True
+Upload=2007-Sep-18 15:00:11

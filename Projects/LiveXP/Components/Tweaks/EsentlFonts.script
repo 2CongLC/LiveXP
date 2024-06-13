@@ -1,0 +1,131 @@
+[Main]
+Title=Essential Fonts
+Type=script
+Level=1
+Description=Adds common font and codepage files
+Selected=True
+Credits=List of essential fonts found here  - http://graphicssoft.about.com/od/aboutgraphics/a/fontoverload_3.htm
+Author=beakmyn
+Contact=beakmyn.boot-land.net
+Date=2008-Sep-17
+Updates=http://beakmyn.boot-land.net/updates
+Version=11
+Download_Level=1
+CertifiedBy=pscEx
+Certification=5f69d8bfc7fa4c08c185dd40d7d0247a
+History04=Galapo updated variables
+History05=Galapo added Microsoft Sans Serif
+History06=Galapo added Tahoma fonts and required reg entries from dera's suggestion
+History07=Galapo added Tahoma font fix as per Dera's tests
+History08=Lancelot Lucida Console font support added - FixTahoma font issue unchecked
+History10a=Lancelot Process-log removed & some quotes removed
+History10b=Lancelot Small codepage support adding (10c and 10d) till we have codepage script operational ;>
+History10c=Lancelot c_932.nls added to list to have Japanese codepage support (more japanese apps getting popular ;))
+History10c=http://jp-bridge.com/en/dlltoys/ - pcsview.exe - from cdob - Pcsview.exe resource --- object MainForm: TMainForm --- Font.Charset=SHIFTJIS_CHARSET
+History10c=http://en.wikipedia.org/wiki/Shift-JIS
+History10c=topic in bootland http://www.boot-land.net/forums/index.php?showtopic=6209&hl=
+History10d=Lancelot c_1251.nls added to list to have Russian codepage support for applications (more Russian apps getting popular ;))
+History10d=Example Avz from http://z-oleg.com/secur/avz/
+History11=Lancelot [Interface] CheckBox_Fix_Tahoma_Font hidden from curious eyes ;)
+Certification81=e22ab5d231999f456cb6b40761b75339
+
+[Variables]
+%check%=0
+
+[Interface]
+pTextLabel1="Select Fonts to include in the PE build:",1,1,6,4,222,18,8,Bold
+pBevel1=pBevel1,1,12,3,21,411,195
+pCheckBox1="MS Serif",1,3,12,25,130,18,True
+pCheckBox2="MS Sans Serif",1,3,12,40,130,18,True
+pCheckBox3="Arial Bold",1,3,12,55,130,18,True
+pCheckBox4="Arial Bold Italic",1,3,12,70,130,18,True
+pCheckBox5="Arial Italic",1,3,12,85,130,18,True
+pCheckBox6=Courier,1,3,12,100,130,18,True
+pCheckBox7="Courier New",1,3,12,115,130,18,True
+pCheckBox8="Courier New Bold",1,3,12,130,130,18,True
+pCheckBox9="Courier New Bold Italic",1,3,12,145,130,18,True
+pCheckBox10="Courier New Italic",1,3,12,160,130,18,True
+pCheckBox11=Modern,1,3,180,26,160,18,True
+pCheckBox12=Roman,1,3,180,41,160,17,True
+pCheckBox13=Script,1,3,180,71,160,18,True
+pCheckBox14="Small fonts",1,3,180,56,160,17,True
+pCheckBox15="Times New Roman",1,3,180,116,160,18,True
+pCheckBox16="Times New Roman Bold",1,3,180,131,160,18,True
+pCheckBox17="Times New Roman Bold Italic",1,3,180,146,160,18,True
+pCheckBox18="Times New Roman Italic",1,3,180,161,160,18,True
+pCheckBox19=Wingdings,1,3,180,176,160,18,True
+pCheckBox20="Microsoft Sans Serif",1,3,12,176,130,18,True
+pCheckBox21=Tahoma,1,3,180,86,160,18,True
+pCheckBox22="Tahoma Bold",1,3,180,101,160,17,True
+pCheckBox24="Add Lucida Console font (only font for unicode console applications)",1,3,12,194,357,18,True
+pBevel2=pBevel2,1,12,4,22,409,193
+CheckBox_Fix_Tahoma_Font="Fix Tahoma font issue",0,3,262,290,141,18,False
+pTextLabel2="Select Additional CodePage Support:",1,1,3,221,217,18,8,Bold
+pCheckBox_c_932_nls="c_932.nls (Support Japanese codepage)",1,3,13,242,226,18,True
+pCheckBox_c_1251_nls="c_1251.nls (Support Russian codepage)",1,3,13,260,226,18,True
+pBevel3=pBevel3,1,12,4,239,245,43
+
+[Process]
+ECHO,"Adding Essential Fonts"
+If,%pCheckBox1%,Equal,True,CopyOrExpand,%source_win%\SERIFE.FON,%target_win%\Fonts
+If,%pCheckBox2%,Equal,True,CopyOrExpand,%source_win%\SSERIFE.FON,%target_win%\Fonts
+If,%pCheckBox3%,Equal,True,CopyOrExpand,%source_win%\ARIALBD.TTF,%target_win%\Fonts
+If,%pCheckBox4%,Equal,True,CopyOrExpand,%source_win%\ARIALBI.TTF,%target_win%\Fonts
+If,%pCheckBox5%,Equal,True,CopyOrExpand,%source_win%\ARIALI.TTF,%target_win%\Fonts
+If,%pCheckBox6%,Equal,True,CopyOrExpand,%source_win%\COURE.FON,%target_win%\Fonts
+If,%pCheckBox7%,Equal,True,CopyOrExpand,%source_win%\COUR.TTF,%target_win%\Fonts
+If,%pCheckBox8%,Equal,True,CopyOrExpand,%source_win%\COURBD.TTF,%target_win%\Fonts
+If,%pCheckBox9%,Equal,True,CopyOrExpand,%source_win%\COURBI.TTF,%target_win%\Fonts
+If,%pCheckBox10%,Equal,True,CopyOrExpand,%source_win%\COURI.TTF,%target_win%\Fonts
+If,%pCheckBox11%,Equal,True,CopyOrExpand,%source_win%\MODERN.FON,%target_win%\Fonts
+If,%pCheckBox12%,Equal,True,CopyOrExpand,%source_win%\ROMAN.FON,%target_win%\Fonts
+If,%pCheckBox13%,Equal,True,CopyOrExpand,%source_win%\SCRIPT.FON,%target_win%\Fonts
+If,%pCheckBox14%,Equal,True,CopyOrExpand,%source_win%\SMALLE.FON,%target_win%\Fonts
+If,%pCheckBox15%,Equal,True,CopyOrExpand,%source_win%\TIMES.TTF,%target_win%\Fonts
+If,%pCheckBox16%,Equal,True,CopyOrExpand,%source_win%\TIMESBD.TTF,%target_win%\Fonts
+If,%pCheckBox17%,Equal,True,CopyOrExpand,%source_win%\TIMESBI.TTF,%target_win%\Fonts
+If,%pCheckBox18%,Equal,True,CopyOrExpand,%source_win%\TIMESI.TTF,%target_win%\Fonts
+If,%pCheckBox19%,Equal,True,CopyOrExpand,%source_win%\WINGDING.TTF,%target_win%\Fonts
+If,%pCheckBox20%,Equal,True,CopyOrExpand,%source_win%\micross.ttf,%target_win%\Fonts
+If,%pCheckBox21%,Equal,True,CopyOrExpand,%source_win%\TAHOMA.TTF,%target_win%\Fonts
+If,%pCheckBox22%,Equal,True,CopyOrExpand,%source_win%\TAHOMABD.TTF,%target_win%\Fonts
+If,%pCheckBox24%,Equal,True,CopyOrExpand,%source_win%\lucon.ttf,%target_win%\Fonts
+//RegHiveLoad,"WB-Software","%target_sys%\config\software"
+//RegWrite,"HKLM","0x1","WB-Software\Microsoft\Windows NT\CurrentVersion\Fonts","Lucida Console (TrueType)","lucon.ttf"
+//RegHiveUnLoad,"WB-Software"
+//If,%pCheckBox21%,Equal,True,If,%check%,Equal,0,Run,%ScriptFile%,Process-reg
+//If,%pCheckBox22%,Equal,True,If,%check%,Equal,0,Run,%ScriptFile%,Process-reg
+If,%pCheckBox_Fix_Tahoma_Font%,Equal,True,Run,%ScriptFile%,Process-reg
+ECHO,"Adding Nls CodePage"
+//If,ExistFile,"%ScriptLog%",Run,%ScriptLog%,Process-log
+//extra nls support
+If,%pCheckBox_c_932_nls%,Equal,True,Begin
+If,Not,ExistFile,%target_sys%\c_932.nls,CopyOrExpand,%source_win%\c_932.nls,%target_sys%
+hive_load,HKLM
+reg_add,0x1,%reg%\ControlSet001\Control\Nls\CodePage,932,c_932.nls
+hive_unload
+End
+If,%pCheckBox_c_1251_nls%,Equal,True,Begin
+If,Not,ExistFile,%target_sys%\c_1251.nls,CopyOrExpand,%source_win%\c_1251.nls,%target_sys%
+RegHiveLoad,WB-Setup,%target_sys%\setupreg.hiv
+RegWrite,HKLM,0x1,WB-Setup\ControlSet001\Control\NLS\CodePage,1251,c_1251.nls
+RegHiveUnLoad,WB-Setup
+End
+echo,"All done."
+
+[Process-reg]
+Set,%check%,1
+RegHiveLoad,"WB-Software","%target_sys%\config\software"
+ShellExecute,Hide,reg.exe,"DELETE #$qHKLM\WB-Software\Microsoft\Windows NT\CurrentVersion\Fonts#$q /v #$qTahoma (TrueType)#$q /f"
+ShellExecute,Hide,reg.exe,"DELETE #$qHKLM\WB-Software\Microsoft\Windows NT\CurrentVersion\Fonts#$q /v #$qMicrosoft Sans Serif (TrueType)#$q /f"
+RegWrite,"HKLM","0x1","WB-Software\Microsoft\Windows NT\CurrentVersion\Fonts","Tahoma (TrueType)","TAHOMA.TTF"
+RegWrite,"HKLM","0x1","WB-Software\Microsoft\Windows NT\CurrentVersion\Fonts","Microsoft Sans Serif (TrueType)","MICROSS.TTF"
+RegHiveUnLoad,"WB-Software"
+
+[EncodedFile-AuthorEncoded-authorlogo.jpg]
+lines=0
+0=eJz7f+P/AwYBLzdPNwZGRgYGRiBk+H+bwZlBmJdPkI9HWJBfUFREWFzWQF5WSkrWSktH2cDV1tPdxdbZ0ScsN9YnMCPI0Tm+KSGjsLS6ptorpm1Ca3l/bkV1GcgQRhFRUVlJWQt5eYsyf2f/MpLB/wMMghwMxgz6zIxKDEyCjMyCjP+PMEgxMDAxg1yLAMxMLKxsIDkdAQYmRhCPhRmqgJGJmYFFkFVIWNEwUMmxceHGxMKJF0WMkx4CVUswMqAZxADSDJSRE2RgZmBiYkaSBBokKKTIouRo+P8WAw9QhkmQWZDBnuFtxgpvfZ4VXJEzPjE/W3hktswi//D/DFPbi3YlX3ilaXjX5eO7NI7iJokHzc53XVZ55N7Pq/vy89Qv9Qu7X/94szi9cMJi9blG557q604qYdHuefBV9ET297U2ewSKGE///R3uu5An0+zxnysbo7fdVu5X3naar7Do5ifX4yvtF8a9E5m9eNuDeS/s/N8t5pKcsrMs9BxDTPGf62ZxbxevVV3bp9M93UL2bMjefy6vt0mcMzyx8xbn19U6E13MBSLbfc/4bw07s50npXeKUgpTze8rL18v+6bOda2n0oQtLVj1SEbho1eels+y830KuaUFnD+IVBxY8/K5lmfaOdaMFxumbHlsb6luffLH6oorL/dKViyW+vrLO1A10uOZlwx/4O+VTYoOM580s/y5YqopJqkwzaFMr7hx3pHqrmV669T/dXtK2+U/FEmdVfalyzsm7Ogr8QcVzsk27RfKV+ernTbQnV6Ve0DhZ/kStdmV2uKJ+Yy2Xuse/1zNvVhZ5o6/yfGNOfxZR35c+8/g9s4nUixyqaFOzrvD1iHNp1/His3YrDol0yonReL4pZm56fnZ81i8Wr4qr1weHiejLfSi1y70BAf7irMigWECga4iDEDM+P8mAPe2Ixh4nONLLC3JyC/KyU/P18sqSGcYBSMLMDFD6ANM2OWnfX42jYEJAFrRCZA2kkSFAQAAAAIAAAAqAAAAwAIAAAAAAAABAAAAAAAAAAAAAAA
+
+[AuthorEncoded]
+authorlogo.jpg=782,1043
+

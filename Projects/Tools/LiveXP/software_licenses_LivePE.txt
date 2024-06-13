@@ -1,0 +1,20 @@
+--- 7z.exe ----
+Author: Igor Pavlov
+Site: http://www.7-zip.org/
+License: http://www.7-zip.org/license.txt
+
+
+
+
+
+
+
+
+ps:
+software_licenses.txt idea from
+Nuno Brito post 230
+http://www.boot-land.net/forums/index.php?showtopic=7250&view=findpost&p=66292
+
+Also check
+post 222 jacklaz
+http://www.boot-land.net/forums/index.php?showtopic=7250&view=findpost&p=66268

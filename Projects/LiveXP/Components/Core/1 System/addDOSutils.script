@@ -1,0 +1,282 @@
+[Main]
+Title=addCMDutils
+Type=script
+Level=1
+Description=Adds standard DOS utilities (like XCOPY.EXE, FIND.EXE, etc...) from your Windows Install CD/DVD or folder into your build. (Goal can be expanded in future :) )
+Locked=false
+Selected=True
+Credits=Lancelot rearrange the script
+Author=FiZiX
+Contact=http://www.boot-land.net/forums/index.php?showtopic=5719
+Date=
+Updates=
+Version=16
+Download_Level=0
+CertifiedBy=pscEx
+Certification=3e82293654d152c18ce9c1ee854562df
+HistoryNote=Lancelot - for perfect script dependencies must be investigated one by one ;),
+HistoryNote=Lancelot - Script will be better in time with contributions.
+History12=Lancelot - fixes for x64 builds, some dependencies added
+History12a=Lancelot improvement with better (but not perfect ;)) dependency list, (for future remember to check different dependencies between w2003-xp-x64), also script organisation better for future improvments.
+History12b=Lancelot there were 2 find.exe checkbox (inherited from v1 of the script ;)). one of them removed.
+History14=Lancelot bugy line for tree.com fixed , edit.com unselected as default (requires 16bit support and I believe not required as default) , a little speed enhancement ;)
+History15=Lancelot ws03res.dll does not exists on none-english-w2003 sources !!
+History16=Olegpov fix post 12 http://www.boot-land.net/forums/index.php?showtopic=5719&view=findpost&p=92835
+Certification81=7e1daaab03bced6cbf8a6c8eb6962db2
+
+[notes]
+// here is a nice topic to check http://www.boot-land.net/forums/index.php?showtopic=3717
+// here is topic from schumy http://www.boot-land.net/forums/index.php?showtopic=8094 follow topic and links ;)
+
+[Interface]
+pBevel3=pBevel3,1,12,299,90,198,85
+pTextLabel3="* Files: Only exists on 32bit Builds",1,1,307,12,164,18,8,Normal
+pCheckBox_WOW64CmdFiles="Add WOW64 cmd files",1,3,324,113,131,18,True
+pTextLabel4="Additional Settings For PEx64 builds",1,1,304,94,182,18,8,Normal
+pTextLabel5="(Requires WOW64 enabled)",1,1,323,133,145,18,8,Normal
+pBevel2=pBevel1,1,12,8,23,280,240
+pTextLabel1="Select Files you want to include in the Pe Build:",1,1,6,3,280,18,8,Bold
+pCheckBox1=AT.EXE,1,3,12,25,110,18,True
+pCheckBox2=ATTRIB.EXE,1,3,12,40,110,18,True
+pCheckBox3=CACLS.EXE,1,3,12,55,110,18,True
+pCheckBox4="CHKDSK.EXE",1,3,12,70,110,18,True
+pCheckBox5=CHKNTFS.EXE,1,3,12,85,110,18,True
+pCheckBox6=COMP.EXE,1,3,12,100,110,18,True
+pCheckBox7=COMPACT.EXE,1,3,12,115,110,18,True
+pCheckBox8=CONVERT.EXE,1,3,12,130,110,18,True
+pCheckBox9="DISKCOMP.COM -",1,3,12,145,110,18,True
+pCheckBox10="DISKCOPY.COM -",1,3,12,160,110,18,True
+pCheckBox11=DOSKEY.EXE,1,3,12,175,110,18,True
+pCheckBox12="EDIT.COM *",1,3,12,190,110,18,False
+pCheckBox13=FC.EXE,1,3,12,205,110,18,True
+pCheckBox14=FIND.EXE,1,3,12,220,110,18,True
+pCheckBox15=FINDSTR.EXE,1,3,145,25,110,18,True
+pCheckBox16=FORMAT.COM,1,3,145,40,110,18,True
+pCheckBox17="GRAFTABL.COM *",1,3,145,55,110,18,True
+pCheckBox18=HELP.EXE,1,3,145,70,110,18,True
+pCheckBox19=LABEL.EXE,1,3,145,85,110,18,True
+pCheckBox20="MODE.COM -",1,3,145,100,110,18,True
+pCheckBox21=MORE.COM,1,3,145,115,110,18,True
+pCheckBox23=RECOVER.EXE,1,3,145,130,110,18,True
+pCheckBox24=REPLACE.EXE,1,3,145,145,110,18,True
+pCheckBox25=SORT.EXE,1,3,145,160,110,18,True
+pCheckBox26=SUBST.EXE,1,3,145,175,110,18,True
+pCheckBox27="TREE.COM -",1,3,145,190,110,18,True
+pCheckBox28=XCOPY.EXE,1,3,145,205,110,18,True
+pTextLabel2="Some Utilities Listed in HELP (NO network related utilities)",1,1,14,267,284,18,8,Normal
+pTextLabel6="- Files: wow64  not available",1,1,310,153,144,18,8,Normal
+pButton_Help=Help,1,8,121,268,25,16,HelpView_Process
+pButton2="Advanced users Dependency chase",0,8,307,284,208,25,depchasedelete,0
+pTextLabel7="(EDIT.COM requires '16 Bit Support')",1,1,301,33,179,18,8,Normal
+pWebLabel1="MS Command-line reference A-Z (XP)",1,10,324,220,154,18,http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/ntcmds.mspx?mfr=true
+pWebLabel2="CommandWindows XP",1,10,337,240,200,18,http://commandwindows.com/command3.htm
+pWebLabel3="CommandWindows Vista",1,10,337,260,200,18,http://commandwindows.com/vista-commands.htm
+
+[Process]
+ECHO,"Checking selections"
+require_file,cmd.exe
+If,%pCheckBox1%,Equal,True,Run,%ScriptFile%,Dependencies_AT_EXE
+If,%pCheckBox2%,Equal,True,Run,%ScriptFile%,Dependencies_ATTRIB_EXE
+If,%pCheckBox3%,Equal,True,Run,%ScriptFile%,Dependencies_CACLS_EXE
+If,%pCheckBox4%,Equal,True,Run,%ScriptFile%,Dependencies_CHKDSK_EXE
+If,%pCheckBox5%,Equal,True,Run,%ScriptFile%,Dependencies_CHKNTFS_EXE
+If,%pCheckBox6%,Equal,True,Run,%ScriptFile%,Dependencies_COMP_EXE
+If,%pCheckBox7%,Equal,True,require_file,COMPACT.EXE
+If,%pCheckBox8%,Equal,True,Run,%ScriptFile%,Dependencies_CONVERT_EXE
+If,%pCheckBox9%,Equal,True,If,Not,%ProcessEnd%,Equal,reached,Run,%ScriptFile%,Dependencies_DISKCOMP_COM
+If,%pCheckBox10%,Equal,True,If,Not,%ProcessEnd%,Equal,reached,Run,%ScriptFile%,Dependencies_DISKCOPY_COM
+If,%pCheckBox11%,Equal,True,Run,%ScriptFile%,Dependencies_DOSKEY_EXE
+If,%pCheckBox12%,Equal,True,If,%SourceArch%,Equal,x86,Run,%ScriptFile%,Dependencies_EDIT_COM
+If,%pCheckBox13%,Equal,True,Run,%ScriptFile%,Dependencies_FC_EXE
+If,%pCheckBox14%,Equal,True,Run,%ScriptFile%,Dependencies_FIND_EXE
+If,%pCheckBox15%,Equal,True,require_file,FINDSTR.EXE
+If,%pCheckBox16%,Equal,True,Run,%ScriptFile%,Dependencies_FORMAT_COM
+If,%pCheckBox17%,Equal,True,If,%SourceArch%,Equal,x86,Run,%ScriptFile%,Dependencies_GRAFTABL_COM
+If,%pCheckBox18%,Equal,True,require_file,HELP.EXE
+If,%pCheckBox19%,Equal,True,require_file,LABEL.EXE
+If,%pCheckBox20%,Equal,True,If,Not,%ProcessEnd%,Equal,reached,Run,%ScriptFile%,Dependencies_MODE.COM
+If,%pCheckBox21%,Equal,True,Run,%ScriptFile%,Dependencies_MORE_COM
+If,%pCheckBox23%,Equal,True,Run,%ScriptFile%,Dependencies_RECOVER_EXE
+If,%pCheckBox24%,Equal,True,Run,%ScriptFile%,Dependencies_REPLACE_EXE
+If,%pCheckBox25%,Equal,True,require_file,SORT.EXE
+If,%pCheckBox26%,Equal,True,Run,%ScriptFile%,Dependencies_SUBST_EXE
+If,%pCheckBox27%,Equal,True,If,Not,%ProcessEnd%,Equal,reached,Run,%ScriptFile%,Dependencies_TREE_COM
+If,%pCheckBox28%,Equal,True,Run,%ScriptFile%,Dependencies_XCOPY_EXE
+If,%pCheckBox_WOW64CmdFiles%,Equal,True,If,Not,%ProcessEnd%,Equal,reached,Run,%scriptfile%,wow64filesA
+
+[wow64filesA]
+If,Not,%SourceArch%,Equal,x86,If,%TargetWOW64%,Equal,x86,Run,%scriptfile%,wow64filesB
+
+[wow64filesB]
+Arch,x86
+Set,%Dependencies_Disk_File_Common_Processed%,No
+Set,%Dependencies_ulibdll_Common%,No
+set,%ProcessEnd%,reached
+Run,%ScriptFile%,Process
+
+[Dependencies_AT_EXE]
+//Lancelot - maybe at.exe requires schedule service..;)
+require_file,AT.EXE
+require_file,lpk.dll
+//netmsg must be in system32 (or syswow64)
+require_file,netmsg.dll
+
+[Dependencies_ATTRIB_EXE]
+require_file,ATTRIB.EXE
+Run,%ScriptFile%,Dependencies_COMMON_ulib_dll
+
+[Dependencies_CACLS_EXE]
+require_file,CACLS.EXE
+//ws03res do not exists on none english source !! and cacls.exe does not work there ?
+If,ExistFile,%source_win%\ws03res.dl?,require_file,ws03res.dll
+
+[Dependencies_CHKDSK_EXE]
+require_file,CHKDSK.EXE
+Run,%ScriptFile%,Dependencies_Disk_File_Common
+//If you use for fat/fat32, than ufat.dll, (not mandatory)
+Require_File,ufat.dll
+//If you use for ntfs, than untfs.dll, (not mandatory)
+Require_File,untfs.dll
+
+[Dependencies_CHKNTFS_EXE]
+require_file,CHKNTFS.EXE
+Run,%ScriptFile%,Dependencies_Disk_File_Common
+
+[Dependencies_COMP_EXE]
+require_file,COMP.EXE
+Run,%ScriptFile%,Dependencies_COMMON_ulib_dll
+
+[Dependencies_CONVERT_EXE]
+require_file,CONVERT.EXE
+Run,%ScriptFile%,Dependencies_Disk_File_Common
+require_file,cabinet.dll
+require_file,cnvfat.dll
+require_file,osuninst.dll
+require_file,scecli.dll
+require_file,ufat.dll
+require_file,untfs.dll
+require_file,userenv.dll
+
+[Dependencies_DISKCOMP_COM]
+require_file,DISKCOMP.COM
+Run,%ScriptFile%,Dependencies_Disk_File_Common
+
+[Dependencies_DISKCOPY_COM]
+require_file,DISKCOPY.COM
+Run,%ScriptFile%,Dependencies_Disk_File_Common
+
+[Dependencies_DOSKEY_EXE]
+require_file,DOSKEY.EXE
+Run,%ScriptFile%,Dependencies_COMMON_ulib_dll
+
+[Dependencies_EDIT_COM]
+require_file,EDIT.COM
+
+[Dependencies_FC_EXE]
+require_file,FC.EXE
+Run,%ScriptFile%,Dependencies_COMMON_ulib_dll
+
+[Dependencies_FIND_EXE]
+require_file,FIND.EXE
+Run,%ScriptFile%,Dependencies_COMMON_ulib_dll
+
+[Dependencies_FORMAT_COM]
+require_file,FORMAT.COM
+Run,%ScriptFile%,Dependencies_Disk_File_Common
+//If you use for fat/fat32, than ufat.dll, (not mandatory)
+require_file,ufat.dll
+//If you use for ntfs, than untfs.dll, (not mandatory)
+require_file,untfs.dll
+//Lancelot notes:
+//_reminding: winspool.drv already expanded by "copy or expand script"
+//_maybe winspool.drv should be in [Dependencies_Disk_File_Common] , not fully checked for other files, only checked for format.com
+require_file,winspool.drv
+//lpk.dll
+// Lancelot -- following are from amalux's "System Files" script but my tests shows format.com do not need them, maybe I miss something so keep here for further inspection.
+//require_file,riched20.dll
+//require_file,riched32.dll
+//require_file,apphelp.dll
+
+[Dependencies_GRAFTABL_COM]
+require_file,GRAFTABL.COM
+
+[Dependencies_LABEL_EXE]
+require_file,LABEL.EXE
+Run,%ScriptFile%,Dependencies_Disk_File_Common
+
+[Dependencies_MODE.COM]
+//Lancelot: not fully checked
+require_file,MODE.COM
+Run,%ScriptFile%,Dependencies_COMMON_ulib_dll
+require_file,UREG.DLL
+
+[Dependencies_MORE_COM]
+require_file,MORE.COM
+Run,%ScriptFile%,Dependencies_COMMON_ulib_dll
+
+[Dependencies_RECOVER_EXE]
+require_file,RECOVER.EXE
+Run,%ScriptFile%,Dependencies_Disk_File_Common
+require_file,untfs.dll
+
+[Dependencies_REPLACE_EXE]
+require_file,REPLACE.EXE
+Run,%ScriptFile%,Dependencies_COMMON_ulib_dll
+
+[Dependencies_SUBST_EXE]
+require_file,SUBST.EXE
+Run,%ScriptFile%,Dependencies_COMMON_ulib_dll
+
+[Dependencies_TREE_COM]
+require_file,TREE.COM
+Run,%ScriptFile%,Dependencies_COMMON_ulib_dll
+
+[Dependencies_XCOPY_EXE]
+require_file,XCOPY.EXE
+Run,%ScriptFile%,Dependencies_Disk_File_Common
+
+[Dependencies_Disk_File_Common]
+//atl.dll is interesting, example: "format.exe 32bit" needs atl.dll on x64 but does not need at x86 !!
+If,Not,%Dependencies_Disk_File_Common_Processed%,Equal,Yes,Begin
+Set,%Dependencies_Disk_File_Common_Processed%,Yes
+Require_File,atl.dll
+Require_File,cfgmgr32.dll
+Require_File,ifsutil.dll
+Require_File,setupapi.dll
+Require_File,ulib.dll
+Require_File,VSSAPI.DLL
+End
+
+[Dependencies_COMMON_ulib_dll]
+If,Not,%Dependencies_ulibdll_Common%,Equal,Yes,Begin
+Set,%Dependencies_ulibdll_Common%,Yes
+require_file,ulib.dll
+End
+
+[HelpView_Process]
+System,FILEREDIRECT,OFF
+ShellExecuteEx,Open,cmd.exe,/k#$shelp.exe,%WindowsDir%
+System,FILEREDIRECT,ON
+
+[depchasedelete]
+If,ExistFile,%target_win%\SysWOW64\riched20.dll,FileDelete,%target_win%\SysWOW64\riched20.dll
+If,ExistFile,%target_win%\SysWOW64\riched32.dll,FileDelete,%target_win%\SysWOW64\riched32.dll
+If,ExistFile,%target_win%\SysWOW64\apphelp.dll,FileDelete,%target_win%\SysWOW64\apphelp.dll
+If,ExistFile,%target_win%\SysWOW64\cfgmgr32.dll,FileDelete,%target_win%\SysWOW64\cfgmgr32.dll
+If,ExistFile,%target_win%\SysWOW64\setupapi.dll,FileDelete,%target_win%\SysWOW64\setupapi.dll
+If,ExistFile,%target_win%\System32\riched20.dll,FileDelete,%target_win%\System32\riched20.dll
+If,ExistFile,%target_win%\System32\riched32.dll,FileDelete,%target_win%\System32\riched32.dll
+If,ExistFile,%target_win%\System32\apphelp.dll,FileDelete,%target_win%\System32\apphelp.dll
+If,ExistFile,%target_win%\SysWOW64\atl.dll,FileDelete,%target_win%\SysWOW64\atl.dll
+If,ExistFile,%target_win%\SysWOW64\userenv.dll,FileDelete,%target_win%\SysWOW64\userenv.dll
+If,ExistFile,%target_win%\SysWOW64\sxs.dll,FileDelete,%target_win%\SysWOW64\sxs.dll
+
+[AuthorEncoded]
+cmdICON.ico=4655,6207
+Logo=cmdICON.ico
+
+[EncodedFile-AuthorEncoded-cmdICON.ico]
+lines=1
+0=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
+1=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
+

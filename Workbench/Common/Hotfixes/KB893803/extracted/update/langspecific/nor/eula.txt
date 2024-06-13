@@ -1,0 +1,94 @@
+TILLEGGSLISENSAVTALE FOR MICROSOFT-
+PROGRAMVARE ("TILLEGGSLISENSAVTALE")
+
+
+VIKTIG -  LES DETTE NØYE - Disse 
+operativsystemkomponentene fra Microsoft, inkludert all 
+"online" eller elektronisk dokumentasjon 
+("Operativsystemkomponenter"), er underlagt vilkårene i 
+lisensavtalen for det aktuelle Microsoft-operativsystemproduktet 
+som er beskrevet nedenfor (kalt en "Lisensavtale for 
+sluttbrukere" eller "LISENSAVTALE") og vilkårene i denne 
+TILLEGGSLISENSAVTALEN.  VED Å INSTALLERE, 
+KOPIERE, LASTE NED, KOBLE TIL ELLER PÅ ANNEN MÅTE 
+BRUKE OPERATIVSYSTEMKOMPONENTENE, 
+AKSEPTERER DE Å VÆRE BUNDET AV VILKÅRENE I 
+LISENSAVTALEN FOR DET AKTUELLE 
+OPERATIVSYSTEMPRODUKTET OG DENNE 
+TILLEGGSLISENSAVTALEN.  HVIS DE IKKE AKSEPTERER 
+DISSE VILKÅRENE, HAR DE IKKE RETT TIL Å INSTALLERE, 
+KOPIERE, LASTE NED, KOBLE TIL ELLER BRUKE 
+OPERATIVSYSTEMKOMPONENTENE.
+
+OBS!  HVIS DE IKKE HAR EN GYLDIG LISENSIERT KOPI AV 
+MICROSOFT-OPERATIVSYSTEMPRODUKTET (HERUNDER, 
+MEN IKKE BEGRENSET TIL, MICROSOFT WINDOWS XP 
+PROFESSIONAL, MICROSOFT WINDOWS 2000 
+PROFESSIONAL, MICROSOFT WINDOWS 2000 SERVER 
+ELLER MICROSOFT WINDOWS 2000 ADVANCED SERVER) 
+SOM HVER OPERATIVSYSTEMKOMPONENT LEVERES 
+FOR (hvert kalles et "Operativsystemprodukt"), HAR DE IKKE 
+RETT TIL Å INSTALLERE, KOPIERE, LASTE NED, KOBLE 
+TIL ELLER PÅ ANNEN MÅTE BRUKE 
+OPERATIVSYSTEMKOMPONENTENE, OG DE HAR INGEN 
+RETTIGHETER I HENHOLD TIL DENNE 
+TILLEGGSLISENSAVTALEN.
+
+Ord som er skrevet med store bokstaver eller store forbokstaver 
+i denne TILLEGGSLISENSAVTALEN og ikke er definert på 
+annen måte i denne Avtalen, skal ha samme betydning som er 
+gitt dem i LISENSAVTALEN for det aktuelle 
+Operativsystemproduktet.
+
+Allment  Operativsystemkomponentene leveres til Dem 
+utelukkende for å oppdatere, supplere eller erstatte 
+eksisterende funksjonalitet i det aktuelle 
+Operativsystemproduktet, og ved installasjon blir 
+Operativsystemkomponentene en del av 
+Operativsystemproduktet.  Microsoft gir Dem lisens til å bruke 
+Operativsystemkomponentene i henhold til vilkårene i 
+LISENSAVTALEN for det aktuelle Operativsystemproduktet 
+(som herved er gjort til del av denne 
+TILLEGGSLISENSAVTALEN ved henvisning) og vilkårene i 
+denne TILLEGGSLISENSAVTALEN, forutsatt at De overholder 
+alle disse vilkårene.  I den utstrekning vilkårene i denne 
+TILLEGGSLISENSAVTALEN strider mot vilkårene i 
+LISENSAVTALEN for det aktuelle Operativsystemproduktet, er 
+det bare vilkårene i denne TILLEGGSLISENSAVTALEN som 
+gjelder for Operativsystemkomponentene.
+
+Ytterligere rettigheter og begrensninger   
+
+* Hvis De har flere gyldig lisensierte kopier av det aktuelle 
+Operativsystemproduktet, har De rett til å reprodusere, 
+installere og bruke én kopi av Operativsystemkomponentene på 
+alle datamaskiner som kjører gyldig lisensierte kopier av 
+Operativsystemproduktet, forutsatt at De bruker slike ekstra 
+kopier av Operativsystemkomponentene i samsvar med 
+vilkårene ovenfor.  
+
+* Med mindre De anskaffet Operativsystemkomponentene på 
+eksterne medier, har De rett til å lage én kopi av 
+Operativsystemkomponentene utelukkende for 
+arkiveringsformål eller for å installere 
+Operativsystemkomponentene på nytt på samme datamaskin 
+som Operativsystemkomponentene var installert på tidligere. 
+Microsoft Corporation, dets datterselskaper og/eller 
+leverandører beholder alle rettigheter og opphavsrettigheter til 
+Operativsystemkomponentene.  Alle rettigheter som ikke er 
+uttrykkelig tildelt, er forbeholdt Microsoft Corporation, dets 
+datterselskaper og/eller leverandører.
+
+EN EVENTUELL BEGRENSET GARANTI I LISENSAVTALEN 
+FOR DET AKTUELLE OPERATIVSYSTEMPRODUKTET 
+GJELDER FOR OPERATIVSYSTEMKOMPONENTENE 
+UNDER FORUTSETNING AV AT 
+OPERATIVSYSTEMKOMPONENTENE ER BLITT 
+LISENSIERT TIL DEM I GARANTIPERIODEN SOM ER 
+ANGITT I LISENSAVTALEN FOR DET AKTUELLE 
+OPERATIVSYSTEMPRODUKTET.  DENNE 
+TILLEGGSLISENSAVTALEN MEDFØRER IKKE NOEN 
+FORLENGELSE AV GARANTIPERIODEN.
+
+
+

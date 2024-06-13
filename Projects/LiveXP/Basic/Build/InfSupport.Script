@@ -1,0 +1,139 @@
+[main]
+Title=InfSupport
+Description=This -project dependent- script allows BartPE plugins to directly include in the project
+Selected=False
+Level=1
+Locked=True
+Author=Peter Schlang
+Version=5
+History=003 psc use project variables like %OS% rather then reading them from projectinfo.ini
+Date=2009-May-17
+Contact=http://Bootland.pt.vu
+Credits=Sherpya for his RegExpander.exe
+Download_Level=1
+CertifiedBy=pscEx
+Certification=bb20c8a85acdf486eef9acb6cf251268
+Certification81=d0a765c5e96483bb8e9a7fcb62565d25
+
+[Variables]
+%ConvertIni%=%ProjectDir%\infconvert.ini
+%AppPath%=%ProjectDir%\Apps
+%FolderProject%=%AppPath%\Folder.project
+
+[Verify]
+Call "WBVersion" ($$$,075);
+
+[Process]
+If,%pCheckBox1%,Equal,True,Run,%ScriptFile%,Convert-Info
+If,%pCheckBox2%,Equal,True,Run,%ScriptFile%,RegExpander
+IniWrite,%ConvertIni%,Variables,#$pNoAppend#$p,%pCheckBox3%
+
+[Convert-Info]
+If,NotExistFile,%ConvertIni%,FileCreateBlank,%ConvertIni%
+//IniRead,%ProjectInfo%,OS,Type,%OS%
+If,%OS%,Equal,XP,IniWrite,%ConvertIni%,Variables,#$psource_Build#$p,2600
+Else,If,%OS%,Equal,W2003,IniWrite,%ConvertIni%,Variables,#$psource_Build#$p,3790
+//IniRead,%ProjectInfo%,Cabs,SP_CAB,%SP_CAB%
+IniWrite,%ConvertIni%,Variables,#$pspFile#$p,%SP_CAB%
+//IniRead,%ProjectInfo%,Cabs,DR_CAB,%DR_CAB%
+IniWrite,%ConvertIni%,Variables,#$pdrFile#$p,%DR_CAB%
+IniRead,%ProjectInfo%,TargetStrings,sProgram_Files,%tmp%
+IniWrite,%ConvertIni%,Variables,#$pLocProgNam#$p,%tmp%
+IniRead,%ProjectInfo%,TargetStrings,sStartmenu_Programs,%tmp%
+IniWrite,%ConvertIni%,Variables,#$pLocProgSM#$p,%tmp%
+IniRead,%ProjectInfo%,OS,SourceLocale,%locale%
+If,%locale%,Equal,00000401,Set,%Language%,arabic
+Else,If,%locale%,Equal,00000405,Set,%Language%,czech
+Else,If,%locale%,Equal,00000406,Set,%Language%,dansk
+Else,If,%locale%,Equal,00000407,Set,%Language%,german
+Else,If,%locale%,Equal,00000408,Set,%Language%,greek
+Else,If,%locale%,Equal,00000409,Set,%Language%,english
+Else,If,%locale%,Equal,0000040c,Set,%Language%,french
+Else,If,%locale%,Equal,00000410,Set,%Language%,italian
+Else,If,%locale%,Equal,00000411,Set,%Language%,japanese
+Else,If,%locale%,Equal,00000413,Set,%Language%,dutch
+Else,If,%locale%,Equal,00000415,Set,%Language%,polish
+Else,If,%locale%,Equal,00000416,Set,%Language%,brazilian
+Else,If,%locale%,Equal,00000418,Set,%Language%,romanian
+Else,If,%locale%,Equal,00000419,Set,%Language%,russian
+Else,If,%locale%,Equal,0000041b,Set,%Language%,slovak
+Else,If,%locale%,Equal,0000041d,Set,%Language%,swedish
+Else,If,%locale%,Equal,0000041f,Set,%Language%,turkish
+Else,If,%locale%,Equal,0000042F,Set,%Language%,macedonian
+Else,If,%locale%,Equal,00000801,Set,%Language%,arabic
+Else,If,%locale%,Equal,00000816,Set,%Language%,portuguese
+Else,If,%locale%,Equal,00000c01,Set,%Language%,arabic
+Else,If,%locale%,Equal,00000c0a,Set,%Language%,spanish
+Else,If,%locale%,Equal,00001001,Set,%Language%,arabic
+Else,If,%locale%,Equal,00001401,Set,%Language%,arabic
+Else,If,%locale%,Equal,00001801,Set,%Language%,arabic
+Else,If,%locale%,Equal,00001c01,Set,%Language%,arabic
+Else,If,%locale%,Equal,00002001,Set,%Language%,arabic
+Else,If,%locale%,Equal,00002401,Set,%Language%,arabic
+Else,If,%locale%,Equal,00002801,Set,%Language%,arabic
+Else,If,%locale%,Equal,00002c01,Set,%Language%,arabic
+Else,If,%locale%,Equal,00003001,Set,%Language%,arabic
+Else,If,%locale%,Equal,00003401,Set,%Language%,arabic
+Else,If,%locale%,Equal,00003801,Set,%Language%,arabic
+Else,If,%locale%,Equal,00003c01,Set,%Language%,arabic
+Else,If,%locale%,Equal,00004001,Set,%Language%,arabic
+Else,Set,%Language%,english
+IniWrite,%ConvertIni%,Variables,#$ptarget_Lng#$p,%Language%
+
+[RegExpander]
+Echo,"Copying files.."
+ExtractFile,%ScriptFile%,Folder,RegExpander.exe,%target_sys%
+Echo,"Loading registry hive: [software]"
+Hive_Load,HKU
+Echo,"Writing new values on registry hive.."
+reg_add,0x1,"%reg%\Microsoft\Windows\CurrentVersion\RunOnceEx\800","100","||RegExpander.exe"
+Hive_Unload,HKU
+
+[Generate]
+Set,%var%,%pFileBox1%
+StrFormat,CTrim,%var%,\,%Var%
+If,NOTEXISTDIR,%AppPath%,DirMake,%AppPath%
+If,NOTEXISTFILE,%FolderProject%,FileCreateBlank,%FolderProject%
+IniDeleteSection,%FolderProject%,Links
+IniAddSection,%FolderProject%,Links
+IniWriteTextLine,%FolderProject%,Links,%var%\*.*
+Run,%ScriptFile%,Msg
+
+[Remove]
+If,EXISTFILE,%FolderProject%,IniDeleteSection,%FolderProject%,Links
+Run,%ScriptFile%,Msg
+
+[Msg]
+Message,"You must restart WinBuilder to read then new mapping configuraion!",INFORMATION
+
+[Interface]
+pCheckBox1=CreateInfConvert.ini,1,3,22,117,151,18,True
+pTextLabel6="If you want to use BartPE .INF plugins, you have to include thsis script in your build",1,1,22,21,438,41,9,Bold
+pTextLabel1="This script can be used for nativeEx based projects only!",1,1,20,71,462,18,9,Bold
+pCheckBox2="Add RegExpander to build",1,3,22,155,200,18,True
+pBevel1=pBevel1,1,12,16,182,476,87
+pFileBox1=,1,13,57,222,200,28,dir
+pTextLabel7="Gererate Folder Link to BartPE Plugins Directory",1,1,57,197,308,18,9,Bold
+pButton1=Generate,1,8,271,226,80,25,Generate
+pButton2=Remove,1,8,373,226,80,25,Remove
+pCheckBox3="Do not process Nu2Menu, if there is a XPEINIT shortcut",1,3,17,285,474,18,True
+
+[AuthorEncoded]
+bartpe.JPG=2Kb,2Kb
+Logo=bartpe.JPG
+
+[EncodedFolders]
+Folder
+
+[EncodedFile-Folder-RegExpander.exe]
+lines=1
+0=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
+1=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
+
+[Folder]
+RegExpander.exe=4Kb,6Kb
+
+[EncodedFile-AuthorEncoded-bartpe.JPG]
+lines=0
+0=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
+

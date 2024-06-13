@@ -1,0 +1,62 @@
+[Main]
+Title=VerifyMacros
+Type=script
+Level=1
+Version=35
+Description=Contains macro definitions for verify
+Author=Peter Schlang
+Date=2009-FEB-23
+Selected=None
+Download_Level=1
+Mandatory=False
+CertifiedBy=pscEx
+Certification=0d94d434117d4017971859392c803601
+Certification81=441363a35c3407411155ea7a5f17ab4c
+
+[Verify]
+Macro "CheckSourceOS"
+If !{{%script.project:Variables.OS%="XP"}
+| {%script.project:Variables.OS%="W2003"}} Then
+"This project needs XP or W2003 as source";
+Macro "DriveInUse"
+If {%#arg1#%} & {%#arg1#:Interface.#arg2#%} Then
+"#arg1#: Drive %#arg1#:Interface.#arg2#% in use";
+Macro "NoDrive"
+If {%#arg1#%} & !{%#arg1#:Interface.#arg2#%} Then
+"#arg1#: No writable drive %#arg1#:Interface.#arg2#% found";
+Macro "Version"
+If {%#arg1#:Main.Selected%}
+& {{%#arg2#%} & {%#arg2#:Main.Version%<#arg3#}} Then
+"#arg1# needs at least version #arg3# of #arg2#";
+Macro "WBVersion"
+If {%#arg1#:Main.Selected%}
+& {%script.project:Main.WBVersion%<#arg2#} Then
+"#arg1# needs at least version #arg2# of WinBuilder";
+Macro "ExactWBVersion"
+If {%#arg1#:Main.Selected%}
+& {%script.project:Main.WBVersion%!=#arg2#} Then
+"#arg1# needs version #arg2# of WinBuilder";
+Macro "Tools"
+If !{%#arg1#%} Then
+"Missing support program. Please click the 'Download' tab and download the Tools directory from updates.boot-land.net";
+Macro "Before"
+If {@#arg2#@ > @#arg1#@}
+& %#arg1#:Main.Selected% & %#arg2#:Main.Selected% Then
+"#arg1# must run before #arg2#";
+Macro "Selected"
+If {%#arg1#:Main.Selected%=False} Then
+"#arg1# is unselected";
+
+[EncodedFolders]
+Folder
+
+[Folder]
+
+[EncodedFile-AuthorEncoded-Macros.jpg]
+lines=0
+0=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
+
+[AuthorEncoded]
+Macros.jpg=1Kb,2Kb
+Logo=Macros.jpg
+

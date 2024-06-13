@@ -1,0 +1,87 @@
+CONTRAT DE LICENCE UTILISATEUR FINAL 
+SUPPLÉMENTAIRE POUR LOGICIEL MICROSOFT
+(« CLUF Supplémentaire »)
+
+IMPORTANT - À LIRE ATTENTIVEMENT : Les composants 
+système d'exploitation de Microsoft accompagnant le présent 
+CLUF Supplémentaire, y compris toute documentation « en 
+ligne » ou sous forme électronique (les « Composants SE »), 
+sont soumis aux termes du contrat (un « Contrat de Licence 
+Utilisateur Final » ou « CLUF ») par lequel vous avez acquis 
+sous licence le produit système d'exploitation Microsoft décrit 
+ci-dessous, ainsi qu'aux termes du présent CLUF 
+Supplémentaire. EN INSTALLANT, EN COPIANT, EN 
+TÉLÉCHARGANT LES COMPOSANTS SE, EN ACCÉDANT 
+AUX COMPOSANTS SE OU EN LES UTILISANT DE TOUTE 
+AUTRE MANIÈRE, VOUS RECONNAISSEZ ÊTRE LIÉ PAR 
+LES TERMES DU CLUF RELATIF AU PRODUIT SYSTÈME 
+D'EXPLOITATION APPLICABLE ET PAR LES TERMES DU 
+PRÉSENT CLUF SUPPLÉMENTAIRE. SI VOUS ÊTES EN 
+DÉSACCORD AVEC CES TERMES, VEUILLEZ NE PAS 
+INSTALLER, COPIER, TÉLÉCHARGER, UTILISER OU 
+ACCÉDER AUX COMPOSANTS SE.
+
+REMARQUE : SI VOUS NE DISPOSEZ PAS D'UN 
+EXEMPLAIRE SOUS LICENCE VALABLE DU PRODUIT 
+SYSTÈME D'EXPLOITATION DE MICROSOFT (Y COMPRIS, 
+DE MANIÈRE NON LIMITATIVE, MICROSOFT WINDOWS XP 
+PROFESSIONNEL, MICROSOFT WINDOWS 2000 
+PROFESSIONNEL, MICROSOFT WINDOWS 2000 SERVER 
+OU MICROSOFT WINDOWS 2000 ADVANCED SERVER) 
+CORRESPONDANT AUX COMPOSANTS SE FOURNIS 
+(chacun d'entre eux étant dénommé un « Produit SE »), VOUS 
+N'ÊTES PAS AUTORISÉ À INSTALLER, COPIER, 
+TÉLÉCHARGER, UTILISER OU ACCÉDER AUX 
+COMPOSANTS SE, ET CE CLUF SUPPLÉMENTAIRE NE 
+VOUS CONFÈRE AUCUN DROIT.
+
+Les termes commençant par une lettre majuscule, qui sont 
+utilisés dans le présent CLUF Supplémentaire mais qui n'y sont 
+pas définis, ont le sens qui leur a été attribué dans le CLUF 
+relatif au Produit SE applicable.
+
+Stipulations générales. Les Composants SE vous sont fournis 
+dans le seul but de mettre à jour, compléter ou remplacer des 
+fonctionnalités existantes du Produit SE applicable, et une fois 
+qu'ils ont été installés, les Composants SE font partie du 
+Produit SE. Microsoft vous concède, par les présentes, une 
+licence d'utilisation de ces Composants SE en vertu des termes 
+du CLUF relatif au Produit SE applicable (ce CLUF étant 
+incorporé aux présentes) et des termes de ce CLUF 
+Supplémentaire, sous réserve que vous respectiez l'ensemble 
+de ces termes. Si des termes de ce CLUF Supplémentaire sont 
+contradictoires avec ceux du CLUF relatif au Produit SE 
+applicable, les termes de ce CLUF Supplémentaire 
+prévaudront.
+
+Droits et limitations supplémentaires.
+
+* Si vous disposez de plusieurs exemplaires sous licence 
+valable du Produit SE, vous êtes autorisé à reproduire, installer 
+et utiliser un exemplaire des Composants SE sur tous vos 
+ordinateurs sur lesquels fonctionnent des exemplaires sous 
+licence valable du Produit SE, à condition que vous utilisiez ces 
+exemplaires supplémentaires des Composants SE 
+conformément aux termes stipulés ci-dessus. 
+
+* À moins que vous n'ayez obtenu les Composants SE sur un 
+support externe, vous êtes autorisé à effectuer une seule copie 
+des Composants SE uniquement pour des besoins d'archivage 
+ou de réinstallation de ces Composants SE sur l'ordinateur sur 
+lequel ils étaient précédemment installés. Microsoft 
+Corporation, ses filiales et/ou ses fournisseurs conservent tous 
+les droits relatifs aux Composants SE. Tous les droits non 
+expressément concédés sont réservés par Microsoft 
+Corporation, ses filiales et/ou ses fournisseurs. 
+
+LA GARANTIE LIMITÉE (SI ELLE EXISTE) INCLUSE DANS 
+LE CLUF RELATIF AU PRODUIT SE S'APPLIQUE AUX 
+COMPOSANTS SE, À CONDITION QUE CEUX-CI VOUS 
+AIENT ÉTÉ CONCÉDÉS SOUS LICENCE PENDANT LA 
+DURÉE DE LA GARANTIE LIMITÉE PRÉVUE PAR LE CLUF 
+RELATIF AU PRODUIT SE APPLICABLE. LE PRÉSENT CLUF 
+SUPPLÉMENTAIRE N'A PAS POUR EFFET DE PROROGER 
+LA DURÉE DE CETTE GARANTIE LIMITÉE.
+
+
+

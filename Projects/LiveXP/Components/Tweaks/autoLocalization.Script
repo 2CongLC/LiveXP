@@ -1,0 +1,153 @@
+[main]
+Title=autoLocalization
+Description=Change your build based on your regional settings.
+Selected=False
+Level=1
+Author=Peter Schlang
+Contact=http://BootLand.pt.vu
+Credits=
+Date=2009-Aug-15
+Locked=True
+Version=8
+Download_Level=2
+Mandatory=False
+CertifiedBy=pscEx
+Certification=622b67bbeeae1990c26d0aa44aa7fa31
+History006=psc changed to logging by [OnProcessExit]
+History007=Lancelot added Turkish locale fix (Thanks to m4dm4Xz) -- also not adding locale info fixes the issue too, hidden checkbox added with disable as default. - http://www.boot-land.net/forums/index.php?showtopic=10246
+History008a=Lancelot Thanks to MaineCoon and fxscrpt - LCIDutil-NLS-FIX method added - Thai added to Transfer-Reg-Fix,Locale
+History008b=Lancelot Reminder to project admins: If LCIDutil-NLS-FIX not available a) than better not to write locale info or b) Transfer-Reg-Fix,Locale must be expanded or another alternative must be produced
+Certification81=2da0e1d08ece5af76d2449730971997c
+
+[Interface]
+pTextLabel1="This script reads your regional settings like date format etc. from your registry and transferes them to the PE.",1,1,9,29,468,31,9,Bold
+pTextLabel2="There are no options to set here.",1,1,9,69,230,18,9,Bold
+pBevel1=pBevel1,0,12,17,113,372,97
+pTextLabel3="Settings for 'Project Administrators':",0,1,22,105,251,18,10,Bold
+pCheckBox1="Add 'Locale' info to registry",0,3,36,127,197,18,True
+pCheckBox2="Use LCIDutil-NLS-FIX If available",0,3,61,147,200,18,True
+pCheckBox3="Use FIX Infos added to script",0,3,61,166,200,18,False
+pCheckBox4="Use FIX Infos added to script If LCIDutil-NLS-FIX not available",0,3,61,186,323,18,True
+
+[Variables]
+%TMPREG%=TMPREG
+
+[Transfer-Reg]
+If,EXISTREGKEY,HKCU,"Control Panel\International","#1",Begin
+RegRead,HKCU,"Control Panel\International",#1,"%TMPREG%"
+RegWrite,HKLM,0x1,"WB_Default\Control Panel\International",#1,"%TMPREG%"
+If,#1,Equal,0000041F,Run,%ScriptFile%,NLSFix_#1
+End
+
+[Transfer-Reg-Geo]
+If,EXISTREGKEY,HKCU,"Control Panel\International\Geo","#1",Begin
+RegRead,HKCU,"Control Panel\International\Geo",#1,"%TMPREG%"
+RegWrite,HKLM,0x1,"WB_Default\Control Panel\International\Geo",#1,"%TMPREG%"
+End
+
+[Process]
+Echo,"Processing default hive"
+RegHiveLoad,WB_Default,%target_sys%\config\default
+If,%pCheckBox1%,Equal,True,Begin
+Run,%ScriptFile%,Transfer-Reg,Locale
+If,ExistFile,%LocalizeInfoTemp%\LCIDutil.exe,If,%pCheckBox2%,Equal,True,Run,%ScriptFile%,Transfer-Reg-LCIDutil-NLS-FIX
+If,%pCheckBox3%,Equal,True,Run,%ScriptFile%,Transfer-Reg-Fix,Locale
+If,Not,ExistFile,%LocalizeInfoTemp%\LCIDutil.exe,If,%pCheckBox4%,Equal,True,Run,%ScriptFile%,Transfer-Reg-Fix,Locale
+End
+Run,%ScriptFile%,Transfer-Reg,LocaleName
+Run,%ScriptFile%,Transfer-Reg,s1159
+Run,%ScriptFile%,Transfer-Reg,s2359
+Run,%ScriptFile%,Transfer-Reg,sCountry
+Run,%ScriptFile%,Transfer-Reg,sCurrency
+Run,%ScriptFile%,Transfer-Reg,sDate
+Run,%ScriptFile%,Transfer-Reg,sDecimal
+Run,%ScriptFile%,Transfer-Reg,sGrouping
+Run,%ScriptFile%,Transfer-Reg,sLanguage
+Run,%ScriptFile%,Transfer-Reg,sList
+Run,%ScriptFile%,Transfer-Reg,sLongDate
+Run,%ScriptFile%,Transfer-Reg,sMonDecimalSep
+Run,%ScriptFile%,Transfer-Reg,sMonGrouping
+Run,%ScriptFile%,Transfer-Reg,sMonThousandSep
+Run,%ScriptFile%,Transfer-Reg,sNativeDigits
+Run,%ScriptFile%,Transfer-Reg,sNegativeSign
+Run,%ScriptFile%,Transfer-Reg,sPositiveSign
+Run,%ScriptFile%,Transfer-Reg,sShortDate
+Run,%ScriptFile%,Transfer-Reg,sThousand
+Run,%ScriptFile%,Transfer-Reg,sTime
+Run,%ScriptFile%,Transfer-Reg,sTimeFormat
+Run,%ScriptFile%,Transfer-Reg,sYearMonth
+Run,%ScriptFile%,Transfer-Reg,iCalendarType
+Run,%ScriptFile%,Transfer-Reg,iCountry
+Run,%ScriptFile%,Transfer-Reg,iCurrDigits
+Run,%ScriptFile%,Transfer-Reg,iCurrency
+Run,%ScriptFile%,Transfer-Reg,iDate
+Run,%ScriptFile%,Transfer-Reg,iDigits
+Run,%ScriptFile%,Transfer-Reg,NumShape
+Run,%ScriptFile%,Transfer-Reg,iFirstDayOfWeek
+Run,%ScriptFile%,Transfer-Reg,iFirstWeekOfYear
+Run,%ScriptFile%,Transfer-Reg,iLZero
+Run,%ScriptFile%,Transfer-Reg,iMeasure
+Run,%ScriptFile%,Transfer-Reg,iNegCurr
+Run,%ScriptFile%,Transfer-Reg,iNegNumber
+Run,%ScriptFile%,Transfer-Reg,iPaperSize
+Run,%ScriptFile%,Transfer-Reg,iTime
+Run,%ScriptFile%,Transfer-Reg,iTimePrefix
+Run,%ScriptFile%,Transfer-Reg,iTLZero
+Run,%ScriptFile%,Transfer-Reg-Geo,Nation
+RegHiveUnLoad,WB_Default
+// now done automatically
+//Run,%ScriptLog%,Process-log
+
+[Transfer-Reg-LCIDutil-NLS-FIX]
+If,EXISTREGKEY,HKCU,"Control Panel\International","Locale",Begin
+RegRead,HKCU,"Control Panel\International",Locale,"%TMPREG%"
+If,ExistFile,%LocalizeInfoTemp%\Lcidtemp.txt,FileDelete,%LocalizeInfoTemp%\Lcidtemp.txt
+Set,%DefaultCodePageValue%,"-"
+Shellexecute,hide,%LocalizeInfoTemp%\LCIDutil.exe,"%TMPREG%#$s#$q%LocalizeInfoTemp%\Lcidtemp.txt#$q",%LocalizeInfoTemp%
+System,ErrorOff
+IniRead,%LocalizeInfoTemp%\Lcidtemp.txt,Locale,DefaultAnsiCodePage,%DefaultAnsiCodePageValue%
+If,Not,%tmp%,Equal,"-",Begin
+//IniRead,%ProjectInfo%,Project,LangID,%LangIDNumberProjectInfo%
+//IniRead,%LocalizeInfoTemp%\Lcidtemp.txt,Locale,Locale,%LocaleValue%
+//If,%LocaleValue%,Equal,%LangIDNumberProjectInfo%,No need to fix ;) , but I like to be on safe side.
+If,ExistFile,%target_sys%\c_%DefaultAnsiCodePageValue%.nl_,FileDelete,%target_sys%\c_%DefaultAnsiCodePageValue%.nl_
+If,Not,ExistFile,%target_sys%\c_%DefaultAnsiCodePageValue%.nls,CopyOrExpand,%source_sys%\c_%DefaultAnsiCodePageValue%.nls,%target_sys%
+RegHiveLoad,WB-SYSTEM,%target_sys%\SETUPREG.HIV
+RegWrite,HKLM,0x1,WB-SYSTEM\ControlSet001\Control\Nls\CodePage,%DefaultAnsiCodePageValue%,c_%DefaultAnsiCodePageValue%.nls
+RegHiveUnLoad,WB-SYSTEM
+End
+End
+
+[Transfer-Reg-Fix]
+If,EXISTREGKEY,HKCU,"Control Panel\International","#1",Begin
+RegRead,HKCU,"Control Panel\International",#1,"%TMPREG%"
+If,%TMPREG%,Equal,0000041F,Run,%ScriptFile%,NLSFix_%TMPREG%
+If,%TMPREG%,Equal,0000041E,Run,%ScriptFile%,NLSFix_%TMPREG%
+End
+
+[NLSFix_0000041F]
+Echo,"Fix Turkish Locale"
+//Lancelot: c_1026.nls must be extracted when locale is Turkish ( 0000041F ) -- Reason: It cause some applications fail , Example: Early Starter (ps: same fix also exists in autokeyboard) -- http://www.boot-land.net/forums/index.php?showtopic=10246 (post21)
+If,ExistFile,%target_sys%\c_1254.nl_,FileDelete,%target_sys%\c_1254.nl_
+If,Not,ExistFile,%target_sys%\c_1254.nls,CopyOrExpand,%source_sys%\c_1254.nls,%target_sys%
+RegHiveLoad,WB-SYSTEM,%target_sys%\SETUPREG.HIV
+RegWrite,HKLM,0x1,WB-SYSTEM\ControlSet001\Control\Nls\CodePage,1254,c_1254.nls
+RegHiveUnLoad,WB-SYSTEM
+
+[NLSFix_0000041E]
+Echo,"Fix Thai Locale"
+If,ExistFile,%target_sys%\c_874.nl_,FileDelete,%target_sys%\c_874.nl_
+If,Not,ExistFile,%target_sys%\c_874.nls,CopyOrExpand,%source_sys%\c_874.nls,%target_sys%
+RegHiveLoad,WB-SYSTEM,%target_sys%\SETUPREG.HIV
+RegWrite,HKLM,0x1,WB-SYSTEM\ControlSet001\Control\Nls\CodePage,874,c_874.nls
+RegHiveUnLoad,WB-SYSTEM
+
+[EncodedFile-AuthorEncoded-authorlogo.jpg]
+lines=2
+0=eJylllVQHOCShWdwDRk8uAwuwWWw4G6Bwd01BHcNzjAEDU5wd3d3h+AEgjsEh0Bgc+/D1r7v9/bX6XP+qq6urn5dfv0FeKsgIy8DAP6DFcgKALyuAST/+/r/8J+Q/28G8LUHAEIDaAG0EIE0AAQQEBEEfB0AUAIAQGQAAiIQ8L+goKKhYyBhAhGQEf8VcL8FAJEQgIj/QED5bxkiEAEJGQUVBEDDxcOnRucUxyCgpVEnBHOZOsfTcedK/DORA/+ZEIH/JxQVgIiMAkRCQ0D/J3OB/oUA/hOKgISI/h8ZiICIhAzCBaDgoVJz4tMQ0IoHo6k7c3FLSH40DYnPfV0FYP3HAUIEAcQAm8OysnLkWfU1sUKhxg7KEb5EFIPOI/BvpqIK5dn3gXnCxJzhcOEnpmEt6WAExlF6gwQsatLM8zogQ+6jaB0QDEAHBwHIE1SXAajrCQE9ONOFozDiXtYoFHyvX6Rj5qmwtxLUjUYSSdVaNebm6gb3nSOLjQQGJZHlC3qemLeBZ0QyUzlwdQu8exlz4DRWdJZdvJWaREp0BbGDq244Nt7snADcamdqZF+KuUw+VJSo4vCveEDR2rcO/y+0yqaC8o0qcJ4UrVdAmD1rGoWH0rXcTQ/r6j5+LuH+tiLpfmqhrbK00StABdK0bzJqwoS8HGG/OggkXqEXduhm6hp1KDfZmWdGfr9YUh0LbB4TrMtfmYziMpC3xCzGrasxIw3/yhW9A9ePLh+57HCxthNvJYe0/RX+WUkhli8/UWvD0/DJaR+QOF1MyqsUqm9wdPSc6TEls5RU0pr/lXLBIMwz/rcPo9mLRhCN09qcu1r06SuAKNhJi2+65Jv/mkeHVpt1U5Z9Ze0T2GzBQsjn+PxxGj3qF9NeSUV9P1sWUP+56/vxukvMn52gKS207GaRmb9KtalXpxn2axTGZ0Nzb3LTr3mHfoJLenNpBmkOPLryeMpeAUpzDJLeuke1ElxC+9pHz9CaWheN0R72bXPNKVbG+29vz7eSkEtjKNhKUpAHBOrMNeF+5tkN/Qx5D8XUOmLqBd4BVZIRMyggOi7an5Q7vYdu4sytFVR/GbyqE1jIFmz1DngJBK9c/Crvo5pB+QRcVbYkL9/TYw0+If9MixgqQrsbvq5yF8HnsVcff/uHsk5E3BEO+6OM3fFjEkpC4vBoXLtcAi1Nc8FZp0hyE0vJzz+uZwloF9LWMwj50rKxQAgOtYliViHy5wsZiCcpEXS1s7kCGi+tcQlmDgmWJ2vFlqlzDGFmlqW0r3b/KG8IuCDk1apf7i2axvpx6w4PeLudNjK5tf9bPNT7I/MVQ2xJFW2tr31RVGQVV0yYVEnVg5uth0pjjr0MSL5pUONe7msBBCi8uqCVRa/AKNKTD5ZINiahRabXlQG0yen9OOEgpdUx3MZbS51bQWiysUqxIFl9SlM/tZ8kegQyC37dSliSSh0KZUAqUsFPQnwGjfSlBE9dLT8YGQpUyVIr/dltGhwHdysrzOQQTVl9+yRaSsdtxZRBECNgzZ2hXM4Ww9tkBTGXJ8oIbQr8dhr5wgLpHiu6thNLpZxsGBFhSKSTaof4QIaL55pPahM0fs7cPW6IdDZJRsszll5iz3pPwPLf0RJIkJyea3iLyisRWOc/XYY3/1aT4unTH7rSIQUEi2IXEHu4J9Isay0PxkGQHmTxS1xNFfFwCA3kqVz7aXiCQOHAvvvIPF+jYcEqaW0jU4k2yKIKUOH9rztEr5bTB3VxCvkVwP32VCenIQfg6wdwUCBV8klX3O1J7YtsHjpi7cm32dnZ+YDak2vOMDK6ry4cVIANc+IqGSwJPOguNcWeTC3MHDrtmgyqlIZqSp0QdGu/L6ncfwUs47ovlrT63hYxWHMlkpDJ4ziwPH0QnnWoFyLkfIF9bcllLBXpl5vpwRVGfLenbOvUfML2Ewxfe5KtKRyuyNDPvFAsWGjATXeSum1wOdlb3r+X9JWjQa91fhgol6elpcSFrstjuQg7SvexvZgrm5vjRs+NIRbKOG+hfwUFydVjMxYxjQv06nRlhgJSdb4LScFpAaryO+aQ5dn+a97phDQBuORX+ET7vcBgwp+QX30/ppwKxInp+Tb5YmPmRBWz697vfGgIXTpn7fDong+oe/eJgsteq5Q+Y60vh0yRg2Yy8xEFapZXIrsXPfpm8zaAz++aeG3NmCc4biu9aKiaFtuEkgSrI93dv05XT6WxvkZcK1T1/fc+JBc6+WQ9KkD2CokLe+cT9bqOp6um1oqYU9qlK80OP+UvsghmdkQG0gHO5U8ha7iYFI5hhkqKtAv9wrIyfhhXEw3JzIXNjshSXwI2w8iaOROUtXXhCjGWGB7S9hh+Lg+11Lrm+Ir22GjmbyziuyTPVlEgjKnZ4ArtMZmSXNrd/fyLpbYsjbUOlZWbOx9l3eBuuqYxx/Maue5aa8+6KgRgCkG4FgJkTPiDALMmneKJFTmhgMUoq40JLvHf9pvh9Y2zuyZHg6Ioiz2BLnttnF4LOwU//nd9Fm451A39wreB+Ls8V84b8/N6pFXlXTkJjkxT+LEUz9ud3aOHownK+YTPrruCbBKOKoqB1Cb69Kb2xDBB85SvekP2lx1m1NvbsIXNQFfDwV9ZzfZpzbrUv7oEvquChyjGuhBNF/pDvJvuPhJ+FLBk3ELRTJFxRVl5b75aaEoBysEjFToR6qT1lE47w3pTTta0CBuqqMkKrHwf52ofNdukmDf2yZz4I828ikH60BS+pFFrj1NbOP/HDzVkb7VV8IDx99hNfJ9aRjnJ5zPPleudGHm3+tmv/Bcy5EoGURgEPKLEQCmKJBOl1j2sqeJuo28x8TbGmLA5Pjm4wVIpmhy7TN7h0mt/qB7UEa4aSTFqw9CEtDMiOlBFfuBEe6zbHYKX3HFWoKPJdnaJsrf+3hjc6sr5bXR2ILJEuPF5v/n6NOHdzfY02pHqVlSiSqXJ4Y/NousF1nZ4WB67a8Z2pUmrk6cLxf7PPud1PFjIDy3uRLWj7G/lIy+1le8+RA5gIk0r7uMynhlnqjMIXzqVdvsOrCdciRQAiYwto+9220a89mycdWYcGFPKhOW2aljX7GTkMcLo2UK3BdHBQwIh27CgGN9+E6lxF/kYJZLoQD2pQizmbRHZd2QuWciEzl7xYCxbNUnJVoJTUtjsK4CmtoTl6G5FObm5lcy7rt+qvoC16c3H4ViBz7v9Neio5HqbLr/HkjjjJ1JDXUNkpcODBR6jYoa0QxxsoneaBLQEZqfN4dl5PtkqVKs0PF9chGH2IzIsrfZQ9aqTeNFC32+y/NXBzUwDv9fZO1aU4ezkxBJ1S2Qpvf44xdKMuwfM0ggKHh+YfqophHafKaGDNzMYqLsToxZmAmTqPbWT7dK/su6XFWgPVCi2K+RQYfJ7fEgvG8ImkRYZQbH9BLtMWAW7pFJ8shOhEBfE4JWt3dyPR1v4vBpz9ND6km53cBhxi9XwSRKxrrPfJaG8Il8p/ntdVH2nR8jQ2zhrywpKxvHxHcUS6c4BPVneWTimHt/zaPEXSohAAOETIww/OBwrgayKZIQ2GX0s/ljAAc/wZMKGWJdiQV3uLjLmCmavzsbP0rjIFpNmWmdhnpbSPr1lJQC90bSJwaT5Liw4U1irBxVvYwvz06AaG4LBNLh7peZaZ0TnDgIMN/Pb6/fmpDIKrfE+7rKHHT7cZy3nrN0zvkP/bXXFaH/3bDqorlac9aEhitrIh/v7ezHcgrKfBhO5VEy/3SkD/nq43LiTPyls/uic91goFArJtZHEsz35w5pu8RZvgVz6kfZJqSjmxx50OnfUTF8j3qBL4UEF+mgEr17IGEpKRlVl8G55vjkc1PF8BZih3Yii1qA9v8V5+WtZfsvqsOKh3y5nFzyiGRx5vJKm37MAVV2/Xs/2QwQ9v8fy0TaplVl4BXyMFo/oTw88GvdbruRqFQ5MhIuC8LIJArThol7PxT/FuvUw/srUHohftGVb5BbXNs8REx+Ple3Ryhs6JvMpkkRGwtDJXN+/gUq8lfJkU6eBBGcvpkUNo+1JPWpKP5c9VzOW/u7+q2kkeNIkmvUs2Jl1djsxzx0gis
+1=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
+2=Yo+jdcELTRojPUYLn+FetSzyEm3hJUFFae4n4UgGUfvLGxpBuykt4b6wXQEtfWnGmSrniexsd+QzzZnqKHMd6MpwDB916u6jacgws19zShnzLT/25OXL3i+p6vz39G01WJlD7jkDBYfB8BbbQdlCWubHjyaE3lB5Lg8JnO/vaXsc714BjIvjbIIMIsb8lLlks/HW6koXIty6cekWLB65jFVA5oI3lTHIFzgMzZisW9Z36hiMjorEWnwF70zlqCiWUCTkOfxCo/fwdb9rDXMs+PP7wKjCj4W6MK3AEHlBKFWRQjSxqWVYgYCHC9p9OU00SOQk+l5e4n3EF4Loew5HCBNIVnwoZVdaa1T6IHnLoOM5sL5VtZnp/lE1LvSg4PSJ6HJnl9fIWxoq9fjy/PnfuAkXryVt+RyIbG59W+VdK3r0/tnKCT1cuQyIETHmMMFQbvS7fpxzkAP+arBN1vh4bDeoInZ80VrINJWoqFPGVuWk+5jMsgLCZeIzAQSuy35LDICoez/hdBmGPEyEpFkmEYegolO0LfzCbVC+C0jAYqDSK32G+7nEV9wKfp2NjB6mC7Bqv2BtjaeaY7eIB3uBI7qcRyQ4pw8GBiQFHCUeOI34sCfNnlu1e7VLWmMOJLA57emXYH2Vt+SEOkZOqKLykWZwDdBGxtSSiAgNr04kCm/0wBbZ7UbhPHmPp2mO+IJ/y7HSsPU+ETJlmAyTKk0vFXBQPGDLVWQMko5hIvg83tWZZaxNQDRlCLPydhOiVGLodXkS2JfuqF0b5FeTZ1Aq/DJ2ilxG9SORjYJNxraVWdW8qaWYf+T6HXVjY4fWyRUP2ACi5lUJNIvZmy/FFJ+1PIowyZGbqLaSj06Uhb7VYD8YBxPjWJdy7AuHmqTKXQ5JeJW/MQZE9GoWkur1lhvwd3uJFRMdnjivbKCydMD3nOs+nNs772xMow+w55fp23aaOx9OQPSCzm5Z7t54wWJp7oTiGcxTH8zMD9z0ScnSEf3+UoipGOGsEizyrld7owx7TLvwwmOcQu0PKfj+9Cvp1pLoNFXzfG3Qneqr9MQk/Dk7GGuOF38wvKOnK/slsV4jy+AN7DmAaLtlKvR0ZM0d0HvzbCr1q0uqJnSZu/YUQ31ErQ4ghGzvM7VKXmJWaAIT/83q68MfCczqGkNHKiu7830m/4f0H9/Zf8zddJJLB+w+UZ/xtx8nlZ4LSZ6c5eUjDIV5u6ose4epQYkejurtzLT2GrGkjd+rtO0LZO5Ke/3sc3Nzu/OHcEGdUu4mLV4BZivHl2X3j5cFKzqef33EAo0obKWZpBSon/NL3MWOK9DE1n3yztr/aPpiTBaN1izq87eQ8z3i+A6r41EP1Vd8okwoa4zPtyQ+3lXgc92OYmBKuHUi6842qA0KLEBUwrXOPL/jyz1ZeAUskPCVDOSNq7tOhyjTa7CyeVKi/fu8JOZ66+Hw8Liv6/qeq0R1u9EE1UgzXGHm9sW9yjNXzKmVXf6leDF466FvIzAv8tPT3+8lF3/xg18B0xqKkgEp00VN+RkU80J8J5v1SOKpCxmIItgo9K6xevvdd8qe6lE65dBJVU6FEToY7IWLdmVc6w/PUPCcSNu2eK+bSmlPIzuYwPynYvAOr9epbQSpMK5lLssOhnLnl4zf+iySE9mWUOeCzrGyYlm1DEHs9kP7emU3obeqGQEbPQC3mLn3y8AnzQARpylbMF56qPQz8wuqdXfz/c3Fvw67F59s5v+j8MjndeV/ACUEI7N4nONLLC3JyC/KyU/P18sqSGcYBSMLNMpCaDlZ7PJH9yybxcAEAGCTCV4yqneVAQAAAAIAAAAqAAAAHh0AAAAAAAABAAAAAAAAAAAAAAA
+
+[AuthorEncoded]
+authorlogo.jpg=7532,10047
+

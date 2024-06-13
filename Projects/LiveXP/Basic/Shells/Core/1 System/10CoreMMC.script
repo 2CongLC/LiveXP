@@ -1,0 +1,404 @@
+[Main]
+Title=Management Console
+Level=0
+Author=fxscrpt
+Selected=True
+Locked=True
+Mandatory=False
+Version=12
+Download_Level=1
+Description=Add MMC to build
+History008=Lancelot Echo bugy fixed
+History009=Lancelot $CreateShortcuts_AD$ bugyfix
+History010=Lancelot $CreateMMCShortcuts_AD$ changed to $CreateShortcuts_AD$
+History012=fxscrpt moved msimg32.dll/sfc*.dll to core_main
+CertifiedBy=pscEx
+Certification=5514adf1235f710d7799ab41b85a6563
+Certification81=0643c49ca8e23c4421fac00cd5e9e628
+
+[Variables]
+$CreateShortcuts_AD$=Run#$c%ScriptFile%#$cCreateMMCShortcuts_AD
+%regmethod%=build
+
+[RegisterDep]
+If,Not,ExistSection,"%ProjectTemp%\depends.script",CoreMMCInstallCore,Begin
+IniAddSection,"%ProjectTemp%\depends.script",CoreMMCInstallCore
+IniWriteTextLine,"%ProjectTemp%\depends.script",CoreMMCInstallCore,"Exec,%ScriptFile%,InstallCore"
+End
+
+[Process]
+Run,%ScriptFile%,SetVariables
+IniRead,"%PInfo%","TargetPaths","Administrative_Tools",%orgsadmintoolsfolder%
+StrFormat,REPLACE,%orgsadmintoolsfolder%,%DirDefaultUser%,%DirAllUsers%,%sadmintoolsfolder%
+IniWrite,"%PInfo%","TargetPaths","Administrative_Tools",%sadmintoolsfolder%
+Run,%ScriptFile%,InstallCore
+If,%pCheckBox1%,Equal,True,Run,%ScriptFile%,InstallComputerManagement
+If,%pCheckBox2%,Equal,True,Run,%ScriptFile%,InstallDeviceManagement
+If,%pCheckBox3%,Equal,True,Run,%ScriptFile%,InstallDiskManagement
+If,%pCheckBox4%,Equal,True,Run,%ScriptFile%,InstallDefrag
+If,%pCheckBox5%,Equal,True,Run,%ScriptFile%,InstallServices
+If,%pCheckBox6%,Equal,True,Run,%ScriptFile%,InstallFileSharing
+If,%pCheckBox7%,Equal,True,Run,%ScriptFile%,InstallUserManagement
+If,%pCheckBox8%,Equal,True,Run,%ScriptFile%,InstallEventLog
+IniWrite,"%PInfo%","TargetPaths","Administrative_Tools",%orgsadmintoolsfolder%
+
+[CreateMMCShortcuts_AD]
+If,%pCheckBox20%,Equal,True,Run,%BuildModelScript%,Add-Shortcut,"AD","#$pSystemRoot#$p\system32\#1","$"
+
+[SetVariables]
+Set,"%PInfo%","%ProjectInfo%"
+IniRead,"%PInfo%","TargetPaths","Target","%tmp%"
+If,%tmp%,Equal,"",Set,%PInfo%,"%ProjectTemp%\ProjectInfo.ini"
+IniRead,"%PInfo%","OS","Type","%OS%"
+IniRead,"%PInfo%","OS","ServicePack","%SP%"
+IniRead,"%PInfo%","Cabs","SP_CAB","%SPCAB%"
+IniRead,"%PInfo%","Cabs","DR_CAB","%DRCAB%"
+IniRead,"%PInfo%","TargetStrings","sCommon_Files",%DirCommonFiles%
+IniRead,"%PInfo%","TargetStrings","sAll_Users",%DirAllUsers%
+IniRead,"%PInfo%","TargetStrings","sDefault_User",%DirDefaultUser%
+
+[InstallCore]
+If,ExistSection,"%ProjectTemp%\depends.script",CoreMMCInstallCore,Begin
+IniDeleteSection,"%ProjectTemp%\depends.script",CoreMMCInstallCore
+Exec,"%ProjectTemp%\depends.script",ExecDep,CoreMainInstallCore
+Run,%ScriptFile%,SetVariables
+Run,%ApiRegScript%,setlevel,510,True
+RegHiveLoad,WB-Software,%target_sys%\Config\software
+If,ExistRegKey,HKLM,"WB-Software\Microsoft\Windows\CurrentVersion\RunOnceEx\550","mmcndmgr",RegDelete,HKLM,"WB-Software\Microsoft\Windows\CurrentVersion\RunOnceEx\550","mmcndmgr"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced","StartMenuAdminTools","YES"
+RegHiveUnLoad,WB-Software
+DirMake,"%Target_prog%\%DirCommonFiles%\System\Ole DB"
+Echo,"Installing MMC core files..."
+Run,%ScriptFile%,copy-%OS%
+CopyOrExpand,"%source_win%\mpr.dll","%target_sys%"
+CopyOrExpand,"%source_win%\mprapi.dll","%target_sys%"
+CopyOrExpand,"%source_win%\mprui.dll","%target_sys%"
+CopyOrExpand,"%source_win%\netman.dll","%target_sys%"
+CopyOrExpand,"%source_win%\rasapi32.dll","%target_sys%"
+CopyOrExpand,"%source_win%\dhcpcsvc.dll","%target_sys%"
+CopyOrExpand,"%source_win%\w32topl.dll","%target_sys%"
+CopyOrExpand,"%source_win%\apphelp.dll","%target_sys%"
+CopyOrExpand,"%source_win%\usp10.dll","%target_sys%"
+CopyOrExpand,"%source_win%\lpk.dll","%target_sys%"
+CopyOrExpand,"%source_win%\scrrun.dll","%target_sys%"
+CopyOrExpand,"%source_win%\acledit.dll","%target_sys%"
+CopyOrExpand,"%source_win%\hhsetup.dll","%target_sys%"
+CopyOrExpand,"%source_win%\cscui.dll","%target_sys%"
+CopyOrExpand,"%source_win%\cscdll.dll","%target_sys%"
+CopyOrExpand,"%source_win%\rsmps.dll","%target_sys%"
+CopyOrExpand,"%source_win%\odbcbcp.dll","%target_sys%"
+CopyOrExpand,"%source_win%\odbc32.dll","%target_sys%"
+CopyOrExpand,"%source_win%\mll_hp.dll","%target_sys%"
+CopyOrExpand,"%source_win%\mll_mtf.dll","%target_sys%"
+CopyOrExpand,"%source_win%\mll_qic.dll","%target_sys%"
+CopyOrExpand,"%source_win%\mmc.exe","%target_sys%"
+CopyOrExpand,"%source_win%\mmcbase.dll","%target_sys%"
+CopyOrExpand,"%source_win%\mmcndmgr.dll","%target_sys%"
+CopyOrExpand,"%source_win%\mmcshext.dll","%target_sys%"
+CopyOrExpand,"%source_win%\dmocx.dll","%target_sys%"
+CopyOrExpand,"%source_win%\filemgmt.dll","%target_sys%"
+//COM
+CopyOrExpand,"%source_win%\es.dll","%target_sys%"
+CopyOrExpand,"%source_win%\comsnap.dll","%target_sys%"
+CopyOrExpand,"%source_win%\mtxclu.dll","%target_sys%"
+CopyOrExpand,"%source_win%\comuid.dll","%target_sys%"
+CopyOrExpand,"%source_win%\aclui.dll","%target_sys%"
+//HTML
+CopyOrExpand,"%source_win%\jscript.dll","%target_sys%"
+CopyOrExpand,"%source_win%\vbscript.dll","%target_sys%"
+CopyOrExpand,"%source_win%\ieaksie.dll","%target_sys%"
+CopyOrExpand,"%source_win%\ieakeng.dll","%target_sys%"
+CopyOrExpand,"%source_win%\ieakui.dll","%target_sys%"
+CopyOrExpand,"%source_win%\admparse.dll","%target_sys%"
+CopyOrExpand,"%source_win%\cfgmgr32.dll","%target_sys%"
+//CopyOrExpand,"%source_win%\adsnds.dll","%target_sys%"
+//CopyOrExpand,"%source_win%\adsnw.dll","%target_sys%
+CopyOrExpand,"%source_win%\activeds.dll","%target_sys%"
+CopyOrExpand,"%source_win%\activeds.tlb","%target_sys%"
+CopyOrExpand,"%source_win%\dsuiext.dll","%target_sys%"
+CopyOrExpand,"%source_win%\adsnt.dll","%target_sys%"
+CopyOrExpand,"%source_win%\adsmsext.dll","%target_sys%"
+CopyOrExpand,"%source_win%\adsldp.dll","%target_sys%"
+CopyOrExpand,"%source_win%\adsldpc.dll","%target_sys%"
+CopyOrExpand,"%source_win%\dsprop.dll","%target_sys%"
+CopyOrExpand,"%source_win%\dsquery.dll","%target_sys%"
+CopyOrExpand,"%source_win%\rassapi.dll","%target_sys%"
+CopyOrExpand,"%source_win%\rasser.dll","%target_sys%"
+CopyOrExpand,"%source_win%\oledb32.dll","%Target_prog%\%DirCommonFiles%\System\Ole DB"
+CopyOrExpand,"%source_win%\oledb32r.dll","%Target_prog%\%DirCommonFiles%\System\Ole DB"
+CopyOrExpand,"%source_win%\msdart.dll","%target_sys%"
+CopyOrExpand,"%source_win%\polstore.dll","%target_sys%"
+// essential
+CopyOrExpand,"%source_win%\netapi32.dll","%target_sys%"
+CopyOrExpand,"%source_win%\srvsvc.dll","%target_sys%"
+CopyOrExpand,"%source_win%\ntshrui.dll","%target_sys%"
+//device manager
+CopyOrExpand,"%source_win%\syssetup.dll","%target_sys%"
+CopyOrExpand,"%source_win%\mdminst.dll","%target_sys%"
+CopyOrExpand,"%source_win%\uniplat.dll","%target_sys%"
+CopyOrExpand,"%source_win%\netcfgx.dll","%target_sys%"
+CopyOrExpand,"%source_win%\msports.dll","%target_sys%"
+CopyOrExpand,"%source_win%\ntprint.dll","%target_sys%"
+CopyOrExpand,"%source_win%\sti_ci.dll","%target_sys%"
+CopyOrExpand,"%source_win%\mscms.dll","%target_sys%"
+CopyOrExpand,"%source_win%\winscard.dll","%target_sys%"
+CopyOrExpand,"%source_win%\mmsys.cpl","%target_sys%"
+CopyOrExpand,"%source_win%\mmdriver.inf","%target_sys%"
+CopyOrExpand,"%source_win%\msacm32.dll","%target_sys%"
+CopyOrExpand,"%source_win%\ocmanage.dll","%target_sys%"
+Run,%ScriptFile%,getfile,storprop.dll,system32
+If,%OS%,Equal,W2003,CopyOrExpand,"%source_win%\cic.dll","%target_sys%"
+Echo,"Processing registrations ..."
+Run,%ApiRegScript%,register,%regmethod%,netcfgx.dll,rsmps.dll,cscui.dll,scrrun.dll,comuid.dll,es.dll,comsnap.dll
+Run,%ApiRegScript%,register,%regmethod%,dmocx.dll,mmcndmgr.dll,mmcshext.dll
+Run,%ApiRegScript%,register,%regmethod%,"%PE_Programs%\%DirCommonFiles%\System\Ole DB\oledb32.dll"
+Run,%ApiRegScript%,register,%regmethod%,activeds.dll,dsprop.dll,polstore.dll,filemgmt.dll,jscript.dll,vbscript.dll
+Run,%ApiRegScript%,register,%regmethod%,dsquery.dll,dsuiext.dll
+If,%OS%,Equal,W2003,Run,%ApiRegScript%,register,%regmethod%,"cic.dll"
+Run,%ApiRegScript%,runcmd,%regmethod%,"mmc.exe /RegServer"
+RegHiveLoad,WB-SYSTEM,%target_sys%\setupreg.hiv
+RegWrite,HKLM,0x4,"WB-SYSTEM\ControlSet001\Control\IDConfigDB","CurrentConfig","1"
+RegWrite,HKLM,0x4,"WB-SYSTEM\ControlSet001\Control\IDConfigDB","UserWaitInterval","30"
+RegWrite,HKLM,0x4,"WB-SYSTEM\ControlSet001\Control\IDConfigDB\Hardware#$sProfiles\0001","PreferenceOrder","0"
+RegWrite,HKLM,0x4,"WB-SYSTEM\ControlSet001\Control\IDConfigDB\Hardware#$sProfiles\0001","Pristine","1"
+RegWrite,HKLM,0x4,"WB-SYSTEM\ControlSet001\Control\IDConfigDB\Hardware#$sProfiles\0001","Aliasable","0"
+RegWrite,HKLM,0x1,"WB-SYSTEM\ControlSet001\Control\IDConfigDB\Hardware#$sProfiles\0001","FriendlyName","Profile#$s1"
+RegWrite,HKLM,0x1,"WB-SYSTEM\ControlSet001\Control\IDConfigDB\Hardware#$sProfiles\0001","HwProfileGuid","{e75e1fc0-a7ef-11dc-a9e8-806e6f6e6963}"
+RegWrite,HKLM,0x4,"WB-SYSTEM\ControlSet001\Control\IDConfigDB\Hardware#$sProfiles\0001","Cloned","1"
+RegWrite,HKLM,0x1,"WB-SYSTEM\ControlSet001\Control\Session#$sManager\Environment","devmgr_show_details","1"
+RegWrite,HKLM,0x1,"WB-SYSTEM\ControlSet001\Control\Session#$sManager\Environment","devmgr_show_nonpresent_devices","1"
+RegHiveUnLoad,WB-SYSTEM
+RegHiveLoad,WB-Software,"%target_sys%\config\software"
+RegWrite,HKLM,0x1,"WB-Software\Classes\TypeLib\{97d25db0-0363-11cf-abc4-02608c9e7553}\1.0",,"Active DS Type Library"
+RegWrite,HKLM,0x2,"WB-Software\Classes\TypeLib\{97d25db0-0363-11cf-abc4-02608c9e7553}\1.0\0\win32",,"#$pSystemRoot#$p\system32\activeds.tlb"
+RegWrite,HKLM,0x1,"WB-Software\Classes\TypeLib\{97d25db0-0363-11cf-abc4-02608c9e7553}\1.0\FLAGS",,"0"
+RegWrite,HKLM,0x2,"WB-Software\Classes\TypeLib\{97d25db0-0363-11cf-abc4-02608c9e7553}\1.0\HELPDIR",,"#$pSystemRoot#$p\system32"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced","StartMenuAdminTools","YES"
+RegHiveUnLoad,WB-Software
+Set,%mram%,""
+IniRead,"%PInfo%","TargetPaths","Model","%mram%"
+If,Not,ExistDir,%mram%,Set,%mram%,%TargetDir%
+If,Not,%mram%,Equal,"",Begin
+IniRead,"%PInfo%","TargetPaths","Application_Data","%tmp%"
+If,Not,%tmp%,Equal,"",Begin
+DirMake,"%mram%\%tmp%\Microsoft\MMC"
+End
+End
+IniWriteTextLine,"%PostApiRegScript%","Process","Exec,%ScriptFile%,postproc"
+IniWriteTextLine,"%PreApiRegScript%","Process","Exec,%ScriptFile%,preproc"
+End
+
+[copy-xp]
+CopyOrExpand,"%source_win%\sdhcinst.dll","%target_sys%"
+CopyOrExpand,"%source_win%\bthci.dll","%target_sys%"
+CopyOrExpand,"%source_win%\batt.dll","%target_sys%"
+
+[copy-w2003]
+
+[InstallComputerManagement]
+Echo,"Installing computer management..."
+CopyOrExpand,"%source_win%\compmgmt.msc","%target_sys%"
+CopyOrExpand,"%source_win%\mycomput.dll","%target_sys%"
+//History010
+$CreateShortcuts_AD$,"compmgmt.msc"
+Run,%ApiRegScript%,register,%regmethod%,mycomput.dll
+RegHiveLoad,WB-Software,"%target_sys%\config\software"
+RegWrite,HKLM,0x2,"WB-Software\Classes\CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D}\shell\Manage",,"@#$pwindir#$p\system32\mycomput.dll,-400"
+RegWrite,HKLM,0x2,"WB-Software\Classes\CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D}\shell\Manage\command",,"#$pwindir#$p\system32\mmc.exe /s #$pwindir#$p\system32\compmgmt.msc"
+RegHiveUnLoad,WB-Software
+
+[InstallEventLog]
+CopyOrExpand,"%source_win%\els.dll","%target_sys%"
+CopyOrExpand,"%source_win%\eventlog.dll","%target_sys%"
+CopyOrExpand,"%source_win%\eventvwr.msc","%target_sys%"
+//History010
+$CreateShortcuts_AD$,"eventvwr.msc"
+Run,%ApiRegScript%,register,%regmethod%,els.dll
+If,%pCheckBox34%,Equal,True,Begin
+RegHiveLoad,WB-Software,"%target_sys%\config\software"
+RegWrite,HKLM,0x2,"WB-Software\Classes\CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D}\shell\zEventvwr",,"@#$pwindir#$p\system32\els.dll,-110"
+RegWrite,HKLM,0x2,"WB-Software\Classes\CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D}\shell\zEventvwr\command",,"#$pwindir#$p\system32\mmc.exe /s #$pwindir#$p\system32\eventvwr.msc"
+RegHiveUnLoad,WB-Software
+End
+
+[InstallUserManagement]
+Echo,"Installing user console..."
+CopyOrExpand,"%source_win%\lusrmgr.msc","%target_sys%"
+CopyOrExpand,"%source_win%\localsec.dll","%target_sys%"
+$CreateShortcuts_AD$,"lusrmgr.msc"
+Run,%ApiRegScript%,register,%regmethod%,localsec.dll
+
+[InstallDiskManagement]
+Echo,"Installing disk management console..."
+CopyOrExpand,"%source_win%\diskmgmt.msc","%target_sys%"
+CopyOrExpand,"%source_win%\dmconfig.dll","%target_sys%"
+CopyOrExpand,"%source_win%\dmdskmgr.dll","%target_sys%"
+CopyOrExpand,"%source_win%\dmdlgs.dll","%target_sys%"
+CopyOrExpand,"%source_win%\dmview.ocx","%target_sys%"
+CopyOrExpand,"%source_win%\dmremote.exe","%target_sys%"
+CopyOrExpand,"%source_win%\dmdskres.dll","%target_sys%"
+CopyOrExpand,"%source_win%\fmifs.dll","%target_sys%"
+CopyOrExpand,"%source_win%\ntmsapi.dll","%target_sys%"
+CopyOrExpand,"%source_win%\ifsutil.dll","%target_sys%"
+CopyOrExpand,"%source_win%\dmserver.dll","%target_sys%"
+CopyOrExpand,"%source_win%\dmadmin.exe","%target_sys%"
+CopyOrExpand,"%source_win%\clusapi.dll","%target_sys%"
+CopyOrExpand,"%source_win%\osuninst.dll","%target_sys%"
+CopyOrExpand,"%source_win%\dmintf.dll","%target_sys%"
+CopyOrExpand,"%source_win%\DISKPART.exe","%target_sys%"
+If,ExistFile,"%source_win%\%SPCAB%",ShellExecute,"hide","expand.exe","#$q%source_win%\%SPCAB%#$q -F:dmutil.dll #$q%target_sys%#$q"
+If,%OS%,Equal,w2003,CopyOrExpand,"%source_win%\dmivcitf.dll","%target_sys%"
+If,%OS%,Equal,w2003,CopyOrExpand,"%source_win%\dmvdsitf.dll","%target_sys%"
+Run,%ApiRegScript%,register,%regmethod%,dmdskmgr.dll,dmdlgs.dll,dmview.ocx,osuninst.dll
+If,ExistFile,"%ProjectTemp%\tmp.ctl",FileDelete,"%ProjectTemp%\tmp.ctl"
+If,ExistFile,"%ProjectTemp%\tmpctl.txt",FileDelete,"%ProjectTemp%\tmpctl.txt"
+FileCreateBlank,"%ProjectTemp%\tmp.ctl"
+TXTAddLine,"%ProjectTemp%\tmp.ctl",[tmp.inf]DM.AddReg,"Append"
+TXTAddLine,"%ProjectTemp%\tmp.ctl",HKLM#$c#$qSYSTEM\#$q@-2,"Append"
+Run,%ApiRegScript%,ImportInf,"DMREG.INF",S
+Exec,"%ProjectTemp%\tmpctl.txt",Process-Hive
+If,ExistFile,"%ProjectTemp%\tmp.ctl",FileDelete,"%ProjectTemp%\tmp.ctl"
+If,ExistFile,"%ProjectTemp%\tmpctl.txt",FileDelete,"%ProjectTemp%\tmpctl.txt"
+FileCreateBlank,"%ProjectTemp%\tmp.ctl"
+TXTAddLine,"%ProjectTemp%\tmp.ctl",[tmp.inf]DM.AddReg,"Append"
+TXTAddLine,"%ProjectTemp%\tmp.ctl",HKLM#$c#$qSOFTWARE\#$q@-2,"Append"
+Run,%ApiRegScript%,ImportInf,"DMREG.INF",W
+Exec,"%ProjectTemp%\tmpctl.txt",Process-Hive
+RegHiveLoad,WB-Software,"%target_sys%\config\software"
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\MMC\SnapIns\{dbfca500-8c31-11d0-aa2c-00a0c92749a3}\StandAlone",,""
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\MMC\SnapIns\{dbfca500-8c31-11d0-aa2c-00a0c92749a3}\NodeTypes\{312B59C1-4002-11d0-96F8-00A0C9191601}",,""
+RegHiveUnLoad,WB-Software
+$CreateShortcuts_AD$,"diskmgmt.msc"
+If,%pCheckBox32%,Equal,True,Begin
+RegHiveLoad,WB-Software,"%target_sys%\config\software"
+RegWrite,HKLM,0x2,"WB-Software\Classes\CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D}\shell\zDiskmgmt",,"@#$pwindir#$p\system32\dmdskres.dll,-65535"
+RegWrite,HKLM,0x2,"WB-Software\Classes\CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D}\shell\zDiskmgmt\command",,"#$pwindir#$p\system32\mmc.exe /s #$pwindir#$p\system32\diskmgmt.msc"
+RegHiveUnLoad,WB-Software
+End
+
+[InstallDefrag]
+Echo,"Installing defrag console..."
+CopyOrExpand,"%source_win%\dfrg.msc","%target_sys%"
+CopyOrExpand,"%source_win%\dfrgres.dll","%target_sys%"
+CopyOrExpand,"%source_win%\dfrgui.dll","%target_sys%"
+CopyOrExpand,"%source_win%\defrag.exe","%target_sys%"
+CopyOrExpand,"%source_win%\dfrgfat.exe","%target_sys%"
+CopyOrExpand,"%source_win%\dfrgntfs.exe","%target_sys%"
+CopyOrExpand,"%source_win%\dfrgsnap.dll","%target_sys%"
+CopyOrExpand,"%source_win%\dfrgres.dll","%target_sys%"
+CopyOrExpand,"%source_win%\vssapi.dll","%target_sys%"
+If,%OS%,Equal,W2003,Begin
+CopyOrExpand,"%source_win%\dfrgifc.exe","%target_sys%"
+CopyOrExpand,"%source_win%\dfrgifps.dll","%target_sys%"
+End
+$CreateShortcuts_AD$,"dfrg.msc"
+Run,%ApiRegScript%,register,%regmethod%,dfrgsnap.dll,dfrgui.dll
+If,%OS%,Equal,W2003,Run,%ApiRegScript%,register,%regmethod%,dfrgifps.dll
+// filemgmt.dll needed
+If,ExistFile,"%ProjectTemp%\tmp.ctl",FileDelete,"%ProjectTemp%\tmp.ctl"
+If,ExistFile,"%ProjectTemp%\tmpctl.txt",FileDelete,"%ProjectTemp%\tmpctl.txt"
+FileCreateBlank,"%ProjectTemp%\tmp.ctl"
+TXTAddLine,"%ProjectTemp%\tmp.ctl",[tmp.inf]DF.AddReg,"Append"
+TXTAddLine,"%ProjectTemp%\tmp.ctl",HKLM#$c#$qSOFTWARE\#$q@-2,"Append"
+TXTAddLine,"%ProjectTemp%\tmp.ctl",HKCR#$c#$q#$q@-2,"Append"
+Run,%ApiRegScript%,ImportInf,"DFRG.inf",W
+Exec,"%ProjectTemp%\tmpctl.txt",Process-Hive
+
+[InstallDeviceManagement]
+Echo,"Installing device console..."
+CopyOrExpand,"%source_win%\devmgmt.msc","%target_sys%"
+CopyOrExpand,"%source_win%\devmgr.dll","%target_sys%"
+$CreateShortcuts_AD$,"devmgmt.msc"
+Run,%ApiRegScript%,register,%regmethod%,devmgr.dll
+If,%pCheckBox31%,Equal,True,Begin
+RegHiveLoad,WB-Software,"%target_sys%\config\software"
+RegWrite,HKLM,0x2,"WB-Software\Classes\CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D}\shell\zDevmgr",,"@#$pwindir#$p\system32\devmgr.dll,-5"
+RegWrite,HKLM,0x2,"WB-Software\Classes\CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D}\shell\zDevmgr\command",,"#$pwindir#$p\system32\mmc.exe /s #$pwindir#$p\system32\devmgmt.msc"
+RegHiveUnLoad,WB-Software
+End
+// filemgmt.dll needed
+
+[InstallServices]
+Echo,"Installing services console..."
+CopyOrExpand,"%source_win%\services.msc","%target_sys%"
+$CreateShortcuts_AD$,"services.msc"
+If,%pCheckBox33%,Equal,True,Begin
+RegHiveLoad,WB-Software,"%target_sys%\config\software"
+RegWrite,HKLM,0x2,"WB-Software\Classes\CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D}\shell\zServices",,"@#$pwindir#$p\system32\shell32.dll,-22059"
+RegWrite,HKLM,0x2,"WB-Software\Classes\CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D}\shell\zServices\command",,"#$pwindir#$p\system32\mmc.exe /s #$pwindir#$p\system32\services.msc"
+RegHiveUnLoad,WB-Software
+End
+// filemgmt.dll needed
+
+[InstallFileSharing]
+Echo,"Installing file sharing console..."
+CopyOrExpand,"%source_win%\fsmgmt.msc","%target_sys%"
+$CreateShortcuts_AD$,"fsmgmt.msc"
+
+[getfile]
+Set,"%tmptarget%","%target_win%"
+If,Not,#2,Equal,"",Set,"%tmptarget%","%target_win%\#2"
+ShellExecute,"hide","expand.exe","#$q%source_win%\%SPCAB%#$q -F:#1 #$q%tmptarget%#$q"
+If,Not,ExistFile,"%tmptarget%\#1",ShellExecute,"hide","expand.exe","#$q%source_win%\SP3.cab%#$q -F:#1 #$q%tmptarget%#$q"
+If,Not,ExistFile,"%tmptarget%\#1",ShellExecute,"hide","expand.exe","#$q%source_win%\SP2.cab%#$q -F:#1 #$q%tmptarget%#$q"
+If,Not,ExistFile,"%tmptarget%\#1",ShellExecute,"hide","expand.exe","#$q%source_win%\SP1.cab%#$q -F:#1 #$q%tmptarget%#$q"
+If,Not,ExistFile,"%tmptarget%\#1",ShellExecute,hide,"expand.exe","#$q%source_win%\%DRCAB%#$q -F:#1 #$q%tmptarget%#$q"
+If,Not,ExistFile,"%tmptarget%\#1",CopyOrExpand,"%source_win%\#1","%tmptarget%"
+If,Not,ExistFile,"%tmptarget%\#1",HALT,"File not found."
+
+[postproc]
+Echo,"Postprocessing: MMC Support ..."
+RegHiveLoad,WB-Setup,%target_sys%\setupreg.hiv
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\Eventlog\Application","File","#$pTemp#$p\AppEvent.Evt"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\Eventlog\Security","File","#$pTemp#$p\SecEvent.Evt"
+RegWrite,HKLM,0x2,"WB-Setup\ControlSet001\Services\Eventlog\System","File","#$pTemp#$p\SysEvent.Evt"
+RegHiveUnLoad,WB-Setup
+
+[preproc]
+Echo,"Preprocessing: MMC Support ..."
+//certmgr.msc : no resource string for shortcut
+If,%pCheckBox21%,Equal,True,Begin
+//If,ExistFile,"%target_sys%\certmgr.msc",$CreateShortcuts_AD$,"certmgr.msc"
+If,ExistFile,"%target_sys%\perfmon.msc",$CreateShortcuts_AD$,"perfmon.msc"
+If,ExistFile,"%target_sys%\tapimgmt.msc",$CreateShortcuts_AD$,"tapimgmt.msc"
+If,ExistFile,"%target_sys%\ias.msc",$CreateShortcuts_AD$,"ias.msc"
+If,ExistFile,"%target_sys%\rrasmgmt.msc",$CreateShortcuts_AD$,"rrasmgmt.msc"
+End
+
+[AuthorEncoded]
+logo.jpg=9593,12791
+Logo=logo.jpg
+
+[Interface]
+pTextLabel1="Select which items to install:",1,1,13,8,151,18,8,Normal
+pCheckBox1="Computer management",1,3,16,33,140,18,True
+pCheckBox2="Device management",1,3,16,57,140,18,True
+pCheckBox3="Disk management",1,3,16,81,140,18,True
+pCheckBox4="Defrag console",1,3,16,201,140,18,True
+pCheckBox5="Services console",1,3,16,105,140,18,True
+pCheckBox6="File sharing console",1,3,16,153,140,18,True
+pCheckBox7="User management",1,3,16,177,140,18,True
+pCheckBox8="Eventlog console",1,3,16,129,140,18,True
+pTextLabel2="'My Computer' context menu:",1,1,167,8,144,18,8,Normal
+pCheckBox31=,1,3,220,57,36,18,True
+pCheckBox32=,1,3,220,81,36,18,True
+pCheckBox33=,1,3,220,105,36,18,True
+pCheckBox34=,1,3,220,129,36,18,True
+pBevel1=pBevel1,1,12,10,29,303,26
+pBevel2=pBevel2,1,12,10,53,303,26
+pBevel3=pBevel3,1,12,10,77,303,26
+pBevel4=pBevel4,1,12,10,101,303,26
+pBevel5=pBevel5,1,12,10,125,303,26
+pBevel6=pBevel6,1,12,10,149,303,26
+pBevel7=pBevel7,1,12,10,173,303,26
+pBevel8=pBevel8,1,12,10,197,303,26
+pCheckBox20="Create start menu shortcuts",1,3,53,235,256,18,True
+pCheckBox21="Create shortcuts for additional .msc files",1,3,53,256,258,18,True
+
+[EncodedFile-AuthorEncoded-logo.jpg]
+lines=3
+0=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
+1=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
+2=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
+3=dJXnLqmfyppPO9TFizzNSyoFK+bY6hvqAViVHqJR9XCiN2K13+9JEr4mDTV0TE/UkYu15CGVJWoZXmL72PILyph49ngcYRocYPTnmtRj+XO1z/3NblfoZxCAhl7ITSCAQfHPQ2NKDBw70Z/wkh9OTEf69Gu0mNFAj9SFGn1xF71WAHut2q8Hs+frLMS0tJltIlKvM4XxyjcQ4THGq9A2BjuayJNf5haSn4n8bj/yLgKjFlJe5ep87++PgMe/dN8nVAzO9wuzsApxOzQtazzcqNRyK+lbl4nl0JUQDaVyo6XIxksognlDE93xcp5VHQjeLAQI/5rLkGCbogUA5W4FTgh4aGGY+akW15pQ6oMjI1GveTqjU/hmV52EeD1S7jQXw0gjlDCE/gVCE09PHjx792q/7370S1d/P/Desq3/54nOPIyU/P18sqSGcYBSMR3FKF0Iaq2OV756tPZWACAPT1BmjbU04GAQAAAAIAAAAkAAAAMSUAAAAAAAABAAAAAAAAAAAAAAA
+

@@ -1,0 +1,61 @@
+[Main]
+Title=Autoruns
+Selected=None
+Level=20
+Version=17
+Author=John Adamopoulos
+Description=Will add support for silent autoruns to the PE compilation.
+Credits=Thanks to Yorn's suggestion and to Nuno Brito for his ideas
+Locked=True
+Contact=http://www.boot-land.net/forums
+Date=2007-Jan-19 17:25:19
+Upload=2008-Jan-11 14:31:59
+Download_Level=0
+History015=psc 32 / 64 bit versions of hiderun.exe
+Certification=e62a3e88864ab4b14e55b4965ec5e59c
+CertifiedBy=pscEx
+Certification81=dba97e15bb09c3dc0e06c31bee36d61f
+
+[Add]
+If,ExistFile,%AutoRunFile%,TXTAddLine,%AutoRunFile%,"#1","Append"
+If,NotExistFile,%AutoRunFile%,Run,%AutoRunScript%,Create,"#1"
+
+[Create]
+FileCreateBlank,%AutoRunFile%
+TXTAddLine,%AutoRunFile%,"#1","Append"
+Echo,"Copying files..."
+If,NotExistFile,%target_sys%\hiderun.exe,FileCopy,%Tools%\%SourceArch%\hiderunex_%SourceArch%.exe,%target_sys%\hiderun.exe
+RegHiveLoad,"WB-Software","%target_sys%\config\software"
+RegWrite,"HKLM",0x1,"WB-Software\Microsoft\Windows\CurrentVersion\RunOnceEx\480","200","hiderun /w autorun.cmd"
+// Added by psc start. Enables shortcut execute by double click
+RegWrite,"HKLM","0x1","WB-Software\Classes\.lnk\ShellEx\{00021401-0000-0000-C000-000000000046}","","{00021401-0000-0000-C000-000000000046}"
+RegWrite,"HKLM","0x1","WB-Software\Classes\.lnk\ShellEx\{000214F9-0000-0000-C000-000000000046}","","{00021401-0000-0000-C000-000000000046}"
+RegWrite,"HKLM","0x1","WB-Software\Classes\.lnk\ShellEx\{00021500-0000-0000-C000-000000000046}","","{00021401-0000-0000-C000-000000000046}"
+RegWrite,"HKLM","0x1","WB-Software\Classes\.lnk\ShellEx\{BB2E617C-0920-11d1-9A0B-00C04FC2D6C1}","","{00021401-0000-0000-C000-000000000046}"
+RegWrite,"HKLM","0x1","WB-Software\Classes\lnkfile\CLSID","","{00021401-0000-0000-C000-000000000046}"
+RegWrite,"HKLM","0x1","WB-Software\Classes\lnkfile\shellex\ContextMenuHandlers\Offline Files","","{750fdf0e-2a26-11d1-a3ea-080036587f03}"
+RegWrite,"HKLM","0x1","WB-Software\Classes\lnkfile\shellex\DropHandler","","{00021401-0000-0000-C000-000000000046}"
+RegWrite,"HKLM","0x1","WB-Software\Classes\lnkfile\shellex\PropertySheetHandlers\ShimLayer Property Page","","{513D916F-2A8E-4F51-AEAB-0CBC76FB1AF8}"
+RegWrite,"HKLM","0x1","WB-Software\Classes\lnkfile\shellex\ContextMenuHandlers\Offline Files","","{750fdf0e-2a26-11d1-a3ea-080036587f03}"
+RegWrite,"HKLM","0x1","WB-Software\Classes\lnkfile\shellex\ContextMenuHandlers\{00021401-0000-0000-C000-000000000046}\","",""
+RegWrite,"HKLM","0x1","WB-Software\Classes\CLSID\{00021401-0000-0000-C000-000000000046}\PersistentAddinsRegistered\{89BCB740-6119-101A-BCB7-00DD010655AF}","","{00021401-0000-0000-C000-000000000046}"
+RegWrite,"HKLM","0x1","WB-Software\Classes\CLSID\{00021401-0000-0000-C000-000000000046}\PersistentHandler","","{00021401-0000-0000-C000-000000000046}"
+RegWrite,"HKLM","0x1","WB-Software\Classes\CLSID\{00021401-0000-0000-C000-000000000046}\ProgID","","lnkfile"
+RegWrite,"HKLM","0x1","WB-Software\Classes\CLSID\{00021401-0000-0000-C000-000000000046}\shellex","",""
+RegWrite,"HKLM","0x1","WB-Software\Classes\CLSID\{00021401-0000-0000-C000-000000000046}\shellex\MayChangeDefaultMenu","",""
+RegHiveUnLoad,"WB-Software"
+// Added by psc end
+
+[Interface]
+pTextLabel1="This script cannot been run inside a project, even it is checked for run.",1,1,12,52,453,36,9,Bold
+pTextLabel2="To add command lines to autorun.cmd, write inside your script:",1,1,12,91,441,30,9,Bold
+pTextLabel3="Run,%AutoRunScript%,Add,""your command line""",1,1,21,136,405,30,9,Bold
+
+[EncodedFile-AuthorEncoded-autoruns.jpg]
+lines=0
+0=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
+
+[AuthorEncoded]
+autoruns.jpg=2Kb,3Kb
+Logo=autoruns.jpg
+

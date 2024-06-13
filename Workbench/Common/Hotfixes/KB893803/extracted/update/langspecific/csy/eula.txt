@@ -1,0 +1,88 @@
+DOPLÒKOVÁ LICENÈNÍ SMLOUVA S KONCOVÝM 
+UŽIVATELEM NA SOFTWARE SPOLEÈNOSTI MICROSOFT 
+(Doplòková smlouva EULA)
+
+
+DÙLEŽITÉ: ÈTÌTE POZORNÌ - Tyto souèásti operaèního 
+systému spoleènosti Microsoft doprovázející tuto doplòkovou 
+smlouvu EULA, vèetnì jakékoli dokumentace v tzv. „online" 
+neboli elektronické formì (Souèásti operaèního systému) jsou 
+pøedmìtem podmínek smlouvy, kterou jste získali licenci 
+na pøíslušný operaèní systém spoleènosti Microsoft popsaný 
+dále (každá Licenèní smlouva s koncovým uživatelem neboli 
+EULA), a dále podmínek této doplòkové smlouvy EULA. 
+INSTALACÍ, KOPÍROVÁNÍM, STAŽENÍM, OTEVØENÍM NEBO 
+JINÝM POUŽITÍM SOUÈÁSTÍ OPERAÈNÍHO SYSTÉMU 
+POTVRZUJETE, ŽE SOUHLASÍTE S PODMÍNKAMI 
+PØÍSLUŠNÉ SMLOUVY EULA NA OPERAÈNÍ SYSTÉM 
+A TÉTO DOPLÒKOVÉ SMLOUVY EULA, A JSTE JIMI 
+VÁZÁNI. POKUD S TÌMITO PODMÍNKAMI NESOUHLASÍTE, 
+NESMÍTE SOUÈÁSTI OPERAÈNÍHO SYSTÉMU 
+INSTALOVAT, KOPÍROVAT, STAHOVAT, OTEVÍRAT 
+ANI JINAK POUŽÍVAT.
+
+POZNÁMKA: POKUD NEMÁTE PLATNOU SMLOUVU EULA 
+NA NÌKTEROU VERZI OPERAÈNÍHO SYSTÉMU 
+SPOLEÈNOSTI MICROSOFT (NAPØÍKLAD MICROSOFT 
+WINDOWS XP PROFESSIONAL, MICROSOFT WINDOWS 
+2000 PROFESSIONAL, MICROSOFT WINDOWS 2000 
+SERVER NEBO MICROSOFT WINDOWS 2000 ADVANCED 
+SERVER), PRO KTERÝ JSOU SOUÈÁSTI OPERAÈNÍHO 
+SYSTÉMU DODÁNY (KAŽDÝ Z NICH „OPERAÈNÍ SYSTÉM"), 
+NEJSTE OPRÁVNÌNI SOUÈÁSTI OPERAÈNÍHO SYSTÉMU 
+INSTALOVAT, KOPÍROVAT ANI JINAK POUŽÍVAT A TATO 
+DOPLÒKOVÁ SMLOUVA EULA VÁM NEPOSKYTUJE ŽÁDNÁ 
+PRÁVA.
+
+Podmínky, které jsou v této doplòkové smlouvì EULA psány 
+velkými písmeny a nejsou zde dále jinak definovány, mají tentýž 
+význam jako podmínky v pøíslušných smlouvách EULA 
+k Operaènímu systému.
+
+Obecné. Souèásti operaèního systému jsou vám poskytovány 
+výhradnì k aktualizaci, doplnìní nebo výmìnì existující funkce 
+pøíslušného Operaèního systému a po instalaci se Souèásti 
+operaèního systému stanou souèástí daného Operaèního 
+systému. Je vám udìlena licence na používání Souèástí 
+operaèního systému za podmínek smlouvy EULA na pøíslušný 
+Operaèní systém (tato smlouva je zde zahrnuta) a dalších 
+podmínek daných touto doplòkovou smlouvou EULA, 
+za pøedpokladu, že všechny tyto podmínky splníte. V pøípadì, 
+že jsou kterékoli podmínky týkající se Souèástí operaèního 
+systému v rozporu s jinými podmínkami, mají podmínky této 
+doplòkové smlouvy EULA pøednost pøed ostatními podmínkami.
+
+Dodateèná práva a omezení 
+
+* Pokud vlastníte nìkolik platnì licencovaných kopií 
+Operaèního systému, smíte reprodukovat, instalovat a používat 
+jednu kopii Souèástí operaèního systému ve všech poèítaèích, 
+ve kterých je spuštìna kopie Operaèního systému s platnou 
+licencí, za pøedpokladu, že tyto další kopie Souèástí operaèního 
+systému budete používat ve shodì s výše uvedenými 
+podmínkami. 
+
+* Pokud jste nezískali Souèásti operaèního systému 
+na externím médiu, mùžete vytvoøit jednu kopii Souèástí 
+operaèního systému, která bude sloužit pouze pro úèely 
+archivování nebo pøeinstalování Souèástí operaèního systému 
+v tomtéž poèítaèi, ve kterém byly tyto Souèásti operaèního 
+systému døíve instalovány.  Spoleènost Microsoft 
+Corporation, její zastoupení a dodavatelé si ponechávají 
+všechna práva, vlastnictví a zájmy týkající se Souèástí 
+operaèního systému. Všechna práva, která nejsou výslovnì 
+udìlena, jsou vyhrazena spoleèností Microsoft Corporation, 
+jejími zastoupeními a dodavateli.
+
+NA SOUÈÁSTI OPERAÈNÍHO SYSTÉMU SE VZTAHUJE 
+OMEZENÁ ZÁRUKA (POKUD EXISTUJE) ZAHRNUTÁ 
+VE SMLOUVÌ EULA PØÍSLUŠNÉHO OPERAÈNÍHO 
+SYSTÉMU, ZA PØEDPOKLADU, ŽE LICENCE NA SOUÈÁSTI 
+OPERAÈNÍHO SYSTÉMU VÁM BYLA UDÌLENA V DOBÌ 
+PLATNOSTI OMEZENÉ ZÁRUKY VE SMLOUVÌ EULA 
+PØÍSLUŠNÉHO OPERAÈNÍHO SYSTÉMU. TATO 
+DOPLÒKOVÁ SMLOUVA EULA NEPRODLUŽUJE ÈASOVÉ 
+OBDOBÍ, NA KTERÉ JE OMEZENÁ ZÁRUKA POSKYTNUTA.
+
+
+

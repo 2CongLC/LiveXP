@@ -1,0 +1,53 @@
+[main]
+Title=Toggle Keyboard
+Description=Prepares your build to toggle between two keyboards using (left alt)(shift)
+Selected=False
+Level=1
+Locked=True
+Author=Peter Schlang
+Version=5
+Contact=http://BootLand.pt.vu
+Date=2009-Aug-15
+Credits=
+Upload=2008-Jan-11 14:31:59
+Download_Level=1
+History005=psc changed to logging by [OnProcessExit]
+Certification=56776eff71c86587f1cab1f6d6ff042e
+CertifiedBy=pscEx
+Certification81=0b212e923c65e6b19c69dc8b6b92f3ae
+
+[Process]
+IniRead,"%ProjectInfo%","OS","Keyboards","%number%"
+If,%number%,Bigger,1,Run,%ScriptFile%,do-Process
+
+[do-process]
+Expand,"%source_win%\MSCTF.DL_","%target_sys%"
+Expand,"%source_win%\MSUTB.DL_","%target_sys%"
+Echo,"Loading registry hive: [%target_sys%\config\default]"
+RegHiveLoad,"WB-Default","%target_sys%\config\default"
+Echo,"Writing new values on registry hive.."
+RegWrite,"HKLM",0x3,"WB-Default\Software\Microsoft\CTF\Compartment\{544D6A63-E2E8-4752-BBD1-000960BCA083}","GlobalCompartment","63","6a","4d","54","e8","e2","52","47","bb","d1","00","09","60","bc","a0","83","00","00","00","00","00","00","00","00","02","00","00","00","00","00","00","00","00","00","00","00","00","00","00","00","00","00","00","00"
+RegWrite,"HKLM",0x4,"WB-Default\Software\Microsoft\CTF\Sapilayr","ProfileInitialized","1"
+RegWrite,"HKLM",0x4,"WB-Default\Software\Microsoft\CTF\MSUTB","Left","818"
+RegWrite,"HKLM",0x4,"WB-Default\Software\Microsoft\CTF\MSUTB","ShowDeskBand","1"
+RegWrite,"HKLM",0x4,"WB-Default\Software\Microsoft\CTF\MSUTB","Top","0"
+RegWrite,"HKLM",0x4,"WB-Default\Software\Microsoft\CTF\MSUTB","Vertical","0"
+RegRead,"HKLM","WB-Default\KeyBoard Layout\Preload","1",%first%
+RegWrite,"HKLM",0x4,"WB-Default\Software\Microsoft\CTF\TIP\{DCBD6FA8-032F-11D3-B5B1-00C04FC324A1}\LanguageProfile\0x%first%","Enable","0"
+RegRead,"HKLM","WB-Default\KeyBoard Layout\Preload","2",%second%
+RegWrite,"HKLM",0x4,"WB-Default\Software\Microsoft\CTF\TIP\{DCBD6FA8-032F-11D3-B5B1-00C04FC324A1}\LanguageProfile\0x%second%","Enable","0"
+RegWrite,"HKLM",0x1,"WB-Default\Keyboard Layout\Toggle","Hotkey",1
+RegWrite,"HKLM",0x1,"WB-Default\Keyboard Layout\Toggle","Language Hotkey",1
+RegWrite,"HKLM",0x1,"WB-Default\Keyboard Layout\Toggle","Layout Hotkey",2
+RegHiveUnLoad,"WB-Default"
+// now done automatically
+//Run,%ScriptLog%,Process-log
+
+[EncodedFile-AuthorEncoded-keyboard.jpg]
+lines=0
+0=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
+
+[AuthorEncoded]
+keyboard.jpg=1Kb,2Kb
+Logo=keyboard.jpg
+

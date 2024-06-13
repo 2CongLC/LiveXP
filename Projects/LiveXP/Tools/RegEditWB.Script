@@ -1,0 +1,125 @@
+[main]
+Title=RegEditWB
+Description=This script loads the target registry hives into Regedit
+Author=Peter Schlang
+Level=10
+contact=http://BootLand.pt.vu
+Selected=none
+Version=10
+Locked=True
+Date=2009-May-17
+Download_Level=0
+Mandatory=False
+Credits=
+CertifiedBy=pscEx
+Certification=bcb494299688334b5e33179e319ae61d
+History09=Lancelot no version change, added mini hostosx64 reg.exe support
+History10=Lancelot Download_Level=0
+Certification81=cfc313aa1b157800ee7841fe7cf9db54
+
+[Interface]
+pTextLabel1="This script attaches the registry hives of your target directory to your local registry.",1,1,6,10,462,27,8,Normal
+pTextLabel2="Then it runs Regedit.exe.",1,1,6,40,402,18,8,Normal
+pTextLabel3="After exiting Regedit the entries optionally are written back to the target registry hives  and changes are applied.",1,1,6,58,423,42,8,Normal
+pTextLabel4="Finally they are removed from the local registry.",1,1,6,97,417,18,8,Normal
+pCheckBox1=Sam,1,3,18,145,200,18,True
+pCheckBox2=Security,1,3,18,165,200,18,True
+pCheckBox3=Default,1,3,18,185,200,18,True
+pCheckBox4=System,1,3,18,205,201,18,True
+pCheckBox5=Software,1,3,18,225,90,18,True
+pCheckBox6=setupreg.hiv,1,3,18,125,90,18,True
+pRadioButton1=ReadOnly,1,11,156,125,100,20,False
+pRadioButton2=Read/Write,1,11,156,145,100,20,true
+pButton1=Start,1,8,156,205,81,25,Doit
+pBevel1=pBevel1,1,12,6,121,264,126
+pBevel2=pBevel2,1,12,273,121,201,126
+pTextLabel5="This script is not started by running the project, even if it is checked. The script can only be started by the 'Start' button.",1,1,6,268,462,36,10,Bold
+pTextLabel6="Checked hives are processed only if they really exist! You will get no error report if they don't exist!",1,1,279,133,195,75,10,Bold
+
+[variables]
+%ConfigDir%=%target_sys%\config
+%SystemDir%=%target_sys%
+%Cfg%=Windows\System32\Config
+%IsPE7%=False
+%Check1%=False
+%Check2%=False
+%Check3%=False
+%Check4%=False
+%Check5%=False
+%Check6%=False
+
+[CheckExist]
+If,EXISTVAR,%7pecfg%,Set,%IsPE7%,True
+If,%IsPE7%,Equal,False,Begin
+Set,%RegDefault%,%ConfigDir%\default
+Set,%RegSystem%,%ConfigDir%\system
+Set,%RegSoftware%,%ConfigDir%\software
+End
+Else,Begin
+ReadEnv
+StrFormat,PATH,%BootSRC%,%Tmp%
+StrFormat,CTRIM,%Tmp%,\,%Tmp%
+Set,%Tmp%,%Tmp%\Reg
+If,Not,EXISTDIR,%Tmp%,DirMake,%Tmp%
+Set,%RegDefault%,%Tmp%\default
+Set,%RegSystem%,%Tmp%\system
+Set,%RegSoftware%,%Tmp%\software
+If,%WimTools%,Equal,ImageX,ShellExecute,Hide,"#$q%IMAGEX%#$q","/mountrw #$q%TargetDir%\sources\boot.wim#$q 1 #$q%BootSRC%#$q"
+If,%WimTools%,Equal,WimUtil,ShellExecute,Hide,"#$q%tools%\wimutil.exe#$q","mount #$q%TargetDir%\sources\boot.wim#$q #$q%BootSRC%#$q 1"
+FileCopy,%BootSRC%\%Cfg%\default,%Tmp%
+FileCopy,%BootSRC%\%Cfg%\system,%Tmp%
+FileCopy,%BootSRC%\%Cfg%\software,%Tmp%
+End
+If,ExistFile,%RegDefault%,Set,%Check3%,%pCheckBox3%
+If,ExistFile,%RegSystem%,Set,%Check4%,%pCheckBox4%
+If,ExistFile,%RegSoftware%,Set,%Check5%,%pCheckBox5%
+If,ExistFile,%ConfigDir%\sam,Set,%Check1%,%pCheckBox1%
+If,ExistFile,%ConfigDir%\security,Set,%Check2%,%pCheckBox2%
+If,ExistFile,%SystemDir%\setupreg.hiv,Set,%Check6%,%pCheckBox6%
+
+[Load]
+If,%IsPE7%,Equal,True,Begin
+If,%Check3%,Equal,True,RegHiveLoad,WB-Default,%RegDefault%
+If,%Check4%,Equal,True,RegHiveLoad,WB-System,%RegSystem%
+If,%Check5%,Equal,True,RegHiveLoad,WB-Software,%RegSoftware%
+End
+Else,Begin
+If,%Check1%,Equal,True,RegHiveLoad,WB-Sam,%ConfigDir%\sam
+If,%Check2%,Equal,True,RegHiveLoad,WB-Security,%ConfigDir%\security
+If,%Check3%,Equal,True,RegHiveLoad,WB-Default,%ConfigDir%\default
+If,%Check4%,Equal,True,RegHiveLoad,WB-System,%ConfigDir%\system
+If,%Check5%,Equal,True,RegHiveLoad,WB-Software,%ConfigDir%\software
+If,%Check6%,Equal,True,RegHiveLoad,WB-Setup,%SystemDir%\setupreg.hiv
+End
+
+[UnloadSave]
+If,%Check1%,Equal,True,RegHiveUnLoad,WB-Sam
+If,%Check2%,Equal,True,RegHiveUnLoad,WB-Security
+If,%Check3%,Equal,True,RegHiveUnLoad,WB-Default
+If,%Check4%,Equal,True,RegHiveUnLoad,WB-System
+If,%Check5%,Equal,True,RegHiveUnLoad,WB-Software
+If,%Check6%,Equal,True,RegHiveUnLoad,WB-Setup
+If,%IsPE7%,Equal,True,Begin
+If,%WimTools%,Equal,ImageX,ShellExecute,Hide,"#$q%imagex%#$q","/unmount #$q%BootSRC%#$q"
+If,%WimTools%,Equal,WimUtil,ShellExecute,Hide,"#$q%tools%\wimutil.exe#$q","unmount #$q%BootSRC%#$q"
+DirDelete,%tmp%
+End
+
+[Doit]
+Run,%ScriptFile%,CheckExist
+Run,%ScriptFile%,Load
+System,FILEREDIRECT,OFF
+ShellExecute,Open,Regedit.Exe,""
+System,FILEREDIRECT,ON
+Run,%ScriptFile%,UnloadSave
+
+[InterfaceEncoded]
+
+[EncodedFile-AuthorEncoded-regeditwb.jpg]
+lines=0
+0=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
+
+[AuthorEncoded]
+regeditwb.jpg=2Kb,2Kb
+Logo=regeditwb.jpg
+

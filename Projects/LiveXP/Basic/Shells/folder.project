@@ -1,0 +1,6 @@
+[main]
+description=Select which shell you like best.
+By default you should select explorer to ensure all other scripts that use explorer features work correctly.
+Download_Level=0
+Locked=True
+Upload=2007-Sep-18 15:00:11

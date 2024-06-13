@@ -1,0 +1,289 @@
+[Main]
+Title=Windows Installer
+Description=(Date Published: 9/2/2005) WB port of cdob's BartPE plugin
+Selected=True
+Level=1
+Version=14
+Author=Galapo
+Credits=cdob's BartPE plugin: http://www.911cd.net/forums//index.php?showtopic=15304&view=findpost&p=151293
+Mandatory=False
+CertifiedBy=pscEx
+Certification=b06a7abe854e84ded017ff20f557b9f2
+Contact=http://www.boot-land.net/forums/index.php?showforum=65
+Download_Level=1
+History10=Lancelot Hiderun lines fixed
+History11=Galapo altered msi.dll RunOnceEx level
+History12=Galapo altered msiexec.exe and msiserver RunOnceEx levels
+History13=Galapo altered script to work around currently buggy hiderun.exe
+History14=Galapo altered script back to v12 state as new versions of hiderun are available
+Certification81=d72939deb60eb3beb74192a78601da9d
+
+[Interface]
+pCheckBox1="Update if necessary with KB893803",1,3,22,21,200,18,True
+pFileBox1=%GlobalTemplates%\Hotfixes\KB893803\WindowsInstaller-KB893803-v2-x86.exe,1,13,2,78,454,30,file
+pTextLabel1="Path to WindowsInstaller-KB893803-v2-x86.exe (automatically downloaded if not found):",1,1,38,45,267,29,8,Normal
+pCheckBox2="Attempt junctioning of '%WinDir%\Installer' to '%temp%\Installer' and '%WinDir%\Downloaded Installations' to '%temp%\Downloaded Installations'",1,3,22,123,396,40,True
+pWebLabel1="Find WindowsInstaller-KB893803-v2-x86.exe",1,10,9,184,200,18,http://www.google.com/search?hl=en&source=hp&q=WindowsInstaller-KB893803-v2-x86.exe&btnG=Google+Search&aq=f&oq=&aqi=
+
+[Variables]
+%hiderunpath%=http://livexp.boot-land.net/repository/%SourceArch%
+%KB893803_link%=http://download.microsoft.com/download/1/4/7/147ded26-931c-4daf-9095-ec7baf996f46/WindowsInstaller-KB893803-v2-x86.exe
+%KB893803_path%=%GlobalTemplates%\Hotfixes\KB893803
+%KB893803%=WindowsInstaller-KB893803-v2-x86.exe
+%hotfix%=0
+
+[Process]
+If,Not,ExistFile,%tools%\%SourceArch%\hiderunEx_%SourceArch%.exe,WebGet,%hiderunpath%/hiderunEx_%SourceArch%.exe,%Tools%\%SourceArch%\hiderunEx_%SourceArch%.exe
+If,Not,ExistFile,%target_sys%\hiderun.exe,FileCopy,%Tools%\%SourceArch%\hiderunEx_%SourceArch%.exe,%target_sys%\hiderun.exe
+If,Not,%SourceArch%,Equal,x86,Exit,"msi.script (Windows Installer) only for PEx86 builds"
+IniRead,%ProjectInfo%,OS,Type,%OSName%
+IniRead,%ProjectInfo%,OS,ServicePack,%SP%
+IniRead,%ProjectInfo%,TargetStrings,sCommon_Files,%common%
+Run,%ScriptFile%,Process-UpdateIfNecessary
+If,Not,ExistFile,%tools%\%SourceArch%\hiderunEx_%SourceArch%.exe,WebGet,%hiderunpath%/hiderunEx_%SourceArch%.exe,%Tools%\%SourceArch%\hiderunEx_%SourceArch%.exe
+If,Not,ExistFile,%target_sys%\hiderun.exe,FileCopy,%Tools%\%SourceArch%\hiderunEx_%SourceArch%.exe,%target_sys%\hiderun.exe
+Run,%ScriptFile%,Process-Registry
+If,%pCheckBox2%,Equal,True,Begin
+ExtractFile,%ScriptFile%,Junc,junc.exe,%target_sys%
+Hive_Load,HKU
+reg_add,0x1,%reg%\Microsoft\Windows\CurrentVersion\RunOnceEx\999,JunctionInstaller1,"hiderun /w cmd.exe /c md #$q#$pWinDir#$p\Installer#$q &md #$q#$pTEMP#$p\Installer#$q &junc.exe #$q#$pWinDir#$p\Installer#$q #$q\??\#$pTEMP#$p\Installer#$q"
+reg_add,0x1,%reg%\Microsoft\Windows\CurrentVersion\RunOnceEx\999,JunctionInstaller2,"hiderun /w cmd.exe /c md #$q#$pWinDir#$p\Downloaded Installations#$q &md #$q#$pTEMP#$p\Downloaded Installations#$q &junc.exe #$q#$pWinDir#$p\Downloaded Installations#$q #$q\??\#$pTEMP#$p\Downloaded Installations#$q"
+Hive_Unload,HKU
+End
+
+[Process-UpdateIfNecessary]
+If,%OSName%,Equal,xp,Begin
+If,%SP%,NotEqual,sp3,Begin
+If,%pCheckBox1%,Equal,True,Run,%ScriptFile%,Process-KB893803
+End
+Else,Begin
+Set,%hotfix%,1
+Run,%ScriptFile%,Process-Copy
+End
+End
+Else,Begin
+If,%SP%,NotEqual,sp2,Begin
+If,%pCheckBox1%,Equal,True,Run,%ScriptFile%,Process-KB893803
+End
+Else,Begin
+Set,%hotfix%,1
+Run,%ScriptFile%,Process-Copy
+End
+End
+
+[Process-Copy]
+require_file,msi.dll
+require_file,msiexec.exe
+require_file,msihnd.dll
+require_file,msimsg.dll
+require_file,msisip.dll
+
+[Process-KB893803]
+If,Not,ExistFile,%KB893803_path%\extracted\msi.dll,Begin
+If,Not,ExistFile,%KB893803_path%\%KB893803%,Begin
+If,Not,ExistDir,%KB893803_path%,DirMake,%KB893803_path%
+If,ExistFile,%pFileBox1%,FileCopy,%pFileBox1%,%KB893803_path%
+End
+If,Not,ExistFile,%KB893803_path%\%KB893803%,Begin
+If,ONLINE,Begin
+WebGet,%KB893803_link%,%KB893803_path%\%KB893803%
+End
+Else,Exit,"Cannot download KB893803 hotfix -- msi installer cannot be updated"
+End
+If,Not,ExistDir,%KB893803_path%\extracted,DirMake,%KB893803_path%\extracted
+ShellExecute,Hide,%tools%\7za.exe,"x -y #$q%KB893803_path%\%KB893803%#$q -o#$q%KB893803_path%\extracted#$q"
+End
+FileCopy,%KB893803_path%\extracted\*.dll,%target_sys%
+FileCopy,%KB893803_path%\extracted\*.exe,%target_sys%
+Set,%hotfix%,1
+
+[Process-Registry]
+Hive_Load,HKU
+reg_add,0x1,%reg%\Microsoft\Windows\CurrentVersion\RunOnceEx\450,msi_1,"hiderun /w regsvr32.exe /s msi.dll"
+//reg_add,0x1,%reg%\Microsoft\Windows\CurrentVersion\RunOnceEx\550,msi,"hiderun /w regsvr32.exe /s msi.dll"
+//
+RegAddBoot,HKLM,0x1,Software\Microsoft\Windows\CurrentVersion,ProgramFilesDir,%PE_Programs%
+RegAddBoot,HKLM,0x1,Software\Microsoft\Windows\CurrentVersion,CommonFilesDir,%PE_Programs%\%common%
+reg_add,0x2,%reg%\Microsoft\Windows\CurrentVersion,ProgramFilesPath,#$pprogramfiles#$p
+//
+reg_add,0x1,%reg%\Classes\.msi,"",Msi.Package
+reg_add,0x1,%reg%\Classes\.msp,"",Msi.Patch
+reg_add,0x1,%reg%\Classes\Msi.Package,"","Windows Installer Package"
+reg_add,0x1,%reg%\Classes\Msi.Package\DefaultIcon,"","msiexec.exe#$c0"
+reg_add,0x1,%reg%\Classes\Msi.Patch,"",Open
+reg_add,0x1,%reg%\Classes\Msi.Patch\DefaultIcon,"","msiexec.exe#$c0"
+reg_add,0x1,%reg%\Classes\AppID\{000C101C-0000-0000-C000-000000000046},ServiceParameters,""
+reg_add,0x1,"%reg%\Classes\AppID\{000C101C-0000-0000-C000-000000000046}","LocalService","MSIServer"
+reg_add,0x1,"%reg%\Classes\CLSID\{000C101C-0000-0000-C000-000000000046}\ProgId","","IMsiServer"
+reg_add,0x1,"%reg%\Classes\CLSID\{000C101C-0000-0000-C000-000000000046}","","Msi install server"
+reg_add,0x1,"%reg%\Classes\CLSID\{000C101C-0000-0000-C000-000000000046}","AppId","{000C101C-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\CLSID\{000C101D-0000-0000-C000-000000000046}\ProgId","","WindowsInstaller.Message"
+reg_add,0x1,"%reg%\Classes\CLSID\{000C101D-0000-0000-C000-000000000046}\DllVersion","","3.1.4001"
+reg_add,0x1,"%reg%\Classes\CLSID\{000C101D-0000-0000-C000-000000000046}","","Microsoft Windows Installer Message RPC"
+reg_add,0x1,"%reg%\Classes\CLSID\{000C103E-0000-0000-C000-000000000046}\InProcServer32","","msi.dll"
+reg_add,0x1,"%reg%\Classes\CLSID\{000C103E-0000-0000-C000-000000000046}\InProcServer32","ThreadingModel","Both"
+reg_add,0x1,"%reg%\Classes\CLSID\{000C103E-0000-0000-C000-000000000046}","","PSFactoryBuffer"
+reg_add,0x1,"%reg%\Classes\CLSID\{000C1090-0000-0000-C000-000000000046}\TypeLib","","{000C1092-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\CLSID\{000C1090-0000-0000-C000-000000000046}\ProgId","","WindowsInstaller.Installer"
+reg_add,0x1,"%reg%\Classes\CLSID\{000C1090-0000-0000-C000-000000000046}\InprocServer32","","msi.dll"
+reg_add,0x1,"%reg%\Classes\CLSID\{000C1090-0000-0000-C000-000000000046}\InprocServer32","ThreadingModel","Apartment"
+reg_add,0x1,"%reg%\Classes\CLSID\{000C1090-0000-0000-C000-000000000046}\InprocHandler32","","ole32.dll"
+reg_add,0x1,"%reg%\Classes\CLSID\{000C1090-0000-0000-C000-000000000046}","","Microsoft Windows Installer"
+reg_add,0x1,"%reg%\Classes\CLSID\{000C1094-0000-0000-C000-000000000046}\InprocServer32","","msi.dll"
+reg_add,0x1,"%reg%\Classes\CLSID\{000C1094-0000-0000-C000-000000000046}\InprocServer32","ThreadingModel","Apartment"
+reg_add,0x1,"%reg%\Classes\CLSID\{000C1094-0000-0000-C000-000000000046}","",""
+reg_add,0x1,"%reg%\Classes\Interface\{000C101C-0000-0000-C000-000000000046}\ProxyStubClsid32","","{000C103E-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C101C-0000-0000-C000-000000000046}\NumMethods","","18"
+reg_add,0x1,"%reg%\Classes\Interface\{000C101C-0000-0000-C000-000000000046}","","IMsiServer"
+reg_add,0x1,"%reg%\Classes\Interface\{000C101D-0000-0000-C000-000000000046}\ProxyStubClsid32","","{000C103E-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C101D-0000-0000-C000-000000000046}\NumMethods","","5"
+reg_add,0x1,"%reg%\Classes\Interface\{000C101D-0000-0000-C000-000000000046}","","IMsiMessage"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1025-0000-0000-C000-000000000046}\ProxyStubClsid32","","{000C103E-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1025-0000-0000-C000-000000000046}\NumMethods","","33"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1025-0000-0000-C000-000000000046}","","IMsiCustomAction"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1033-0000-0000-C000-000000000046}\ProxyStubClsid32","","{000C103E-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1033-0000-0000-C000-000000000046}\NumMethods","","58"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1033-0000-0000-C000-000000000046}","","IMsiRemoteAPI"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1090-0000-0000-C000-000000000046}\TypeLib","","{000C1092-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1090-0000-0000-C000-000000000046}\TypeLib","Version","1.0"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1090-0000-0000-C000-000000000046}\ProxyStubClsid32","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1090-0000-0000-C000-000000000046}\ProxyStubClsid","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1090-0000-0000-C000-000000000046}","","Installer"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1093-0000-0000-C000-000000000046}\TypeLib","","{000C1092-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1093-0000-0000-C000-000000000046}\TypeLib","Version","1.0"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1093-0000-0000-C000-000000000046}\ProxyStubClsid32","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1093-0000-0000-C000-000000000046}\ProxyStubClsid","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1093-0000-0000-C000-000000000046}","","Record"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1095-0000-0000-C000-000000000046}\TypeLib","","{000C1092-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1095-0000-0000-C000-000000000046}\TypeLib","Version","1.0"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1095-0000-0000-C000-000000000046}\ProxyStubClsid32","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1095-0000-0000-C000-000000000046}\ProxyStubClsid","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1095-0000-0000-C000-000000000046}","","StringList"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1096-0000-0000-C000-000000000046}\TypeLib","","{000C1092-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1096-0000-0000-C000-000000000046}\TypeLib","Version","1.0"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1096-0000-0000-C000-000000000046}\ProxyStubClsid32","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1096-0000-0000-C000-000000000046}\ProxyStubClsid","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C1096-0000-0000-C000-000000000046}","","RecordList"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109A-0000-0000-C000-000000000046}\TypeLib","","{000C1092-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109A-0000-0000-C000-000000000046}\TypeLib","Version","1.0"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109A-0000-0000-C000-000000000046}\ProxyStubClsid32","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109A-0000-0000-C000-000000000046}\ProxyStubClsid","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109A-0000-0000-C000-000000000046}","","UIPreview"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109B-0000-0000-C000-000000000046}\TypeLib","","{000C1092-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109B-0000-0000-C000-000000000046}\TypeLib","Version","1.0"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109B-0000-0000-C000-000000000046}\ProxyStubClsid32","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109B-0000-0000-C000-000000000046}\ProxyStubClsid","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109B-0000-0000-C000-000000000046}","","SummaryInfo"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109C-0000-0000-C000-000000000046}\TypeLib","","{000C1092-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109C-0000-0000-C000-000000000046}\TypeLib","Version","1.0"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109C-0000-0000-C000-000000000046}\ProxyStubClsid32","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109C-0000-0000-C000-000000000046}\ProxyStubClsid","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109C-0000-0000-C000-000000000046}","","View"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109D-0000-0000-C000-000000000046}\TypeLib","","{000C1092-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109D-0000-0000-C000-000000000046}\TypeLib","Version","1.0"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109D-0000-0000-C000-000000000046}\ProxyStubClsid32","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109D-0000-0000-C000-000000000046}\ProxyStubClsid","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109D-0000-0000-C000-000000000046}","","Database"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109E-0000-0000-C000-000000000046}\TypeLib","","{000C1092-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109E-0000-0000-C000-000000000046}\TypeLib","Version","1.0"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109E-0000-0000-C000-000000000046}\ProxyStubClsid32","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109E-0000-0000-C000-000000000046}\ProxyStubClsid","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109E-0000-0000-C000-000000000046}","","Session"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109F-0000-0000-C000-000000000046}\TypeLib","","{000C1092-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109F-0000-0000-C000-000000000046}\TypeLib","Version","1.0"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109F-0000-0000-C000-000000000046}\ProxyStubClsid32","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109F-0000-0000-C000-000000000046}\ProxyStubClsid","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C109F-0000-0000-C000-000000000046}","","FeatureInfo"
+reg_add,0x1,"%reg%\Classes\Interface\{000C10A0-0000-0000-C000-000000000046}\TypeLib","","{000C1092-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C10A0-0000-0000-C000-000000000046}\TypeLib","Version","1.0"
+reg_add,0x1,"%reg%\Classes\Interface\{000C10A0-0000-0000-C000-000000000046}\ProxyStubClsid32","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C10A0-0000-0000-C000-000000000046}\ProxyStubClsid","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C10A0-0000-0000-C000-000000000046}","","Product"
+reg_add,0x1,"%reg%\Classes\Interface\{000C10A1-0000-0000-C000-000000000046}\TypeLib","","{000C1092-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C10A1-0000-0000-C000-000000000046}\TypeLib","Version","1.0"
+reg_add,0x1,"%reg%\Classes\Interface\{000C10A1-0000-0000-C000-000000000046}\ProxyStubClsid32","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C10A1-0000-0000-C000-000000000046}\ProxyStubClsid","","{00020420-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\Interface\{000C10A1-0000-0000-C000-000000000046}","","Patch"
+reg_add,0x1,"%reg%\Classes\TypeLib\{000C1092-0000-0000-C000-000000000046}\1.0\409\win32","","msi.dll"
+reg_add,0x1,"%reg%\Classes\TypeLib\{000C1092-0000-0000-C000-000000000046}\1.0\FLAGS","","0"
+reg_add,0x1,"%reg%\Classes\TypeLib\{000C1092-0000-0000-C000-000000000046}\1.0","","Microsoft Windows Installer Object Library"
+reg_add,0x1,"%reg%\Classes\IMsiServer\CLSID","","{000C101C-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\IMsiServer","","Msi install server"
+reg_add,0x1,"%reg%\Classes\WindowsInstaller.Installer\CLSID","","{000C1090-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\WindowsInstaller.Installer","","Microsoft Windows Installer"
+reg_add,0x1,"%reg%\Classes\WindowsInstaller.Message\CLSID","","{000C101D-0000-0000-C000-000000000046}"
+reg_add,0x1,"%reg%\Classes\WindowsInstaller.Message","","Microsoft Windows Installer Message RPC"
+reg_add,0x0,"%reg%\Microsoft\Windows\CurrentVersion\Installer\Secure"
+reg_add,0x2,"%reg%\Microsoft\Windows\CurrentVersion\Installer","InstallerLocation","#$pSystemRoot#$p\system32\"
+If,%hotfix%,Equal,1,Begin
+reg_add,0x1,"%reg%\Microsoft\Windows NT\CurrentVersion\HotFix\KB893803v2\File 1","Flags",""
+reg_add,0x1,"%reg%\Microsoft\Windows NT\CurrentVersion\HotFix\KB893803v2\File 1","New File",""
+reg_add,0x1,"%reg%\Microsoft\Windows NT\CurrentVersion\HotFix\KB893803v2\File 1","New Link Date",""
+reg_add,0x1,"%reg%\Microsoft\Windows NT\CurrentVersion\HotFix\KB893803v2\File 1","Old Link Date",""
+reg_add,0x4,"%reg%\Microsoft\Windows NT\CurrentVersion\HotFix\KB893803v2","Installed","1"
+reg_add,0x1,"%reg%\Microsoft\Windows NT\CurrentVersion\HotFix\KB893803v2","Comments","Windows Installer 3.1"
+reg_add,0x1,"%reg%\Microsoft\Windows NT\CurrentVersion\HotFix\KB893803v2","Backup Dir",""
+reg_add,0x1,"%reg%\Microsoft\Windows NT\CurrentVersion\HotFix\KB893803v2","Fix Description","Windows Installer 3.1"
+reg_add,0x1,"%reg%\Microsoft\Windows NT\CurrentVersion\HotFix\KB893803v2","Installed By",""
+reg_add,0x1,"%reg%\Microsoft\Windows NT\CurrentVersion\HotFix\KB893803v2","Installed On",""
+reg_add,0x4,"%reg%\Microsoft\Windows NT\CurrentVersion\HotFix\KB893803v2","Service Pack","3"
+reg_add,0x4,"%reg%\Microsoft\Windows NT\CurrentVersion\HotFix\KB893803v2","Valid","1"
+If,%OSName%,Equal,xp,Begin
+reg_add,0x1,"%reg%\Microsoft\Updates\Windows XP\SP3\KB893803v2","PackageName","Windows Installer 3.1 (KB893803)"
+reg_add,0x1,"%reg%\Microsoft\Updates\Windows XP\SP3\KB893803v2","Description","Windows Installer 3.1 (KB893803)"
+reg_add,0x1,"%reg%\Microsoft\Updates\Windows XP\SP3\KB893803v2","PackageVersion","1.0"
+reg_add,0x1,"%reg%\Microsoft\Updates\Windows XP\SP3\KB893803v2","Publisher","Microsoft Corporation"
+reg_add,0x1,"%reg%\Microsoft\Updates\Windows XP\SP3\KB893803v2","PublishingGroup","Windows Installer Team"
+reg_add,0x1,"%reg%\Microsoft\Updates\Windows XP\SP3\KB893803v2","ReleaseType","Software Update"
+reg_add,0x1,"%reg%\Microsoft\Updates\Windows XP\SP3\KB893803v2","ARPLink","HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\KB893803v2"
+reg_add,0x1,"%reg%\Microsoft\Updates\Windows XP\SP3\KB893803v2","InstallerName","Update.exe"
+reg_add,0x1,"%reg%\Microsoft\Updates\Windows XP\SP3\KB893803v2","InstallerVersion","6.1.22.4"
+reg_add,0x1,"%reg%\Microsoft\Updates\Windows XP\SP3\KB893803v2","InstalledDate","8/12/2007"
+reg_add,0x1,"%reg%\Microsoft\Updates\Windows XP\SP3\KB893803v2","InstalledBy","MyName"
+reg_add,0x1,"%reg%\Microsoft\Updates\Windows XP\SP3\KB893803v2","Type","Update"
+End
+End
+reg_add,0x1,"%reg%\Microsoft\Windows\CurrentVersion\RunOnceEx\450","msi_2","hiderun /w msiexec.exe /regserver"
+reg_add,0x1,"%reg%\Microsoft\Windows\CurrentVersion\RunOnceEx\450","msi_3","hiderun /w net start msiserver"
+//Following service entries have to used as the ones commented out further below introduce a significant delay at boot
+//reg_add,0x1,"%reg%\Microsoft\Windows\CurrentVersion\RunOnceEx\900","msi_1","hiderun /w msiexec.exe /regserver"
+//reg_add,0x1,"%reg%\Microsoft\Windows\CurrentVersion\RunOnceEx\900","msi_2","hiderun /w net start msiserver"
+Hive_Unload,HKU
+//Hive_Load,HKLM
+//reg_add,0x0,"%reg%\Setup\AllowStart\MSISERVER"
+//reg_add,0x4,"%reg%\ControlSet001\Services\MSIServer","Type","32"
+//reg_add,0x4,"%reg%\ControlSet001\Services\MSIServer","Start","3"
+//reg_add,0x4,"%reg%\ControlSet001\Services\MSIServer","ErrorControl","1"
+//reg_add,0x1,"%reg%\ControlSet001\Services\MSIServer","ImagePath","msiexec.exe /V"
+//reg_add,0x1,"%reg%\ControlSet001\Services\MSIServer","DisplayName","Windows Installer"
+//reg_add,0x1,"%reg%\ControlSet001\Services\MSIServer","ObjectName","LocalSystem"
+//reg_add,0x1,"%reg%\ControlSet001\Services\MSIServer","Description","Installs, repairs and removes software according to instructions contained in .MSI files."
+//reg_add,0x4,"%reg%\ControlSet001\Enum\Root\LEGACY_MSISERVER\0000\Control","*NewlyCreated*","0"
+//reg_add,0x1,"%reg%\ControlSet001\Enum\Root\LEGACY_MSISERVER\0000\Control","ActiveService","MSIServer"
+//reg_add,0x1,"%reg%\ControlSet001\Enum\Root\LEGACY_MSISERVER\0000","Service","MSIServer"
+//reg_add,0x4,"%reg%\ControlSet001\Enum\Root\LEGACY_MSISERVER\0000","Legacy","1"
+//reg_add,0x4,"%reg%\ControlSet001\Enum\Root\LEGACY_MSISERVER\0000","ConfigFlags","0"
+//reg_add,0x1,"%reg%\ControlSet001\Enum\Root\LEGACY_MSISERVER\0000","Class","LegacyDriver"
+//reg_add,0x1,"%reg%\ControlSet001\Enum\Root\LEGACY_MSISERVER\0000","ClassGUID","{8ECC055D-047F-11D1-A537-0000F8753ED1}"
+//reg_add,0x1,"%reg%\ControlSet001\Enum\Root\LEGACY_MSISERVER\0000","DeviceDesc","Windows Installer"
+//reg_add,0x4,"%reg%\ControlSet001\Enum\Root\LEGACY_MSISERVER","NextInstance","1"
+//Hive_Unload,HKLM
+
+[EncodedFile-AuthorEncoded-msi.ico]
+lines=0
+0=eJx9lj9oI1cQh0ecYQVx48aVC8dV3N3xKlcJVm04DAZXdqpXB1z4MIGoch0SMLzKVyQhKdK49KkQCaSIX203cSFcHEh7rKxGgjtu8s3uk7KSdZnl0+7Ob+b9mXmSLdLg2twUPpvya1NkXUS+AFzylVR+s/aKLLV2+minh3Z66Xa70v2nK7/8PZSVlRVpNpuyuroqa2trsr6+LhsbG7K1tSXb29tycHAge3t7sru7Kzs7O6LftkVfvpRb+VFirlLc/iVv397K7799L45ZPASINiUOBx4CRNAU5MBDgAiaEh14CBBB02AOPASIoPauvEPUajK7PASIoGkBDjwEiKBpUQ48BIigaaEOPASIoGnxDjwEiKDmY0MeAkTQtEFbiV0BImjatAMPASJoKoQDDwFiKowDDwEiaCqWgwARNBXPQYCoNlfk0rKIgYLaFcuuUBkXylVF7ipVsR14i+MeQXl25HrLhwiaGuLAl/PjB01Ncmp+4rlH0NQ4lyoQyjXFssGOZnoIEEFTcx14b+vAD1oeBPzgIUAETYfAgYcAETQdDAdebS34Qc2XumC7tsPkHB2BABEU7EA58MwduEfQ8tDhBw8BImg6eA48BIig5lN8zBm4R7Ux6KP1Ra3H9m66ys/yuRwfH8vp6amcn5/LxcWF3NzcyNXVldzd3cn9/b08PDxIv9+Xx8dHmUwmou+H8vr1T3yN21Ieez40PWh60cpRN4ZotVrLfyZMffOm98fhi7mIvKOdapx+llX688taQI7ckRy5yAjomXxZC6jyx7kMisJ0k0ej1mL+uF9gTPAcdVQLmOb3O2WACCIPrSf5nQ4RpSfP6/o0/wcz8wyHRDzNH40uLw8PRYqxDufGtzqSP0LdPzm5LsaZDocLek6Aya9614UF1PdX5Y/7h/v7J73eNQOMs1ZmVtOxfpl+bQOU6VmRz+kyGFR6q5WbZdmCrvoOGwx0anlVjTyv9HzByvH7ZpX+xIrPquG1DJA8m7dcpkOWI6TYmZXLK7dYTYHeqNl/egow/f3Z2QuMPzV1fVpkbfx5NA2Y09MutXE0C5jX0yjkTwOW60ezgOX62SzgE/os4FN6GcA2l+vL61OvwpL6zmywYPwMfMy0O2lo9xvR7qZ815WSLyu+Tkzf5Rk0QBZp278ZMIEP8BHUmPwPH+TZv83NY/B4nGPPLc7Uy0zOZxgFIxLs44DQJczY5f8ET3zLwAQACScGxjrnkGsBAAAAAgAAACMAAAB0AwAAAAAAAAEAAAAAAAAAAAAAAA
+
+[AuthorEncoded]
+msi.ico=955bytes,1Kb
+Logo=msi.ico
+
+[EncodedFolders]
+Junc
+
+[EncodedFile-Junc-junc.exe]
+lines=0
+0=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
+
+[Junc]
+junc.exe=2639,3519
+

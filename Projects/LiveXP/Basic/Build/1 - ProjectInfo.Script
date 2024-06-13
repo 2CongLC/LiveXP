@@ -1,0 +1,189 @@
+[main]
+Title=Retrieve Project Info
+Description=(v28c) This script checks the source CD and writes information about the OS and service pack inside the ProjectInfo.ini file
+Selected=True
+Mandatory=True
+Level=1
+Author=Peter Schlang
+Version=29
+Contact=http://Bootland.pt.vu
+Date=2009-Oct-05
+Credits=d4vr0s for his post http://www.911cd.net/forums//index.php?s=bca6d20a0d49c0497db9f9ab7dfe5633&showtopic=15138&st=0&p=97354&#entry97354
+Download_Level=0
+CertifiedBy=pscEx
+Certification=c71d7e808410183c615254eec44f85c0
+NoWarning=False
+History016=psc use project variables like %OS% rather then reading them from projectinfo.ini
+History020=psc adapted to WinBuilder 077 beta
+History027=psc changed to logging by [OnProcessExit]
+History028=psc consolidated use of %ISOFile%, %BurnISO% etc.
+History028b=Lancelot temporary fix for pex64 trials - post 16 here http://www.boot-land.net/forums/index.php?showtopic=9841&st=10&p=85636&#
+History028c=Olegpov wb080 fix - post 1900 http://www.boot-land.net/forums/index.php?showtopic=5429&view=findpost&p=93674
+History028c=reminder post 10 here http://www.boot-land.net/forums/index.php?showtopic=7842
+Certification81=31543e17b35755af2ced038e3302b667
+
+[Variables]
+%Title%=
+%TimeStamp%=
+%DateStamp%=
+%myTemp%=
+%cmd%=
+%driverIndex%=DRVINDEX.INF
+%allFiles%=%ProjectTemp%\all.txt
+%sglFiles%=%ProjectTemp%\sgl.txt
+
+[Delete-Iso]
+If,ExistFile,%ISODir%\%ISO%.iso,FileDelete,%ISODir%\%ISO%.iso
+If,ExistFile,%ISOfile%,FileDelete,%ISOfile%
+
+[Process]
+Echo,"Processing ProjectInfo File"
+If,NotExistDir,%ProjectTemp%,DirMake,%ProjectTemp%
+Run,%ScriptFile%,Create-Info
+Echo,"Retrieving Source Operating System Info"
+Run,%ScriptFile%,retrieveOS
+Echo,"Retrieving WinBuilder Version"
+IniWrite,%ProjectInfo%,Created,WinBuilderVersion,%Version%
+//IniRead,%ProjectInfo%,Project,RamISORootName,%ISO%
+//IniWrite,%ProjectInfo%,OS,"OldOS",None
+If,%pCheckBox2%,Equal,True,Run,%ScriptFile%,Delete-Iso
+Echo,"Retrieving fundamental Locale Information"
+If,ExistFile,%PreISOScript%,FileDelete,%PreISOScript%
+If,ExistFile,%PostISOScript%,FileDelete,%PostISOScript%
+IniWrite,%ProjectInfo%,RamDrive,DriveLetter,%RAMDriveLetter%
+IniWrite,%ProjectInfo%,RamDrive,Settings,%SettingsDrive%
+IniWrite,%ProjectInfo%,Project,HoJoPELevel,%HoJoPELevel%
+
+[Create-Info]
+If,ExistFile,%ProjectInfo%,FileDelete,%ProjectInfo%
+FileCreateBlank,%ProjectInfo%
+//TXTAddLine,%ProjectInfo%,[Project],Append
+IniAddSection,%ProjectInfo%,Project
+//ShellExecute,Hide,cmd.exe,"/c for /D %l in (#$q%ProjectDir%#$q) do echo ProjectName=%~nl >> #$q%ProjectInfo%#$q"
+IniWrite,%ProjectInfo%,Project,ProjectName,%ProjectTitle%
+//ShellExecute,Hide,cmd.exe,"/c for /f #$qtokens=*#$q %l in (#$q%IsoFile%#$q) do echo ISORootName=%~nl >> #$q%ProjectInfo%#$q"
+StrFormat,FILENAME,%IsoFile%,%tmp%
+StrFormat,EXT,%tmp%,%ext%
+StrFormat,REPLACE,%tmp%,%ext%,,%tmp%
+//IniWrite,%ProjectInfo%,Project,ISORootName,%tmp%
+Set,%ISORootName%,%tmp%,PERMANENT
+//ShellExecute,Hide,cmd.exe,"/c for /f #$qtokens=*#$q %l in (#$q%IsoFile%#$q) do echo RamISORootName=%~nl_RAM >> #$q%ProjectInfo%#$q"
+//IniWrite,%ProjectInfo%,Project,RamISORootName,%tmp%_RAM
+Set,%RamISORootName%,%tmp%_RAM,PERMANENT
+TXTAddLine,%ProjectInfo%,"",Append
+//TXTAddLine,%ProjectInfo%,[Created],Append
+IniAddSection,%ProjectInfo%,Created
+//ShellExecute,Hide,cmd.exe,"/c for /f #$qtokens=*#$q %l in ('Date /T') do echo Date=%l >> #$q%ProjectInfo%#$q"
+//ShellExecute,Hide,cmd.exe,"/c for /f #$qtokens=*#$q %l in ('Time /T') do echo Time=%l >> #$q%ProjectInfo%#$q"
+StrFormat,DATE,%tmp%,"yyyy-mmm-dd"
+IniWrite,%ProjectInfo%,Created,Date,%tmp%
+StrFormat,DATE,%tmp%,"hh:nn"
+IniWrite,%ProjectInfo%,Created,Time,%tmp%
+ShellExecute,Hide,cmd.exe,"/c for /f #$qtokens=*#$q %l in ('Ver') do echo HostOS=%l >> #$q%ProjectInfo%#$q"
+System,ERROROFF,2
+IniRead,%API%,Main,Version,%API_Ver%
+IniWrite,%ProjectInfo%,Project,"API Version",%API_Ver%
+TXTAddLine,%ProjectInfo%,"",Append
+TXTAddLine,%ProjectInfo%,[Scripts],Append
+
+[retrieveOS]
+If,ExistFile,%SourceDir%\CDROM_IA.5,Set,%OSSubType%,"Advanced Server"
+If,ExistFile,%SourceDir%\CDROM_IP.5,Set,%OSSubType%,Professional
+If,ExistFile,%SourceDir%\CDROM_IS.5,Set,%OSSubType%,Server
+If,ExistFile,%SourceDir%\WIN51IP,Set,%OSSubType%,Pro
+If,ExistFile,%SourceDir%\WIN51AP,Set,%OSSubType%,Pro
+If,ExistFile,%SourceDir%\WIN51MP,Set,%OSSubType%,Pro
+If,ExistFile,%SourceDir%\WIN51IC,Set,%OSSubType%,Home
+If,ExistFile,%SourceDir%\WIN51IL,Set,%OSSubType%,"Small Business"
+If,ExistFile,%SourceDir%\WIN51ID,Set,%OSSubType%,"Data Center"
+If,ExistFile,%SourceDir%\WIN51AD,Set,%OSSubType%,"Data Center"
+If,ExistFile,%SourceDir%\WIN51MD,Set,%OSSubType%,"Data Center"
+If,ExistFile,%SourceDir%\WIN51IA,Set,%OSSubType%,Enterprise
+If,ExistFile,%SourceDir%\WIN51AA,Set,%OSSubType%,Enterprise
+If,ExistFile,%SourceDir%\WIN51MA,Set,%OSSubType%,Enterprise
+If,ExistFile,%SourceDir%\WIN51IS,Set,%OSSubType%,Standard
+If,ExistFile,%SourceDir%\WIN51AS,Set,%OSSubType%,Standard
+If,ExistFile,%SourceDir%\WIN51IB,Set,%OSSubType%,Web
+IniWrite,%ProjectInfo%,OS,Type,%OS%
+//IniWrite,%ProjectInfo%,OS,OldOS,%OS%
+IniWrite,%ProjectInfo%,OS,SubType,%OSSubType%
+IniRead,%source_win%\%driverIndex%,Version,CabFiles,%myTemp%
+// PSC use new StrFormat functions
+//History028c - tip 078.07 not exists
+If,%version%,Smaller,078.07,StrFormat,REPLACE,%myTemp%,#$c,##$c,%myTemp%
+If,%version%,Bigger,078.07,Begin
+Set,%OSServicePack%,""
+StrFormat,REPLACE,%myTemp%,#$c#$s,#$c,%myTemp%
+End
+StrFormat,SPLIT,%myTemp%,#$c,0,%num%
+Loop,%ScriptFile%,CabFiles,1,%num%,%myTemp%
+If,%OSServicePack%,Equal,"",Set,%OSServicePack%,NO_SP
+RegRead,HKEY_USERS,".DEFAULT\Control Panel\International",Locale,%Locale%
+IniWrite,%ProjectInfo%,Created,Locale,%Locale%
+IniRead,%source_win%\txtsetup.sif,nls,DefaultLayout,%DefaultLayout%
+IniWrite,%ProjectInfo%,OS,ServicePack,%OSServicePack%
+IniWrite,%ProjectInfo%,OS,DefaultLocale,%DefaultLayout%
+IniWrite,%ProjectInfo%,Cabs,SP_CAB,%spCabFile%
+IniWrite,%ProjectInfo%,Cabs,DR_CAB,%drCabFile%
+Set,%Locale%,%Locale%,PERMANENT
+Set,%DefaultLayout%,%DefaultLayout%,PERMANENT
+Set,%spCabFile%,%spCabFile%,PERMANENT
+Set,%drCabFile%,%drCabFile%,PERMANENT
+//Set,%OSType%,%OSType%,PERMANENT
+Set,%OSSubType%,%OSSubType%,PERMANENT
+Set,%OSServicePack%,%OSServicePack%,PERMANENT
+//FileDelete,%allFiles%
+//FileDelete,%sglFiles%
+
+[CabFiles_History028b_Replaced]
+StrFormat,SPLIT,#1,#$c,#c,%tmp%
+IniRead,%source_win%\%driverIndex%,Cabs,%tmp%,%res%
+If,%tmp%,EQUAL,driver,Set,%drCabFile%,%Res%
+Else,Begin
+Set,%spCabFile%,%Res%
+Set,%OSServicePack%,%tmp%
+End
+
+[CabFiles]
+StrFormat,SPLIT,#1,#$c,#c,%tmp%
+IniRead,%source_win%\%driverIndex%,Cabs,%tmp%,%res%
+If,Not,ExistFile,%SourceDir%\AMD64\TXTSETUP.SIF,Begin
+If,%tmp%,EQUAL,driver,Set,%drCabFile%,%Res%
+Else,Begin
+Set,%spCabFile%,%Res%
+Set,%OSServicePack%,%tmp%
+End
+End
+If,ExistFile,%SourceDir%\AMD64\TXTSETUP.SIF,Begin
+If,%tmp%,EQUAL,driver,Set,%drCabFile%,%Res%
+//If,%tmp%,EQUAL,driver32,Set,%drCabFile32%,%Res%
+If,%tmp%,EQUAL,sp1,run,%scriptfile%,CabFilessp
+If,%tmp%,EQUAL,sp2,Run,%scriptfile%,CabFilessp
+If,%tmp%,EQUAL,sp3,run,%scriptfile%,CabFilessp
+end
+
+[CabFilessp]
+Set,%spCabFile%,%Res%
+Set,%OSServicePack%,%tmp%
+
+[Interface]
+pTextLabel1="Define additional Tasks for this script:",1,1,15,25,315,18,10,Bold
+pCheckBox2="Delete ISOs",1,3,51,55,87,18,True
+pBevel2=pBevel2,1,12,10,16,465,72
+pTextFile1=projectinfo.txt,1,6,10,91,465,230
+
+[InterfaceEncoded]
+projectinfo.txt=472,630
+
+[AuthorEncoded]
+projectInfo.jpg=2Kb,2Kb
+Logo=projectInfo.jpg
+
+[EncodedFile-AuthorEncoded-projectInfo.jpg]
+lines=0
+0=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
+
+[EncodedFile-InterfaceEncoded-projectinfo.txt]
+lines=0
+0=eJyNUtFqGzEQfI7B/7AY9BLUg7ZvJQQcuwVTg419JimhBPm0tlXrtIekc31/35V8aSHg0Kfb084MMyN9LGBdedPEOe1hhyq2HoeDm5LAuBCVtRAPCCFDwP7D8BrU6zntoKPWQ+PpF1Yx/cBBnRAiQXVQbo9fhgNWHceshk4nShqfl54qDOEnBCYaYlGt88Yal4zcrFonxV+LQvaED+wlrYeDTwXMXKYYp83J6FbZ3ljITmrVZdVAdcLsiLWPCEfstqS8BqsYFQFjVbDizJlHbyJKsbykmTFDyEkbItXsIMjvPXGeeVLMxz8Wm7L8+lSK/+JzGES3wkC2TZFHciTOcAuiGw0HAEA+f64pbZZPqOU3Y1EYIUUeUrufcw94Qt+9dy+V4o7DEbDYF7AjD4u1hKk3zCsqtZUQmrvzfRph213yrFDpNyaYVHYNW1usxVXQRG057fJlMn6QIjS90/fA09UFrH0P5h74Df1ONbyGqqiuldMBNDb8kozbA+X7DwgnZVsMxR9Ud+4zeJzjLyjKz0pNLsnMS8vXK6koYRgFIwpcZYLQnYzY5dMnnLrMwAQAekoKOI+xXvMBAAAAAgAAACsAAACJAQAAAAAAAAEAAAAAAAAAAAAAAA
+

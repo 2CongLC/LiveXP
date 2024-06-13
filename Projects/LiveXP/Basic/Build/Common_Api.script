@@ -1,0 +1,2505 @@
+[main]
+Title=Common_Api
+Description=(v15rev32 for LiveXP) This script contains a set of magic functions that you can use inside your script to make some tasks easier like creating shortcuts and extracting files.
+Selected=none
+Level=1
+Credits=To the whole community of developers, beta testers and active members which make these developments fun and interesting.
+Date=06-09-2009
+Version=16
+Revision=32
+Contact=http://www.boot-land.net/forums/index.php?showtopic=2707&st=600#
+Download_Level=0
+Author=Pedro Le 15
+Mandatory=False
+NoWarning=False
+History15b=Lancelot temporary adding for v15 to use arch for the new users that downloads from server - http://www.boot-land.net/forums/index.php?showtopic=9648&view=getlastpost
+History15b=Lancelot Not a vital adding since currently livexp do not support x64 today, log on errors can be ignored, besides it prevents user to get false alarm.
+History15b=Lancelot changes made following Galapo's lines at 0 - OnProjectRun.script
+History15b=[Api_Def] - %APISUBDEF% -> Arch added to the end of line
+History15b=[ApiVar] - following line added: Arch=Run,%API%,Arch_check
+History15b=[Arch] and [Arch_check] sections added
+History15rev3=Galapo updated [Run_FromRam1], [Run_FromCD1], [AddShortcut1], [Run_FromCD2]
+History15rev4a=Lancelot with following Pedro Le 15 capi v21, Fixed Hiderun and ExpEnvVar path depending of %SourceArch%
+History15rev4b=Lancelot by completing codes provided by Galapo (thanks boss) , [Expand_file1] & [Arch_check] + [Expand_1] sections modified to make require_file lines work properly with 32bit applications on wow64 enabled PEx64 build
+History15rev4c=Galapo enhanced line at [Expand_file1]
+History15rev5=Galapo updated [Arch_check] with further functionality
+History15rev6=Lancelot Temporary fix for the bug found on winbuilder where network disabled -- "If,Not,ExistFile," adding before "WebGetIfNotExist" -  http://www.boot-land.net/forums/index.php?showtopic=10031
+History15rev7=Lancelot Extract_And_Run - override the WB function to support x64 hostos + using %GlobalTemp% or %basedir%\Temp - topic: http://www.boot-land.net/forums/index.php?showtopic=9936 - bug topic: http://www.boot-land.net/forums/index.php?autocom=bugtracker&showbug=226
+History15rev8a=Lancelot optional parameter #4 added to Extract_And_Run , Extract_And_Run fixed.
+History15rev8b=Lancelot Expand_1 - Expand_2 sections fixed (now valid syntax, and not write as default ;)) (+Galapo's nowarn fix)
+History15rev8c=Lancelot [Expand_file1_wow64_support_begin] + [Expand_file1_wow64_support_end] added to avoid require_file bug on x64 builds. (old design: loading reghive naturally fails after require_file on "x64 arch,x86" builds)
+History15rev8d=Lancelot Import_Reg enhancements (1b)
+History15rev8e=---
+History15rev8e=Lancelot added paraglider's fix - Arch,x86|x64|IA64 - http://www.boot-land.net/forums/index.php?showtopic=10446
+History15rev8e=Lancelot Add_Url added (for api type 1 and 2) // Reg_Import fixed & improved // Extract_And_Run Fixed // Add_Url , Reg_Import, Arch, ExtractAndRun --> magicwand Improvments (newly added and/or enhanced)
+History15rev8e=---
+History15rev8f=Lancelot Live98="Not_Compatible,Live98" added // Process_Log removed from wand
+History15rev9=Galapo added new Compatibility function (more flexibility than Not_Compatible)
+History15rev=---
+History15rev11b=ctmag Updated download URL for paragliders chm file
+History15rev11b=ctmag added Extract_And_Run code from lancelot
+History15rev11b=Lancelot [Load_Help] revised
+History15rev11b=Lancelot Extract_And_Runx added as a subroutine of Extract_And_Run (for backward compatibility)
+History15rev10=Galapo added workaround so that FileDelete warning isn't added to log when using _Calculate
+History15rev13=---
+History15rev13=---
+History15rev13=---
+History15rev13=Lancelot SubFoldersToRoot also added as an option to pe1
+History15rev13=Lancelot NoShortcutSubfolders added as an option to pe1
+History15rev13=Lancelot %ToRoot% pe1 bug fixed
+History15rev13=---
+History15rev13=---
+History15rev13=Lancelot psc's redundant request made - post 55 http://www.boot-land.net/forums/index.php?showtopic=2100&pid=95175&st=50&#
+History15rev15=Lancelot wb080rev3 bug workarounded X 2 (only exists in pe2/3 sections ;))
+History15rev14=Galapo added setting of %TargetWOW64% under [Arch_check] to %SourceArch% if %TargetWOW64% is undefined - post 57 http://www.boot-land.net/forums/index.php?showtopic=2100&pid=95193&st=50&#
+History15rev15=Lancelot Set_Api_Type splitted to Set_Api_Type_Find_API_TYPE (ps: Live98 provides it api_type on script.project , BeatZero will be away for a while, In future if needed better to check api_type of Live98 by checking a specific file on sourcedir ;))
+History15rev15=---
+History23rev15=Galapo Set_Api_Type Api_Type 2 specials reserved
+History15rev15=---
+History15rev15=Lancelot pe1 require_file optional NowarnPreserveNodebugwarn and relevant addings
+History15rev15=Lancelot unpack file delete redundant debug warning ( modification with [Try-Delete] )
+History15rev15=/////////////// ------  SYNCRONISATION WITH CAPI V25  ------ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+History25rev15=
+History25rev15=Lancelot [Interface_1] pCheckBox19 invisible fixed
+History25rev15=Lancelot following Pedro Le advice, [Expand_file1_wow64_support_begin] [Expand_file1_wow64_support_end] added to speed up capi on PE1x86 builds (there seems to be a syncronisation missing between v15revisions and v23)
+History15rev16=Lancelot NowarnPreserveNodebugwarn adding for Expand_2_PRESERVE
+History15rev17=Lancelot NowarnPreserveNodebugwarn adding for Expand_2_PRESERVE made compatible to both 080 and 077rc2 ;)
+History25rev18=Lancelot [Set_InterfaceOptions] wb version check fixed
+History15rev18=Lancelot [Set_InterfaceOptions] fix for AMD64|IA64 + api_type check
+History25rev18=Lancelot Filename with space bugy fixed on [Extract_And_Run]
+History25rev18=Lancelot shortpath removed [Extract_And_Run]
+History25rev19=Galapo updated [RegAdd_boot1] and [Process-RegAdd_boot-prepare] for use with new ExpEnvVar.exe which now supports 0x3, 0x4, and 0x7 entries
+History25rev20=Lancelot Extract_And_Run replaced with Extract_And_Runc & syncronisation
+History25rev20=Lancelot [Set_InterfaceOptions] enhancement/syncronisation
+History15rev20=/////////////// ------  SYNCRONISATION WITH CAPI V25d  ------ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+History25rev21=Lancelot [Expand_file1] change to support IA64 (universal) If,%arch%%SourceArch%,Equal,x86x64,Set,#9,w#9  ---->   If,%arch%,Equal,x86,If,Not,%SourceArch%,Equal,x86,Set,#9,w#9
+History15rev21=Galapo added FileDeleteCMD
+History15rev21=/////////////// ------  SYNCRONISATION WITH CAPI V25e  ------ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+History25rev22=Lancelot missing end (begin-end) fixed
+History25rev22=Lancelot Weblabel for capi download
+History25rev22=Lancelot [Set_InterfaceOptions] fix ;)
+History25rev22=Lancelot "Run From Cd" bugy fixed --> post 22 http://www.boot-land.net/forums/index.php?showtopic=9106&view=findpost&p=97833
+History25rev23=Lancelot typo : %CPath%\%CFilename% --> %CPath%%CFilename%
+History25rev24=Galapo updated [RegAdd_boot1] and [Process-RegAdd_boot-prepare] (WB bug work-around etc.) -- topic with details here: http://www.boot-land.net/forums/index.php?showtopic=11014
+History25rev25=Galapo removed  Reg_Import since method cannot be relied upon for consistent results; Updated [Arch_check] with parameter check and warning if no parameter provided
+History15rev25=/////////////// ------  SYNCRONISATION WITH CAPI V25g  ------ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+History15rev26=Galapo updated [Arch_check] to better support multi-architecture scripts
+History15rev26=/////////////// ------  SYNCRONISATION WITH CAPI V25h  ------ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+History15rev27=Galapo updated [Arch_check] to fix a bug introduced in rev26
+History15rev27=/////////////// ------  SYNCRONISATION WITH CAPI V25i  ------ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+History15rev28=Galapo optimised [Arch_check] for greater speed; added 'Arch,On' command; updated [Arch]
+History15rev29=Galapo made further improvements to [Arch_check]
+History15rev30=Galapo fixed hiderun lines
+History15rev30=/////////////// ------  SYNCRONISATION WITH CAPI V25l  ------ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+History15rev31a=Lancelot - speed enhancement for most used command require_file,xxx.dll (single parameter),  [Expand_file1] [Expand_file1_BasicA] [Expand_file1_BasicB] [Expand_file1_Main] ---> Nuno admits wb080 is 2 times slower than before and development will take no action to make it as fast as 77rc2 and asks for speed enhancements on scripts - check: http://www.boot-land.net/forums/index.php?showtopic=11749
+History15rev31b=Galapo - fixed wow64 file extraction
+History15rev31c=Galapo & Lancelot - new api function Require_FileQ (for now to PE1) added due to Nuno's request of Reduce the complexity of scripts, using workarounds, shortly working around the slow wb, http://www.boot-land.net/forums/index.php?showtopic=11772
+History15rev31=/////////////// ------  SYNCRONISATION WITH CAPI V25m  ------ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+History15rev32a=Galapo [Arch_check] improved, including removal of checking for existance of %TargetWOW64% (since this introduces significant delay in script processing and projects have this variable defined)
+History15rev32b=Lancelot & Galapo Require_FileQ parameter support droped for faster speed to increase speed for most common api used on apps scripts.
+History15rev32c=Lancelot - Require_FileQ also now supports PE2/3 worlds.
+History15rev32d=Lancelot - wand fixed // minor thingies around
+History15rev32e=Lancelot - Require_FileQ pe2/3 improved /// %reg%\=%reg_temp%\ --> %reg%=%reg_temp% ==> there is no bug here, it was initial design of Nuno which probably have purpose to avoid misusage of syntax AND to expand 'api hive load' feature (but could not be expanded in time due to slow down of wb) // using value in variable name is valid up to 080 , it seems future optimization (optimization=Speed DOWN + INCOMPATIBILITY) will cause this flexibility gone too.
+History25rev32f=Lancelot - Require_FileQ improved for on/off
+History15rev32f=/////////////// ------  SYNCRONISATION WITH CAPI V25n  ------ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+History16=pscEx program 'PE1_4WB82' made ready for WinBuilder 082
+CertifiedBy=PE1_4WB82
+Certification=9a36e6c3a2f57fcba419ca02ed51fb27
+Certification81=f9abdb68cd863260735a694d84ec9051
+
+[Variables]
+%CBClean0%=False
+%CBClean1%=True
+%CBClean2%=True
+%CBClean3%=True
+%CBClean4%=True
+%CBClean5%=True
+%CBClean6%=True
+%CBClean7%=True
+%CBClean8%=True
+%CBClean9%=True
+%CBClean10%=True
+
+[Interface]
+pImage1=ApiScreen_15.gif,1,5,1,-1,376,250
+pBevel1=pBevel1,1,12,-10,-3,516,255
+pTextLabel1="Requires Winbuilder 077 RC2",1,1,6,266,192,18,10,Bold
+pWebLabel1="App Scripts Guide",1,10,383,12,84,18,http://www.boot-land.net/forums/index.php?showtopic=4415&view=findpost&p=33209
+pButton3=Options,1,8,391,208,87,30,Set_InterfaceOptions,True
+pWebLabel2=Add_Shortcut,1,10,12,141,81,18,http://pedrole15.boot-land.net/index.php?dir=Api%2FCommon%2FHelp%2F&download=Add_Shortcut.html
+pWebLabel3=Unpack,1,10,284,106,35,18,http://pedrole15.boot-land.net/index.php?dir=Api%2FCommon%2FHelp%2F&download=Unpack.html
+pWebLabel4=Select_Case,1,10,283,74,73,18,http://pedrole15.boot-land.net/index.php?dir=Api%2FCommon%2FHelp%2F&download=Select_Case.html
+pWebLabel5="WinBuilder Help Manual",1,10,383,35,121,18,http://winbuilder.net/help/
+pButton4="Help by Paraglider",1,8,384,113,106,25,Load_Help,0,False
+pCheckBox1=Re-Download,1,3,393,142,91,18,False
+pBevel2=pBevel2,1,12,380,108,114,59
+pTextLabel2="Since 'Revision 15' (rev15)  'Capi v15rX for LiveXP' is compatible to Capi v25",1,1,208,266,291,30,8,Bold
+pWebLabel6="Latest Capi here",1,10,383,72,200,18,http://pedrole15.boot-land.net/index.php?dir=Api%2FCommon%2F
+
+[Interface_1]
+pButton1=Save,1,8,423,289,118,31,Save_ApiConfig,True
+pButton2=Back,1,8,291,288,118,31,Set_InterfaceDefault,True
+pCheckBox1="Force All Programs Shortcut to StartMenu Root",1,3,5,85,204,30,False
+pScrollBox1="1 - Source_Sys",1,4,297,66,236,21,"1 - Source_Sys","2 - Same 1 but use 7z rather CopyorExpand","3 - Source_Sys first then  from Source_MUI","4 - Source_Mui first then  from Source_Sys","5 - Same 3 but use 7z rather CopyorExpand","6 - Same 4 but use 7z rather CopyorExpand"
+pfilebox1=,1,13,292,118,241,30,dir
+pCheckBox2="Yes, copy Mui Files if they exist from :",1,3,296,43,217,18,False
+pCheckBox4="Enable Api Menu",1,3,5,53,124,18,True
+pCheckBox7="Enable OnBuildExit and inform me when :",1,3,297,158,16,18,False
+pCheckBox10="Warn when Set Api",1,3,149,55,130,18,False
+pImage1=ApiScreen_11.gif,1,5,-1,4,560,280
+pBevel1=pBevel1,1,12,-3,-4,566,328
+pCheckBox14="The build was successfully (DONE)",1,3,292,179,200,18,True
+pCheckBox15="The user aborted the build (STOP)",1,3,292,198,200,18,True
+pCheckBox16="A script command failed (ERROR)",1,3,292,217,200,18,True
+pCheckBox17="A command aborted the build (COMMAND)",1,3,292,236,234,18,True
+pCheckBox18="A syntax error aborted the build (EXCEPTION)",1,3,292,255,247,18,True
+pTextLabel1="       Enable OnBuildExit  and  Inform me   when  :",1,1,296,155,240,23,8,Normal
+pCheckBox19="Force Icon in Add_Shortcut",1,3,6,231,200,18,False
+pCheckBoxCapiSubFoldersToRoot="Force All Programs Shortcut Subfolder to its root",1,3,5,119,204,30,False
+pCheckBoxCapiNoShortcutSubfolders="Force All Programs Shortcut without subfolders",1,3,5,153,204,30,False
+pCheckBox_reqfile_NowarnPreserveNodebugwarn="require_file NOWARN,PRESERVE -> NO Debug Warn",1,3,3,253,281,18,True
+
+[Interface_2]
+pButton1=Save,1,8,423,289,118,31,Save_ApiConfig,True
+pButton2=Back,1,8,291,288,118,31,Set_InterfaceDefault,True
+pCheckBox1="Force all programs   to StartMenu Root",1,3,5,74,122,35,False
+pCheckBox4="Enable Api Menu",1,3,5,53,124,18,True
+pCheckBox10="Warn when Set Api",1,3,149,55,130,18,False
+pImage1=ApiScreen_13.gif,1,5,-1,4,560,280
+pBevel1=pBevel1,1,12,-3,-4,573,336
+pCheckBox14="The build was successfully (DONE)",1,3,291,177,200,18,True
+pCheckBox15="The user aborted the build (STOP)",1,3,292,197,200,18,True
+pCheckBox16="A script command failed (ERROR)",1,3,293,217,200,18,True
+pCheckBox17="A command aborted the build (COMMAND)",1,3,294,236,234,18,True
+pCheckBox18="A syntax error aborted the build (EXCEPTION)",1,3,294,256,247,18,True
+pTextLabel1=" OnBuildExit:  Unmount Wim and Inform me  when  :",1,1,290,154,264,23,8,Normal
+
+[Infos]
+Require WB077RC2
+Need in Script.project
+In section Process
+AddVariables,%API%,ApiVar,GLOBAL
+
+[Api_Def]
+%APIVAR%=ApiVar
+%APIDEF%=API
+%APISUBDEF%=_Calculate,AddAutoRun,*AddPostConfig,*AddToPEShell,Add_Shortcut,Add_Asso,Arch,Associate_file,Ask_License,Compatibility,*CopyDrv,CopyProgram,ExtractAndRunc,FileDeleteCMD,Not_Compatible,Others,*ReadENV,Registry,Require_File,*RequireSysFile,RunFrom,Unpack,Variable
+
+[ApiVar]
+%ToRoot%=
+%CapiSubFoldersToRoot%=Falsy
+%CapiNoShortcutSubfolders%=
+%CapiNowarnPreserveNodebugwarn%=Yes
+%reg_temp%=wb-hive
+%reg%=%reg_temp%
+%CopyMui%=Off
+%WarnWhenSetApi%=False
+%Shc_Mode%=0
+_Calculate=Run,%API%,Calculate
+Add_Asso=Run,%API%,Association%API_TYPE%
+Add_Shortcut=Run,%API%,AddShortcut%API_TYPE%
+Arch=Run,%API%,Arch_check
+Ask_License=Run,%API%,Check_Lic
+associate_file=Run,%API%,do_associate%API_TYPE%
+CopyProgram=Run,%API%,Copy_Program
+hive_load=Run,%API%,reg_hiveload
+hive_unload=Run,%API%,reg_hiveunload
+Compatibility=Run,%API%,_Compatibility
+Not_Compatible=Run,%API%,NotCompatible%API_TYPE%
+Process_log=Run,%API%,Process-log
+reg_add=RegWrite,HKLM
+reg_del=RegDelete,HKLM
+RegAddBoot=Run,%API%,RegAdd_boot%API_TYPE%
+Register_File=Run,%API%,RegisterFile%API_TYPE%
+Require_FileQ=Run,%API%,Expand_FileQ%API_TYPE%%SourceArch%%TargetWOW64%%CapiScriptArch%
+Require_File=Run,%API%,Expand_file%API_TYPE%
+Unpack=Run,%API%,Depack
+RunFromRam=Run,%API%,Run_FromRam%API_TYPE%
+RunFromCD=Run,%API%,Run_FromCD%API_TYPE%
+ReadENV=Run,%API%,Read_ENV%API_TYPE%
+RequireSysFile=Run,%API%,Require_Sys_File%API_TYPE%
+AddAutoRun=Run,%API%,Add_Auto_Run%API_TYPE%
+AddPostConfig=Run,%API%,Add_Post_Config%API_TYPE%
+AddToPEShell=Run,%API%,Add_To_PEShell%API_TYPE%
+CopyDrv=Run,%API%,Copy_Drv%API_TYPE%
+Select_Case=Run,%API%,CaseSelect
+RunOnce=run,%API%,RunEx
+GetInterface=Run,%API%,Get_Interface,OUT:
+WriteInterface=Run,%API%,Write_Interface
+ShowComponent=Run,%API%,Show_Component
+ExtractAndRunc=Run,%API%,Extract_And_Runc
+ExtractAndRunx=Run,%API%,Extract_And_Runx
+Add_URL=Run,%API%,Add_URL%API_TYPE%
+FileDeleteCMD=Run,%API%,File_Delete_CMD
+
+[API]
+
+[_Calculate]
+Full Syntax="//_Calculate,AutoIT Command(expression),ReturnVar(without %)"
+Note="//Allways use simple quote in expression ,use [#$c] in place of [,] and use  %ReturnVar% (with %) as result in your code . See AutoIT doc"
+-=
+MsgBox="_Calculate,MsgBox(2#$c'Test Calculate'#$c'Choice:'#$c5),Choice"
+InputBox="_Calculate,InputBox('Question'#$c 'Where were you born?'#$c 'Planet Earth'#$c ''#$c -1#$c -1#$c -1#$c -1),Answer"
+
+[AddAutoRun]
+Default Value="AddAutoRun,%ProgramTitle%,%PE_Programs%\%ProgramFolder%\%ProgramExe%,,1"
+Full Syntax="//AddAutoRun,Title,(path\)FileName,Parameters,StartMode=(1,2,3,4)"
+
+[*AddPostConfig]
+Default Value="AddPostConfig,%ProgramTitle%,%PE_Programs%\%ProgramFolder%\%ProgramExe%,,1"
+Full Syntax="//AddPostConfig,Title,(path\)FileName,Parameters,StartMode=(1,2,3,4)"
+
+[Add_URL]
+Default Value="Add_URL,Favorites,<filename>,<webaddress>,#$psystemroot#$p\system32\url.dll,0,0"
+Full Syntax="Add_URL,[Favorites][Links]<TargetPath>,<filename>,<webaddress>,[#$psystemroot#$p\system32\url.dll][None]<url icon address>,<IconIndex>[None],<HotKey>[None]"
+-=
+Sample Favorites="Add_Url,,Google.url,http://www.google.com"
+Sample Links="Add_Url,Links,Google.url,http://www.google.com"
+-=
+Sample Favorites SubF="Add_Url,Favorites\My Folder,Google.url,http://www.google.com"
+Sample AnyFolder="Add_Url,%target_win%,Google.url,http://www.google.com"
+
+[ExtractAndRunc]
+Default Value c="ExtractAndRunc,%ScriptFile%,Folder,Filename,[Parameters],%TempDir%"
+Default Value x="ExtractAndRunx,%ScriptFile%,Folder,Filename,[Parameters],%TempDir%"
+Full Syntax="ExtractAndRun(c)(x),%ScriptFile%,Folder,Filename,[Parameters],<extractfolder>[GlobalTemp]"
+-=
+Sample Jpg="ExtractAndRunx,%ScriptFile%,Folder,test.jpg,,GlobalTemp"
+Sample Html="ExtractAndRunx,%ScriptFile%,Folder,test.html,,GlobalTemp"
+-=
+Sample Exe="ExtractAndRunc,%ScriptFile%,Folder,test.exe,"-asdf -qwer",GlobalTemp"
+Sample Cmd="ExtractAndRunc,%ScriptFile%,Folder,test.cmd,"-asdf -qwer",GlobalTemp"
+
+[*AddToPEShell]
+Default Value="AddToPEShell,%ProgramTitle%,%PE_Programs%\%ProgramFolder%\%ProgramExe%"
+Full Syntax="//AddToPEShell,Title,(path\)FileName,Default=True/False"
+
+[Add_Shortcut]
+Full Syntax="//Add_Shortcut,Type,StartMenuFolder,(path\)FileName,Title,Work Folder,Parameters,(path\)IconFile#$cIconIndex,StartMode=(1,2,3),ToolTipText(only LiveXP)"
+Default Value="Add_Shortcut,StartMenu,,%PE_Programs%\%ProgramFolder%\%ProgramExe%,%ProgramTitle%,%PE_Programs%\%ProgramFolder%\%ProgramExe%,,%ProgramExe%,1"
+-=
+AutoRun="Add_Shortcut,AutoRun"
+Desktop="Add_Shortcut,Desktop"
+QuickLaunch="Add_Shortcut,QuickLaunch"
+StartMenu="Add_Shortcut,StartMenu"
+SendTo="Add_Shortcut,SendTo"
+-=
+EditWith="Add_Shortcut,EditWith,Edit with %ProgramTitle%"
+-=
+Accessories="Add_Shortcut,Accessories"
+AdministrativeTools="Add_Shortcut,AdministrativeTools"
+SystemTools="Add_Shortcut,SystemTools"
+
+[Add_Asso]
+Full Syntax (All OS)="//Add_Asso,Ext,Type,Title,FullFilename,Option,True for use RegAddBoot"
+Default Value="Add_Asso,[Ext],Edit,,%PE_Programs%\%ProgramFolder%\%ProgramExe%,,False"
+-=
+Edit="Add_Asso,Ext,Edit"
+Icon="Add_Asso,Ext,Icon"
+Open="Add_Asso,Ext,Open"
+-=
+Icon (From dll)="Add_Asso,Ext,Icon,,%SystemRoot%\System32\Shell32.dll,-153"
+Open (run)="Add_Asso,Ext,Open,,%SystemRoot%\test.exe,/run=%2"
+
+[Arch]
+Full Syntax="//Arch,x86|x64|IA64"
+Default Value="Arch,x86"
+-=
+Compatible between x86 and x64="Arch,x86|x64"
+Set architecture temporarily to %SourceArch%="Arch,Off"
+Reset architecture to architecture of program="Arch,On"
+
+[Associate_File]
+Full Syntax (Not for LiveXP)="//Associate_File,[Extension],[(path\)FileName]"
+Default Value="Associate_File,[Extension],%PE_Programs%\%ProgramFolder%\%ProgramExe%"
+-=
+Full Syntax (All OS)="//Associate_File,Ext,Type,FullFilename,Option,True for use RegAddBoot"
+Default Value="Associate_File,[Ext],Edit,%PE_Programs%\%ProgramFolder%\%ProgramExe%,,False"
+-=
+Edit="Associate_File,Ext,Edit"
+Icon="Associate_File,Ext,Icon"
+Open="Associate_File,Ext,Open"
+-=
+Icon (From dll)="Associate_File,Ext,Icon,%SystemRoot%\System32\Shell32.dll,-153"
+Open (run)="Associate_File,Ext,Open,%SystemRoot%\test.exe,/run=%2"
+
+[Ask_License]
+Full Syntax="//Ask_License,FullFilename,ID,SectionToRunBeforeExit(Optional use this for clean if licence not accepted)"
+-=
+Sample="Ask_License,%ScriptDir%\Licence.txt,Lic"
+
+[CopyProgram]
+Full Syntax="//CopyProgram,Source,Target,Filename(Only for test if filename exist in source, if not message appear and skip function)"
+Default Value="CopyProgram,Source,%Target_Prog%\%ProgramFolder%,%ProgramExe%"
+
+[*CopyDrv]
+CopyDrv="CopyDrv,Folder"
+
+[Compatibility]
+Compatible=Compatibility,compatible,LiveXP|VistaPE|Win7PE
+Uncompatible=Compatibility,uncompatible,LiveXP|Live98
+
+[FileDeleteCMD]
+Default Value="FileDeleteCMD,FileToDelete"
+
+[Not_Compatible]
+LiveXP="Not_Compatible,LiveXP"
+VistaPE="Not_Compatible,VistaPE"
+Win7PE="Not_Compatible,Win7PE"
+Live98="Not_Compatible,Live98"
+
+[Others]
+GetInterface="GetInterface,%VarResult%,Filename,ComponentName,[ComponentType],[Position]"
+Select_Case="Select_Case,%Var%,ListVar1,[ListVar2],[1]"
+WriteInterface="WriteInterface,NewValue,Filename,ComponentName,[ComponentType],[Position]"
+
+[Process_Log]
+Process_Log="Process_Log"
+
+[*ReadENV]
+ReadENV="ReadENV"
+
+[Registry]
+Hive_Load,Default(HKCU)="Hive_Load,Default"
+Hive_Load,Software(HKU)="Hive_Load,Software"
+Hive_Load,System(HKLM)="Hive_Load,System"
+-=
+Hive_Unload="Hive_Unload"
+-=
+Reg_Add="Reg_Add,StringType,%reg%\Section,Key,Value"
+Reg_Del="Reg_Del,%reg%\Section[,Key]"
+RegAddBoot="RegAddBoot,RootKey,StringType,Section,Key,String"
+Register_File="Register_File,file,[Install] or [Register]"
+
+[Require_File]
+Quick Require_File (Require_FileQ) Default Value="Require_FileQ,filename"
+-=
+Require_File Full Syntax="//Require_File,[Folder\]filename,[Source (if different to %Source_Sys%)],[Target(If different to %Target_Sys%)],[OverWrite]|[PRESERVE],[NOWARN],[NewName for #1 on Target],[MUI Source (if different of parameter #2)]"
+Require_File Default Value="Require_File,File,%Source_Sys%,%Target_Sys%,[PRESERVE],[NOWARN]"
+-=
+File.dl_="Require_File,File.dll"
+Filename in %Target_Sys%\Drivers="Require_File,Drivers\Filename.sys"
+
+[*RequireSysFile]
+Full Syntax="//RequireSysFile,Filename (copies from system32\drivers to system32\drivers),[OverWrite]|[PRESERVE],[NOWARN]"
+RequireSysFile="RequireSysFile,[Filename],[PRESERVE],[NOWARN]"
+
+[RunFrom]
+RunFromRam="RunFromRam,True"
+RunFromCD="RunFromCD,True"
+
+[Unpack]
+Full Syntax 1="//Unpack,Section,Archive,Option=(True/False for delete Archive)or(filename),Target(%TargetDir%/%Target_Prog%/%Target_Win%/%Target_Sys%),ProgramFolder,Filename,Target_Temp"
+Default Value="Unpack,Folder,,True,%Target_Prog%,%ProgramFolder%,%programExe%"
+-=
+All files="Unpack,Section,,,%Target_Prog%,%ProgramFolder%,%ProgramExe%"
+One file="Unpack,Section,,Filename.ext,%Target_Prog%,%ProgramFolder%,%ProgramExe%"
+Archive="Unpack,Section,Archive.7z,,%Target_Prog%,%ProgramFolder%,%ProgramExe%"
+Archive (don't delete Archive)="Unpack,Section,Archive.7z,False,%Target_Prog%,%ProgramFolder%,%ProgramExe%"
+Archive_SFX (.exe)="Unpack,Section,Archive.exe,-y,%Target_Prog%,%ProgramFolder%,%ProgramExe%"
+-=
+Full Syntax 2="//Unpack,[Filename],Action,[ Here Nb and place of parameter depend of Action],[Target (%Target_Prog%\%ProgramFolder%)]
+-=
+All files="Unpack,%ScriptFile%,All,Section,%Target_Prog%\%ProgramFolder%"
+All files If not exist="Unpack,%ScriptFile%,-All,Section,%Target_Prog%\%ProgramFolder%"
+One file="Unpack,%ScriptFile%,One,Section,Filename.ext,%Target_Prog%\%ProgramFolder%"
+Archive="Unpack,%ScriptFile%,Archive,Section,Archive.7z,%Target_Prog%\%ProgramFolder%"
+Archive (don't delete Archive)="Unpack,%ScriptFile%,-Archive,Section,Archive.7z,%Target_Prog%\%ProgramFolder%"
+Archive_SFX (.exe)="Unpack,%ScriptFile%,SFX,Section,Archive.exe,%Target_Prog%\%ProgramFolder%"
+UnZip an archive="Unpack,%ScriptDir%\Archive.7z,UnZip,%Target_Prog%\%ProgramFolder%"
+
+[Variable]
+%ProgramEXE%="%ProgramEXE%"
+%ProgramFolder%="%ProgramFolder%"
+%PE_Programs%="%PE_Programs%"
+%ScriptFile%=%ScriptFile%
+%Source_Sys%="%Source_Sys%"
+%Source_Win%="%Source_Win%"
+%Target_Prog%="%Target_Prog%"
+%Target_Sys%="%Target_Sys%"
+%Target_Win%="%Target_Win%"
+
+[Load_Help]
+If,%pCheckBox1%,Equal,True,Begin
+WebGet,http://www.paraglidernc.com/winbuilder/winbuilder.7z,%BaseDir%\winbuilder.7z
+If,ExistFile,%BaseDir%\winbuilder.7z,Begin
+ShellExecute,Hide,%Tools%\7z.exe,"x -y #$q%BaseDir%\winbuilder.7z#$q -o#$q%BaseDir%#$q"
+FileDelete,%BaseDir%\winbuilder.7z
+End
+Else,Message,"Fail to download file#$x#$xOpen old file",ERROR,10
+End
+Else,Begin
+If,Not,ExistFile,%BaseDir%\winbuilder.chm,Begin
+If,QUESTION,"The help file winbuilder.chm made by Paraglider is not present in #$pBaseDir#$p#$x#$x#$s#$s#$sDo you want to download it now ?",10,True,Begin
+WebGet,http://www.paraglidernc.com/winbuilder/winbuilder.7z,%BaseDir%\winbuilder.7z
+If,ExistFile,%BaseDir%\winbuilder.7z,Begin
+ShellExecute,Hide,%Tools%\7z.exe,"x -y #$q%BaseDir%\winbuilder.7z#$q -o#$q%BaseDir%#$q"
+FileDelete,%BaseDir%\winbuilder.7z
+End
+Else,Message,"Fail to download file",ERROR,10
+End
+End
+Else,Begin
+Retrieve,FILESIZE,%BaseDir%\winbuilder.chm,%var%
+If,%var%,Smaller,311152,Begin
+If,QUESTION,"A new help file winbuilder.chm made by Paraglider is awailable#$x#$x#$s#$s#$sDo you want to download it now ?",10,True,Begin
+WebGet,http://www.paraglidernc.com/winbuilder/winbuilder.7z,%BaseDir%\winbuilder.7z
+If,ExistFile,%BaseDir%\winbuilder.7z,Begin
+ShellExecute,Hide,%Tools%\7z.exe,"x -y #$q%BaseDir%\winbuilder.7z#$q -o#$q%BaseDir%#$q"
+FileDelete,%BaseDir%\winbuilder.7z
+End
+Else,Message,"Fail to download file#$x#$xOpen old file",ERROR,10
+End
+End
+End
+End
+System,FILEREDIRECT,OFF
+If,ExistFile,%BaseDir%\winbuilder.chm,ShellExecuteEX,Hide,cmd.exe,"/C #$q%BaseDir%\winbuilder.chm#$q",%BaseDir%
+System,FILEREDIRECT,ON
+
+[Save_OnbuildExit_Options]
+Iniwrite,%ScriptFile%,Variables,#$pCBClean1#$p,%pCheckBox14%
+Iniwrite,%ScriptFile%,Variables,#$pCBClean2#$p,True
+Iniwrite,%ScriptFile%,Variables,#$pCBClean3#$p,%pCheckBox15%
+Iniwrite,%ScriptFile%,Variables,#$pCBClean4#$p,,True
+Iniwrite,%ScriptFile%,Variables,#$pCBClean5#$p,%pCheckBox16%
+Iniwrite,%ScriptFile%,Variables,#$pCBClean6#$p,,True
+Iniwrite,%ScriptFile%,Variables,#$pCBClean7#$p,%pCheckBox17%
+Iniwrite,%ScriptFile%,Variables,#$pCBClean8#$p,,True
+Iniwrite,%ScriptFile%,Variables,#$pCBClean9#$p,%pCheckBox18%
+Iniwrite,%ScriptFile%,Variables,#$pCBClean10#$p,,True
+IniDelete,%ScriptFile%,Main,Interface
+System,REFRESHINTERFACE
+
+[Save_ApiConfig]
+If,%Api%,Equal,%ScriptFile%,Begin
+StrFormat,FILENAME,%Target_Win%,%var%
+StrFormat,POS,"I386|Windows",%var%,%var1%
+StrFormat,LEFT,"I386|Windows",%var1%,%var2%
+StrFormat,SPLIT,%var2%,|,0,%Case%
+Set,%API_TYPE%,%Case%
+If,%API_TYPE%,Equal,0,Message,"Unknown #$pTarget_Win#$p=#$pTargetDir#$p\%var% !!#$x Can not initalize #$pApi_Type#$p !!",ERROR
+Else,Begin
+If,%pCheckBox1%,Equal,True,IniWrite,%ScriptFile%,ApiVar,#$pToRoot#$p,"..\"
+Else,IniWrite,%ScriptFile%,ApiVar,#$pToRoot#$p,""
+If,%pCheckBoxCapiNoShortcutSubfolders%,Equal,True,IniWrite,%ScriptFile%,ApiVar,#$pCapiNoShortcutSubfolders#$p,nosubfolders
+Else,IniWrite,%ScriptFile%,ApiVar,#$pCapiNoShortcutSubfolders#$p,""
+If,%pCheckBoxCapiSubFoldersToRoot%,Equal,True,IniWrite,%ScriptFile%,ApiVar,#$pCapiSubFoldersToRoot#$p,Truely
+Else,IniWrite,%ScriptFile%,ApiVar,#$pCapiSubFoldersToRoot#$p,Falsy
+If,%pCheckBox_reqfile_NowarnPreserveNodebugwarn%,Equal,True,IniWrite,%ScriptFile%,ApiVar,#$pCapiNowarnPreserveNodebugwarn#$p,Yes
+Else,IniWrite,%ScriptFile%,ApiVar,#$pCapiNowarnPreserveNodebugwarn#$p,""
+IniWrite,%ScriptFile%,ApiVar,#$pWarnWhenSetApi#$p,%pCheckBox10%
+If,%pCheckBox4%,Equal,True,Begin
+//AddVariables,%ScriptFile%,Api_Def,PERMANENT <== Removed in WB077RC3
+// History16 +++
+//IniRead,%ScriptFile%,Api_Def,##$pAPIVAR##$p,%APIVAR%
+If,%Version%,SMALLER,81,IniRead,%ScriptFile%,Api_Def,##$pAPIVAR##$p,%APIVAR%
+Else,IniRead,%ScriptFile%,Api_Def,#$pAPIVAR#$p,%APIVAR%
+// History16 ---
+IniWrite,%ProjectDir%\Script.project,Variables,#$pAPIVAR#$p,%APIVAR%
+// History16 +++
+//IniRead,%ScriptFile%,Api_Def,##$pAPIDEF##$p,%APIDEF%
+If,%Version%,SMALLER,81,IniRead,%ScriptFile%,Api_Def,##$pAPIDEF##$p,%APIDEF%
+Else,IniRead,%ScriptFile%,Api_Def,#$pAPIDEF#$p,%APIDEF%
+// History16 ---
+IniWrite,%ProjectDir%\Script.project,Variables,#$pAPIDEF#$p,%APIDEF%
+// History16 +++
+//IniRead,%ScriptFile%,Api_Def,##$pAPISUBDEF##$p,"%APISUBDEF%"
+If,%Version%,SMALLER,81,IniRead,%ScriptFile%,Api_Def,##$pAPISUBDEF##$p,%APISUBDEF%
+Else,IniRead,%ScriptFile%,Api_Def,#$pAPISUBDEF#$p,%APISUBDEF%
+// History16 ---
+StrFormat,REPLACE,"%APISUBDEF%",#$c,##$c,%APISUBDEF%
+IniWrite,%ProjectDir%\Script.project,Variables,#$pAPISUBDEF#$p,"-"
+TXTReplace,%ProjectDir%\Script.project,"#$pAPISUBDEF#$p=-","#$pAPISUBDEF#$p=%APISUBDEF%"
+End
+Else,Begin
+IniWrite,%ProjectDir%\Script.project,Variables,#$pAPIDEF#$p,""
+IniWrite,%ProjectDir%\Script.project,Variables,#$pAPISUBDEF#$p,""
+End
+Iniwrite,%ScriptFile%,Variables,#$pCBClean0#$p,""
+Iniwrite,%ScriptFile%,Variables,#$pCBClean1#$p,%pCheckBox14%
+Iniwrite,%ScriptFile%,Variables,#$pCBClean2#$p,True
+Iniwrite,%ScriptFile%,Variables,#$pCBClean3#$p,%pCheckBox15%
+Iniwrite,%ScriptFile%,Variables,#$pCBClean4#$p,True
+Iniwrite,%ScriptFile%,Variables,#$pCBClean5#$p,%pCheckBox16%
+Iniwrite,%ScriptFile%,Variables,#$pCBClean6#$p,True
+Iniwrite,%ScriptFile%,Variables,#$pCBClean7#$p,%pCheckBox17%
+Iniwrite,%ScriptFile%,Variables,#$pCBClean8#$p,True
+Iniwrite,%ScriptFile%,Variables,#$pCBClean9#$p,%pCheckBox18%
+Iniwrite,%ScriptFile%,Variables,#$pCBClean10#$p,True
+If,%API_TYPE%,Equal,1,Begin
+If,%pCheckBox19%,Equal,True,IniWrite,%ScriptFile%,ApiVar,#$pShc_Mode#$p,1
+Else,IniWrite,%ScriptFile%,ApiVar,#$pShc_Mode#$p,0
+Iniwrite,%ScriptFile%,Variables,#$pCBClean0#$p,%pCheckBox7%
+If,%pCheckBox2%,Equal,True,Begin
+IniWrite,%ScriptFile%,ApiVar,#$pCopyMui#$p,On
+StrFormat,LEFT,%pScrollBox1%,1,%VarResult%
+IniWrite,%ScriptFile%,ApiVar,#$pCopyMui_Mode#$p,%VarResult%
+If,Not,%pFileBox1%,Equal,"",Begin
+StrFormat,CTRIM,%pFileBox1%,\,%VarMui%
+IniWrite,%ScriptFile%,ApiVar,#$pSource_Mui#$p,%VarMui%
+End
+End
+Else,Begin
+IniWrite,%ScriptFile%,ApiVar,#$pCopyMui#$p,Off
+IniDelete,%ScriptFile%,ApiVar,#$pCopyMui_Mode#$p
+IniDelete,%ScriptFile%,ApiVar,#$pSource_Mui#$p
+End
+End
+End
+End
+Else,Message,"This Api is not set in Script.project#$xReturn whithout writing change",Information
+IniDelete,%ScriptFile%,Main,Interface
+System,REFRESHINTERFACE
+//System,RESCANSCRIPTS
+
+[Set_InterfaceDefault]
+IniDelete,%ScriptFile%,Main,Interface
+System,REFRESHINTERFACE
+
+[Set_InterfaceClean]
+If,EXISTVAR,%ModelRam%,IniWrite,%ScriptFile%,Main,Interface,Interface_Clean1
+Else,IniWrite,%ScriptFile%,Main,Interface,Interface_Clean2
+System,REFRESHINTERFACE
+
+[Set_InterfaceOptions]
+If,%Version%,Smaller,077.102,Begin
+Message,"Common_Api require minimum Winbuilder 077RC2 Please update your version",ERROR,10
+Halt,"Wrong WB vesion"
+End
+If,Not,ExistVar,%API_TYPE%,Run,%Api%,Set_Api_Type_Find_API_TYPE,#1,#2,#3,#4,#5,#6,#7,#8,#9
+IniWrite,%ScriptFile%,Main,Interface,Interface_%API_TYPE%
+System,REFRESHINTERFACE
+
+[Set_Api_Type]
+If,%Version%,Smaller,077.102,Begin
+Message,"Common_Api require Winbuilder 077RC2 Please update your version",ERROR,10
+Halt,"Wrong WB vesion"
+End
+If,Not,ExistVar,%API_TYPE%,Run,%Api%,Set_Api_Type_Find_API_TYPE,#1,#2,#3,#4,#5,#6,#7,#8,#9
+If,%API_TYPE%,Equal,2,Begin
+If,Not,ExistVar,%OsType%,Set,%OsType%,Project,GLOBAL
+Set,%_App_%,App,GLOBAL
+If,ExistDir,%ProjectDir%\Apps,Set,%_App_%,Apps,GLOBAL
+If,ExistDir,%ProjectDir%\Applications,Set,%_App_%,Applications,GLOBAL
+End
+If,%WarnWhenSetApi%,Equal,True,Echo,"Set API_Type=%API_Type%  (1=LiveXP - 2=Vista/Win7 - 98=Live98)",WARN
+If,Not,EXISTVAR,%Shortcut_Type%,Set,%Shortcut_Type%,%API_Type%
+
+[Set_Api_Type_Find_API_TYPE]
+StrFormat,FILENAME,%Target_Win%,%var%
+StrFormat,POS,"I386|Windows|AMD64|IA64",%var%,%var1%
+StrFormat,LEFT,"I386|Windows|AMD64|IA64",%var1%,%var2%
+StrFormat,SPLIT,%var2%,|,0,%Case%
+If,%Case%,Equal,0,Begin
+Message,"Unknown #$pTarget_Win#$p=#$pTargetDir#$p\%var% !!#$x Can not initialize #$pApi_Type#$p !!",ERROR
+Halt,"Can not initalize #$pApi_Type#$p !!"
+End
+Else,Begin
+StrFormat,SPLIT,"1|2|1|1",|,%Case%,%Case%
+Set,%API_TYPE%,%Case%,GLOBAL
+End
+
+[RunEx]
+//::::::::::::::: reg_add,0x1,"%reg%\Microsoft\Windows\CurrentVersion\RunOnceEx\00","3","StartX #$qExplorer.exe#$q" ::::::::::::::#
+//--
+//::::::::::::::: RunOnce,"00","3","x:\Windows\Explorer.exe","Start" :::::::::::::::::::::#
+//
+If,"#1",EQUAL,"00",If,"#2",EQUAL,"3",Message,"Please#$c use an another subkey value. Because this subkey value #2 is being used by the default shell of VistaPE !",Warning
+If,"#1",EQUAL,"00",If,"#2",EQUAL,"3",Halt,"Abandon !"
+//
+If,"#1",EQUAL,"00",If,"#2",EQUAL,"2",Message,"Please#$c use an another subkey value. Because this subkey value #2 is being used by the VPELDR of VistaPE !",Warning
+If,"#1",EQUAL,"00",If,"#2",EQUAL,"2",Halt,"Abandon !"
+//
+If,"#4",EQUAL,"Start",set,"#5","StartX #$q#3#$q"
+If,"#4",EQUAL,"StartWait",set,"#5","StartX /wait #$q#3#$q"
+//
+If,"#4",EQUAL,"Hide",Begin
+StrFormat,POS,"#3","Y:\","%VarResult%"
+If,"%VarResult%",EQUAL,"1",Set,"%LPEDrv%","Y:\"
+If,Not,"%VarResult%",EQUAL,"1",Set,"%LPEDrv%","X:\"
+StrFormat,REPLACE,"#3","%LPEDrv%","C:\WbSnx\","#6"
+StrFormat,EXT,"#6","#7"
+If,"#7",EQUAL,"",Begin
+Set,"#5","HideX #3"
+End
+Else,Begin
+If,Not,"#7",Equal,"",Begin
+FileCreateBlank,"#6"
+StrFormat,SHORTPATH,"#6","#8"
+StrFormat,REPLACE,"#8","C:\WbSnx\","%LPEDrv%","#9"
+Set,"#5","HideX #9"
+DirDelete,"C:\WbSnx"
+End
+End
+End
+//
+If,"#4",EQUAL,"HideWait",Begin
+StrFormat,POS,"#3","Y:\","%VarResult%"
+If,"%VarResult%",EQUAL,"1",Set,"%LPEDrv%","Y:\"
+If,Not,"%VarResult%",EQUAL,"1",Set,"%LPEDrv%","X:\"
+StrFormat,REPLACE,"#3","%LPEDrv%","C:\WbSnx\","#6"
+StrFormat,EXT,"#6","#7"
+If,"#7",EQUAL,"",Begin
+Set,"#5","HideX #3 -wait"
+//message,"#5",information
+End
+Else,Begin
+If,Not,"#7",Equal,"",Begin
+FileCreateBlank,"#6"
+StrFormat,SHORTPATH,"#6","#8"
+StrFormat,REPLACE,"#8","C:\WbSnx\","%LPEDrv%","#9"
+Set,"#5","HideX #9 -wait"
+DirDelete,"C:\WbSnx"
+//message,"#5",information
+End
+End
+End
+//
+If,NOTEXISTDIR,"%target_sys%\config",DirMake,"%target_sys%\config"
+//
+Hive_Load,HKU
+reg_add,0x1,"%reg%\Microsoft\Windows\CurrentVersion\RunOnceEx\#1","#2","#5"
+Hive_Unload,HKU
+
+[Add_URL%API_TYPE%]
+Run,%API%,Set_Api_Type,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Run,%API%,Add_URL%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[Add_URL_Examples]
+//To create simple url in favorites:            Add_Url,,Google.url,http://www.google.com
+//To create simple url in links:                Add_Url,Links,Google.url,http://www.google.com
+//To create simple url in favorites subfolder:  Add_Url,Favorites\My Folder,Google.url,http://www.google.com
+//To create simple url in any folder:           Add_Url,%target_win%,Google.url,http://www.google.com
+//Full syntax:Add_Url,<location>,<filename>,<webaddress>,<url icon address>,<IconIndex>,<HotKey>
+//<location>           : location of file, default favorites, additionally "Links" available as an option, else use full path
+//<filename>           : do not forget adding extension (.url) ;)
+//<url icon address>   : default value #$psystemroot#$p\system32\url.dll // additionally "None" option available
+//<IconIndex>,<HotKey> : default value 0 // additionally "None" option available
+
+[Add_URL1]
+IniRead,%ProjectInfo%,TargetStrings,sDefault_User,%Default_User_foldername%
+IniRead,%ProjectInfo%,TargetStrings,sDocuments_and_Settings,%Documents_and_Settings_foldername%
+IniRead,%ProjectInfo%,TargetStrings,sFavorites,%def_favorites%
+IniRead,%ProjectInfo%,TargetStrings,sLinks,%Favorites_Links%
+If,Not,ExistDir,%ModelRam%\%Documents_and_Settings_foldername%\%Default_User_foldername%\%def_favorites%,DirMake,%ModelRam%\%Documents_and_Settings_foldername%\%Default_User_foldername%\%def_favorites%
+If,Not,ExistDir,%ModelRam%\%Documents_and_Settings_foldername%\%Default_User_foldername%\%def_favorites%\%Favorites_Links%,DirMake,%ModelRam%\%Documents_and_Settings_foldername%\%Default_User_foldername%\%def_favorites%\%Favorites_Links%
+If,--#1--,Equal,----,Set,#1,%ModelRam%\%Documents_and_Settings_foldername%\%Default_User_foldername%\%def_favorites%
+If,--#1--,Equal,--Favorites--,Set,#1,%ModelRam%\%Documents_and_Settings_foldername%\%Default_User_foldername%\%def_favorites%
+If,--#1--,Equal,--Links--,Set,#1,%ModelRam%\%Documents_and_Settings_foldername%\%Default_User_foldername%\%def_favorites%\%Favorites_Links%
+If,Not,--#1--,Equal,----,If,Not,--#1--,Equal,--Links--,Begin
+StrFormat,LEFT,#1,10,%check1%
+If,%check1%,Equal,Favorites\,Begin
+StrFormat,LTrim,#1,10,%subfolder%
+Set,#1,%ModelRam%\%Documents_and_Settings_foldername%\%Default_User_foldername%\%def_favorites%\%subfolder%
+End
+If,Not,ExistDir,#1,DirMake,#1
+End
+Run,%API%,Add_URL_All,#1,#2,#3,#4,#5,#6
+
+[Add_URL2]
+If,Not,ExistDir,%target_win%\System32\Config\SystemProfile\Favorites,DirMake,%target_win%\System32\Config\SystemProfile\Favorites
+If,Not,ExistDir,%target_win%\System32\Config\SystemProfile\Favorites\Links,DirMake,%target_win%\System32\Config\SystemProfile\Favorites\Links
+If,--#1--,Equal,----,Set,#1,%target_win%\System32\Config\SystemProfile\Favorites
+If,--#1--,Equal,--Favorites--,Set,#1,%target_win%\System32\Config\SystemProfile\Favorites
+If,--#1--,Equal,--Links--,Set,#1,%target_win%\System32\Config\SystemProfile\Favorites\Links
+If,Not,--#1--,Equal,----,If,Not,--#1--,Equal,--Links--,Begin
+StrFormat,LEFT,#1,10,%check1%
+If,%check1%,Equal,Favorites\,Begin
+StrFormat,LTrim,#1,10,%subfolder%
+Set,#1,%target_win%\System32\Config\SystemProfile\Favorites\%subfolder%
+End
+If,Not,ExistDir,#1,DirMake,#1
+End
+Run,%API%,Add_URL_All,#1,#2,#3,#4,#5,#6
+
+[Add_URL_All]
+If,Not,ExistDir,#1,DirMake,#1
+If,--#4--,Equal,----,Set,#4,#$psystemroot#$p\system32\url.dll
+If,--#5--,Equal,----,Set,#5,0
+If,--#6--,Equal,----,Set,#6,0
+FileCreateBlank,#1\#2
+IniWrite,#1\#2,InternetShortcut,URL,#3
+If,Not,--#4--,Equal,--None--,IniWrite,#1\#2,InternetShortcut,IconFile,#4
+If,Not,--#5--,Equal,--None--,IniWrite,#1\#2,InternetShortcut,IconIndex,#5
+If,Not,--#5--,Equal,--None--,IniWrite,#1\#2,InternetShortcut,HotKey,#6
+
+[File_Delete_CMD]
+Loop,%API%,File_Delete_CMD-Try-Delete,1,10,#1
+If,EXISTFILE,#1,Begin
+Echo,"Something wrong with deleting #1",WARN
+Echo,"Something wrong with deleting #1",WARN
+End
+
+[File_Delete_CMD-Try-Delete]
+ShellExecute,Hide,cmd.exe,"/C del /q /f /A:R /A:H /A:S /A:A #$q#1#$q"
+If,Not,EXISTFILE,#1,Loop,BREAK
+Else,Wait,1
+
+[Check_Lic]
+//In Script.project==> Ask_License=Run,%API%,Check_Lic
+//Syntax==>  Ask_License,<license file>,<ID>,<Section>
+// #1=path to license file
+// #2=ID, defined by script developer to identify the license object
+// #3=[Option] Section to run in %ScriptFile% (if Licence not found or not accepted) before exiting
+// More info: http://www.boot-land.net/forums/index.php?showtopic=6726&st=0&p=54862&#
+If,Not,EXISTFILE,#1,Begin
+If,ExistSection,%ScriptFile%,#3,Run,%ScriptFile%,#3
+Exit,"License File not found!"
+End
+Set,%mylic%,nil
+System,ERROROFF
+IniRead,%ScriptFile%,Licenses,#2,%mylic%
+If,Not,%MyLic%,EQUAL,True,begin
+If,Not,LICENSE,#1,Begin
+If,ExistSection,%ScriptFile%,#3,Run,%ScriptFile%,#3
+Exit,"License not accepted!"
+End
+IniWrite,%ScriptFile%,Licenses,#2,True
+end
+
+[Process-log]
+IniRead,%ScriptFile%,Main,Title,%Title%
+If,ExistFile,%ProjectInfo%,IniDelete,%ProjectInfo%,Scripts,%Title%
+IniRead,%ScriptFile%,Main,Version,%scriptversion%
+StrFormat,Date,%TimeStamp%,"yyyy-mm-dd hh:nn:ss"
+IniWrite,%ProjectInfo%,Scripts,%Title%,"Version %scriptversion% at %TimeStamp%"
+
+[Run_FromRam%API_TYPE%]
+Run,%API%,Set_Api_Type,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Run,%API%,Run_FromRam%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[Run_FromRam1]
+If,Not,EXISTVAR,%AtCD_force%,Set,%AtCD_force%,False
+If,Not,EXISTVAR,%AtRam%,Set,%AtRam%,False
+If,%AtCD_force%%AtRam%#1,Equal,FalseFalseTrue,Begin
+If,EXISTVAR,%ProgramFilesFolder%,Set,%ProgDir%,%ProgramFilesFolder%
+Else,IniRead,%ProjectInfo%,TargetStrings,sProgram_Files,%ProgDir%
+Set,%loc%,%SettingsDrive%
+IniRead,%RamIsoScript%,Main,Selected,%sel%
+If,%sel%,Equal,True,Set,%loc%,%SystemDrive%
+IniRead,%WimIsoScript%,Main,Selected,%sel%
+If,%sel%,Equal,True,Set,%loc%,%SystemDrive%
+If,%loc%,Equal,%SystemDrive%,Set,%Target_Prog%,"%TargetDir%\%ProgDir% RAM"
+Else,Set,%Target_Prog%,"%ModelRam%\%ProgDir% RAM"
+Set,%PE_Programs%,"%loc%\%ProgDir% RAM"
+StrFormat,REPLACE,%Target_Prog%,"CD RAM",RAM,%Target_Prog%
+StrFormat,REPLACE,%PE_Programs%,"CD RAM",RAM,%PE_Programs%
+Set,%CDON%,False
+End
+
+[Run_FromRam2]
+If,%AtRam%#1,Equal,FalseTrue,Begin
+Set,"%Target_Prog%","%TargetDir%\Program#$sFiles"
+If,%ProjectName%,Equal,"Leopard",Set,"%PE_Programs%","X:\Program#$sFiles"
+Else,Set,"%PE_Programs%","#$pSystemDrive#$p\Program#$sFiles"
+Set,%PE_Cfg%,%PECfg%
+End
+
+[Run_FromCD%API_TYPE%]
+Run,%API%,Set_Api_Type,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Run,%API%,Run_FromCD%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[Run_FromCD2]
+RunFromRam,False
+
+[Run_FromCD1]
+If,Not,EXISTVAR,%AtRAM_force%,Set,%AtRAM_force%,False
+If,Not,EXISTVAR,%AtCD%,Set,%AtCD%,False
+If,%AtRAM_force%%AtCD%#1,Equal,FalseFalseTrue,Begin
+If,EXISTVAR,%ProgramFilesFolder%,Begin
+Set,%ProgDir%,%ProgramFilesFolder%
+Set,%include_Folder%,"%ProgramFilesFolder% CD"
+End
+Else,Begin
+IniRead,%ProjectInfo%,TargetStrings,sProgram_Files,%ProgDir%
+Set,%include_Folder%,"%ProgDir% CD"
+End
+Set,%Target_Prog%,"%TargetDir%\%ProgDir% CD"
+Set,%PE_Programs%,#$pPEDrive#$p\%include_Folder%
+Set,%CDON%,True
+StrFormat,REPLACE,%Target_Prog%,"RAM CD",CD,%Target_Prog%
+StrFormat,REPLACE,%PE_Programs%,"RAM CD",CD,%PE_Programs%
+StrFormat,REPLACE,%include_Folder%,"RAM CD",CD,%include_Folder%
+End
+If,Not,#1,Equal,True,Begin
+If,ExistDir,#1,Begin
+StrFormat,CTRIM,#1,\,#1
+StrFormat,filename,#1,%include_Folder%
+Set,%Target_Prog%,#1
+Set,%PE_Programs%,#$pPEDrive#$p\%include_Folder%
+Set,%CDON%,True
+End
+End
+If,EXISTVAR,%RAM_exclude%,Begin
+StrFormat,POS,%RAM_exclude%,"%include_Folder%|",%stPos%
+If,%stPos%,Equal,0,Set,%RAM_exclude%,"%RAM_exclude%%include_Folder%|",PERMANENT
+End
+Else,Set,%RAM_exclude%,"%include_Folder%|",PERMANENT
+
+[RegisterFile%API_TYPE%]
+Run,%API%,Set_Api_Type,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Run,%API%,RegisterFile%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[RegisterFile2]
+
+[RegisterFile1]
+//Syntax==>  Register_File,file,Install or Register
+If,EXISTVAR,%dllregmethod%,Begin
+If,%dllregmethod%,Equal,Build-Time,Run,%OLESupportScript%,#2-DLL,#1
+Else,Begin
+If,Not,ExistFile,%Tools%\%SourceArch%\hiderun_%SourceArch%.exe,WebGetIfNotExist,http://livexp.boot-land.net/repository/%SourceArch%/hiderun_%SourceArch%.exe,%Tools%\%SourceArch%\hiderun_%SourceArch%.exe
+If,Not,ExistFile,%target_sys%\hiderun.exe,FileCopy,%Tools%\%SourceArch%\hiderun_%SourceArch%.exe,%target_sys%\hiderun.exe
+RegHiveLoad,WB-Software,%target_sys%\config\software
+StrFormat,FILENAME,#1,%file%
+If,#2,Equal,Install,RegWrite,HKLM,0x1,WB-Software\Microsoft\Windows\CurrentVersion\RunOnceEx\550,%file%_install,"hiderun /w regsvr32.exe /s /i #1"
+If,#2,Equal,Register,RegWrite,HKLM,0x1,WB-Software\Microsoft\Windows\CurrentVersion\RunOnceEx\550,%file%_register,"hiderun /w regsvr32.exe /s #1"
+RegHiveUnLoad,WB-Software
+End
+End
+Else,Begin
+If,Not,ExistFile,%Tools%\%SourceArch%\hiderun_%SourceArch%.exe,WebGetIfNotExist,http://livexp.boot-land.net/repository/%SourceArch%/hiderun_%SourceArch%.exe,%Tools%\%SourceArch%\hiderun_%SourceArch%.exe
+If,Not,ExistFile,%target_sys%\hiderun.exe,FileCopy,%Tools%\%SourceArch%\hiderun_%SourceArch%.exe,%target_sys%\hiderun.exe
+RegHiveLoad,WB-Software,%target_sys%\config\software
+StrFormat,FILENAME,#1,%file%
+If,#2,Equal,Install,RegWrite,HKLM,0x1,WB-Software\Microsoft\Windows\CurrentVersion\RunOnceEx\550,%file%_install,"hiderun /w regsvr32.exe /s /i #1"
+If,#2,Equal,Register,RegWrite,HKLM,0x1,WB-Software\Microsoft\Windows\CurrentVersion\RunOnceEx\550,%file%_register,"hiderun /w regsvr32.exe /s #1"
+RegHiveUnLoad,WB-Software
+End
+
+[Add_To_PEShell%API_TYPE%]
+Run,%API%,Set_Api_Type,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Run,%API%,Add_To_PEShell%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[Add_To_PEShell1]
+
+[Add_To_PEShell2]
+If,#2,Equal,,Set,#2,%programFolder%\%ProgramExe%
+Else,Begin
+StrFormat,path,#2,%CPath%
+If,%CPath%,Equal,,Set,#2,%programFolder%\#2
+End
+If,#3,Equal,True,IniWrite,"%PE_CFG%","main","defaultshell",#1
+IniWriteTextLine,"%PE_CFG%","shells","#1|#2"
+
+[RegAdd_boot%API_TYPE%]
+Run,%API%,Set_Api_Type,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Run,%API%,RegAdd_boot%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[RegAdd_boot2]
+IniWriteTextLine,"%PE_CFG%","registry","#$q#1#$q#$c#2#$c#$q#3#$q#$c#$q#4#$q#$c#$q#5#$q"
+
+[RegAdd_boot1]
+//Syntax==>  RegAddBoot,RootKey,ValueType,Key,ValueName,Value
+If,ExistFile,%target_sys%\ExpEnvVar.txt,Begin
+Retrieve,FILEVERSION,%target_sys%\ExpEnvVar.exe,%ExpEnvVar_vers%
+If,%ExpEnvVar_vers%,SMALLER,7.0.0.0,Run,%API%,Process-RegAdd_boot-prepare
+End
+Else,Begin
+FileCreateBlank,%target_sys%\ExpEnvVar.txt
+If,ExistFile,%tools%\%SourceArch%\ExpEnvVar_%SourceArch%.exe,Retrieve,FILEVERSION,%tools%\%SourceArch%\ExpEnvVar_%SourceArch%.exe,%ExpEnvVar_vers%
+Else,Set,%ExpEnvVar_vers%,0
+Run,%API%,Process-RegAdd_boot-prepare
+End
+Set,%pack%,"#5"
+PackParam,1,%packall%
+StrFormat,POS,"%packall%",".|.",%packall_check%
+If,%packall_check%,Bigger,0,Exit,"RegAddBoot cannot write the entry: %packall%. It contains a reserved string '.|.' - change pipe character to escape: 'WinBuilderPipe'."
+If,#2,Equal,0x3,Begin
+PackParam,5,%pack%,%Num%
+StrFormat,CTRIM,"%pack%","#$q","%pack%"
+StrFormat,REPLACE,"%pack%","#$q#$c#$q","","%pack%"
+End
+If,#2,Equal,0x7,Begin
+PackParam,5,%pack%,%Num%
+StrFormat,CTRIM,"%pack%","#$q","%pack%"
+StrFormat,REPLACE,"%pack%","#$q#$c#$q",&@LF&,"%pack%"
+End
+TXTAddLine,%target_sys%\ExpEnvVar.txt,"Boot.|.#1\#3.|.#4.|.#2.|.%pack%",Append
+//Following is needed for work-around with WB077rc2 and WB080
+//TXTReplace,%target_sys%\ExpEnvVar.txt,"$#c","," //maybe to risky?
+//TXTReplace,%target_sys%\ExpEnvVar.txt,"$#p","%" //maybe to risky?
+TXTReplace,%target_sys%\ExpEnvVar.txt,"WinBuilderComma",","
+TXTReplace,%target_sys%\ExpEnvVar.txt,"WinBuilderPercent","%"
+TXTReplace,%target_sys%\ExpEnvVar.txt,"WinBuilderHash","#"
+TXTReplace,%target_sys%\ExpEnvVar.txt,"WinBuilderDollar","$"
+
+[Process-RegAdd_boot-prepare]
+If,%ExpEnvVar_vers%,SMALLER,7.0.0.0,WebGet,http://livexp.boot-land.net/repository/%SourceArch%/ExpEnvVar_%SourceArch%.exe,%Tools%\%SourceArch%\ExpEnvVar_%SourceArch%.exe
+FileCopy,%Tools%\%SourceArch%\ExpEnvVar_%SourceArch%.exe,%target_sys%\ExpEnvVar.exe
+If,Not,ExistFile,%PreISOScript%,Begin
+FileCreateBlank,%PreISOScript%
+TXTAddLine,%PreISOScript%,[Process],PREPEND
+End
+TXTAddLine,%PreISOScript%,"Exec#$c#$pAPI#$p#$cProcess-RegAdd_boot","Append"
+If,Not,ExistFile,%Tools%\%SourceArch%\hiderun_%SourceArch%.exe,WebGetIfNotExist,http://livexp.boot-land.net/repository/%SourceArch%/hiderun_%SourceArch%.exe,%Tools%\%SourceArch%\hiderun_%SourceArch%.exe
+If,Not,ExistFile,%target_sys%\hiderun.exe,FileCopy,%Tools%\%SourceArch%\hiderun_%SourceArch%.exe,%target_sys%\hiderun.exe
+
+[Process-RegAdd_boot]
+Hive_Load,HKU
+reg_add,0x1,"%reg%\Microsoft\Windows\CurrentVersion\RunOnceEx\500","ExpEnvVar","hiderun /w ExpEnvVar.exe"
+Hive_Unload,HKU
+
+[Calculate]
+//Syntax==>  _Calculate,[expression],[Variable (whithout %)]
+If,Not,ExistFile,%Tools%\sCalculate.exe,WebGetIfNotExist,http://livexp.boot-land.net/repository/sCalculate.exe,%Tools%\sCalculate.exe
+ShellExecute,Hide,"%Tools%\sCalculate.exe","#$q#2=#1#$q#$s#$q%ProjectTemp%\calc.txt#$q"
+Run,"%ProjectTemp%\calc.txt",Calculate
+//workaround so that FileDelete warning isn't added to log:
+If,Not,ExistFile,%ProjectTemp%\calc.txt,Echo,Calc_txt_Missing,WARN
+ShellExecute,Hide,cmd.exe,"/C del #$q%ProjectTemp%\calc.txt#$q /F /Q"
+//FileDelete,"%ProjectTemp%\calc.txt"
+
+[_Compatibility]
+If,#1,EQUAL,compatible,Begin
+Set,%comp_projects%,#2
+Set,%detect%,0
+StrFormat,SPLIT,%comp_projects%,|,0,%countlength%
+Set,%count%,1
+Loop,%API%,_Compatibility-Loop,%count%,%countlength%
+If,%detect%,EQUAL,0,Exit,"%ScriptTitle% is not compatible with %ProjectTitle%"
+End
+If,#1,EQUAL,uncompatible,Begin
+Set,%uncomp_projects%,#2
+Set,%detect%,0
+StrFormat,SPLIT,%uncomp_projects%,|,0,%countlength%
+Set,%count%,1
+Loop,%API%,_Uncompatibility-Loop,%count%,%countlength%
+If,%detect%,EQUAL,0,Echo,"%ScriptTitle% is compatible with %ProjectTitle%"
+Else,Exit,"%ScriptTitle% is not compatible with %ProjectTitle%"
+End
+
+[_Compatibility-Loop]
+StrFormat,SPLIT,%comp_projects%,|,%count%,%comp%
+If,%comp%,EQUAL,%ProjectTitle%,Begin
+Echo,"%ScriptTitle% is compatible with %ProjectTitle%"
+Set,%detect%,1
+Loop,BREAK
+End
+StrFormat,INC,%count%,1
+
+[_Uncompatibility-Loop]
+StrFormat,SPLIT,%uncomp_projects%,|,%count%,%uncomp%
+If,%uncomp%,EQUAL,%ProjectTitle%,Begin
+Set,%detect%,1
+Loop,BREAK
+End
+StrFormat,INC,%count%,1
+
+[NotCompatible%API_TYPE%]
+Run,%API%,Set_Api_Type,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Run,%API%,NotCompatible%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[NotCompatible2]
+If,#1,Equal,%OsType%PE,Begin
+Message,"This program is not compatible with %OsType%PE project! #$x#$xExiting...",Warning
+Exit,"Exiting..."
+End
+
+[NotCompatible1]
+If,#1,Equal,LiveXP,Begin
+Message,"This program is not compatible with NativeEX/LiveXP project! #$x#$xExiting...",Warning
+Exit,"Exiting..."
+End
+
+[Copy_Program]
+//Syntax==> CopyProgram,[%FileBox_Source%],[%Target_Prog%\%ProgramFolder%],[%ProgramExe%],[Archive to delete]
+Echo,"Copy files..."
+If,#2,Equal,"",Set,#2,%Target_Prog%\%ProgramFolder%
+If,#3,Equal,"",Set,#3,%ProgramExe%
+If,Not,ExistFile,#1\#3,Begin
+Message,"The path you specified as your source is not valid! #$x#$xPlease select a valid source dir in the script configuration window...",ERROR
+Exit,"Exiting..."
+End
+DirMake,#2
+DirCopy,"#1\*.*",#2
+If,Not,#4,Equal,,If,EXISTFILE,#2\#4,Run,%API%,Delete_File,#2\#4
+
+[CaseSelect]
+Run,%API%,CaseSelect_#4,#1,#2,#3
+
+[CaseSelect_]
+StrFormat,POS,#2,#1,#9
+StrFormat,LEFT,#2,#9,#8
+StrFormat,SPLIT,#8,|,0,%Case%
+If,NOT,#3,Equal,,StrFormat,SPLIT,#3,|,%Case%,%Case%
+
+[CaseSelect_1]
+StrFormat,POS,#2,#1,#9
+StrFormat,LEFT,#2,#9,#8
+StrFormat,SPLIT,#8,#$c,0,%Case%
+If,NOT,#3,Equal,,StrFormat,SPLIT,#3,#$c,%Case%,%Case%
+
+[Depack]
+//Syntax1==>   Unpack,[Folder],[Archive],[Option],[%Target_Prog%],[%ProgramFolder%],[%programExe%],[TargetTemp]
+//Syntax2==>   Unpack,[FileName],[Action],[Option]
+StrFormat,POS,"|All|-All|One|Archive|-Archive|SFX|UnZip|URL|-URL|",|#2|,%PosExt%
+Run,%API%,Depack_%PosExt%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[Depack_1]
+//Unpack All Files
+IF,#1,Equal,,Set,#1,%ScriptFile%
+If,#3,Equal,,Set,#3,Folder
+If,#4,Equal,,Set,#4,%Target_Prog%\%ProgramFolder%
+If,ExistSection,#1,#3,Begin
+DirMake,#4
+ExtractAllFiles,#1,#3,#4
+End
+Else,Echo,"Unpack can not find Section [#3] !!",WARN
+
+[Depack_5]
+//Unpack All Files If Not Exist
+IF,#1,Equal,,Set,#1,%ScriptFile%
+If,#3,Equal,,Set,#3,Folder
+If,#4,Equal,,Set,#4,%Target_Prog%\%ProgramFolder%
+If,ExistSection,#1,#3,Begin
+DirMake,#4
+ExtractAllFilesIfNotExist,#1,#3,#4
+End
+Else,Echo,"Unpack can not find Section [#3] !!",WARN
+
+[Depack_10]
+//Unpack One File
+IF,#1,Equal,,Set,#1,%ScriptFile%
+If,#3,Equal,,Set,#3,Folder
+If,#5,Equal,,Set,#5,%Target_Prog%\%ProgramFolder%
+IniRead,#1,#3,#4,%var%
+If,%Var%,Bigger,0,Begin
+DirMake,#5
+ExtractFile,#1,#3,#4,#5
+End
+Else,Echo,"Unpack can not find file [#4] in Section [#1] !!",WARN
+
+[Depack_14]
+//Unpack Archive + delete Archive
+IF,#1,Equal,,Set,#1,%ScriptFile%
+If,#3,Equal,,Set,#3,Folder
+If,#5,Equal,,Set,#5,%Target_Prog%\%ProgramFolder%
+IniRead,#1,#3,#4,%var%
+If,%Var%,Bigger,0,Begin
+DirMake,#5
+ExtractFile,#1,#3,#4,#5
+ShellExecute,Hide,#$q%Tools%\7z.exe#$q,"x -y #$q#5\#4#$q -o#$q#5#$q"
+Run,%API%,Delete_File,"#5\#4"
+End
+Else,Echo,"Unpack can not find file [#4] in Section [#1] !!",WARN
+
+[Depack_22]
+//Unpack Archive + do not delete Archive
+IF,#1,Equal,,Set,#1,%ScriptFile%
+If,#3,Equal,,Set,#3,Folder
+If,#5,Equal,,Set,#5,%Target_Prog%\%ProgramFolder%
+IniRead,#1,#3,#4,%var%
+If,%Var%,Bigger,0,Begin
+DirMake,#5
+ExtractFile,#1,#3,#4,#5
+ShellExecute,Hide,#$q%Tools%\7z.exe#$q,"x -y #$q#5\#4#$q -o#$q#5#$q"
+End
+Else,Echo,"Unpack can not find file [#4] in Section [#1] !!",WARN
+
+[Depack_31]
+//Unpack SFX Archive + Execute and delete SFX Archive
+IF,#1,Equal,,Set,#1,%ScriptFile%
+If,#3,Equal,,Set,#3,Folder
+IniRead,#1,#3,#4,%var%
+If,%Var%,Bigger,0,Begin
+DirMake,#5
+ExtractFile,#1,#3,#4,#5
+ShellExecuteDelete,open,"#5\#4","-y","#5"
+End
+Else,Echo,"Unpack can not find file [#4] in Section [#1] !!",WARN
+
+[Depack_35]
+//Unzip an Archive with 7x.exe
+If,Not,ExistFile,#1,Echo,"Unpack can not find file [#1] !!",WARN
+Else,Begin
+If,#3,Equal,,Set,#3,%Target_Prog%\%ProgramFolder%
+DirMake,#3
+ShellExecute,Hide,#$q%Tools%\7z.exe#$q,"x -y #$q#1#$q -o#$q#3#$q"
+End
+
+[Depack_41]
+//Download and Unzip Archive + delete Archive
+//Unpack,%Link%,URL,Target
+If,#3,Equal,,Set,#3,%Target_Prog%\%ProgramFolder%
+StrFormat,Filename,#1,#8
+//If,Not,Online,If,QUESTION,"Warning#$c no internet connection for download #8 !! Exit ?",10,True,Exit,"Can not download #8"
+Echo,"Download and extract #8"
+DirMake,#3
+If,Not,ExistFile,"#3\#8",WebGetIfNotExist,#1,"#3\#8"
+ShellExecute,Hide,#$q%Tools%\7z.exe#$q,"x -y #$q#3\#8#$q -o#$q#3#$q"
+Run,%API%,Delete_File,#3\#8
+
+[Depack_45]
+//Download and Unzip Archive + do not delete Archive
+//Unpack,%Link%,URL,Target,TempFolder for archive
+If,#3,Equal,,Set,#3,%Target_Prog%\%ProgramFolder%
+If,#4,Equal,,Set,#4,%ProjectTemp%
+StrFormat,Filename,#1,#8
+If,NotExistFile,"#3\#8",Begin
+DirMake,#3
+DirMake,#4
+//If,Not,Online,If,QUESTION,"Warning#$c no internet connection for download #8 !! Exit ?",10,True,Exit,"Can not download #8"
+Echo,"Download and extract #8"
+If,Not,ExistFile,"#4\#8",WebGetIfNotExist,#1,"#4\#8"
+End
+ShellExecute,Hide,#$q%Tools%\7z.exe#$q,"x -y #$q#4\#8#$q -o#$q#3#$q"
+
+[Depack_0]
+If,#1,Equal,,Set,#1,Folder
+If,#4,Equal,,Set,#4,%Target_Prog%
+If,#5,Equal,,Set,#5,%ProgramFolder%
+If,#6,Equal,,Set,#6,%ProgramExe%
+If,ExistFile,"%ScriptDir%\#5\#6",Begin
+If,#5,Equal,.,DirMake,#4
+Else,DirMake,#4\#5
+DirCopy,"%ScriptDir%\#5\*.*",#4\#5
+End
+Else,Begin
+If,#2,NotEqual,,Begin
+StrFormat,Ext,#2,#9
+If,#9,Equal,.exe,Run,%API%,Execute_Archive,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Else,Run,%API%,Depack_Archive,#1,#2,#3,#4,#5,#6,#4\#5,#8
+End
+Else,Begin
+StrFormat,Ext,#3,#9
+If,#9,Equal,,Run,%API%,Extract_All,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Else,Run,%API%,Extract_One,#1,#2,#3,#4,#5,#6,#7,#8,#9
+End
+End
+
+[Extract_All]
+If,ExistSection,%ScriptFile%,#1,Begin
+If,#5,Equal,.,DirMake,#4
+Else,DirMake,#4\#5
+ExtractAllFiles,%ScriptFile%,#1,#4\#5
+End
+Else,Echo,"Unpack can not find Section [#1] !!",WARN
+
+[Extract_One]
+IniRead,%ScriptFile%,#1,#3,%var%
+If,%Var%,Bigger,0,Begin
+If,#5,Equal,.,DirMake,#4
+Else,DirMake,#4\#5
+ExtractFile,%ScriptFile%,#1,#3,#4\#5
+End
+Else,Echo,"Unpack can not find file [#3] in Section [#1] !!",WARN
+
+[Execute_Archive]
+IniRead,%ScriptFile%,#1,#2,%var%
+If,%Var%,Bigger,0,Begin
+If,#5,Equal,.,DirMake,#4
+Else,DirMake,#4\#5
+ExtractFile,%ScriptFile%,#1,#2,#4\#5
+ShellExecuteDelete,open,"#4\#5\#2","#3","#4\#5"
+End
+Else,Echo,"Unpack can not find file [#3] in Section [#1] !!",WARN
+
+[Depack_Archive]
+IniRead,%ScriptFile%,#1,#2,%var%
+If,%Var%,Bigger,0,Begin
+If,#5,Equal,.,DirMake,#4
+Else,DirMake,#4\#5
+ExtractFile,%ScriptFile%,#1,#2,#4\#5
+ShellExecute,Hide,#$q%Tools%\7z.exe#$q,"x -y #$q#4\#5\#2#$q -o#$q#4\#5#$q"
+If,Not,#3,Equal,False,Run,%API%,Delete_File,"#4\#5\#2"
+End
+Else,Echo,"Unpack can not find file [#3] in Section [#1] !!",WARN
+
+[Delete_File]
+Loop,%API%,Try-Delete,1,100,#1
+If,EXISTFILE,#1,Halt,"Something wrong with deleting #1"
+
+[Try-Delete]
+//System,ERROROFF
+//FileDelete,#1
+Shellexecute,Hide,cmd.exe,"/C del /q /f /A:R /A:H /A:S /A:A #$q#1#$q"
+If,Not,EXISTFILE,#1,Loop,BREAK
+Else,Wait,1
+
+[reg_hiveload_HKLM]
+Run,%API%,reg_hiveload_HKLM_%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[reg_hiveload_HKLM_%API_TYPE%]
+Run,%API%,Set_Api_Type,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Run,%API%,reg_hiveload_HKLM_%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[reg_hiveload_HKLM_2]
+Echo,"Updating registry.. [System]"
+RegHiveLoad,%reg_temp%,%target_sys%\Config\system
+
+[reg_hiveload_HKLM_1]
+Echo,"Updating registry.. [System]"
+RegHiveLoad,%reg_temp%,%target_sys%\setupreg.hiv
+
+[reg_hiveload_System]
+Run,%API%,reg_hiveload_HKLM_%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[reg_hiveload_System_%API_TYPE%]
+Run,%API%,Set_Api_Type,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Run,%API%,reg_hiveload_HKLM_%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[reg_hiveload_System_2]
+Echo,"Updating registry.. [System]"
+RegHiveLoad,%reg_temp%,%target_sys%\Config\system
+
+[reg_hiveload_System_1]
+Echo,"Updating registry.. [System]"
+RegHiveLoad,%reg_temp%,%target_sys%\setupreg.hiv
+
+[reg_hiveload_HKCU]
+Echo,"Updating registry.. [User]"
+RegHiveLoad,%reg_temp%,%target_sys%\Config\default
+
+[reg_hiveload_User]
+Echo,"Updating registry.. [User]"
+RegHiveLoad,%reg_temp%,%target_sys%\Config\default
+
+[reg_hiveload_Default]
+Echo,"Updating registry.. [User]"
+RegHiveLoad,%reg_temp%,%target_sys%\Config\default
+
+[reg_hiveload_HKU]
+Echo,"Updating registry.. [Software]"
+RegHiveLoad,%reg_temp%,%target_sys%\Config\software
+
+[reg_hiveload_Machine]
+Echo,"Updating registry.. [Software]"
+RegHiveLoad,%reg_temp%,%target_sys%\Config\software
+
+[reg_hiveload_Software]
+Echo,"Updating registry.. [Software]"
+RegHiveLoad,%reg_temp%,%target_sys%\Config\software
+
+[reg_hiveload_COMPONENTS]
+Echo,"Updating registry.. [COMPONENTS]"
+RegHiveLoad,%reg_temp%,%target_sys%\config\COMPONENTS
+
+[reg_hiveload_HKCM]
+Echo,"Updating registry.. [COMPONENTS]"
+RegHiveLoad,%reg_temp%,%target_sys%\config\COMPONENTS
+
+[reg_hiveload]
+Run,%API%,reg_hiveload_#1
+
+[reg_hiveunload]
+RegHiveUnLoad,%reg_temp%
+
+[Association%API_TYPE%]
+Run,%API%,Set_Api_Type,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Run,%API%,Association%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[Association2]
+If,#3#4#5#6,Equal,,Begin
+echo,"Associate  #1 "
+If,#2,Equal,,Set,#2,%PE_Programs%\%programFolder%\%ProgramExe%
+Else,Begin
+StrFormat,path,#2,%CPath%
+If,%CPath%,Equal,,Set,#2,%PE_Programs%\%programFolder%\#2
+End
+IniWriteTextLine,"%PE_CFG%","association","#1#$c#2"
+End
+Else,Run,%API%Association1,#1,#2,#3,#4,#5,#6,2,%PE_CFG%
+
+[Association1]
+//Syntax==> Add_Asso,[Ext],[Type],[Title],[Filename],[Option],[True (for RegAddBoot)]
+echo,"Associate  #1 "
+StrFormat,ext,#1,#8
+If,#3,Equal,,Set,#3,"#1file"
+If,#8,Equal,,Set,#1,".#1"
+If,#4,Equal,,Set,#4,%PE_Programs%\%programFolder%\%programExe%
+Else,Begin
+StrFormat,path,#4,%CPath%
+If,%CPath%,Equal,,Set,#4,%PE_Programs%\%programFolder%\#4
+End
+If,#7,Equal,2,IniWriteTextLine,"#8","registry","#$qHKLM#$q#$c0x2#$c#$qSOFTWARE\Classes\#1#$q#$c#$q#$q#$c#$q#3#$q"
+else,reg_add,0x1,"%reg%\Classes\#1","",#3
+If,#2,Equal,,Set,#2,open
+Run,%API%,do_associate_action%API_TYPE%,#1,#2,#4,#5,#6
+
+[do_associate%API_TYPE%]
+//Syntax==> Associate_file,[Ext],[Type],[Filename],[Option],[True for RegAddBoot]
+Run,%API%,Set_Api_Type,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Run,%API%,do_associate%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[do_associate1]
+echo,"Associating #1 filetype.."
+RegHiveLoad,%reg_temp%,%target_sys%\Config\software
+reg_add,0x1,"%reg%\Classes\.#1","","#1file"
+Set,#1,"#1file"
+If,#3,Equal,,Set,#3,%PE_Programs%\%programFolder%\%programExe%
+Else,Begin
+StrFormat,path,#3,%CPath%
+If,%CPath%,Equal,,Set,#3,%PE_Programs%\%programFolder%\#3
+End
+If,#2,Equal,,Set,#2,open
+Run,%API%,do_associate_action%API_TYPE%,#1,#2,#3,#4,#5
+RegHiveUnLoad,%reg_temp%
+
+[do_associate2]
+If,#3#4#5,Equal,,Run,%API%,Association%API_TYPE%,#1,#2,#3,#4,#5
+Else,Begin
+echo,"Associating #1 filetype.."
+IniWriteTextLine,"%PE_CFG%","registry","#$qHKLM#$q#$c0x2#$c#$qSOFTWARE\Classes\.#1#$q#$c#$q#$q#$c#$q#1file#$q"
+Set,#1,"#1file"
+If,#3,Equal,,Set,#3,%PE_Programs%\%programFolder%\%programExe%
+Else,Begin
+StrFormat,path,#3,%CPath%
+If,%CPath%,Equal,,Set,#3,%PE_Programs%\%programFolder%\#3
+End
+If,#2,Equal,,Set,#2,open
+Run,%API%,do_associate_action%API_TYPE%,#1,#2,#3,#4,#5
+End
+
+[do_associate_action1]
+If,Not,#2,Equal,icon,reg_add,0x2,"%reg%\Classes\#1\shell\#2\command","","#$q#3#$q#$s#$q#$p1#$q"
+If,#5,Equal,True,Begin
+If,#4,Equal,,Run,%API%,RegAdd_boot%API_TYPE%,"HKLM",0x2,"Software\Classes\#1\DefaultIcon","",#3
+Else,Run,%API%,RegAdd_boot%API_TYPE%,"HKLM",0x2,"Software\Classes\#1\DefaultIcon","","#3,#4"
+End
+Else,Begin
+If,#4,Equal,,reg_add,0x2,"%reg%\Classes\#1\DefaultIcon","","#$q#3#$q"
+Else,reg_add,0x2,"%reg%\Classes\#1\DefaultIcon","","#$q#3#$q#$c#4"
+End
+
+[do_associate_action2]
+If,Not,#2,Equal,icon,IniWriteTextLine,"%PE_CFG%","registry","#$qHKLM#$q#$c0x1#$c#$qSOFTWARE\Classes\#1\shell\#2\command#$q#$c#$q#$q#$c#$q#3#$q#$s#$q#$p1#$q"
+If,#5,Equal,True,Begin
+If,#4,Equal,,Run,%API%,RegAdd_boot%API_TYPE%,"HKLM",0x2,"Software\Classes\#1\DefaultIcon","",#3
+Else,Run,%API%,RegAdd_boot%API_TYPE%,"HKLM",0x2,"Software\Classes\#1\DefaultIcon","","#3,#4"
+End
+Else,Begin
+If,#4,Equal,,IniWriteTextLine,"%PE_CFG%","registry","#$qHKLM#$q#$c0x2#$c#$qSOFTWARE\Classes\#1\DefaultIcon#$q#$c#$q#$q#$c#$q#3#$q"
+Else,IniWriteTextLine,"%PE_CFG%","registry","#$qHKLM#$q#$c0x2#$c#$qSOFTWARE\Classes\#1\DefaultIcon#$q#$c#$q#$q#$c#$q#3#$q#$c#4#$q"
+End
+
+[Expand_file%API_TYPE%]
+Run,%API%,Set_Api_Type,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Run,%API%,Expand_file%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[Expand_file1]
+If,A#2B#3C#4D#5E#6F#7G#8H#9I,Equal,ABCDEFGHI,Run,%API%,Expand_file%API_TYPE%_BasicA,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Else,Run,%API%,Expand_file%API_TYPE%_Main,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[Expand_file1_BasicA]
+If,%arch%,Equal,x86,If,Not,%SourceArch%,Equal,x86,Set,%target_sys%,%target_win%\SysWOW64
+If,Not,ExistFile,%Target_Sys%\#1,Run,%API%,Expand_file%API_TYPE%_BasicB,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[Expand_file1_BasicB]
+If,%arch%,Equal,x86,If,Not,%SourceArch%,Equal,x86,Run,%API%,Expand_file1_wow64_support_begin
+StrFormat,filename,#1,#9
+StrFormat,path,#1,#8
+If,%arch%,Equal,x86,If,Not,%SourceArch%,Equal,x86,Set,#9,w#9
+Set,#3,%Target_Sys%
+//
+If,%arch%,Equal,x86,If,%SourceArch%,Equal,x64,Set,#3,#3\#1
+//
+StrFormat,CTRIM,#3\#8,\,#3
+CopyOrExpand,%Source_Sys%\#9,#3
+If,%arch%,Equal,x86,If,Not,%SourceArch%,Equal,x86,Run,%API%,Expand_file1_wow64_support_end
+
+[Expand_file1_Main]
+//Syntax==> Require_File,[Folder\]filename,[Source (if different of %Source_Sys%)],[Target(If different of %Target_Sys%)],[OverWrite]|[PRESERVE],[NOWARN],[MUI Source (if different of parameter #2)]
+Echo,"Copy or Expand  #1"
+If,%arch%,Equal,x86,If,Not,%SourceArch%,Equal,x86,Run,%API%,Expand_file1_wow64_support_begin
+If,Not,#6,Equal,,If,Not,%CopyMui%,Equal,On,Set,#9,#6
+Else,Begin
+StrFormat,filename,#1,#9
+If,%arch%,Equal,x86,If,Not,%SourceArch%,Equal,x86,Set,#9,w#9
+End
+StrFormat,path,#1,#8
+If,|#2#3#4|,Equal,||,Run,%API%,Expand_1,#1,%Source_Sys%,%Target_Sys%,PRESERVE,#5,#6,#7,#8,#9
+Else,Run,%API%,Expand_2,#1,#2,#3,#4,#5,#6,#7,#8,#9
+If,%arch%,Equal,x86,If,Not,%SourceArch%,Equal,x86,Run,%API%,Expand_file1_wow64_support_end
+
+[Expand_file1_wow64_support_begin]
+StrFormat,filename,%target_win%,%SystemRootFolderName%
+If,Not,%SystemRootFolderName%,Equal,SysWOW64,Begin
+Set,%source_win%,%SourceDir%\I386
+Set,%source_sys%,%SourceDir%\I386
+Set,%target_win%,%TargetDir%\%SystemRootFolderName%\SysWOW64
+Set,%target_sys%,%TargetDir%\%SystemRootFolderName%\SysWOW64
+End
+
+[Expand_file1_wow64_support_end]
+Set,%source_win%,%SourceDir%\AMD64
+Set,%source_sys%,%SourceDir%\AMD64
+Set,%target_win%,%TargetDir%\AMD64
+Set,%target_sys%,%TargetDir%\AMD64\System32
+
+[Expand_1]
+Set,%ParameterFour%,#4
+StrFormat,CTRIM,#3\#8,\,#3
+If,%arch%,Equal,x86,If,%SourceArch%,Equal,x64,set,#3,#3\#1
+Run,%API%,Expand_1_#4,#1,#2,#3,#4,#5,#6,#7,#8,#9
+If,%CopyMui%,Equal,On,Run,%API%,CopyMui_On,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[Expand_1_PRESERVE]
+If,%CapiNowarnPreserveNodebugwarn%,Equal,YES,If,Not,ExistFile,#3\#1,CopyOrExpand,#2\#9,#3,PRESERVE,NOWARN
+If,Not,%CapiNowarnPreserveNodebugwarn%,Equal,YES,If,#5,Equal,NOWARN,CopyOrExpand,#2\#9,#3,PRESERVE,NOWARN
+If,Not,%CapiNowarnPreserveNodebugwarn%,Equal,YES,If,Not,#5,Equal,NOWARN,CopyOrExpand,#2\#9,#3,PRESERVE
+
+[Expand_1_PRESERVE_History15rev15]
+If,#5,Equal,NOWARN,CopyOrExpand,#2\#9,#3,PRESERVE,NOWARN
+Else,CopyOrExpand,#2\#9,#3,PRESERVE
+
+[Expand_1_OverWrite]
+If,#5,Equal,NOWARN,CopyOrExpand,#2\#9,#3,NOWARN
+Else,CopyOrExpand,#2\#9,#3
+
+[Expand_2]
+If,#4,Equal,,Set,#4,PRESERVE
+If,#4,Equal,OverWrite,Set,#4,""
+If,#2,Equal,,Set,#2,%Source_Sys%
+If,#3,Equal,,Set,#3,%Target_Sys%
+Else,StrFormat,CTRIM,#3,\,#3
+StrFormat,EXT,#2,%ext%
+StrFormat,CTRIM,#3\#8,\,#3
+If,Not,%ext%,Equal,,Begin
+If,#4,Equal,"",Run,%API%,Expand_2_OverWrite,#1,#2,#3,#4,#5,#6,#7,#8,#9
+If,#4,Equal,PRESERVE,Run,%API%,Expand_2_PRESERVE,#1,#2,#3,#4,#5,#6,#7,#8,#9
+End
+Else,Begin
+//CopyOrExpand,#2\#9,#3,#4,#5
+If,#4,Equal,PRESERVE,Run,%API%,Expand_1_PRESERVE,#1,#2,#3,#4,#5,#6,#7,#8,#9
+If,#4,Equal,"",Run,%API%,Expand_1_OverWrite,#1,#2,#3,#4,#5,#6,#7,#8,#9
+If,%CopyMui%,Equal,On,Run,%API%,CopyMui_On,#1,#2,#3,#4,#5,#6,#7,#8,#9
+End
+
+[Expand_2_PRESERVE]
+If,%version%,Bigger,79,Begin
+If,%CapiNowarnPreserveNodebugwarn%,Equal,YES,If,Not,ExistFile,#3\#9,Expand,#2,#3,#9,PRESERVE,NOWARN
+If,Not,%CapiNowarnPreserveNodebugwarn%,Equal,YES,If,#5,Equal,NOWARN,Expand,#2,#3,#9,PRESERVE,NOWARN
+If,Not,%CapiNowarnPreserveNodebugwarn%,Equal,YES,If,Not,#5,Equal,NOWARN,Expand,#2,#3,#9,PRESERVE
+End
+Else,Begin
+If,%CapiNowarnPreserveNodebugwarn%,Equal,YES,If,Not,ExistFile,#3\#9,Expand,#2,#3,#9,PRESERVE
+If,Not,%CapiNowarnPreserveNodebugwarn%,Equal,YES,Begin
+If,#5,Equal,NOWARN,If,Not,ExistFile,#3\#9,Expand,#2,#3,#9,PRESERVE
+If,Not,#5,Equal,NOWARN,Expand,#2,#3,#9,PRESERVE
+End
+End
+
+[Expand_2_PRESERVE_History15rev16]
+If,#5,Equal,NOWARN,Expand,#2,#3,#9,PRESERVE,NOWARN
+Else,Expand,#2,#3,#9,PRESERVE
+
+[Expand_2_OverWrite]
+If,#5,Equal,NOWARN,Expand,#2,#3,#9,NOWARN
+Else,Expand,#2,#3,#9
+
+[CopyMui_On]
+If,ExistSection,%API%,CopyMui_%CopyMui_Mode%,Run,%API%,CopyMui_%CopyMui_Mode%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[CopyMui_]
+
+[CopyMui_1]
+If,#6,Equal,,Set,#6,#2
+Else,StrFormat,CTRIM,#6,\,#6
+If,ExistFile,"#6\#9.mu*",CopyorExpand,"#6\#9.mui",#3,#4,#5
+
+[CopyMui_2]
+If,#6,Equal,,Set,#6,#2
+Else,StrFormat,CTRIM,#6,\,#6
+If,ExistFile,"#6\#9.mu*",ShellExecute,Hide,#$q%Tools%\7z.exe#$q,"x -y #$q#6\#9.mu*#$q -o#$q#3\#8#$q"
+If,Not,ExistFile,"#3#\#9.mui",If,ExistFile,"#6\#9.mu*",CopyorExpand,"#6\#9.mui",#3,#4,#5
+
+[CopyMui_3]
+If,#6,Equal,,Set,#6,#2
+Else,StrFormat,CTRIM,#6,\,#6
+If,ExistFile,"#6\#9.mu*",CopyorExpand,"#6\#9.mui",#3,#4,#5
+Else,If,ExistFile,"%Source_Mui%\#9.mu*",CopyorExpand,"%Source_Mui%\#9.mui",#3,#5
+
+[CopyMui_4]
+If,ExistFile,"%Source_Mui%\#9.mu*",CopyorExpand,"%Source_Mui%\#9.mui",#3,#4,#5
+Else,Begin
+If,#6,Equal,,Set,#6,#2
+Else,StrFormat,CTRIM,#6,\,#6
+If,ExistFile,"#6\#9.mu*",CopyorExpand,"#6\#9.mui",#3,#4,#5
+End
+
+[CopyMui_5]
+If,#6,Equal,,Set,#6,#2
+Else,StrFormat,CTRIM,#6,\,#6
+If,ExistFile,"#6\#9.mu*",ShellExecute,Hide,#$q%Tools%\7z.exe#$q,"x -y #$q#6\#9.mu*#$q -o#$q#3#$q"
+If,Not,ExistFile,"#3\#9.mui",If,ExistFile,"#6\#9.mu*",CopyorExpand,"#6\#9.mui",#3,#4,#5
+If,Not,ExistFile,"#3\#9.mui",Begin
+If,ExistFile,"%Source_Mui%\#9.mu*",ShellExecute,Hide,#$q%Tools%\7z.exe#$q,"x -y #$q%Source_Mui%\#9.mu*#$q -o#$q#3#$q"
+If,Not,ExistFile,"#3\#9.mui",If,ExistFile,"%Source_Mui%\#9.mu*",CopyorExpand,"%Source_Mui%\#9.mui",#3,#4,#5
+End
+
+[CopyMui_6]
+If,ExistFile,"%Source_Mui%\#9.mu*",Begin
+ShellExecute,Hide,#$q%Tools%\7z.exe#$q,"x -y #$q%Source_Mui%\#9.mu*#$q -o#$q#3#$q"
+If,Not,ExistFile,"#3\#9.mui",If,ExistFile,"%Source_Mui%\#9.mu*",CopyorExpand,"%Source_Mui%\#9.mui",#3,#4,#5
+End
+If,Not,ExistFile,"#3\#9.mui",Begin
+If,#6,Equal,,Set,#6,#2
+Else,StrFormat,CTRIM,#6,\,#6
+If,ExistFile,"#6\#9.mu*",ShellExecute,Hide,#$q%Tools%\7z.exe#$q,"x -y #$q#6\#9.mu*#$q -o#$q#3#$q"
+If,Not,ExistFile,"#3\#9.mui",If,ExistFile,"#6\#9.mu*",CopyorExpand,"#6\#9.mui",#3,#4,#5
+End
+
+[Expand_file2]
+//Syntax==> Require_File,[Folder\]filename,[Source (if different of %Source_Sys%)],[Target(If different of %Target_Sys%)],[OverWrite]|[PRESERVE],[NOWARN]
+StrFormat,filename,#1,#9
+StrFormat,path,#1,#8
+If,#4,Equal,,Set,#4,PRESERVE
+If,#4,Equal,OverWrite,Set,#4,""
+If,#2,Equal,,Set,#2,%Source_Sys%
+If,#3,Equal,,Set,#3,%Target_Sys%
+DirMake,"#3\#8"
+DirMake,"#3\#8%DistLang%"
+DirMake,"#3\#8en-US"
+If,ExistFile,"#2\#8#9",FileCopy,"#2\#8#9","#3\#8",#4,#5
+If,ExistFile,"#2\#8%DistLang%\#9.mui",FileCopy,"#2\#8%DistLang%\#9.mui","#3\#8%DistLang%",#4,#5
+If,ExistFile,"#2\#8en-US\#9.mui",FileCopy,"#2\#8en-US\#9.mui","#3\#8en-US",#4,#5
+If,Not,ExistFile,"#3\#1",Echo,"!!! Can not copy #1 file!!!",WARN
+
+[Require_Sys_File%API_TYPE%]
+Run,%API%,Set_Api_Type,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Run,%API%,Require_Sys_File%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[Require_Sys_File1]
+
+[Require_Sys_File2]
+//Syntax==> RequireSysFile,filename,[OverWrite]|[PRESERVE],[NOWARN]
+StrFormat,filename,#1,#9
+StrFormat,path,#1,#8
+If,#2,Equal,,Set,#2,PRESERVE
+If,#2,Equal,OverWrite,Set,#2,""
+DirMake,"%TargetDir%\#8"
+DirMake,"%TargetDir%\#8\%DistLang%"
+DirMake,"%TargetDir%\#8en-US"
+If,ExistFile,"%SystemFiles%\#8#9",FileCopy,"%SystemFiles%\#8#9","%TargetDir%\#8",#2,#3
+If,ExistFile,"%SystemFiles%\#8%DistLang%\#9.mui",FileCopy,"%SystemFiles%\#8%DistLang%\#9.mui","%TargetDir%\#8%DistLang%",#2,#3
+If,ExistFile,"%SystemFiles%\#8en-US\#9.mui",FileCopy,"%SystemFiles%\#8en-US\#9.mui","%TargetDir%\#8en-US",#2,#3
+If,NotExistFile,"%TargetDir%\#1",Echo,"!!! Can not copy #1 file!!!",WARN
+
+[Expand_FileQBegin]
+// ################################  Require_FileQ  ################################
+
+[Expand_FileQ1x86x86x86]
+If,Not,ExistFile,%Target_Sys%\#1,CopyOrExpand,%Source_Sys%\#1,%Target_Sys%\#1
+
+[Expand_FileQ1x64x64x86]
+Echo,"Target PE does not support x86 Fix your script",Warn
+
+[Expand_FileQ1x64x86x86]
+If,Not,ExistFile,%target_win%\SysWOW64\#1,CopyOrExpand,%SourceDir%\I386\w#1,%target_win%\SysWOW64\#1
+
+[Expand_FileQ1IA64IA64x86]
+Echo,"Target PE does not support x86 Fix your script",Warn
+
+[Expand_FileQ1IA64x86x86]
+If,Not,ExistFile,%target_win%\SysWOW64\#1,CopyOrExpand,%SourceDir%\I386\w#1,%target_win%\SysWOW64\#1
+
+[Expand_FileQ1x86x86x64]
+Echo,"Target PE does not support x64 Fix your script",Warn
+
+[Expand_FileQ1x64x64x64]
+If,Not,ExistFile,%Target_Sys%\#1,CopyOrExpand,%Source_Sys%\#1,%Target_Sys%\#1
+
+[Expand_FileQ1x64x86x64]
+If,Not,ExistFile,%Target_Sys%\#1,CopyOrExpand,%Source_Sys%\#1,%Target_Sys%\#1
+
+[Expand_FileQ1IA64IA64x64]
+Echo,"Target PE does not support x64 Fix your script",Warn
+
+[Expand_FileQ1IA64x86x64]
+Echo,"Target PE does not support x64 Fix your script",Warn
+
+[Expand_FileQ1x86x86IA64]
+Echo,"Target PE does not support IA64 Fix your script",Warn
+
+[Expand_FileQ1x64x64IA64]
+Echo,"Target PE does not support IA64 Fix your script",Warn
+
+[Expand_FileQ1x64x86IA64]
+Echo,"Target PE does not support IA64 Fix your script",Warn
+
+[Expand_FileQ1IA64IA64IA64]
+If,Not,ExistFile,%Target_Sys%\#1,CopyOrExpand,%Source_Sys%\#1,%Target_Sys%\#1
+
+[Expand_FileQ1IA64x86IA64]
+If,Not,ExistFile,%Target_Sys%\#1,CopyOrExpand,%Source_Sys%\#1,%Target_Sys%\#1
+
+[Expand_FileQ1x86x86%CapiScriptArch%]
+If,Not,ExistFile,%Target_Sys%\#1,CopyOrExpand,%Source_Sys%\#1,%Target_Sys%\#1
+
+[Expand_FileQ1x64x64%CapiScriptArch%]
+If,Not,ExistFile,%Target_Sys%\#1,CopyOrExpand,%Source_Sys%\#1,%Target_Sys%\#1
+
+[Expand_FileQ1x64x86%CapiScriptArch%]
+If,Not,ExistFile,%Target_Sys%\#1,CopyOrExpand,%Source_Sys%\#1,%Target_Sys%\#1
+
+[Expand_FileQ1IA64IA64%CapiScriptArch%]
+If,Not,ExistFile,%Target_Sys%\#1,CopyOrExpand,%Source_Sys%\#1,%Target_Sys%\#1
+
+[Expand_FileQ1IA64x86%CapiScriptArch%]
+If,Not,ExistFile,%Target_Sys%\#1,CopyOrExpand,%Source_Sys%\#1,%Target_Sys%\#1
+
+[Expand_FileQ1x86x86]
+If,Not,ExistFile,%Target_Sys%\#1,CopyOrExpand,%Source_Sys%\#1,%Target_Sys%\#1
+
+[Expand_FileQ1x64x64]
+If,Not,ExistFile,%Target_Sys%\#1,CopyOrExpand,%Source_Sys%\#1,%Target_Sys%\#1
+
+[Expand_FileQ1x64x86]
+If,Not,ExistFile,%Target_Sys%\#1,CopyOrExpand,%Source_Sys%\#1,%Target_Sys%\#1
+
+[Expand_FileQ1IA64IA64]
+If,Not,ExistFile,%Target_Sys%\#1,CopyOrExpand,%Source_Sys%\#1,%Target_Sys%\#1
+
+[Expand_FileQ1IA64x86]
+If,Not,ExistFile,%Target_Sys%\#1,CopyOrExpand,%Source_Sys%\#1,%Target_Sys%\#1
+
+[Expand_FileQ2x86x86x86]
+If,Not,ExistFile,%Target_Sys%\#1,Run,%Api%,Expand_FileQ2System32,#1
+
+[Expand_FileQ2x64x64x86]
+Echo,"Target PE does not support x86 Fix your script",Warn
+
+[Expand_FileQ2x64x86x86]
+If,Not,ExistFile,%TargetDir%\Windows\SysWOW64\#1,Run,%Api%,Expand_FileQ2SysWOW64,#1
+
+[Expand_FileQ2IA64IA64x86]
+Echo,"Target PE does not support x86 Fix your script",Warn
+
+[Expand_FileQ2IA64x86x86]
+If,Not,ExistFile,%TargetDir%\Windows\SysWOW64\#1,Run,%Api%,Expand_FileQ2SysWOW64,#1
+
+[Expand_FileQ1x86x86x64]
+Echo,"Target PE does not support x64 Fix your script",Warn
+
+[Expand_FileQ1x64x64x64]
+If,Not,ExistFile,%Target_Sys%\#1,Run,%Api%,Expand_FileQ2System32,#1
+
+[Expand_FileQ1x64x86x64]
+If,Not,ExistFile,%Target_Sys%\#1,Run,%Api%,Expand_FileQ2System32,#1
+
+[Expand_FileQ1IA64IA64x64]
+Echo,"Target PE does not support x64 Fix your script",Warn
+
+[Expand_FileQ1IA64x86x64]
+Echo,"Target PE does not support x64 Fix your script",Warn
+
+[Expand_FileQ1x86x86IA64]
+Echo,"Target PE does not support IA64 Fix your script",Warn
+
+[Expand_FileQ1x64x64IA64]
+Echo,"Target PE does not support IA64 Fix your script",Warn
+
+[Expand_FileQ1x64x86IA64]
+Echo,"Target PE does not support IA64 Fix your script",Warn
+
+[Expand_FileQ1IA64IA64IA64]
+If,Not,ExistFile,%Target_Sys%\#1,Run,%Api%,Expand_FileQ2System32,#1
+
+[Expand_FileQ1IA64x86IA64]
+If,Not,ExistFile,%Target_Sys%\#1,Run,%Api%,Expand_FileQ2System32,#1
+
+[Expand_FileQ2x86x86%CapiScriptArch%]
+If,Not,ExistFile,%Target_Sys%\#1,Run,%Api%,Expand_FileQ2System32,#1
+
+[Expand_FileQ2x64x64%CapiScriptArch%]
+If,Not,ExistFile,%Target_Sys%\#1,Run,%Api%,Expand_FileQ2System32,#1
+
+[Expand_FileQ2x64x86%CapiScriptArch%]
+If,Not,ExistFile,%Target_Sys%\#1,Run,%Api%,Expand_FileQ2System32,#1
+
+[Expand_FileQ2IA64IA64%CapiScriptArch%]
+If,Not,ExistFile,%Target_Sys%\#1,Run,%Api%,Expand_FileQ2System32,#1
+
+[Expand_FileQ2IA64x86%CapiScriptArch%]
+If,Not,ExistFile,%Target_Sys%\#1,Run,%Api%,Expand_FileQ2System32,#1
+
+[Expand_FileQ2x86x86]
+If,Not,ExistFile,%Target_Sys%\#1,Run,%Api%,Expand_FileQ2System32,#1
+
+[Expand_FileQ2x64x64]
+If,Not,ExistFile,%Target_Sys%\#1,Run,%Api%,Expand_FileQ2System32,#1
+
+[Expand_FileQ2x64x86]
+If,Not,ExistFile,%Target_Sys%\#1,Run,%Api%,Expand_FileQ2System32,#1
+
+[Expand_FileQ2IA64IA64]
+If,Not,ExistFile,%Target_Sys%\#1,Run,%Api%,Expand_FileQ2System32,#1
+
+[Expand_FileQ2IA64x86]
+If,Not,ExistFile,%Target_Sys%\#1,Run,%Api%,Expand_FileQ2System32,#1
+
+[Expand_FileQ2System32]
+If,Not,ExistFile,%Source_Sys%\#1,Echo,"Can not copy file #1",Warn
+Else,Begin
+FileCopy,%Source_Sys%\#1,%Target_Sys%
+If,Not,ExistFile,%Target_Sys%\%DistLang%\#1.mui,If,ExistFile,%Source_Sys%\%DistLang%\#1.mui,FileCopy,%Source_Sys%\%DistLang%\#1.mui,%Target_Sys%\%DistLang%
+If,Not,%DistLang%,Equal,en-US,Begin
+If,Not,ExistFile,%Target_Sys%\en-US\#1.mui,If,ExistFile,%Source_Sys%\en-US\#1.mui,FileCopy,%Source_Sys%\en-US\#1.mui,%Target_Sys%\en-US
+End
+End
+
+[Expand_FileQ2SysWOW64]
+If,Not,ExistFile,%InstallSRC%\Windows\SysWow64\#1,Echo,"Can not copy file #1",Warn
+Else,Begin
+FileCopy,%InstallSRC%\Windows\SysWow64\#1,%TargetDir%\Windows\SysWOW64
+If,Not,ExistFile,%TargetDir%\Windows\SysWOW64\%DistLang%\#1.mui,If,ExistFile,%InstallSRC%\Windows\SysWow64\%DistLang%\#1.mui,FileCopy,%InstallSRC%\Windows\SysWow64\%DistLang%\#1.mui,%TargetDir%\Windows\SysWOW64\%DistLang%
+If,Not,%DistLang%,Equal,en-US,Begin
+If,Not,ExistFile,%TargetDir%\Windows\SysWOW64\en-US\#1.mui,If,ExistFile,%InstallSRC%\Windows\SysWow64\en-US\#1.mui,FileCopy,%InstallSRC%\Windows\SysWow64\en-US\#1.mui,%TargetDir%\Windows\SysWOW64\en-US
+End
+End
+
+[Expand_FileQEND]
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Require_FileQ  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+[Add_Post_Config%API_TYPE%]
+Run,%API%,Set_Api_Type,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Run,%API%,Add_Post_Config%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[Add_Post_Config1]
+
+[Add_Post_Config2]
+//AddPostConfig,%ProgramTitle%,%ProgramExe%,%AutoStartParameters%,%AutoStartMode%
+If,#4,Equal,,Set,#4,wait
+If,#4,Equal,1,Set,#4,wait
+If,#4,Equal,2,Set,#4,nowait
+If,#4,Equal,3,Set,#4,hidewait
+If,#4,Equal,4,Set,#4,hidenowait
+//program patch
+If,#2,Equal,,Set,#2,%PE_Programs%\%programFolder%\%ProgramExe%
+If,#2,NotEqual,,StrFormat,path,#2,%CPath%
+If,#2,NotEqual,,If,%CPath%,Equal,,Set,#2,%PE_Programs%\%programFolder%\#2
+//
+If,#1,Equal,,Set,#1,%ProgramTitle%
+//
+IniWriteTextLine,"%PE_CFG%","postconfig","#4|#1|#2#$s#3"
+
+[Add_Auto_Run%API_TYPE%]
+Run,%API%,Set_Api_Type,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Run,%API%,Add_Auto_Run%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[Add_Auto_Run1]
+//AddAutoRun,%ProgramTitle%,%ProgramExe%,%AutoStartParameters%,%AutoStartMode%
+GetParam,3,%Param6%
+echo,"Create ShortCut AutoRun"
+If,%CDOn%,Equal,True,Set,%PE_Programs%,!PS\%include_Folder%
+If,#2,Equal,,Set,#2,%PE_Programs%\%programFolder%\%ProgramExe%
+If,#2,NotEqual,,StrFormat,path,#2,%CPath%
+If,#2,NotEqual,,If,%CPath%,Equal,,Set,#2,%PE_Programs%\%programFolder%\#2
+StrFormat,path,#2,#5
+StrFormat,CTRIM,#5,\,#5
+If,#1,Equal,,Set,#1,%ProgramTitle%
+// History16 +++
+//If,Not,#3,Equal,,Set,%_Param%,"##$q##$s##$q-SP:"
+If,Not,#3,Equal,,Set,%_Param%,#$s-SP:
+// History16 ---
+Else,Set,%_Param%,""
+If,#4,Equal,,StrFormat,REPLACE,#4,1,"#$q#$s#$q-SS:SW_SHOW",#4
+Else,Begin
+If,#4,Equal,1,StrFormat,REPLACE,#4,1,"#$q#$s#$q-SS:SW_SHOW",#4
+If,#4,Equal,2,StrFormat,REPLACE,#4,2,"#$q#$s#$q-SS:SW_SHOWMINNOACTIVE",#4
+If,#4,Equal,3,StrFormat,REPLACE,#4,3,"#$q#$s#$q-SS:SW_SHOWMAXIMIZED",#4
+If,#4,Equal,4,StrFormat,REPLACE,#4,4,"#$q#$s#$q-SS:SW_SHOWMINNOACTIVE",#4
+End
+Run,%API%,ShcMode_%Shc_Mode%,AutoRun,,#2,#1,#5,#3,,#4
+
+[Add_Auto_Run2]
+//AddAutoRun,%ProgramTitle%,%ProgramExe%,%AutoStartParameters%,%AutoStartMode%
+If,#4,Equal,,Set,#4,wait
+If,#4,Equal,1,Set,#4,wait
+If,#4,Equal,2,Set,#4,nowait
+If,#4,Equal,3,Set,#4,hidewait
+If,#4,Equal,4,Set,#4,hidenowait
+//program patch
+If,#2,Equal,,Set,#2,%PE_Programs%\%programFolder%\%ProgramExe%
+If,#2,NotEqual,,StrFormat,path,#2,%CPath%
+If,#2,NotEqual,,If,%CPath%,Equal,,Set,#2,%PE_Programs%\%programFolder%\#2
+//
+If,#1,Equal,,Set,#1,%ProgramTitle%
+//
+IniWriteTextLine,"%PE_CFG%","autorun","#4|#1|#2#$s#3"
+
+[NotConfigured]
+Message,"Please run PreConfig script. Exiting...",ERROR
+exit,"Exiting.."
+
+[Read_ENV%API_TYPE%]
+Run,%API%,Set_Api_Type,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Run,%API%,Read_ENV%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[Read_ENV1]
+If,#1,Equal,SourceType,Begin
+If,#2,Equal,,IniRead,%ProjectInfo%,OS,Type,%SourceType%
+Else,IniRead,%ProjectInfo%,OS,Type,%#2%
+End
+
+[Read_ENV2]
+If,Not,#1,Equal,,Begin
+If,#2,Equal,,IniRead,%ProjectInfo%,"%OsType%Info",#1,%#1%
+Else,IniRead,%ProjectInfo%,"%OsType%Info",#1,%#2%
+End
+Else,Begin
+IniRead,%ProjectInfo%,%OsType%Info,Language,%DistLang%
+IniRead,%ProjectInfo%,%OsType%Info,SourceDir,%SDIR%
+IniRead,%ProjectInfo%,%OsType%Info,SourceType,%SourceType%
+IniRead,%ProjectInfo%,%OsType%Info,WimTools,%WimTools%
+IniRead,%ProjectInfo%,%OsType%Info,SystemFiles,%SystemFiles%
+If,%WimTools%,Equal,ImageX,IniRead,%ProjectInfo%,%OsType%Info,imagex,%IMAGEX%
+IniRead,%ProjectInfo%,%OsType%Info,BuildModel,%BuildModel%
+IniRead,%ProjectInfo%,%OsType%Info,Shell,%Shell%
+IniRead,%ProjectInfo%,%OsType%Info,ScreenResolution,%ScreenResolution%
+IniRead,%ProjectInfo%,%OsType%Info,Locale,%Locale%
+IniRead,%ProjectInfo%,%OsType%Info,SysType,%SysType%
+IniRead,%ProjectInfo%,%OsType%Info,GrubSkin,%GrubSkin%
+IniRead,%ProjectInfo%,%OsType%Info,ForceAllToRam,%ForceAllToRam%
+IniRead,%ProjectInfo%,%OsType%Info,Drivers,%Drivers%
+IniRead,%ProjectInfo%,%OsType%Info,IsoLinuxMode,%IsoLinuxMode%
+IniRead,%ProjectInfo%,%OsType%Info,DllSrc,%DllSrc%
+IniRead,%ProjectInfo%,%OsType%Info,WAIKDir,%WAIKDir%
+IniRead,%ProjectInfo%,%OsType%Info,BootManager,%BootManager%
+IniRead,%ProjectInfo%,%OsType%Info,Type,%Type%
+If,%SourceType%,Equal,,Run,%API%,NotConfigured
+End
+
+[AddShortcut%API_TYPE%]
+Run,%API%,Set_Api_Type,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Run,%API%,AddShortcut%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[AddShortcut2]
+//===>  Add_Shortcut,[Type],[StartMenuFolder],[(Full)FileName],[Title],[Work Folder],[Parameters],[(path)IconFile],[StartMode=1, 2, or 3],[ToolTip Comment(Only LiveXP)]
+Echo,"Create ShortCut  #1  "
+If,#1,Equal,AutoStart,Set,#1,Autorun
+If,#1,Equal,,Set,#1,StartMenu
+If,#1,Equal,EditWith,Begin
+If,#2,Equal,,Set,#2,"Edit with"
+End
+Else,Begin
+If,#2,Equal,,Begin
+StrFormat,REPLACE,%Scriptdir%,%ProjectDir%\%_App_%\,,#2
+If,%Scriptdir%,Equal,#2,StrFormat,filename,%Scriptdir%,#2
+End
+End
+If,#2,Equal,.,Set,#2,""
+If,#3,Equal,,Set,#3,%PE_Programs%\%ProgramFolder%\%ProgramEXE%
+If,#4,Equal,,Set,#4,%ProgramTitle%
+//If,#5,Equal,,StrFormat,path,#3,#5
+If,Not,#6,Equal,,StrFormat,REPLACE,#6,###$q,##$q,#6
+If,#7,NotEqual,,Begin
+StrFormat,path,#7,%SHC_Icon_Path%
+StrFormat,filename,#7,%SHC_Icon_FileName%
+If,%SHC_Icon_Path%,Equal,,StrFormat,path,#3,%SHC_Icon_Path%
+Set,#7,%SHC_Icon_Path%%SHC_Icon_FileName%
+End
+If,#1,Equal,StartMenu,Set,#1,#2
+If,Not,%ToRoot%,Equal,,Set,#1,""
+If,#1,Equal,EditWith,Run,%API%,RegAdd_boot%API_TYPE%,"HKLM",0x2,"Software\Classes\*\shell\#2#$s#4\command","","#3 #$q#$p1#$q"
+Else,Begin
+If,#1,Equal,Autorun,Run,%API%,Add_Auto_Run%API_TYPE%,#4,#3,#6,#8
+Else,IniWriteTextLine,"%PE_CFG%","shortcut","#1|#4|#3|#7|#6"
+End
+
+[AddShortcut1]
+//===>  Add_Shortcut,[Type],[StartMenuFolder],[(Full)FileName],[Title],[Work Folder],[Parameters],[(path)IconFile(#$cIconIndex)],[StartMode=1, 2, or 3],[ToolTip Comment]
+GetParam,6,%Param6%
+echo,"Create ShortCut  #1"
+Set,%PE_Programs_previous%,%PE_Programs%
+If,#1,Equal,EditWith,Run,%API%,AddShortcut_#1,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Else,Begin
+If,%CDOn%,Equal,True,Begin
+If,Not,EXISTVAR,%include_Folder%,Begin
+IniRead,%ProjectInfo%,TargetStrings,sProgram_Files,%ProgDir%
+Set,%include_Folder%,%ProgDir%
+End
+Set,%PE_Programs%,!PS\%include_Folder%
+End
+If,#2,Equal,,Begin
+StrFormat,REPLACE,%Scriptdir%,%ProjectDir%\Apps\,,#2
+If,%Scriptdir%,Equal,#2,StrFormat,filename,%Scriptdir%,#2
+End
+If,#3,Equal,,Set,#3,%PE_Programs%\%programFolder%\%programExe%
+Else,Begin
+StrFormat,path,#3,%CPath%
+If,%CDOn%,Equal,True,StrFormat,Replace,%CPath%,%PE_Programs_previous%,%PE_Programs%,%CPath%
+StrFormat,filename,#3,%CFilename%
+If,%CPath%,Equal,,Set,#3,%PE_Programs%\%programFolder%\%CFilename%
+Else,Set,#3,%CPath%%CFilename%
+If,#4,Equal,,If,Not,#3,Equal,%PE_Programs%\%programFolder%\%programExe%,StrFormat,RTrim,%CFilename%,4,#4
+End
+If,#5,Equal,,StrFormat,path,#3,#5
+StrFormat,CTRIM,#5,\,#5
+If,%CDOn%,Equal,True,StrFormat,Replace,#5,%PE_Programs_previous%,%PE_Programs%,#5
+If,#4,Equal,,Set,#4,%ProgramTitle%
+// History16 +++
+//If,Not,#6,Equal,,Set,%_Param%,"##$q##$s##$q-SP:"
+If,Not,#6,Equal,,Set,%_Param%,#$s-SP:
+// History16 ---
+Else,Set,%_Param%,""
+If,.#7#8#9.,NotEqual,..,Run,%API%,ShortcutOptions,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Else,Run,%API%,ShcMode_%Shc_Mode%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+End
+Set,%PE_Programs%,%PE_Programs_previous%
+
+[ShcMode_0]
+Run,%API%,IsOnCD,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[ShcMode_1]
+StrFormat,ext,#3,%_Ext%
+StrFormat,RIGHT,#$p%_Ext%#$p,1,%Var%
+If,%Var%,Equal,%,Begin
+If,Not,%_Ext%,Equal,.exe,Message,"In Api Interface [Force Icon] is enabled. #$xIn this mode you should specify which icon and index use (when file is not an exe).#$x#$xExample for .bat file add in section Variables (in #$pScriptFile#$p or Script.project):#$x #$x#$p.bat#$p=##$pSystemRoot##$p\System32\shell32.dll##$c071",INFORMATION,10
+Run,%API%,IsOnCD,#1,#2,#3,#4,#5,#6,"#$q#$s#$q-SF:#3#$q#$s#$q-SI:0",#8,#9
+End
+Else,Run,%API%,ShortcutIcon,#1,#2,#3,#4,#5,#6,%%_Ext%%,#8,#9
+
+[IsOnCD]
+If,%CDOn%,Equal,True,Run,%API%,SetOnCD,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Else,Run,%API%,AddShortcut_#1,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[SetOnCD]
+Set,%ExpShc%,%ExplorerShortcut%
+Set,%ExplorerShortcut%,shc-run,PERMANENT
+Run,%API%,AddShortcut_#1,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Set,%ExplorerShortcut%,%ExpShc%,PERMANENT
+Set,"%PE_Programs%","#$pSystemDrive#$p\%include_Folder%"
+
+[AddShortcut_]
+If,%CapiSubFoldersToRoot%,Equal,Truely,StrFormat,Filename,#2,#2
+If,%CapiNoShortcutSubfolders%,Equal,nosubfolders,Set,#2,""
+If,Not,%ToRoot%,Equal,,Begin
+StrFormat,Left,#2,3,%CapiparTwoLeftThreeResult%
+If,%CapiparTwoLeftThreeResult%,Equal,..\,StrFormat,LTrim,#2,3,#2
+StrFormat,Left,#2,2,%CapiparTwoLeftTwoResult%
+If,%CapiparTwoLeftTwoResult%,Equal,..,StrFormat,LTrim,#2,2,#2
+If,%CapiparTwoLeftTwoResult%,Equal,.\,StrFormat,LTrim,#2,2,#2
+StrFormat,Left,#2,1,%CapiparTwoLeftOneResult%
+If,%CapiparTwoLeftOneResult%,Equal,.,StrFormat,LTrim,#2,1,#2
+End
+Run,%BuildModelScript%,Add-Shortcut,"SM\%ToRoot%#2","#3","#4","-SW:#5#9%_Param%%Param6%#7#8"
+
+[AddShortcut_Desktop]
+Run,%BuildModelScript%,Add-Shortcut,"DE","#3","#4","-SW:#5#9%_Param%%Param6%#7#8"
+
+[AddShortcut_StartMenu]
+If,%CapiSubFoldersToRoot%,Equal,Truely,StrFormat,Filename,#2,#2
+If,%CapiNoShortcutSubfolders%,Equal,nosubfolders,Set,#2,""
+If,Not,%ToRoot%,Equal,,Begin
+StrFormat,Left,#2,3,%CapiparTwoLeftThreeResult%
+If,%CapiparTwoLeftThreeResult%,Equal,..\,StrFormat,LTrim,#2,3,#2
+StrFormat,Left,#2,2,%CapiparTwoLeftTwoResult%
+If,%CapiparTwoLeftTwoResult%,Equal,..,StrFormat,LTrim,#2,2,#2
+If,%CapiparTwoLeftTwoResult%,Equal,.\,StrFormat,LTrim,#2,2,#2
+StrFormat,Left,#2,1,%CapiparTwoLeftOneResult%
+If,%CapiparTwoLeftOneResult%,Equal,.,StrFormat,LTrim,#2,1,#2
+End
+Run,%BuildModelScript%,Add-Shortcut,"SM\%ToRoot%#2","#3","#4","-SW:#5#9%_Param%%Param6%#7#8"
+
+[AddShortcut_StartMenuRoot]
+Run,%BuildModelScript%,Add-Shortcut,"SR\#2","#3","#4","-SW:#5#9%_Param%%Param6%#7#8"
+
+[AddShortcut_QuickLaunch]
+Run,%BuildModelScript%,Add-Shortcut,"QL","#3","#4","-SW:#5#9%_Param%%Param6%#7#8"
+
+[AddShortcut_AutoRun]
+Run,%BuildModelScript%,Add-Shortcut,"AU","#3","#4","-SW:#5#9%_Param%%Param6%#7#8"
+
+[AddShortcut_AutoStart]
+Run,%BuildModelScript%,Add-Shortcut,"AU","#3","#4","-SW:#5#9%_Param%%Param6%#7#8"
+
+[AddShortcut_SystemTools]
+Run,%BuildModelScript%,Add-Shortcut,"SY","#3","#4","-SW:#5#9%_Param%%Param6%#7#8"
+
+[AddShortcut_Accessories]
+Run,%BuildModelScript%,Add-Shortcut,"AC","#3","#4","-SW:#5#9%_Param%%Param6%#7#8"
+
+[AddShortcut_AdministrativeTools]
+Run,%BuildModelScript%,Add-Shortcut,"AD","#3","#4","-SW:#5#9%_Param%%Param6%#7#8"
+
+[AddShortcut_SendTo]
+Run,%BuildModelScript%,Add-Shortcut,"ST","#3","#4","-SW:#5#9%_Param%%Param6%#7#8"
+
+[AddShortcut_EditWith]
+If,#2,Equal,,Set,#2,"Edit with"
+If,#3,Equal,,Set,#3,%PE_Programs%\%programFolder%\%programExe%
+Else,Begin
+StrFormat,path,#3,%CPath%
+StrFormat,filename,#3,%CFilename%
+If,%CPath%,Equal,,Set,#3,%PE_Programs%\%programFolder%\%CFilename%
+If,#4,Equal,,If,Not,#3,Equal,%PE_Programs%\%programFolder%\%programExe%,StrFormat,RTrim,%CFilename%,4,#4
+End
+If,#4,Equal,,Set,#4,%ProgramTitle%
+Run,%API%,RegAdd_boot%API_TYPE%,"HKLM",0x2,"Software\Classes\*\shell\#2#$s#4\command","","#3 #$q#$p1#$q"
+
+[ShortcutOptions]
+//If,#6,NotEqual,,StrFormat,REPLACE,#6,#6,"#$q#$s#$q-SP:#6",#6
+If,#8,NotEqual,,Begin
+If,#8,Equal,1,StrFormat,REPLACE,#8,1,"#$q#$s#$q-SS:SW_SHOW",#8
+If,#8,Equal,2,StrFormat,REPLACE,#8,2,"#$q#$s#$q-SS:SW_SHOWMINNOACTIVE",#8
+If,#8,Equal,3,StrFormat,REPLACE,#8,3,"#$q#$s#$q-SS:SW_SHOWMAXIMIZED",#8
+If,#8,Equal,4,StrFormat,REPLACE,#8,4,"#$q#$s#$q-SS:SW_HIDE",#8
+End
+// History16 +++
+//If,#9,NotEqual,,StrFormat,REPLACE,#9,#9,"#$q#$s#$q-SD:#9",#9
+If,#9,NotEqual,,Set,#9,#$s-SD:#9
+// History16 ---
+If,#7,NotEqual,,Run,%API%,ShortcutIcon,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Else,Run,%API%,ShcMode_%Shc_Mode%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[ShortcutIcon]
+StrFormat,path,#7,%Icon_Path%
+If,%Icon_Path%,Equal,,Begin
+StrFormat,path,#3,%Icon_Path%
+StrFormat,REPLACE,#7,#7,%Icon_Path%#7,#7
+End
+StrFormat,POS,#7,#$c,%PosIndex%
+// History16 +++
+//If,%PosIndex%,Equal,0,StrFormat,REPLACE,#7,#7,"#$q#$s#$q-SF:#7#$q#$s#$q-SI:0",#7
+If,%PosIndex%,Equal,0,Set,#7,"#$s-SF:#7#$s-SI:0"
+// History16 ---
+Else,Begin
+StrFormat,LTRIM,#7,%PosIndex%,%IconNum%
+StrFormat,LEFT,#7,%PosIndex%,%Icon_FileName%
+StrFormat,RTRIM,%Icon_FileName%,1,%Icon_FileName%
+// History16 +++
+//StrFormat,REPLACE,#7,#7,"#$q#$s#$q-SF:%Icon_FileName%#$q#$s#$q-SI:%IconNum%",#7
+Set,#7,#$s-SF:%Icon_FileName%#$s-SI:%IconNum%
+// History16 ---
+End
+Run,%API%,IsOnCD,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[Copy_Drv%API_TYPE%]
+Run,%API%,Set_Api_Type,#1,#2,#3,#4,#5,#6,#7,#8,#9
+Run,%API%,Copy_Drv%API_TYPE%,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[Copy_Drv1]
+
+[Copy_Drv2]
+If,ExistDir,"%BootSRC%\Windows\System32\DriverStore\FileRepository\#1",Run,%API%,Copy_Drv_Process,"%BootSRC%\Windows\System32\DriverStore\FileRepository\#1"
+Else,If,ExistDir,"%InstallSRC%\Windows\System32\DriverStore\FileRepository\#1",Run,%API%,Copy_Drv_Process,"%InstallSRC%\Windows\System32\DriverStore\FileRepository\#1"
+
+[Copy_Drv_Process]
+System,ErrorOff,3
+FileCopy,"#1\*.sys","%TargetDir%\Windows\System32\Drivers"
+FileCopy,"#1\*.dll","%TargetDir%\Windows\System32"
+FileCopy,"#1\*.inf","%TargetDir%\Windows\Inf"
+
+[UnMountWim]
+IniRead,%ProjectInfo%,"%OsType%Info","WimTools","%WimTools%"
+echo,"Please wait: UnMountig WIM files..."
+If,%WimTools%,Equal,ImageX,Run,%API%,UnMountImagex
+If,%WimTools%,Equal,WimUtil,Run,%API%,UnMountWimutil
+
+[UnMountWimutil]
+If,ExistDir,"%BootSRC%\Windows",ShellExecute,Hide,"#$q%tools%\wimutil.exe#$q","unmount #$q%BootSRC%#$q"
+If,ExistDir,"%InstallSRC%\Windows",ShellExecute,Hide,"#$q%tools%\wimutil.exe#$q","unmount #$q%InstallSRC%#$q"
+
+[UnMountImagex]
+If,ExistDir,"%BootSRC%\Windows",ShellExecute,Hide,"#$q%imagex%#$q","/unmount #$q%BootSRC%#$q"
+If,ExistDir,"%InstallSRC%\Windows",ShellExecute,Hide,"#$q%imagex%#$q","/unmount #$q%InstallSRC%#$q"
+
+[Clean_2]
+ReadENV
+If,#1,Equal,DONE,Begin
+If,%CBClean1%,Equal,True,Begin
+If,QUESTION,"Build successful.#$x#$x#$sUnmount Wim ?",10,True,Run,%API%,UnMountWim
+End
+Else,Run,%API%,UnMountWim
+End
+If,#1,Equal,STOP,Begin
+If,%CBClean3%,Equal,True,Begin
+If,QUESTION,"Build stopped by user.#$x#$x#$sUnmount Wim ?",10,True,Run,%API%,UnMountWim
+End
+Else,Run,%API%,UnMountWim
+End
+If,#1,Equal,ERROR,Begin
+If,%CBClean5%,Equal,True,Begin
+If,QUESTION,"Build stopped due to an error.#$x#$x#$sUnmount Wim ?",10,True,Run,%API%,UnMountWim
+End
+Else,Run,%API%,UnMountWim
+End
+If,#1,Equal,COMMAND,Begin
+If,%CBClean7%,Equal,True,Begin
+If,QUESTION,"Build stopped by script command.#$x#$x#$sUnmount Wim ?",10,True,Run,%API%,UnMountWim
+End
+Else,Run,%API%,UnMountWim
+End
+If,#1,Equal,EXCEPTION,Begin
+If,%CBClean9%,Equal,True,Begin
+If,QUESTION,"Build stopped by exception.#$x#$x#$sUnmount Wim ?",10,True,Run,%API%,UnMountWim
+End
+Else,Run,%API%,UnMountWim
+End
+If,ExistFile,"%ProjectDir%\00-0priority.script",Exec,"%ProjectDir%\00-0priority.script",SetDefault
+//IniDelete,%API%,Main,Interface
+
+[Clean_1]
+If,%CBClean0%,Equal,True,Begin
+If,#1,Equal,DONE,Begin
+If,%CBClean1%,Equal,True,Message,"Build sucessfull.",INFORMATION
+End
+If,#1,Equal,STOP,Begin
+If,%CBClean3%,Equal,True,Message,"Build stopped by user.",INFORMATION
+End
+If,#1,Equal,ERROR,Begin
+If,%CBClean5%,Equal,True,Message,"Build stopped due to an error.",INFORMATION
+End
+If,#1,Equal,COMMAND,Begin
+If,%CBClean7%,Equal,True,Message,"Build stopped by script command.",INFORMATION
+End
+If,#1,Equal,EXCEPTION,Begin
+If,%CBClean9%,Equal,True,Message,"Build stopped by exception.",INFORMATION
+End
+End
+//IniDelete,%API%,Main,Interface
+
+[Clean%API_TYPE%]
+Run,%API%,Set_Api_Type,#1
+Run,%API%,Clean_%API_TYPE%,#1
+
+[Clean]
+Run,%API%,Clean_%API_TYPE%,#1
+
+[Extract_And_Runx]
+set,#6,ex
+Run,%Api%,Extract_And_Runc,#1,#2,#3,#4,#5,#6,#7,#8,#9
+
+[Extract_And_RuncNotes]
+//Extract_And_Runc=space with both filename and parameter not supported (cmd limitations),
+//no need to make Extract_And_Runc more complex, main goal is to make files open with x64, such a limitation will not hurt
+//--
+//a workaround as note: cmd.exe /S /C ""CmdFTest B.cmd" "abc def""
+
+[Extract_And_Runc]
+//ExtractAndRun,%ScriptFile%,Folder,Filename,[Parameters],<extractfolder>[GlobalTemp]
+If,#1,Equal,,Set,#1,%ScriptFile%
+If,#2,Equal,,Set,#2,Folder
+If,#5,Equal,,Set,#5,%TempDir%
+If,#5,Equal,GlobalTemp,Begin
+If,Not,ExistVar,%GlobalTemp%,Set,%GlobalTemp%,%BaseDir%\Temp
+Set,#5,%GlobalTemp%
+End
+If,Not,ExistDir,#5,DirMake,#5
+ExtractFile,#1,#2,#3,#5
+StrFormat,REPLACE,#3," ","",#8
+If,Not,#3,Equal,#8,Set,#3,#$q#3#$q
+If,Not,#6,Equal,ex,Set,#7,#$s/wait
+If,Not,#4,Equal,,Set,#4,#$s#4
+System,FILEREDIRECT,OFF
+ShellExecute#6,Hide,cmd.exe,"/C start #$q#$q#7 #3#4",#5
+System,FILEREDIRECT,ON
+
+[Get_Interface]
+If,%Version%,Smaller,078,Message,"The function GetInterface require Winbuilder 078 Please update your version",ERROR,10
+Else,Begin
+IniRead,#2,Main,Interface,%_Interface_%
+If,%_Interface_%,Equal,,Set,%_Interface_%,Interface
+IniRead,#2,%_Interface_%,#3,%_Component_%
+If,#4,Equal,,Begin
+StrFormat,LTRIM,#3,1,%_CpntName_%
+StrFormat,NTRIM,%_CpntName_%,%_CpntName_%
+End
+Else,Set,%_CpntName_%,#4
+If,#5,Bigger,0,StrFormat,SPLIT,%_Component_%,#$c,#5,#1
+Else,Begin
+Select_Case,%_CpntName_%,"TextBox|TextLabel|NumberBox|CheckBox|ScrollBox|RadioGroup|Image|TextFile|Button|WebLabel|RadioButton|FileBox,Bevel","8|1|8|8|1|8|1|1|8|8|8|1|2"
+StrFormat,SPLIT,%_Component_%,#$c,%Case%,#1
+If,%_CpntName_%,EQUAL,RadioGroup,Begin
+StrFormat,SPLIT,%_Component_%,#$c,0,#9
+StrFormat,SPLIT,%_Component_%,#$c,#9,#1
+StrFormat,LEFT,#1,2,#8
+If,#8,Equal,__,Begin
+StrFormat,DEC,#9,1
+StrFormat,SPLIT,%_Component_%,#$c,#9,#1
+End
+End
+End
+End
+
+[Write_Interface]
+If,%Version%,Smaller,078,Message,"The function WriteInterface require Winbuilder 078 Please update your version",ERROR,10
+Else,Begin
+Set,%Pos_End%,0
+StrFormat,Len,#1,%_Len1_%
+StrFormat,POS,#1,#$s,#9
+If,#9,Bigger,0,Begin
+If,#9,Smaller,%_Len1_%,Set,#1,#$q#1#$q
+End
+IniRead,#2,Main,Interface,%_Interface_%
+If,%_Interface_%,Equal,,Set,%_Interface_%,Interface
+IniRead,#2,%_Interface_%,#3,%_Component_%
+If,#4,Equal,,Begin
+StrFormat,LTRIM,#3,1,%_CpntName_%
+StrFormat,NTRIM,%_CpntName_%,%_CpntName_%
+End
+Else,Set,%_CpntName_%,#4
+If,#5,Equal,"",Begin
+Select_Case,%_CpntName_%,"TextBox|TextLabel|NumberBox|CheckBox|ScrollBox|RadioGroup|Image|TextFile|Button|WebLabel|RadioButton|FileBox,Bevel","8|1|8|8|1|8|1|1|8|8|8|1|2"
+Set,#5,%Case%
+If,%_CpntName_%,EQUAL,RadioGroup,Begin
+StrFormat,SPLIT,%_Component_%,#$c,0,#5
+StrFormat,SPLIT,%_Component_%,#$c,#5,#7
+StrFormat,LEFT,#7,2,#8
+If,#8,Equal,__,StrFormat,DEC,#5,1
+End
+End
+StrFormat,LEN,%_Component_%,%_LENComponent_%
+StrFormat,SPLIT,"%_Component_%",#$c,1,%Cpnt1%
+StrFormat,SPLIT,"%Cpnt1%",#$q,0,%_Quote%
+StrFormat,Len,%Cpnt1%,%_LenCpnt1_%
+StrFormat,POS,%Cpnt1%,#$s,#9
+If,#9,Bigger,0,Begin
+If,#9,Smaller,%_LenCpnt1_%,Set,%Cpnt1%,#$q%Cpnt1%#$q
+StrFormat,Inc,%_LenCpnt1_%,2
+End
+If,#5,Bigger,1,Begin
+StrFormat,Inc,%_LenCpnt1_%,1
+StrFormat,LTRIM,"%_Component_%",%_LenCpnt1_%,%_Component2_%
+StrFormat,Dec,#5,1
+Set,%Pos_End%,%_LenCpnt1_%
+Loop,%API%,GetPos,1,#5,"%_Component2_%"
+If,%Pos_Star%,Equal,0,Set,%LeftResult%,""
+Else,StrFormat,LEFT,%_Component_%,%Pos_Start%,%LeftResult%
+If,%Pos_End%,Bigger,%Pos_Start%,Begin
+StrFormat,Dec,%Pos_End%,1
+StrFormat,LTRIM,%_Component_%,%Pos_End%,%RightResult%
+End
+Else,Set,%RightResult%,""
+IniWrite,#2,%_Interface_%,#3,"%LeftResult%#1%RightResult%"
+End
+Else,Begin
+If,%_Quote%,Bigger,2,StrFormat,Inc,%_LenCpnt1_%,%_Quote%
+StrFormat,LTRIM,"%_Component_%",%_LenCpnt1_%,%RightResult%
+IniWrite,#2,%_Interface_%,#3,"#1%RightResult%"
+End
+End
+
+[GetPos]
+Set,%Pos_Start%,%Pos_End%
+If,#c,Bigger,6,Begin
+StrFormat,SPLIT,"%_Component2_%",#$c,#c,#7
+StrFormat,SPLIT,"#7",#$q,0,#6
+StrFormat,Len,#7,#9
+StrFormat,POS,#7,#$s,#8
+StrFormat,Inc,#9,#6
+StrFormat,LTRIM,#1,#9,#1
+If,#8,Bigger,0,StrFormat,Inc,#9,2
+End
+Else,Begin
+StrFormat,POS,#1,#$c,#9
+StrFormat,LTRIM,#1,#9,#1
+End
+StrFormat,INC,%Pos_End%,#9
+
+[Show_Component]
+//ShowComponent,ComponentName[,State][,Filename][,RefreshInterface]
+//State=0(Hide) or 1(Visible) (If State is empty it is set to 1)
+//Filename=If empty it is set to %ScriptFile%
+//RefreshInterface=True or False
+// Ex: ShowComponent,CheckBox_Ram,0,,True
+If,%Version%,Smaller,078,Message,"The function ShowComponent require Winbuilder 078 Please update your version",ERROR,10
+Else,Begin
+If,Not,#2,Equal,0,Set,#2,1
+If,#3,Equal,,Set,#3,%ScriptFile%
+IniRead,#3,Main,Interface,%_Interface_%
+If,%_Interface_%,Equal,,Set,%_Interface_%,Interface
+IniRead,#3,%_Interface_%,#1,%_Component_%
+StrFormat,SPLIT,"%_Component_%",#$c,1,%Cpnt1%
+StrFormat,Len,%Cpnt1%,%_LenCpnt1_%
+StrFormat,POS,%Cpnt1%,#$s,#9
+If,#9,Bigger,0,Begin
+If,#9,Smaller,%_LenCpnt1_%,Set,%Cpnt1%,#$q%Cpnt1%#$q
+StrFormat,Inc,%_LenCpnt1_%,2
+End
+StrFormat,Inc,%_LenCpnt1_%,2
+StrFormat,LTRIM,"%_Component_%",%_LenCpnt1_%,%RightResult%
+IniWrite,#3,%_Interface_%,#1,"%Cpnt1%#$c#2%RightResult%"
+If,#4,Equal,True,System,REFRESHINTERFACE
+End
+
+[Arch_check]
+If,#1,Equal,,Echo,"Using Arch YOU MUST DEFINE Architecture supported by script. Parameter missing",WARN
+If,#1,Equal,,Exit,"Using Arch YOU MUST DEFINE Architecture supported by script. Parameter missing"
+Set,%arch_onoff%,0
+If,#1,Equal,Off,Run,%API%,Arch_Off
+If,#1,Equal,On,Run,%API%,Arch_On
+If,%arch_onoff%,Equal,0,Run,%API%,Arch_Set,#1
+
+[Arch_Set]
+Set,%arch%,#1
+StrFormat,POS,%arch%,|,%multiarch%
+If,%multiarch%,Equal,0,Run,%API%,Arch_SingleArch
+Else,Run,%API%,Arch_MultiArch
+
+[Arch_Off]
+If,Not,EXISTVAR,%arch%,Echo,"Error: 'Arch#$cOff' called before 'Arch#$csupported_architecture'",WARN
+Set,%arch%,%SourceArch%
+Set,%orig_arch%,%arch%
+Set,%arch_onoff%,1
+
+[Arch_On]
+If,Not,EXISTVAR,%orig_arch%,Begin
+Echo,"Error: 'Arch#$cOn' called before 'Arch#$cOff'",WARN
+Set,%orig_arch%,%arch%
+End
+Set,%arch%,%orig_arch%
+Set,%arch_onoff%,1
+
+[Arch_SingleArch]
+If,%arch%,Equal,x86,If,Not,%TargetWOW64%,Equal,x86,Exit,"%ProgramTitle% requires WOW64 for PE %SourceArch%"
+If,%arch%,Equal,x64,If,Not,%SourceArch%,Equal,x64,Exit,"%ProgramTitle% can only run on PE x64"
+If,%arch%,Equal,IA64,If,Not,%SourceArch%,Equal,IA64,Exit,"%ProgramTitle% can only run on PE IA64"
+
+[Arch_MultiArch]
+Set,%arch_supported%,False
+StrFormat,POS,%arch%,%SourceArch%,%multiarch_test%
+If,%multiarch_test%,Bigger,0,Set,%arch_supported%,True
+StrFormat,POS,%arch%,%TargetWOW64%,%multiarch_test%
+If,%multiarch_test%,Bigger,0,Set,%arch_supported%,True
+If,%arch_supported%,Equal,False,Exit,"%ProgramTitle% requires different source architecture than the current %SourceArch% and/or WOW64 to be enabled."
+
+[demo usage]
+Add_Shortcut
+Add_Shortcut,StartMenu
+Add_Shortcut,StartMenu,Games
+Add_Shortcut,QuickLaunch
+Add_Shortcut,AutoStart
+Add_Shortcut,Desktop
+require_file,myLibrary.dll
+unpack
+unpack,AnotherFolder
+unpack,#1,#2,#3
+#1=AnotherFolder
+#2=Archive.7z,zip,rar
+#3=Param for silent install when archive is an exe SFX
+hive_load,HKU
+hive_unload,HKU
+reg_add,0x1,"%reg%\Classes\filetype","test","1"
+associate_file,html
+associate_file,html,open,c:\test.exe
+associate_file,html,open,c:\test.exe,/run=%2
+associate_file,html,edit
+associate_file,html,icon,c:\test.exe
+associate_file,html,icon,%systemroot%\System32\Shell32.dll,-153
+Use Add_Asso when there is a lot associate to do , process is more speed but require to use hive_load and hive_unload
+hive_load,HKU
+Add_Asso,bmp
+Add_Asso,jpg
+hive_unload,HKU
+CopyProgram,%FileBox_Source%
+CopyProgram,%FileBox_Source%,%Target_Prog%\%ProgramFolder%,%ProgramExe%
+
+[InterfaceEncoded]
+ApiScreen_11.gif=7631,10175
+ApiScreen_13.gif=7154,9539
+ApiScreen_15.gif=10390,13854
+
+[EncodedFile-InterfaceEncoded-ApiScreen_11.gif]
+lines=2
+0=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
+1=Ttg0gNjigtpSgdaNRtaOQNWmp7BIU+nMISI/l2W1IEuC32wFaqwosKKeGtHyKKgDe7UThyxDgpxThDY1xhMe7IGE9sjDcxxvcgxl88RhNM9RB6AyYMEYVFbE1xX0aE3YMAUWIUzhoUhggqjsUIsj4iLgEbl0SMSzmIQ3DEv1aKT4fGZ8LikUrxsdA4Fg0aZjPx2ADeBEp/gAP+WgvuFQi/BAE1ioFqxUEPORLrlRIboYnNsEQsMhGHTWwnJnYenH8JtYMJlwBIEOhaCZvrMqVSp6Df2m6sG4SaHkU1IU4xZUBDRCaTsMlzxOSFg+RFjpRvSilL0JRlWMoX9+RCg2R6CLV1/dWH9UJvA72s4qIdigB2wFcND2LdApGhSQAnglIZQWWNoAlC0GYj6FoRDDMIpkMEaDVV3YzimFY6X056WNT1Z4DGrQp7CJhaBwKA/GlErF+LBr0Wz34t2fpaeub1tcPXEE7yGznlNzckXutoCNlFCO04mT9AO1GiTVqjUwNfsWfXp+pZUxhkp99pTTeeSTc9TDfjzDBXzrhvnWEZlPHAI11vhu+qgJiek9ikvqiM0wMVQuxUkf14WqZna6b3TKbvYaY/Z1aActYz66wXQVmw1ky3bHEVR7lZ1xe7Sm7Sz620lEUeBiHjspEJrcikGWTKIRLBmf1aOTvdOjtzFalNee2Zud5QeVKxnGTHp6ywAyreoMzyoBx0dk5Va07NTE7tYQ6GM7deObfRI0cRzitZL3Sf+Ka24rK9JvKAVqBHOa/POq8/KG8wO+9Da97ITN7YYR6BM/+DhECesjR1WtpWpnQRWSLnMiF/4TB/kbPgm3LBknXBclDBSnbBWmvBxkzB/EyWlFy0jHnCwmUkdjd3H8111Fp4MlNIPiw8G+Jy9MhnhOfPxNt3pKHocCgGEorpCAXmKmJWKWKxKWILLuI4QrUdZv31KATBOP0vFwupFIvYFIt6Fgc8MqJKYJ1iF5bZLm67XCKnUiJvU6IQXKKUU6KCK1Ejldw+KtH4wHtdJfWvRwJ/WrFBTukdXKkxqdT0qNSMq8xcpey+TZkBrpj2EeqaSqkdqcz+qMyRq9xJpdzZptw1uNz9qExX5bb6xXTLo3J/rooAlYpnNhUmuGIbkrgHriKUVPHyqALuWe7FJUy2wtKY+qPjctCmBIokEjrlCI3gqnytUpluU5kZXInMqczBVeaRKl9XoVFcVcUqVaU2VSVV4CAVdBWuqoZUJTbhowvQOIBFOW2qm4OrsTnVOFw1y1rVHiUNFSG7cq26z6amn1TVqkc92VM9QqoZO6ohcBUNJMg5OYJ7Vd4Sc96SjqrUran82d4uctV+w1XPJpiLO76Vsaldw9VuHAkF0NAMfK7dVqn7a3NzvptyOrt2F1d3klBDCaVqINVRqmJAiTSHdzC0uZgyrJMpCsN0jJmho7lA/47F9t2UEJzR6x1X2ztXsXdUT97ycNfTDmOEbOtFbW/yqYIFQuqlZ8m1IrP1EO6GhbR6ackGheG66yENKl718raoI1yDhlGNMnejjtG7W231urmNkrHv7sw2XgxpVF9vNJ/NpU17ZxHStEPXBG1rgg812h03zVY1Oao2T8s3Ooc0v5Vsdm9rbnRq9j5uBtDN/qot3jlgS6MWWIhDQG5L6Hpz6HGLuOo7eG7LS1VszKx4SAjW2xabMItdTMOmGDUncbemh1AibFvtVFuRs9istlar6tYCL2w+N86UHld63FISgjP0wlUltlTO4jSHcRj6ljrVNhWptua25qbcNrnEtnaj5rbjNpn1tp7jpm7bdlGj9sHEpoG2dsHq9jGpplHuDi76jglydeN4SAeLVwfJqHFmtoNpuGOxreGLaqfwetMyfXtEbudQYueGV/v6cefH9c7t4fY/tl2TRl0HUh37bV2z1V3kxI5TbvxXejzVRgcoFP/Tq4Vuo/FHddorrm5mtW4Wu+6doapvs3iuY3zro26+k24Bnh4XFTRnTTerbac9V6lke4/0XM+1k55rG2W6Nj2iDO9mVEvbZWtV2nvVTmq4P+S6eOFvSjeMq2ZepCv8ld13p73PeK7P9KRvKxvVdhEur9ZHF9Kut8HtEs9bZp1rf/LekaffSa3/UWhuaGUuu7HHA+/3tNztenNZfOwDAWoDz+wGhtMyQ7Jztw1LYxv7vdUw5LZZISZKHtkWN2Fzoak0oe3BgdCA61onA2Lcg9ycPtFJfr+Rb+y1EpxWBxkYhhRt28LMhz7ricdQpsbXi2t4X3+5MXR8hEMZDhWr+ZhxyJAHBsUbPtQY19XmSWN4huvnwveizbF5w9s5ONzEcOeG/S/K6xZgmR2n4SZNyjy7pj6ehv48SBklQKoZZesZDS8T/FQyWjUpOih/66BkdLLB6v0EdNYbWvxemr/hlrCFXIhx9XgoONB2VC0X72LuvvptNHncjm9bzsDf8qjhPkW+3Wbv6MII4YgFSrt5T7QFmFHwkBUaTZYbOaqpLQkZ+XJi/v79qMGWHERH9nqTHeQG2RDA2NwtHRW8pf+N58YtDQUejI1YmOwCw+crwqqkEYq+Kw8ZN8dmrk4o8sp/fmyTxaz8RptGecuPoCbF1fHp0fDHlWiNxb5RjxJK1r4HYG0FCvhDDwvCcs1o2A9r6BKFAqO+bceYM6Ogw2PCo3xNWOa4p4ldgsXUFZA2q8Vn71PCLM998JXp5VClWwhNY1FxYq/rjOXHnpNBc5/G+6eqZyeEiasTTPNjv3kAM2dNzflp7eQZ9gczH4Tl6e87FtyagCfP6L81LKekOGGzveNPs91D1JwbSpWp5+X1e8Or+WtuBjCxuPRjFtIh23U62y5D6t4kVPA+6jAxphAA1KdIdmSASlTfC/nmw743+DB0lptnZhRtzZox6cUIgHduajmSHB5bPjYxpmKcfh6mHRtJVW6ycHl76kv6QgCj+jef6b+nZs4NCn9Pbzp0LITrfqGwtzzMt2TtvZfx2jWVzSO6r+jBlcm5sJrW0/kZY22V0Tsi81/KqOe+Mtzw8JmWMBsLnf9C0B4XTnHrbvwqniJvr/vFSv7W5M43BdOJpVNDtO7C9zxJYwJVxJLf5ZR5zk0iK7lxwcd9MG+k5seipqnBtIkVy8ulvuCvMTQgo7Gll1QOLpD5yVta9xaIzSY/xHhm2l95mmM8bXwHk/eM/VlnG07Dm0xGnX3ftYYtX8n64TUmT55oprBD3OL0D1jQng3zXnq+UNfK6xebCdrVGwzp/IH/tKy9SHk6NaFtuiTxeCV24cPJXDezGDVI4wmb20Cp/Vr5y7URigBb/QDHfXmW5ADm219zOldxc6srTUa3LzzT0n+mF/vMZn8dz7fRc3uj7/aG3c/njmIfH7OPRN9ebkxZ4q+uw0Utz7pRx8TCnqBgST9hqOnNBfLmIt+vb+TNYv3g8tjwyoGRsRNX89vrHxdq2/IiSPqw+f2ww8Dw7/rhR52/TxZ+k8m/Af4Le7HhRwPho9LRAdeWn5F/EWrr1elzYsrDpAxoZA4iZJUib7pHcXX94fnyh+/sD09qlAIqyniFHNWQtHV3vvnX2BbP/OrpSJKrBHU4R1wkNC4WGa9UuKPStaP2Zed2V7whIb4Q+iFOLkGibntsbDvu1/Z1/pwx8R1hieQJNNVaXIpl+C60cNemaxdal2LxJSWLJxVd0y9V95ckOcRtnckrQc3P+VrY8I0//36A+v4zh/0XDq8V4t/Et7/x8I528dsjrvWDu967ZWfFhB/EFR4kdB0kqfMGzWWF8KzP5fyFO6x/+iVuLZ1jZ9yf9+Ww4OwQ1ZXjWjOQlrrKbnSY4TBifNedtuq9y2Efhv+4Xv24Ub3gXjtv2N09dOHRRnAvhNSL5z/p8StSb8eEfzx+0HnU2VsGmTsZI58/L/7Tm5K9vMEng7+reKR7SF2nc7+7RbxPpz9W8TDA5h3Iy+Fku7W6Nn6yW93JRp2yBZk8LU/evotedDj7a3h24NBC33W2GX4IPNFa1IigZuTTQZp91Yph5L0dxXHvm04CqwwTj0Vxt14KT74dFaf5ksHrqyYFOvFg4wGaK82lUZwWy8Y5N+ldnWf+lJgU3AojU6kEuOhnaSbz6ebI
+2=C43lcQdKRnM9WLsfp63MVpbzYN0yzTj39g8uyw0o0lLR6WqupYxVnXJ3bTS3la9mg4zD2PvcaVfbTL9dMjVP0zUSPprRYql6Z8upX+HCFx8eazm9ZBPug/w866cPMqMUw8lTuURh989ll6Y68Pi/ntji/PqYU87dYdA7H6/nYYd7vv3PWbFfeXk8fUd6kuvezqL6kFeaUtVbrMu2rVYmJ0UH0lCtz38x5YeopwGxLvPzo24mfKI0Ozubminxl2NCn+zvhoj6oQRj0mRPT88uQDQoLohgNECXdCCa1OzOGM0L/FFb6mQWeSEaxkGpj7cZw3vqXkH8xQV1LuuLvNO5cldHVpfVyvmdLrtDlKwep1vpEx3wwz7N2wyrs5iBdJU+iIFgrEi9gXCqjpzh1SznekOx6KVP+hKGlNuGUnV9ckYyLUv1w53lVA3S1wdEGoxvfNQZHxTvdX5aLDkedcNU+Wcp2eKdwm+Gyg838xYb7qqfUcmbaV642mimfUlX/p4uu0vjPX1+n/TBm39K7xcxJQLfE+9sgiIB3p+z8vfHAoq1JvjeEz/dfyAzWhn34KaO4KSVG6+4MqS5pKmNBAVuTluvS2pZOHzULpl+9OCt1+fHgSDzGZcy472ZXzkZlhPu1W9TbLylOl7Mfm/c3Rvz7WVksgvo5dmfmx15wE66PusyBYWFGQcuTBKbssYDd1wYHV7OVu87zCyxciyG0dOMOkS9pYc9GmJ5cdAaI/wr2TGhKPfAqVdgCtmSpEqT9BjhcwxbatdRaP0SaXGNwSXTSOrQBWuXGeSo6sU045T3+2HQz1Z38t7h14LIAmu3Yh++zZXCZEuVBmSuXqoHWjgk2LMS3qzyM7eBj96r9i7f0Tpa5qmld3uVwqx43fi1YK/mSpvjzUZC5vHtynV7kk97RkKIX+3KXkh5J4hf1aPnDdfJVnWv5ZxvPfcFW79B3grfgFagJe9D241puqdjO3MnO5Vq7PPFfUb78c8m5hnCnvdxBnaUjj+uMHxO4s053UN6T4cVzYXoxwcuPvAMgxVEKRbUfntTx/ti+erRaRDhalbB7kC1Ol3QaslAp9Bm4c/OkHVG9vDQlg8X1kKWe/XPBHffuHWdxiwo3n55GBZIfhm5MV0IWztWH90G3HEnjFtUJzcc35LplDSoRLfg9FSOoCsGXV8NCXAWqgJqTtpusgckgmei8IIqbc9xPCRKJL3wolFcz14lJFpap5DelrZ3ewgSI89SyOgV1/trFRKr1ldwKYS2b+2ibJzOXAHAy3GZYW8sTldH6CAdq7Ov+yTMovTbSQ2turTr5fAz229X3tDqXUi4l+Cc58jegUSIro0lWel8p57E9gP9TyKnS0oMSLA2xYBPKfx9j/k06/VJu+9e2qo5C1Ab4tVTzNISS2kFH7sN0gnVv06NEvkrnd2t7Gr+urZERIw7SMvYNeD+Uslj8Xzs0IPMz+nYx2XcqheH7taaZtTz/KB7eHgnZoL5ecvSY+lIcquRfb1k1nURV9nT2A83KRsQPaGuchmt6u6mAZmJf11W8zxGH4+Z5YyLGCjotpiYWTbkfaGq0Og7VA4gfc77peOmMj3U+oK8nb+XJKb0M7s12HOngDzyU37fQ1nSzgIByrdT17UipERRUAfVmFxmyBlYQj1KK/wQrz0+hIhzTU9pkmCLkcbdi3FMF3bCZrBfFCiFIOQFm6wlgqBwGogZBYPiew/T5ziLgr2JCnVqT7NolfvFbJNofV1P84w793PZukuXNCuNLjGPqzyYrLJ6X5Xlirtf+2Ky2oHaC/pexbL+aKLSWtfLZhJn2dw8+dYv2svuh4oVbmqyNvC9l/0ujtOqc2+yLpza25FaFdrDNoWJ1fV2YjUqhQOAIBlQ/S+zUJ9aeJwTcCzIDE4uSk3Nizc01EvPTGMYBSMJqMhB6HpZ7PKbF+u6MjABAC7rCFg0wfYHAQAAAAIAAAAsAAAAfx0AAAAAAAABAAAAAAAAAAAAAAA
+
+[EncodedFile-InterfaceEncoded-ApiScreen_13.gif]
+lines=2
+0=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
+1=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
+2=UeoP8JZMhu9irb0s8fDWGK5qMZVm/jG4SqTYsVh7kRQToj1EUeKZWsmtVp0Ohnffn3VCgfEHauvg9n/42Fz7GdQ5f+TZaHDxHjsDednvHnaTh3+4282XygTV5Hf1cem9yavW6xRElt3REvk4e6hFaGBCtov1yUa/kZCTdX27P/YdqcG8/JRB+9Uj+6PBze0xZIvspU+UjiL9lavuOdFR4kO7MuM9bV31yrSj4ROOhOo+oNCLaL03XQ3fR3clTiQGtFVqbn/Q+8tx8gH/5qNbvZqxcORHUK63m/6QVY1bnZFrI52BWejMiUGXzz1YrXm4aQTIylbG3bAl3g2F+pD75c478LjdqREia9y9xbY+ctzISeHafda440XtmMvozj1TdwPTszmLuYQzjOfWW5iZT0e9x9+vJycetfZkZs7cgW47ZwsOAH2QUaCRPUExiFfdwTzsaxphyenhBOFPhIx8oiWUbNl9peuu5HlL9PsMhi+wAKPz1X4TmHRhrJ2+oVVaPsbra5Lb6Xlxxk9UsnXO+/Bz/O8AfUxhdmpnkm0R0Q0CAUc/zcCAS6Vb2cDltTdYG3ijFsS+EON4YYfsgUEc8ujdU60Qy0FAB4xO2qUjX99EPR512dnt2JyuaGzbAhC9wrddaqfhO04cZfFde1Gz6z0bFT7rfcuDHOsDc7sNa0OTt03XhgdErldHu7TTV8dbHOVWJ2uj5lamyit8V2aQg+wuTVT3BTygHmcYj94fVGYay8805M9LE9cbvNbrgji/bxTeufy2vdXkdxn+ay+JUF36pNF7T4j0k+UB/ZOHbkdDmfzX4ZMGDb4Tf4MffttZLPzrfGnR9emGk0ch7ETHhZhrSkKBrr1OH/KHqXDtMqEVSdW3A1LCufYWUIrEki9wT/YVLm1BHJwWMvhzmcyCWvS78mm+7u93fYO0rJ4MIT1Qh2fxFjRqXa0XddigB6zZrd9tXnFeDAUrzAIZ7pz+prmlG0rOvtSXBGSQVlT6XWehwnhUmCzRrfucupjnrlyg2s9u7l91tlHKGH71aB8ElxN6gHTI6a541TveumRL5SUopahPC+0PcisuCmmgMvMINFjViudeHVBdciQm+pcV36MeoEJVS+TjgNwH4rEaFd9H4jLJv/AbV3VpwkbiC1W/CH6se62PGoHCmL48/SKtZTQxAqtt/yLiVqdldjqS+IfcWuy39JvPzKNJXarWzxPq3lhLjiYP/bKWyJd+C9Ynd+UHAEhk/gfWPVxgeJwTcCzIDE4uSk3Nizc01kvPTGMYBSMJyMtC6EXS2OXf/I1fz8AEADs6CaS3IMBfAQAAAAIAAAAsAAAAohsAAAAAAAABAAAAAAAAAAAAAAA
+
+[EncodedFile-InterfaceEncoded-ApiScreen_15.gif]
+lines=3
+0=R0lGODlheAH6APcAAAAAAD09PT4+Pj8/P0xMJmdnNGhoNHt7Pnx8PkBAQEJCQkREREVFRUZGRkdHR0hISElJSUpKSktLS0xMTE1NTU5OTlBQUFFRUVJSUlNTU1RUVFVVVVZWVldXV1hYWFlZWVpaWlxcXF1dXV5eXmBgYGFhYWJiYmRkZGVlZWZmZmdnZ2hoaGlpaWpqamtra2xsbG1tbW5ubm9vb3BwcHFxcXJycnNzc3R0dHV1dXZ2dnd3d3h4eHl5eXp6ent7e3x8fH19fX5+fn9/fwAAgAsLzw0NyA0NyQ0NygwMzAsL0QkJ1woK1AgI2wcH4AcH4QcH4gYG4wUF5wYG5AYG5QUF6QUF6gQE7QMD8AMD8QIC8wEB9wIC9QIC9gEB+AEB+QEB+gAA+wAA/AAA/QAA/gAA/4uLRYuLRoyMRpmZTZqaTaamVLGxWbKyWby8X8bGY8/PaNDQaNjYbODgcODgcejode/vd+/vePDweP39f/7+f4CAgIGBgYKCgoODg4SEhIWFhYaGhoeHh4iIiImJiYqKiouLi42NjY6Ojo+Pj5CQkJGRkZKSkpOTk5SUlJWVlZaWlpeXl5iYmJmZmZqampubm5ycnJ2dnZ6enp+fn6CgoKGhoaKioqOjo6SkpKWlpaampqenp6ioqKmpqaqqqqurq6ysrK2tra6urq+vr7CwsLGxsbKysrOzs7S0tLW1tba2tre3t7i4uLm5ubq6uru7u7y8vL29vb6+vr+/v/7+gMDAwMHBwcLCwsPDw8TExMXFxcbGxsfHx8jIyMnJycrKysvLy8zMzM3Nzc7Ozs/Pz9DQ0NHR0dLS0tPT09TU1NXV1dbW1tfX19jY2NnZ2dra2tvb29zc3N3d3d7e3t/f38Pb5cTb5cTc5sXd58be6ODg4OHh4eLi4uPj4+Tk5OXl5ebm5ufn5+jo6Onp6erq6uvr6+zs7O3t7e7u7u/v7/Dw8PHx8fLy8vPz8/T09PX19fb29vf39/j4+Pn5+fr6+vv7+/z8/P39/f7+/v///wAAACwAAAAAeAH6AAAI/wDJCBxIsKDBgwgTKlzIsKHDhxAjSpxIsaLFixgzatTor6PHjyBDihxJsqTJkyhTqlzJsqXLlzBjypxJs6ZMgTZz6tzJs6fPn0CDCo2JM2W/o/z47dPHNJ9TfFDx3ZtKtarVq1izat3KtavXr2DDih1LtqzZs2jTmo2Kz2k+pvr2JT3aL2TRk0iV6suHzx49evLiwYPnrnC7w+3YKV7MuLHjx5AjS55MubLly5gza97MubPnz6AlI25X2N27wfLm0atnDx9TufyOgrxLkq7efPfqzROcWB06c+WCkyM3rrjx48iTK1/OvLnz59CjS59Ovbr169iza98efXjw4OfUrf9j5w5evNVt48aW3ZG2yLxMc8+D107dOXLhsl2rRm0atP/PBCjggAQWaOCBCCao4IIMNujggxBGKOGEFFZo4YUN/geNNNRUY00234xTDjrruBPPPPW4ps9cdfnjHkhILZWPX/ShUw441kjzzDLHEDMMML/84ksvvfBi5JFIJqnkkkw26eSTUEYp5ZRUVmnllVhmqeWWXDpJpC9BAiMMMcckwww002AjTjnqtHPePW/JJduLHsW4l27upEPON7r06eefgAYq6KCEFmrooYgmquiijDbq6KOQRirppJQWussvxSgDjTXgsPnOPPbEuR6dHSF1pzztoONnLqy26uqrsMb/KuustNZq66245qrrrrz26uuvwAYr7LC0+olLMMhAc4046bgjT6grHkWqqTOieo4uxGar7bbcduvtt+CGK64urdwizDLUhINOO6C+FdsYZIzUj173zOOOquLmq+++/Pbr77/Z6lJKLL0gE0046bxDzz3qwfvevPrgU8876WAL8MUYZ6zxxhznqgsoreyCjDThqANPiis6HNK8+8wYzzoWdyzzzDTXbLOwunjSCi/JVFMOO8/ms48Y8cIIMT70uGNOzLEC0GoeMzv9KtTgOp2H1a8CAEAeVN/s9axcZy3118Pq4sgnrvzSzDfoKOwa0Sv3s5Q98qwTTsxa550312Hn/zJ2100/Devfvo4teNW5XJ24q1jjqrXYt9IBAAKsHgCA5HkbQMescRAwOAB3+G14q3Ocwerjt+o9uq6An75rAaDnYgcABogua+m4dv6qAZfnMgcAbuRyB+2of563q7oEEskotBRDzThA26NPGEXXCXE+9cCD7+CtEq6r99uu3jq3Vjfu+vizFs/rGgC00QYAbNj+e+2yHqDG58Gr3/3qturf6/j8o5UaAACHXMABAPejlf9khYAEtmqAwWMDANKQCzcg0FbvQ8OrdGEITKyiF874RjpOlg8wVK9UELtH0sjBtO65UGtQU9zpHse3FyZOb3wjnNR2CLXj9RCGUrvaD//NJ7qtXQ2GVCvfDW+IRL8tMYk4PKIRi9g3/WntDRccYAEHOMFWFYAABKAf6hboOwDY4XMHsB0deEeAAx7vilkEwBtywUUK2o5VkqMcAgAwhxomTooznGIRaXi8QLoKi/fTou3iYDkAmAFzj1sjANoIq9+d0VVxcGQuLFc7MwAgk07TmgQpySrebQ55fHCEKGjRM3O4Y2EmNBo/9EE3dtwtcDM8XQ93yarW8dBvSdRlL51IzK1hbWtODOX5kLk4FyqOiE5U3DMXp0RpMo6a2JwmFMU2u9rBzg4DpIPkTJcLUMYhl/OTlQEcyDgArAFzudCc3zw3RjPSLp5mDOc4B+n/NAmeAYFUi2Exidm1JAazh64zXDdz8U3bEcCMebyjPCcJqwKwc3/D8yQ8H6e1OEjOc7nIY+t00QNDaMIVw4iGOKIXS+vJzWXqyEYLXUfTYgZzmPtDIjN/iU2O3jBsO3xh14h4zCdeE4hPLKo1nRnNaBJ1dI+DXTpVJzVzBpJ2p3xVGwhwSbHRgX1OuwMbGnnHqPLxnlS9Y6t4B4A6HG5sQS2oMIk5UFjxLp2226Mjg3dHsepVq1yNleX+Obs0ACCNHN2h1N7XhpHWABCUQMUvnAEOdcTDHl84YYxmpD1rzJSucJ2rDJsZWmDSlJkI9akQEQpaGD6NmedrqvlCaUwm/wqymtdEqG6fCjn2efJ+/vtiGHM5qzsQgK+f2+Tj7prYXPrzglYc3UMBIIe33tS0ON2pC+nqqgH+lrhzWAPsaoc65hrOuMjVqtY0qNc12K6erPpnHwGnCxjs4RGk2MUysoEOeGBWsyzD3jvOUY3Pltamw9Tha2Ur2oQOlLWl1eFQsxlbB+O2mkSlMG73BzlQfjIXaADePtnnPvipNVZqoF/TnPY+2m5UseXM2zlD7IZ9qm+AAyzDW7G5XdJeN6iwciMBc2m5zVG0nvB8oIorqbXgWfDDzb3jQ/+IPBb8YBGhwEUysHGOd9Qjsx+JkcTeYQ5qGLjHv/QhUAVHWySO9v+mfyskMLkWxDbjlIpRzG3j9rbbZlaYz03N6RsVOzYumi6iyk2yrAhwTlk9bnZOQ+Tj3vDQJxuSVYa+6llN9085hC2HiXXt094sZ/4NT2uhs50dDHvYzVEaeAfkoqsYrUAzhhS+8LVd31ilCxX0IBGfsAUyrGEOL3sBwEoZc5k/S77Dke3Z0I72zHadC12koAeI8ISwiW1sZO9D2WbOF/ikTe5ym1tc1O71r4M97GLX49hhDvDECFwMZmtr3OfOt773zSs/5gIXHVjBlUGhZS57GczWUwpn0WGNY9ib3xCPuMT15W9cgOAFenDEKPTLX/8iHIUvtUc81IENZTx84ij/T7nKf+VvXYxgBn6YhGQpa9n/ypKW8mAHOJrRi5Ov/OdAD3ov/YgLDqBAB4XARCtSutJntTTh+lChO8ghjWHAwudCz7rW9c03quHCAiKAgRAYAQpZtPKV93g6CmeJPXic4xrJwEUpsL71utvda12HGi4q8AEV6IAQlkjFLkI4wnqU8IQonJs81AEOaATjFZxY1d0nT/mbdR0XmK+AB05ggz44IhSyIMbzojc9xPvDVEhzRzngrgtUWKIQPtAF5nFRqdrb/va4z73ud8/73jtq9sBnQAQuAAIU0EAPitgEK3jBDL
+1=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
+2=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
+3=zNzDRNtgzMy/RFukRMzExN1JRJ0KRHsozNqxzMsOzK0KRCXfgD/0gQBVowhmmYguQAR3lYB3GwStgczM28zb70S9AMyr/cSa6cya+szdmszrbsSuisyMsESl7MTstES9TUzegcS5N8S7m0zro0T+hMzSnUBSFQhE6ABWGIBigwTn24RXUIh+X0zOYsz+c0SrNMT780UM40UNZMy9080NMc0OmUwsN8wwAlT9iUTvhcUA2VyNE8y9FsUOmUzfC8yB84BE1oBWB4hifYz/4EB2ewSgt9zfjMUPC8yvFkzxwlTNa0UO5ky8LUUQ4V0l8Uywul0QO10eesTPgszR8lzwAd0d5kAR8whExohV9wBidoUXnwz2eIUQSdUdXMURAtSrhEyLL0UP8z7U4JRUnudFP3NEiuJNPWxM453csxvdB9VNPp5Ms4bVAwBVLqlE8XMFEUVVEWXYjjTM5oANChnFCchFRG5MkqJNFIlUJdiAH6tE/81M+FoLzInMxpMIZGlVAorFRLRdVHLVWXTNU41IUUuIHfDM7hLE5PlUqqtIZkcMBW5dVe9dVp1IUSgIEfUEzGdMyQ3IeRTIdveIZggIXl/NVoldZptcNgdYEdAISlbMqn/Eb+lAdxrAZkWEUepNZyNddzTUoHPAEY0AE/yMiN7MiPVEZmRAdmHYZaMAVMUAQT5Nd+9dd/BdiAFdiBJdiCfUATSAEXqAEf+ANFuMZs3MZurMX/42yHcrgGZgCGWTCFTHCEQuCDH8iBGpABGHCBFmgBFkDZlFXZlWXZlnXZl4XZmJXZmaXZmrXZm8XZnNXZneXZnvXZn01Zk3UBGJCBGsiBH+CDQnCETBBGYjRGZOxEG1xGUFSHcaiGZQAGWkiFT6gERzCEQfCDPRACIACCH/gBH0DbtFXbtWXbtnXbt4XbuJXbuaXburXbu8XbvNXbveXbvvXbv/UBsyVbIdgDPxgEQ3CESvgEVnRFWJRFWmQIG4Q5Q9RBcagGZhiGSTwFUMiESogER2AERUiERECE0jXd00Xd1FXd1WXd1nXd14Xd2JXd2aXd2rXd28Xd3NXd3eVd/9MdXUVgBEeIhErIBFA4BUq0REzURE6MXKnFwTQch2t4BmQABlyIhVZABVIIBVDwhE7wXk4A3/AV3/El3/I13/NF3/RV3/Vl3/Z13/eF3/iV3/ml3/q13/vlBO/tBE8AhVAgBVRohVjIwz3swz8MxBq8wTPUwXL4BmpwhmQYBl/YhVuohVmIhQuGhQzW4A3m4A724A8G4RAW4REm4RI24RNG4RRW4RVm4RZ24ReGYQ2+4FiYhVq4hV3wBSzUQi70QjAUQ4cA4jEYAzEIAzD4Ai3YAiywAiqQgiZgAiVYgiQgAiRAgiMwgisugizW4i3m4i724i8G4zAW4zEm4zI24y8zRuM0VuM1ZuM2duM3huMiuGIjOAIqJoIkWAIlYIImkAIqsAIs2AIt+AIwCIOAAAA7eJwTcCzIDE4uSk3Nizc01UvPTGMYBSMJeGnglxe8vJWLkQEAKtEHyvJ8L1kBAAAAAgAAACgAAABKKAAAAAAAAAEAAAAAAAAAAAAAAA
+
+[AuthorEncoded]
+api.jpg=4806,6408
+Logo=api.jpg
+
+[EncodedFile-AuthorEncoded-api.jpg]
+lines=1
+0=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
+1=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
+
+[history]
+070513 - api.script was created.
+070718 - added function "require" (extract/check if system files are available and expand from source if needed
+- added syntax guide inside script.project from livexp
+- added %HKLM% and %HKCU% to write registry keys
+- added %source_win%, %target_win%, %source_sys%, %target_sys%
+that allow access work folders under most situations (supports both Install CD files or Installed windows dirs)
+070723 - added support for creating start menu items based on the folder where the script is placed
+070723 - hive_load and hive_unload commands added to support HKCU,HKU and HKLM
+070723 - reg_add command added with support for internal and external hive registry writes
+070723 - association command was also added to bring support to file associations
+070724 - added support to add association to any other files along with custom parameters and custom icons (like shell32.dll,-153)
+070724 - unpack was made simpler also extracting from any folder when specified
+070725 - add_shortcut can now create shortcuts for other files, also added support for parameters
+071020 - added Add_Asso and CopyProgram
+080127 - correct error in associate find by galapo
+080210 - suppress "System,RefreshVars" in [reg_hiveload]
+-added Calculate for running AutoIt command line  (need  sCalculate.exe  by Nikzzzz in %Tools% folder)
+-added reg_del=RegDelete,"HKLM"    ( ask by Galapo)
+-added  _FileCopy,[Source],[Target]
+080220 - Little change in Unpack , now archive are directly unziped in target so param 3 is use only for SFX archive no effect for archive .7z .zip or .rar
+080308 - Added in Shortcut possibility to translate folder name of application only when param 2 is not specified it look in %ProjectDir%\Apps\FolderName.ini in section FolderName if key [My folder=Mon Dossier] exist
+080424 - Supress in Script.project variable %HIVE_HKLM%,%HIVE_HKCU%,%HIVE_HKU%,%HIVE_BASE%. The value of these variable are now defined in API
+080424 -  hive_load commands now  support word more explicit  [User,Default or HKCU],[Machine or HKU] and [System or HKLM]     (a request of  psc)
+080516 - Updated to WinBuilder 075
+080926 - Added to Require_File 2 new parameters Source and Target for make it more flexible
+- Many ehancement to Unpack
+- Added in Add_Shortcut possibility to give an icon index
+- Added link to App Script Guide in interface
+- Added the methode for help to translate menu in Add_Shortcut (look in interface for create the %ProjectDir%\Apps\Translate.ini)
+081016 - Correction on Translate function
+081024 - Correction in Unpack
+- Added the RegAddBoot Function suggested by Galapo
+- Added synonym Software for Hive_Load  (Hive_Load,Software is same as Hive_Load,HKU) Suggested by psc.
+081027 - Updated RegAddBoot
+- Replaced SW_SHOWMINIMIZED by SW_SHOWMINNOACTIVE in Option ShortCut
+- Corrected bug in Translate
+081101 -  Correction in Unpack
+081103 - Added Add_Shortcut,EditWith
+- Modified Add_Asso
+081105 - corrected bug in Add_Asso
+- Use now ShellExecuteDelete for delete Archive SFX (EXE)
+- Api_20 require now WB 075 Beta 5w
+081108 - Possibility to use also ftp:\\ in Unpack
+- Added in Interface CheckBox for OnBuildExit
+- Support of CAB file in Require_File (by Galapo)
+081117 - Added parameter 9 (ToolTip Comment) to Add_ShortCut[ but should be confirmed to work by @Psc]
+-  Use only 7z.exe rather 7za.exe + Unrar.exe in Unpack
+- Added 3 new Add_Shortcut Command (Accessories,SystemTools,AdministrativeTools) use them as parameter 1 for having a corresponding native language menu entry.
+090113 - Added Api command Ask_Licence by PSC
+- Api_26 require now WB 075 Beta 5T
+090122 - Added support for Api Menu inside WB. All api variables are now in api . Variables required in Script.project  %APIVAR%,%APIDEF% ,%APISUBDEF% and in section Process : AddVariables,%API%,ApiVar,GLOBAL
+- suppressed Interface and Section for OnBuildExit Suggested by Galapo
+- added Register_File by Galapo
+- Api_27 require now WB 075 Beta 6c
+-Revision 1 :  Remove _Calculate and some Hive_Load in Api Menu
+090124 - Change in Add_ShortCut , when parameter #2 is empty  now will set also subfolder (%ProjectDir%\Apps\HD Tasks\Diagnostic==>HD Tasks\Diagnostic)
+- Added in Interface button for enable or disable Api Menu
+- Change in Api Menu (moved Hive_Load in Registry)
+090219 - Change by Galapo in RegAddBoot : ExpandVar is now in %Target_Sys%
+-Added RunFromRam and RunFromCD
+- Deleted QuickScript
+090428 - Added support for mui file in Require_File
+- Added checkbox to force all programs to StartMenu Root
+//
+090501 - Start to include the VistaPE api . So this api work on LiveXP and VistaPE
+New name Common_API
+//
+090604 - Modification in section [Run_FromCD] and [IsOnCD] by Galapo
+Added 4 new variables : %programParameter% , %programIcon% , %programStartMode% , %programTooltip%
+090610 - Change in Require_File to catch error if file don't exist
+change in unpack to prevent error with DirMake when #5=.
+090725 - Change in Unpack support 2 syntax mode
+Corrected Set_API_Type
+Added new parameter NOWARN and PRESERVE to Require_File
+Suppressed the 4 new variables recently added: %programParameter% , %programIcon% , %programStartMode% , %programTooltip%
+Suppressed Translate option
+090821 - For use quote in parameter #6 in Add_Shortcut you must use ##$q and not #$q
+090825 - Added 2 new Functions : GetInterface and WriteInterface (They require WBRC3)
+090826 - CAPI_12.1 Corrected bug in WriteIterface
+090831 - Added PRESERVE as default option  to Require_File
+Change in GetInterface and WriteInterface : use now the new command StrFormat,NTRIM
+

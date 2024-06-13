@@ -1,0 +1,86 @@
+CONTRATO DE LICENÇA DO UTILIZADOR FINAL 
+SUPLEMENTAR PARA SOFTWARE MICROSOFT ("EULA 
+suplementar")
+
+
+IMPORTANTE:  LEIA COM ATENÇÃO - Os componentes de 
+sistema operativo da Microsoft que acompanham este EULA 
+suplementar, incluindo qualquer documentação "online" ou 
+electrónica ("Componentes de SO"), estão sujeitos aos termos 
+e às condições do contrato através do qual o Adquirente 
+licenciou o produto de sistema operativo da Microsoft aplicável 
+(cada um designado por "Contrato de licença do utilizador final" 
+ou "EULA") descrito infra, bem como aos termos e às 
+condições deste EULA suplementar. AO INSTALAR, COPIAR, 
+TRANSFERIR, ACEDER OU UTILIZAR, DE OUTRO MODO, 
+OS COMPONENTES DE SO, O ADQUIRENTE CONCORDA 
+EM FICAR VINCULADO AOS TERMOS E CONDIÇÕES DO 
+EULA DO PRODUTO DE SISTEMA OPERATIVO APLICÁVEL 
+E DESTE EULA SUPLEMENTAR. CASO O ADQUIRENTE 
+NÃO ESTEJA DE ACORDO COM ESTES TERMOS E 
+CONDIÇÕES, NÃO INSTALE, COPIE, TRANSFIRA, ACEDA 
+NEM UTILIZE OS COMPONENTES DE SO.
+
+NOTA:  CASO NÃO POSSUA UMA CÓPIA LICENCIADA 
+VÁLIDA DO PRODUTO DO SISTEMA OPERATIVO DA 
+MICROSOFT (INCLUINDO, SEM LIMITAÇÃO, MICROSOFT 
+WINDOWS XP PROFESSIONAL, MICROSOFT WINDOWS 
+2000 PROFESSIONAL, MICROSOFT WINDOWS 2000 
+SERVER OU MICROSOFT WINDOWS 2000 ADVANCED 
+SERVER) PARA A QUAL É FORNECIDO CADA 
+COMPONENTE DE SO (cada um designado por "Produto 
+SO"), O ADQUIRENTE NÃO ESTÁ AUTORIZADO A 
+INSTALAR, COPIAR, TRANSFERIR, ACEDER OU, DE 
+OUTRO MODO, UTILIZAR O COMPONENTE DE SO, NEM 
+TEM DIREITOS AO ABRIGO DESTE EULA SUPLEMENTAR.
+
+Os termos em maiúsculas utilizados neste EULA suplementar e 
+que não sejam definidos de outro modo neste documento terão 
+o significado a eles atribuído no EULA do produto SO aplicável.
+
+Geral.  Os componentes de SO são fornecidos ao Adquirente 
+apenas como actualização, complemento ou substituição da 
+funcionalidade existente do produto SO aplicável e, após a 
+instalação, passam a fazer parte do produto SO. Este EULA 
+concede ao Adquirente uma licença para utilização dos 
+componentes de SO de acordo com os termos e as condições 
+do EULA para o produto SO aplicável (incluído em anexo como 
+referência), bem como com o disposto neste EULA 
+suplementar, desde que o Adquirente cumpra todos estes 
+termos e condições. Na medida em que exista um conflito entre 
+estes termos e condições aplicáveis aos componentes de SO, 
+os termos e as condições deste EULA suplementar terão 
+primazia.
+
+Direitos e limitações adicionais.  
+
+* Caso possua múltiplas cópias licenciadas válidas do produto 
+SO, o Adquirente tem direito a reproduzir, instalar e utilizar uma 
+cópia dos componentes de SO em todos os seus 
+computadores que utilizem cópias licenciadas válidas do 
+produto SO, desde que a utilização dessas cópias adicionais 
+dos componentes de SO seja feita de acordo com os termos e 
+as condições supra.  
+
+* A menos que tenha adquirido os componentes de SO em 
+suporte informático externo, o Adquirente poderá fazer uma 
+única cópia dos componentes de SO apenas para fins de 
+arquivo ou reinstalação dos componentes de SO no mesmo 
+computador em que foram instalados anteriormente. A 
+Microsoft Corporation, as suas subsidiárias e/ou os seus 
+fornecedores mantêm todos os direitos, títulos e interesses 
+relativos aos componentes de SO. Todos os direitos que não 
+sejam expressamente concedidos são reservados pela 
+Microsoft, as suas subsidiárias e/ou os seus fornecedores.
+
+A GARANTIA LIMITADA (EVENTUALMENTE EXISTENTE) 
+INCLUÍDA NO EULA DO PRODUTO SO APLICÁVEL APLICA-
+SE AOS COMPONENTES DE SO, DESDE QUE ESTES 
+TENHAM SIDO LICENCIADOS PELO ADQUIRENTE NO 
+TERMO DA GARANTIA LIMITADA DESCRITO NO EULA DO 
+PRODUTO SO APLICÁVEL. ESTE EULA SUPLEMENTAR 
+NÃO PROLONGA O TERMO DA GARANTIA LIMITADA.
+
+
+
+

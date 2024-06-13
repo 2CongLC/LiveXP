@@ -1,0 +1,78 @@
+[main]
+Title=FIPS
+Description=(v3e) Federal Information Processing Standard (FIPS) will be added to the project. Needed e.g. by VMWare scripts
+Selected=True
+Level=1
+Version=6
+Date=2009-Aug-14
+Author=Peter Schlang
+Download_Level=1
+Contact=http://www.boot-land.net/forums/index.php?s=&showtopic=3341&view=findpost&p=23334
+Locked=True
+Upload=2008-Jan-11 14:31:58
+CertifiedBy=pscEx
+Certification=cdc5354343437a9bab5a51e18a97ec5b
+History003=psc removed unnecessary quotes
+History003b=Lancelot - modification for Display names depends on source (German for German - English for Others)
+History003c=Lancelot - thanks to JFX - psc changed wb behaviour again http://www.boot-land.net/forums/index.php?showtopic=5429&st=1860#
+History005(3d)=Lancelot - syntax not valid fix
+History006(3e)=Lancelot - bugy fix
+Certification81=6436a608080839f0c0e9ec8c1911dfe0
+
+[process]
+//00000409 English , 00000407 German
+Set,%DisplayNameForWBSoftware%,"System cryptography: Use FIPS compliant algorithms for encryption#$c hashing#$c and signing"
+Set,%NameForWBSoftwareWBSetup%,"Non-Plug and Play Drivers"
+If,%SourceLocale%,Equal,00000407,Begin
+Set,%DisplayNameForWBSoftware%,"Systemkryptografie: FIPS-konformen Algorithmus für Verschlüsselung#$c Hashing und Signatur verwenden"
+Set,%NameForWBSoftwareWBSetup%,"Nicht-PnP-Treiber"
+End
+Echo,"Enabling FIPS"
+CopyOrExpand,%source_win%\fips.sys,%target_sys%\drivers
+CopyOrExpand,%source_win%\duser.dll,%target_sys%
+RegHiveLoad,WB-Software,%target_sys%\config\software
+RegWrite,HKLM,0x1,WB-Software\Microsoft\Windows NT\CurrentVersion\SeCEdit\Reg Values\MACHINE/System/ControlSet001/Control/Lsa/FIPSAlgorithmPolicy,DisplayName,%DisplayNameForWBSoftware%
+RegWrite,HKLM,0x4,WB-Software\Microsoft\Windows NT\CurrentVersion\SeCEdit\Reg Values\MACHINE/System/ControlSet001/Control/Lsa/FIPSAlgorithmPolicy,DisplayType,0
+RegWrite,HKLM,0x4,WB-Software\Microsoft\Windows NT\CurrentVersion\SeCEdit\Reg Values\MACHINE/System/ControlSet001/Control/Lsa/FIPSAlgorithmPolicy,ValueType,4
+RegHiveUnLoad,WB-Software
+RegHiveLoad,WB-Setup,%target_sys%\setupreg.hiv
+RegWrite,HKLM,0x1,WB-Setup\ControlSet001\Control\Class\{8ECC055D-047F-11D1-A537-0000F8753ED1},Class,LegacyDriver
+RegWrite,HKLM,0x1,WB-Setup\ControlSet001\Control\Class\{8ECC055D-047F-11D1-A537-0000F8753ED1},EnumPropPages32,"SysSetup.Dll,LegacyDriverPropPageProvider"
+RegWrite,HKLM,0x1,WB-Setup\ControlSet001\Control\Class\{8ECC055D-047F-11D1-A537-0000F8753ED1},Icon,-19
+RegWrite,HKLM,0x1,WB-Setup\ControlSet001\Control\Class\{8ECC055D-047F-11D1-A537-0000F8753ED1},NoDisplayClass,1
+RegWrite,HKLM,0x1,WB-Setup\ControlSet001\Control\Class\{8ECC055D-047F-11D1-A537-0000F8753ED1},NoInstallClass,1
+RegWrite,HKLM,0x1,WB-Setup\ControlSet001\Control\Class\{8ECC055D-047F-11D1-A537-0000F8753ED1},SilentInstall,1
+RegWrite,HKLM,0x1,WB-Setup\ControlSet001\Control\Class\{8ECC055D-047F-11D1-A537-0000F8753ED1},,%NameForWBSoftwareWBSetup%
+RegWrite,HKLM,0x1,WB-Setup\ControlSet001\Control\Class\{8ECC055D-047F-11D1-A537-0000F8753ED1}\0010
+RegWrite,HKLM,0x1,WB-Setup\ControlSet001\Enum\Root\LEGACY_FIPS\0000,Class,LegacyDriver
+RegWrite,HKLM,0x1,WB-Setup\ControlSet001\Enum\Root\LEGACY_FIPS\0000,ClassGUID,{8ECC055D-047F-11D1-A537-0000F8753ED1}
+RegWrite,HKLM,0x1,WB-Setup\ControlSet001\Enum\Root\LEGACY_FIPS\0000,DeviceDesc,Fips
+RegWrite,HKLM,0x1,WB-Setup\ControlSet001\Enum\Root\LEGACY_FIPS\0000,Driver,{8ECC055D-047F-11D1-A537-0000F8753ED1}\0010
+RegWrite,HKLM,0x1,WB-Setup\ControlSet001\Enum\Root\LEGACY_FIPS\0000,Service,Fips
+RegWrite,HKLM,0x1,WB-Setup\ControlSet001\Enum\Root\LEGACY_FIPS\0000\Control,ActiveService,Fips
+RegWrite,HKLM,0x1,WB-Setup\ControlSet001\Services\Fips\Enum,0,Root\LEGACY_FIPS\0000
+RegWrite,HKLM,0x2,WB-Setup\ControlSet001\Services\Eventlog\System\Fips,EventMessageFile,%SystemRoot%\System32\Drivers\fips.sys
+RegWrite,HKLM,0x4,WB-Setup\ControlSet001\Control\Lsa,fipsalgorithmpolicy,0
+RegWrite,HKLM,0x4,WB-Setup\ControlSet001\Enum\Root\LEGACY_FIPS,NextInstance,1
+RegWrite,HKLM,0x4,WB-Setup\ControlSet001\Enum\Root\LEGACY_FIPS\0000,Capabilities,0
+RegWrite,HKLM,0x4,WB-Setup\ControlSet001\Enum\Root\LEGACY_FIPS\0000,ConfigFlags,32
+RegWrite,HKLM,0x4,WB-Setup\ControlSet001\Enum\Root\LEGACY_FIPS\0000,Legacy,1
+RegWrite,HKLM,0x4,WB-Setup\ControlSet001\Services\Eventlog\System\Fips,TypesSupported,7
+RegWrite,HKLM,0x4,WB-Setup\ControlSet001\Services\Fips,ErrorControl,1
+RegWrite,HKLM,0x4,WB-Setup\ControlSet001\Services\Fips,Start,1
+RegWrite,HKLM,0x4,WB-Setup\ControlSet001\Services\Fips,Type,1
+RegWrite,HKLM,0x4,WB-Setup\ControlSet001\Services\Fips\Enum,Count,1
+RegWrite,HKLM,0x4,WB-Setup\ControlSet001\Services\Fips\Enum,NextInstance,1
+RegHiveUnLoad,WB-Setup
+
+[Interface]
+pWebLabel1="FIPS Home Page",1,10,10,40,200,18,http://www.itl.nist.gov/fipspubs/
+
+[EncodedFile-AuthorEncoded-FIPS.JPG]
+lines=0
+0=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
+
+[AuthorEncoded]
+FIPS.JPG=1Kb,2Kb
+Logo=FIPS.JPG
+

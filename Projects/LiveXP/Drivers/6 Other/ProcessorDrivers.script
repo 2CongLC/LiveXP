@@ -1,0 +1,163 @@
+[main]
+title=Processor Drivers
+description=Adds Processor Drivers to PE
+Author=Galapo; WB port of cdob's BartPE plugin
+Credits=cdob's BartPE Processor drivers plugin: http://www.911cd.net/forums//index.php?showtopic=22220&view=findpost&p=150905
+Selected=False
+Level=6
+Date=2010-Jan-14
+Version=003
+Download_Level=1
+Mandatory=False
+CertifiedBy=pscEx
+Certification=af159b386b35f8f02381c6726468b7f2
+History002=Lancelot Download_Level changed to 1
+Certification81=c246f07520a69597a81c3b3de325c19d
+
+[Interface]
+pBevel1=pBevel1,1,12,-1,11,330,75
+pFileBox1=%GlobalTemplates%\drivers\amdk8.sys,1,13,9,48,307,30,file
+pTextLabel1="Supply path to amdk8.sys if necessary:",1,1,15,24,192,18,8,Normal
+
+[Process]
+require_file,drivers\intelppm.sys,%source_sys%\%spCabFile%
+require_file,drivers\processr.sys,%source_sys%\%spCabFile%
+If,%OS%%SourceArch%,Equal,XPx64,Begin
+require_file,drivers\amdk8.sys,%source_sys%\%drCabFile%
+End
+Else,Begin
+require_file,drivers\p3.sys,%source_sys%\%spCabFile%
+require_file,drivers\amdk6.sys,%source_sys%\%spCabFile%
+require_file,drivers\amdk7.sys,%source_sys%\%spCabFile%
+If,%OS%%SourceArch%,Equal,XPx86,If,EXISTFILE,%pFileBox1%,FileCopy,%pFileBox1%,%target_sys%\drivers
+If,%OS%,Equal,W2003,require_file,drivers\amdk8.sys,%source_sys%\%spCabFile%
+End
+//
+// Intel:
+// All Family 5 processors run processr.sys
+// Family 6
+// Model 0-7, 10, 12 --> processr.sys
+// Model 8, 11 --> p3.sys
+// Model 9, 13, all newer --> intelppm.sys
+// All P4's (except model 0 & 1) and newer --> intelppm.sys
+//
+Hive_Load,HKLM
+reg_add,0x4,"%reg%\ControlSet001\Control\HAL","14140000FFFFFFFF","16"
+If,EXISTFILE,%target_sys%\drivers\intelppm.sys,Begin
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_9","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_9","Service","intelppm"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_13","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_13","Service","intelppm"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_15_Model_2","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_15_Model_2","Service","intelppm"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_15_Model_3","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_15_Model_3","Service","intelppm"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86","Service","intelppm"
+reg_add,0x4,"%reg%\ControlSet001\Services\intelppm","Type","1"
+reg_add,0x4,"%reg%\ControlSet001\Services\intelppm","Start","3"
+reg_add,0x4,"%reg%\ControlSet001\Services\intelppm","ErrorControl","1"
+reg_add,0x4,"%reg%\ControlSet001\Services\intelppm","Tag","3"
+reg_add,0x1,"%reg%\ControlSet001\Services\intelppm","ImagePath","system32\drivers\intelppm.sys"
+reg_add,0x1,"%reg%\ControlSet001\Services\intelppm","DisplayName","Intel Processor Driver"
+reg_add,0x1,"%reg%\ControlSet001\Services\intelppm","Group","Extended Base"
+End
+If,EXISTFILE,%target_sys%\drivers\processr.sys,Begin
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_5","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_5","Service","processr"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_0","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_0","Service","processr"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_1","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_1","Service","processr"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_2","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_2","Service","processr"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_3","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_3","Service","processr"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_4","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_4","Service","processr"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_5","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_5","Service","processr"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_6","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_6","Service","processr"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_7","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_7","Service","processr"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_10","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_10","Service","processr"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_12","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_12","Service","processr"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_15_Model_0","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_15_Model_0","Service","processr"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_15_Model_1","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_15_Model_1","Service","processr"
+reg_add,0x4,"%reg%\ControlSet001\Services\processr","Type","1"
+reg_add,0x4,"%reg%\ControlSet001\Services\processr","Start","3"
+reg_add,0x4,"%reg%\ControlSet001\Services\processr","ErrorControl","1"
+reg_add,0x4,"%reg%\ControlSet001\Services\processr","Tag","3"
+reg_add,0x1,"%reg%\ControlSet001\Services\processr","ImagePath","system32\drivers\processr.sys"
+reg_add,0x1,"%reg%\ControlSet001\Services\processr","DisplayName","Intel Processor Driver"
+reg_add,0x1,"%reg%\ControlSet001\Services\processr","Group","Extended Base"
+End
+If,EXISTFILE,%target_sys%\drivers\p3.sys,Begin
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_8","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_8","Service","p3"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_11","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#GenuineIntel_-_x86_Family_6_Model_11","Service","p3"
+reg_add,0x4,"%reg%\ControlSet001\Services\p3","Type","1"
+reg_add,0x4,"%reg%\ControlSet001\Services\p3","Start","3"
+reg_add,0x4,"%reg%\ControlSet001\Services\p3","ErrorControl","1"
+reg_add,0x4,"%reg%\ControlSet001\Services\p3","Tag","3"
+reg_add,0x1,"%reg%\ControlSet001\Services\p3","ImagePath","system32\drivers\p3.sys"
+reg_add,0x1,"%reg%\ControlSet001\Services\p3","DisplayName","Intel Processor Driver"
+reg_add,0x1,"%reg%\ControlSet001\Services\p3","Group","Extended Base"
+End
+If,EXISTFILE,%target_sys%\drivers\amdk6.sys,Begin
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#AuthenticAMD_-_x86_Family_5_Model_13","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#AuthenticAMD_-_x86_Family_5_Model_13","Service","amdk6"
+reg_add,0x4,"%reg%\ControlSet001\Services\AMDk6","Type","1"
+reg_add,0x4,"%reg%\ControlSet001\Services\AMDk6","Start","3"
+reg_add,0x4,"%reg%\ControlSet001\Services\AMDk6","ErrorControl","1"
+reg_add,0x4,"%reg%\ControlSet001\Services\AMDk6","Tag","3"
+reg_add,0x1,"%reg%\ControlSet001\Services\AMDk6","ImagePath","system32\drivers\AMDk6.sys"
+reg_add,0x1,"%reg%\ControlSet001\Services\AMDk6","DisplayName","AMD Processor Driver"
+reg_add,0x1,"%reg%\ControlSet001\Services\AMDk6","Group","Extended Base"
+End
+If,EXISTFILE,%target_sys%\drivers\amdk7.sys,Begin
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#AuthenticAMD_-_x86_Family_6_Model_1","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#AuthenticAMD_-_x86_Family_6_Model_1","Service","amdk7"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#AuthenticAMD_-_x86_Family_6_Model_6","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#AuthenticAMD_-_x86_Family_6_Model_6","Service","amdk7"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#AuthenticAMD_-_x86_Family_6_Model_7","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#AuthenticAMD_-_x86_Family_6_Model_7","Service","amdk7"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#AuthenticAMD_-_x86_Family_6_Model_8","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#AuthenticAMD_-_x86_Family_6_Model_8","Service","amdk7"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#AuthenticAMD_-_x86_Family_6_Model_10","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#AuthenticAMD_-_x86_Family_6_Model_10","Service","amdk7"
+reg_add,0x4,"%reg%\ControlSet001\Services\AMDk7","Type","1"
+reg_add,0x4,"%reg%\ControlSet001\Services\AMDk7","Start","3"
+reg_add,0x4,"%reg%\ControlSet001\Services\AMDk7","ErrorControl","1"
+reg_add,0x4,"%reg%\ControlSet001\Services\AMDk7","Tag","3"
+reg_add,0x1,"%reg%\ControlSet001\Services\AMDk7","ImagePath","system32\drivers\AMDk7.sys"
+reg_add,0x1,"%reg%\ControlSet001\Services\AMDk7","DisplayName","AMD Processor Driver"
+reg_add,0x1,"%reg%\ControlSet001\Services\AMDk7","Group","Extended Base"
+End
+If,EXISTFILE,%target_sys%\drivers\amdk8.sys,Begin
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#AuthenticAMD_-_x86_Family_15","ClassGUID","{50127DC3-0F36-415e-A6CC-4CB3BE910B65}"
+reg_add,0x1,"%reg%\ControlSet001\Control\CriticalDeviceDatabase\ACPI#AuthenticAMD_-_x86_Family_15","Service","amdk8"
+reg_add,0x4,"%reg%\ControlSet001\Services\AMDk8","Type","1"
+reg_add,0x4,"%reg%\ControlSet001\Services\AMDk8","Start","3"
+reg_add,0x4,"%reg%\ControlSet001\Services\AMDk8","ErrorControl","1"
+reg_add,0x4,"%reg%\ControlSet001\Services\AMDk8","Tag","3"
+reg_add,0x1,"%reg%\ControlSet001\Services\AMDk8","ImagePath","system32\drivers\AMDk8.sys"
+reg_add,0x1,"%reg%\ControlSet001\Services\AMDk8","DisplayName","AMD Processor Driver"
+reg_add,0x1,"%reg%\ControlSet001\Services\AMDk8","Group","Extended Base"
+End
+Hive_Unload,HKLM
+
+[EncodedFile-AuthorEncoded-cpu.gif]
+lines=0
+0=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
+
+[AuthorEncoded]
+cpu.gif=2Kb,2Kb
+Logo=cpu.gif
+

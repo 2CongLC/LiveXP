@@ -1,0 +1,2857 @@
+[Main]
+Title=LiveXP changelog
+Description=Provides a changelog for LiveXP
+Level=0
+Selected=none
+Author=Galapo
+Credits=Lancelot for his suggestion
+Date=2009-Mar-28
+Download_level=0
+Version=888
+CertifiedBy=pscEx
+Certification=866a2878c1086b864c6e2553f132d5a1
+Certification81=bb29a5356c4520bb9f2e56e89c7d66cc
+
+[News]
+20100908 888 (Lancelot)
+WimBoot.script
+20100831 887 (Galapo)
+script.project
+20100831 886 (Lancelot)
+script.project
+20100828 885 (Galapo)
+SetResolution.script
+20100826 884 (Galapo)
+a43_JGL.script
+20100826 883 (Galapo)
+DrvImpe_AmaluxE.script
+20100825 882 (Galapo)
+SetResolution.script
+20100825 881 (Lancelot)
+!WBManager.Script
+20100726 880 (Lancelot)
+VMWare.script
+20100725 879 (Lancelot)
+mitec_registry_repair.script
+20100722 878 (Lancelot)
+tweaks.script
+20100722 877 (Lancelot)
+DrvImpe_AmaluxE.script
+20100722 876 (Lancelot)
+UltraVNC.script
+20100720 875 (Lancelot)
+qEmu.Script
+VirtualBox.script
+VMWare.script
+ImgBurnISO.script
+20100720 874 (Lancelot)
+Unlocker.script
+20100716 873 (Lancelot)
+autoKeyboard.Script
+20100715 872 (Lancelot)
+Snapshot.script
+20100714 871 (Lancelot)
+Explorer.Script
+20100712 870 (Lancelot)
+IE_Settings.script
+20100711 869 (Lancelot)
+WinNTSetup_JFX.script
+20100707 868 (Lancelot)
+VirtualBox.script
+20100707 867 (Galapo)
+SetResolution.script
+20100701 866 (Lancelot)
+DrvImpe_AmaluxE.script
+-----------------  LiveXP-Recommended.zip UPDATED  -----------------
+20100630 865 (Lancelot)
+mitec_msi.script
+UltraVNC.script
+VNC_Real.script
+xpe_directx.script
+20100626 864 (Galapo)
+Common_Api.script  ------------ ##### NO version change #####
+script.project
+20100623 863 (Galapo)
+Common_Api.script  ------------ ##### NO version change #####
+script.project
+20100621 862 (Galapo)
+Common_Api.script  ------------ ##### NO version change #####
+script.project
+20100621 861 (Galapo)
+Common_Api.script  ------------ ##### NO version change #####
+script.project
+20100621 860 (Galapo)
+msvcr71.dll
+msvcr71.dll_ReadMe.txt
+Acronis-DiskDirector10.script
+InfSupport.Script
+xpe_directx.script
+20100609 859 (Galapo)
+eraser.script
+mitec_network_meter.script
+20100518 858 (Galapo)
+Explorer shell TWEAKS and SETTINGS.script
+IE_06.script
+MMC.script
+20100518 857 (Galapo)
+9 - ProgramFilesPE.Script
+hiderun_x64.exe
+hiderun_x86.exe
+20100518 856 (Galapo)
+Explorer.Script
+20100517 855 (Galapo)
+OfflineSysPrep.script
+20100517 854 (Galapo)
+WinVBlock.script
+20100517 853 (Galapo)
+Explorer.Script
+20100511 852 (Galapo)
+WimBoot.script
+20100510 851 (Galapo)
+hiderunEx_x64.exe
+hiderunEx_x86.exe
+5 - TempPE.script
+20100506 850 (Galapo)
+HDHacker.script
+20100506 849 (Galapo)
+Imdisk_Installer.script
+20100506 848 (Galapo)
+5 - TempPE.script
+ImDisk.Script
+20100506 847 (Galapo)
+hiderunEx_x64.exe
+hiderunEx_x86.exe
+OfflineSysPrep.script
+20100505 846 (Galapo)
+hiderunEx_x64.exe
+hiderunEx_x86.exe
+20050902_msi.script
+SetResolution.script
+20100504 845 (Galapo)
+20050902_msi.script
+SetResolution.script
+20100504 844 (Galapo)
+SetResolution.script
+20100504 843 (Galapo)
+OfflineSysPrep.script
+20100504 842 (Galapo)
+Common_Api.script  ------------ ##### NO version change #####
+script.project
+20100428 841 (Galapo)
+9 - DefineBootsector.script
+Common_Api.script  ------------ ##### NO version change #####
+script.project
+20100427 840 (Galapo)
+AutoIt3.exe
+20100426 839 (Galapo)
+9 - ProgramFilesPE.Script
+Common_Api.script  ------------ ##### NO version change #####
+script.project
+20100425 838 (Galapo)
+Common_Api.script  ------------ ##### NO version change #####
+script.project
+ExpEnvVar.exe
+x86\ExpEnvVar_x86.exe
+x64\ExpEnvVar_x64.exe
+20100422 837 (Galapo)
+OfflineSysPrep.script
+20100422 836 (Lancelot)
+WimPack.script
+script.project
+20100421 835 (Galapo)
+9 - ProgramFilesPE.Script
+autoruns.Script
+20100420 834 (Lancelot)
+7-Zip_File_Manager_SJL.script
+DriveImageXML.script
+Runscanner.script
+20100418 833 (Lancelot)
+-----------------  LiveXP-Recommended.zip UPDATED  -----------------
+20100417 832 (Lancelot)
+Recuva.script
+20100417 831 (Lancelot)
+OfflineSysPrep.script
+20100417 830 (Lancelot)
+Runscanner.script
+20100417 829 (Lancelot)
+Common_Api.script  ------------ ##### NO version change #####
+script.project
+20100415 828 (Lancelot)
+defragger.script
+DriveImageXML.script
+Runscanner.script
+20100415 827 (Galapo)
+20050902_msi.script
+20100415 826 (Lancelot)
+CD-Opera.script
+LODR-loader.script
+20100414 825 (Lancelot)
+Common_Api.script  ------------ ##### NO version change #####
+script.project
+EarlyStarter.script
+20100414 824 (Galapo)
+0 - OnProjectRun.script
+20050902_msi.script
+20100414 823 (Lancelot)
+script.project
+PENetwork.script -------------- ##### NO version change #####
+20100413 822 (Lancelot)
+doublecmd.script
+Acronis-DiskDirector10.script
+Acronis-TrueImage91Workstation.Script
+DriveImageXML.script
+GImageX.script
+zonealarm.script
+vmCrypro.script
+VMWareConverter.script
+VMWarePlayerWorkstation.Script
+VMXBuilder.script
+20100412 821 (Galapo)
+0 - OnProjectRun.script
+20100412 820 (Lancelot)
+0 - OnProjectRun.script
+20100412 819 (Lancelot)
+script.project
+EXEandChangelog.script
+20100409 818 (Lancelot)
+Common_Api.script  ------------ ##### NO version change #####
+script.project
+20100409 817 (Lancelot)
+UDFS File System.Script
+20100408 816 (Lancelot)
+Common_Api.script  ------------ ##### NO version change #####
+script.project
+20100408 815 (Galapo)
+OfflineSysPrep.script
+20100408 814 (Galapo)
+Common_Api.script  ------------ ##### NO version change #####
+script.project
+ExpEnvVar.exe
+x86\ExpEnvVar_x86.exe
+x64\ExpEnvVar_x64.exe
+20100407 813 (Lancelot)
+UDFS File System.Script
+20100407 812 (Lancelot)
+UDFS File System.Script --------------- ### NEW ###
+20100406 811 (Lancelot)
+UniExtract.script
+20100406 810 (Lancelot)
+-----------------  LiveXP-Recommended.zip UPDATED  -----------------
+20100405 809 (Lancelot)
+TightVNC1.script
+TightVNC2.script
+VNC_Viewer.script
+20100404 808 (Lancelot)
+7-Zip_File_Manager_SJL.script
+20100404 807 (Lancelot)
+7-Zip_File_Manager_SJL.script
+20100403 806 (Lancelot)
+ScriptingMS.script
+20100403 805 (Lancelot)
+ScriptingMS.script
+20100402 804 (Lancelot)
+VNC_Real.script
+20100402 803 (Lancelot)
+tightvnc.script ---------------- # REMOVED #
+TightVNC1.script --------------- ### NEW ###
+TightVNC2.script --------------- ### NEW ###
+UltraVNC1.0.2.script ----------- # REMOVED #
+UltraVNC.script ---------------- ### NEW ###
+UltraVNCViewer.script ---------- ### NEW ###
+VNC_Real.script ---------------- ### NEW ###
+vnc_viewer.script
+20100401 802 (Lancelot)
+script.project
+20100401 801 (Lancelot)
+script.project
+20100401 800 (Lancelot)
+Common_Api.script  ------------ ##### NO version change #####
+script.project
+20100331 799 (Lancelot)
+PENetwork.script -------------- ##### NO version change #####
+20100330 798 (Lancelot)
+DriveImageXML.script
+20100330 797 (Lancelot)
+WinVBlock.script -------- ### NEW ###
+vFiraDisk.Script
+BootSDI.script
+20100330 796 (Lancelot)
+Explorer.Script
+Core_Main.script
+20100329 795 (Lancelot)
+regedit-api.script
+notepad.Script
+20100329 794 (Lancelot)
+ScriptingMS.script -------- ### NEW ###
+ScriptingCore.script ------ # REMOVED #
+ScriptingSup.Script ------- # REMOVED #
+ycopy.script
+20100326 793 (Lancelot)
+RussianSupport.script
+20100326 792 (Lancelot)
+mitec_registry_repair.script
+RegScanner.script
+regshot.script
+RegWizXP.script
+Runscanner.script
+WinNTSetup_JFX.script
+20100326 791 (Lancelot)
+FindTarget_Lance.script
+HashTab_olegpov.script
+Properties_Plus_Arvy.script
+20100326 790 (Lancelot)
+xCHM.script
+20100326 789 (Lancelot)
+dependency_walker.script
+jedi_dependencyviewer.script
+jedi_toolhelpviewer.script
+20100326 788 (Lancelot)
+MountStor.script
+NTFSLink.script
+RoadkilUt.Script
+ServicesPE.script
+serviwin.script
+SmartDriverBackup.script
+20100326 787 (Lancelot)
+AutoIt.script
+AutoIt_Files_3249.script -------------- ### NEW ###
+petousb.script
+PowerOff.script
+chess.script
+Sudoku.Script
+Api FreeFSCapture53.script
+MultiRes.script
+eXPert_PDF_Reader.Script
+go2pdf.Script
+mitec_MailViewer.script
+spread32.script
+SumatraPDF.Script
+xCHM.script
+shellwm.script
+20100326 786 (Lancelot)
+MBRFix.Script
+MBRWizard.script
+20100325 785 (Lancelot)
+KeePass.script
+TrueCrypt.script
+avastVC.script
+JoshuaKeyFinder.script
+MagicJellyBeanKeyfinder.script
+Ndq.script
+password_renew.script
+WindowsGate.script
+20100325 784 (Lancelot)
+ImgBurn.script
+InfraRecorder.script
+doublecmd.script
+TinyHexer.script
+TreeSizeFreeware_SB.script
+FindOnClick.script
+superfinder.script
+HDHacker.script
+JKDefrag.script
+PowerDefragmenterGUI.script
+chkdsk-GUI.script
+HDDScan.script
+HDTune.script
+mitec_msi.script
+mitec_wfa.script
+OverDisk.Script
+disk_redactor.script
+eraser.script
+fru.script
+ntfs_undelete.script
+Recuva.script
+DriveImageXML.script
+SelfImage.script
+Snapshot.script
+MBRWizard.script
+cd_recovery.script
+diskinternals_linux_reader.script
+diskinternals_linux_recovery.script
+diskinternals_ntfs_reader.script
+diskinternals_zip_repair.script
+partition_find_and_mount.script
+20100325 783 (Lancelot)
+mitec_MailViewer.script ------------------ ### NEW ###
+20100325 782 (Lancelot)
+A_OffByOne.script
+CD-Opera.script
+FileZilla3.script
+Getright.script
+mitec_network_meter.script
+WackGet.script
+WakeOnLanGui.script
+zonealarm.script
+tightvnc.script
+UltraVNC1.0.2.script
+vnc_viewer.script
+20100324 781 (Lancelot)
+HDHacker.script
+defragger.script
+chkdsk-GUI.script
+diskscanner12.Script
+mitec_msi.script
+mitec_wfa.script
+WD_Data_Lifeguard_Diagnostic.script
+edata_unerase.script
+fru.script
+handy_recovery.script
+mispbo_ultimate_data_recovery.script
+pc_inspector_file_recovery.script
+recover_files.script
+restoration.script
+smart_data_recovery.script
+soft_perfect_file_recovery.script
+turbo_file_uneraser.script
+undelete_plus.script
+SelfImage.script
+smart_partition_recovery.script
+TestDisk_PhotoRec.script
+20100324 780 (Lancelot)
+a43_JGL.script
+ant_renamer.script
+doublecmd.script
+doublecmd_Files.script ------------------ ### NEW ###
+FAR_Manager2_10_Lite.script
+FAR_Manager2_60_FULL.script
+HxD.script
+TinyHexer.script
+TreeSizeFreeware_SB.script
+WinMerge.script
+7-Zip_File_Manager_SJL.script
+ycopy.script
+FindOnClick.script
+superfinder.script
+20100323 779 (Lancelot)
+CDImageGUI.script
+CDWriter.Script
+ImgBurn.script
+InfraRecorder.script
+ImgBurnISO.script
+20100323 778 (Lancelot)
+IE_06.script
+20100323 777 (Lancelot)
+0 - OnProjectRun.script
+20100323 776 (Lancelot)
+Common_Api.script  -------------- ##### NO version change #####
+script.project
+20100323 775 (Lancelot)
+Common_Api.script  -------------- ##### NO version change #####
+script.project
+20100322 774 (Lancelot)
+DrvImpe.script
+DrvImpe_AmaluxE.script
+hostNIC.script
+20100322 773 (Lancelot)
+ImageCreator.script
+WimImageCreator.script
+20100322 772 (Lancelot)
+Common_Api.script  -------------- ##### NO version change #####
+script.project
+20100320 771 (Lancelot)
+-->Shortly Unlocker.script moved to new folder with +1 version, old folder removed.
+/Apps/File Tasks/File Unlock/Unlocker.script---- ### NEW ###
+/Apps/File Tasks/Unlockers/ --- Folder  -------- # REMOVED #
+Unlocker.script -------------------------------- # REMOVED #
+20100320 770 (Galapo)
+Common_Api.script  -------------- ##### NO version change #####
+script.project
+OfflineSysPrep.script
+20100319 767 (Lancelot)
+Common_Api.script  -------------- ##### NO version change #####
+script.project
+20100319 766 (Lancelot)
+------------------ ### NEW ###
+Apps\Setting\01 README Apps Setting.script
+Apps\Setting\folder.project
+Apps\System\01 README Apps System.script
+Apps\System\folder.project
+20100319 765 (Lancelot)
+----- ######### All Scripts of Apps\System moved to Apps\Sys with version +1 and some minor modifications #########
+BlueScreenView.script
+folder.project
+jv16PowerTools.script
+MountStor.script
+NTFSLink.script
+OfflineSysPrep.script
+RoadkilUt.Script
+ServicesPE.script
+serviwin.script
+SmartDriverBackup.script
+dependency_walker.script
+jedi_dependencyviewer.script
+jedi_toolhelpviewer.script
+FindTarget_Lance.script
+HashTab_olegpov.script
+Properties_Plus_Arvy.script
+CrystalCPUID.script
+mitec_registry_repair.script
+RegScanner.script
+regshot.script
+RegWizXP.script
+Runscanner.script
+WinNTSetup_JFX.script
+20100318 764 (Lancelot)
+VMWare.script
+20100315 763 (cdob) (L)
+AccessGainDrivers.script ------------------ ### NEW ###
+20100314 762 (Lancelot)
+Explorer.Script
+20100314 761 (Lancelot)
+0 - OnProjectRun.script
+20100314 760 (rocketero) (L)
+Explorer.Script
+20100313 759 (Lancelot)
+Explorer.Script
+20100313 758 (Lancelot)
+CreateISO.script
+20100311 757 (Lancelot)
+Common_Api.script  -------------- ##### NO version change #####
+script.project
+20100310 756 (Lancelot)
+Common_Api.script  -------------- ##### NO version change #####
+script.project
+20100310 755 (Galapo)
+Common_Api.script  -------------- ##### NO version change #####
+script.project
+20100310 754 (Galapo)
+9 - DefineBootsector.script
+20100308 753 (Lancelot)
+WindowsGate.script
+20100308 752 (Lancelot)
+HDDScan.script
+20100308 751 (Lancelot)
+superfinder.script
+20100308 750 (Lancelot)
+7-Zip_File_Manager_SJL.script
+20100308 749 (Lancelot)
+SumatraPDF.Script
+20100308 748 (Olegpov)(L)
+1 - ProjectInfo.Script
+20100306 747 (Lancelot)
+Imdisk_Installer.script
+20100306 746 (Lancelot)
+3 - hivesFactory_Air Conditioner.Script ------------------ ### NEW ###
+20100305 745 (Lancelot)
+tightvnc.script
+20100305 744 (Lancelot)
+0 - OnProjectRun.script
+20100305 743 (Lancelot)
+WimBoot.script  -------------- ##### NO version change ##### (Selected=False)
+20100305 742 (Galapo)
+Common_Api.script  -------------- ##### NO version change #####
+script.project
+20100305 741 (Galapo)
+9 - DefineBootsector.script
+20100304 740 (Galapo)
+RemovableDevicesCombo.script
+20100304 739 (Galapo)
+WimBoot.script
+------------------------------------------------------------
+------------------------------------------------------------
+------------------------------------------------------------
+------------------------------------------------------------
+------------------LiveXP-077RC2-Archived--------------------
+------------------------------------------------------------
+------------------------------------------------------------
+------------------------------------------------------------
+------------------------------------------------------------
+20100304 738 (Lancelot)
+WimImageCreator.script
+20100304 737 (Lancelot)
+3 - hivesFactory.Script
+Common_Api.script  -------------- ##### NO version change #####
+script.project
+20100303 736 (Galapo)
+WimBoot.script
+20100303 735 (Galapo)
+Snapshot.script
+20100303 734 (Galapo)
+script.project
+20100302 733 (Lancelot)
+VirtualBox.script  -------------- ##### NO version change #####
+20100302 732 (Lancelot)
+VirtualBox.script
+20100301 731 (Galapo)
+RemovableDevicesCombo.script
+Snapshot.script
+20100226 730 (Lancelot)
+addDOSutils.script
+20100226 729 (Lancelot)
+NTFSLink.script
+20100225 728 (Lancelot)
+disk_redactor.script
+ntfs_undelete.script
+cd_recovery.script
+20100225 727 (Lancelot)
+HxD.script
+TinyHexer.script
+WinMerge.script
+ycopy.script
+20100225 726 (Lancelot)
+Imdisk_Installer.script
+20100225 725 (Lancelot)
+VirtualBox.script
+20100224 724 (Lancelot)
+VirtualBox.script
+20100224 723 (Lancelot)
+VirtualBox.script
+20100224 722 (Lancelot)
+VirtualBox.script
+20100224 721 (Lancelot)
+VirtualBox.script
+20100221 720 (Lancelot)
+9 - DefineBootsector.script
+BootSDI.script
+script.project
+20100221 719 (Lancelot)
+RemovableDevicesCombo.script
+vFiraDisk.Script
+20100219 718 (Lancelot)
+Core_Main.script
+Imdisk_Installer.script
+reg2WBSprg.exe
+20100217 717 (Lancelot)
+9 - DefineBootsector.script
+20100217 716 (Lancelot)
+BootSDI.script
+20100216 715 (Lancelot)
+HDTune.script
+partition_find_and_mount.script
+20100216 714 (Lancelot)
+script.project
+20100216 713 (Lancelot)
+zm_Project_Medicine.script
+20100216 712 (Lancelot)
+Explorer shell TWEAKS and SETTINGS.script
+20100216 711 (Lancelot)
+8 - FIPS.Script
+20100214 710 (Lancelot)
+02CoreMSI.Script
+20100214 709 (Lancelot)
+reg2WBSprg.exe
+20100213 708 (Lancelot)
+script.project
+20100212 707 (Galapo)
+UltraISO.script
+20100212 706 (Galapo)
+OfflineSysPrep.script
+20100210 705 (Lancelot)
+DrvImpe.script
+DrvImpe_AmaluxE.script
+20100210 704 (Galapo)
+OfflineSysPrep.script
+20100208 703 (Lancelot)
+3 - LocalizedInfoMore.script
+8 - FIPS.Script
+20100204 702 (Lancelot)
+addDOSutils.script
+regedit-api.script
+Taskman-api.Script
+calculator.Script
+Hearts.script
+MSPaint.Script
+notepad.Script
+wordpad.Script
+20100201 701 (Lancelot)
+PENetwork.script -------------- ##### NO version change #####
+20100201 700 (Lancelot)
+CD-Opera.script
+reg2WBSprg.exe (ps: 077rc2 may fail to update ;))
+20100201 699 (Lancelot)
+reg2WBSprg.exe
+20100201 698 (Lancelot)
+CD-Opera.script
+20100130 697 (Lancelot)
+DrvImpe_AmaluxE.script
+20100129 696 (Lancelot)
+SumatraPDF.Script
+DrvImpe.script
+DrvImpe_AmaluxE.script
+20100129 695 (Lancelot)
+DrvImpe.script
+DrvImpe_AmaluxE.script
+20100129 694 (Lancelot)
+script.project
+3 - LocalizedInfoMore.script
+autoLocalization.Script
+20100129 693 (Galapo)
+OfflineSysPrep.script
+20100127 692 (Lancelot)
+addDOSutils.script
+DPs-Build_MassStorageDrivers.script
+DPs-MassStorageDrivers_au3.script
+20100127 691 (Lancelot)
+National Language Support files.script
+20100127 690 (Lancelot)
+//download level arrangements made on some of following scripts for downloadlevel=0
+script.project
+ImageCreator.script
+National Language Support files.script
+autoLocalization.Script
+HDHacker.script
+ServicesPE.script
+qEmuNIC_RTL8139.script
+RemovableDevicesCombo.script
+hostNIC.script
+ChineseSupport.Script
+PostProc.script
+myNic.Script
+RegEditWB.Script
+ImgBurnISO.script
+20100127 689 (Galapo)
+0 - OnProjectRun.script
+20100127 688 (Lancelot)
+SumatraPDF.Script
+NTFSLink.script
+FindTarget_Lance.script
+Runscanner.script
+20100127 687 (Lancelot)
+notepad.Script
+AutoIt.script
+SumatraPDF.Script
+20100127 686 (Lancelot)
+Getright.script
+zonealarm.script
+20100127 685 (Lancelot)
+OverDisk.script
+Snapshot.script
+diskinternals_linux_reader.script
+diskinternals_linux_recovery.script
+diskinternals_ntfs_reader.script
+diskinternals_zip_repair.script
+20100126 684 (Lancelot)
+UltraISO.script
+HxD.script
+TinyHexer.script
+WinMerge.script
+UniExtract.script
+20100126 683 (Lancelot)
+FAR_Manager2_10_Lite.script
+FAR_Manager2_60_FULL.script
+7-Zip_File_Manager_SJL.script
+dependency_walker.script
+20100126 682 (Lancelot)
+autoCompress.Script
+autoUPX.Script
+20100126 681 (Lancelot)
+7 - AutoItSupport.Script
+zm_Project_Medicine.script
+notepad.Script
+addDOSutils.script
+IE_Settings.script
+20100126 680 (Lancelot)
+20051129_Base_Smart_Card.script ------------------ ### NEW ###
+20090126_WindowsXP-KB955704-x86-ENU_exFat.script
+20100126 679 (Lancelot)
+DrvImpe_AmaluxE.script
+vUSBDummyDisk.Script
+20100125 678 (Lancelot)
+ImgBurnISO.script
+20100125 677 (Lancelot)
+IE_Settings.script
+20100125 676 (Lancelot)
+BootSDI.script -------------- ##### NO version change ##### (selected=false)
+20100125 675 (Lancelot)
+BootSDI.script
+20100122 674 (Lancelot)
+DrvImpe.script
+DrvImpe_AmaluxE.script --- ### NEW ###
+20100122 673 (Lancelot)
+1 - RegFactory.Script
+RegFactory.script
+20100121 672 (Galapo)
+WimBoot.script
+20100119 671 (Galapo)
+DPs-Build_MassStorageDrivers.script
+20100119 670 (Lancelot)
+0 - OnProjectRun.script
+8 - FIPS.Script -------------- ##### NO version change #####
+9 - DefineBootsector.script
+20100119 669 (Galapo)
+OODefrag10-11-12-api.Script
+20100119 668 (Lancelot)
+MMC.script
+20100119 667 (Lancelot)
+3 - hivesFactory.Script
+Explorer.Script
+20100118 666 (Lancelot)
+SATA2.script
+vUSBDummyDisk.Script
+20100118 665 (Lancelot)
+YY-BootScreen.script - ##### NO version change #####
+20100117 664 (Lancelot)
+ImDisk.Script -------- ##### NO version change #####
+YY-BootScreen.script - ##### NO version change #####
+20100117 663 (Lancelot)
+20050902_msi.script -- ##### NO version change #####
+20100117 662 (Lancelot)
+##### NO version change ##### - ##### NO version change ##### (Invalid Certifications Fixed)
+2 - MakeDirs.Script
+8 - FIPS.Script
+Core_Main.script
+Hearts.script
+MSPaint.Script
+wordpad.Script
+20050902_msi.script
+driverSigning.Script
+SetResolution.script
+qEmu.Script
+20100117 661 (Lancelot)
+####following scripts moved to FineTune
+FixShellWinlogon.Script
+MiscSettings.Script
+ShellSecurity.script
+20100117 660 (Lancelot)
+zm_Project_Medicine.script --- ### NEW ###
+zm_Monkey_Additions.script --- # REMOVED #
+20100117 659 (Lancelot)
+5 - WOW64_Basic.Script -- ### NEW ###
+5 - WOW64_Core.script --- # REMOVED #
+20100117 658 (Lancelot)
+xpe_directx.script
+xpe-pnp-aio.script
+xpe_directx_x64.script - ### NEW ###
+xpe-pnp-aio_x64.script - ### NEW ###
+20100117 657 (Lancelot)
+3 - hivesFactory.Script ------ ##### NO version change ##### - ##### NO version change #####
+20100115 656 (Galapo)
+Basic\Shells\Addons\WimImageCreator.script - ### NEW ###
+20100114 655 (Galapo)
+ProcessorDrivers.script
+20100114 654 (Lancelot)
+IE_06.script ------------------------------- ### NEW ###
+IE_Favorites_url.script -------------------- ### NEW ###
+IE_Flash_IE.script ------------------------- ### NEW ###
+IE_Settings.script ------------------------- ### NEW ###
+National Language Support files.script ----- ### NEW ###
+zm_Monkey_Additions.script
+Explorer shell TWEAKS and SETTINGS.script
+A_OffByOne.script
+CD-Opera.script
+VirtualBoxNIC_AMD_PCNET.script
+VMWareNIC.script
+20100111 653 (Lancelot)
+PENetwork.script ------ ##### NO version change ##### - ##### NO version change #####
+zm_Monkey_Additions.script
+20100110 652 (Lancelot)
+3 - hivesFactory.Script
+4 - BuildModel.Script
+BootSDI.script
+20100109 651 (Lancelot)
+WimBoot.script
+20100109 650 (Lancelot)
+BootSDI.script
+20100107 649 (Lancelot)
+autoKeyboard.Script
+20100104 648 (Lancelot)
+5 - WOW64_Core.Script
+superfinder.script
+FileZilla3.script
+MultiRes.script
+XnView.script
+mitec_registry_repair.script
+BootSDI.script
+CreateISO.script
+20100102 647 (Lancelot)
+MMC.script
+DisplayProperties.Script
+reg2WBSprg.exe
+20100102 646 (Lancelot)
+reg2WBSprg.exe
+20100102 645 (Lancelot)
+PEDialup.script
+20100101 644 (Lancelot)
+script.project
+20100101 643 (Lancelot)
+notepad.Script
+20100101 642 (Lancelot)
+Common_Api.script ------ ##### NO version change ##### - ##### NO version change #####
+script.project
+20091231 641 (Lancelot)
+lsi_buslogic.script
+20091231 640 (Lancelot)
+lsi_buslogic.script
+20091231 639 (Lancelot)
+zm_Monkey_Additions.script ----- ### NEW ###
+TreeSizeFreeware_SB.script
+HDTune.script
+eraser.script
+DriveImageXML.script
+partition_find_and_mount.script
+CD-Opera.script
+TrueCrypt.script
+JoshuaKeyFinder.script
+WindowsGate.script
+MultiRes.script
+MountStor.script
+SmartDriverBackup.script
+regshot.script
+autoUPX.Script
+20091229 638 (Galapo)
+9 - DefineBootsector.script
+20091228 637 (Lancelot)
+dependency_walker.script
+CreateISO.script
+20091227 636 (Lancelot)
+lsi_buslogic.script
+20091227 635 (Lancelot)
+WinNTSetup_JFX.script
+20091226 634 (Lancelot)
+PostProc.script
+QemuNIC-W2k3.script
+20091226 633 (Lancelot)
+RemovableDevicesCombo.script
+20091225 632 (Lancelot)
+Wallpaper.Script
+20091225 631 (Lancelot)
+PENetwork.script ------ ##### NO version change ##### - ##### NO version change #####
+20091224 630 (Lancelot)
+DPs-Build_MassStorageDrivers.script
+20091224 629 (Lancelot)
+rdc.script
+20091224 628 (Lancelot)
+\LiveXP\Drivers\6 Other\hostNIC.script ----- ### NEW ###
+\LiveXP\Drivers\3 Network\hostNIC.script --- # REMOVED #
+qEmuNIC_RTL8139.script
+QemuNIC-W2k3.script
+VirtNet Network Adapter.script
+VirtualBoxNIC_AMD_PCNET.script
+VirtualPCNIC.script
+VMWareNIC.script
+20091223 627 (Lancelot)
+HDAudio.script
+QemuAudio.script
+VirtualBoxAudio.script
+VMwareAudio.script
+20091222 626 (Lancelot)
+!Fundamentals.Script
+20091221 625 (Lancelot)
+QemuVGA.script
+VirtualBoxVideo.script
+20091221 624 (Lancelot)
+script.project
+Common_Api.script ------ ##### NO version change ##### - ##### NO version change #####
+20091221 623 (Lancelot)
+YY-BootScreen.script
+20091221 622 (Lancelot)
+Summary: Finalize scripts version+level (level 8) updated to syncronise with nativeex development
+post 17 http://www.boot-land.net/forums/index.php?showtopic=9813&view=findpost&p=87294
+Core_Main.script
+0804Support.Script
+autoCompress.Script
+autoUPX.Script
+ChineseSupport.Script
+localeAdditions.Script
+multiprocessor.script
+PostProc.script
+regCompact.Script
+RussianSupport.script
+WimPack.script
+BootSDI.script
+CreateISO.script
+WimBoot.script
+qEmu.Script
+VirtualBox.script
+VMWare.script
+ImgBurnISO.script
+20091221 621 (Lancelot)
+QemuVGA.script
+VirtualBoxVideo.script
+VMwareVGA.script
+20091218 620 (Lancelot)
+LODR-Thinstall_Support.script
+qEmuNIC_RTL8139.script
+VirtNet Network Adapter.script
+20091218 619 (Lancelot)
+0 - OnProjectRun.script
+20091218 618 (Lancelot)
+OEM_Information_and_Logo.Script
+20091217 617 (Lancelot)
+!Fundamentals.Script
+4 - BuildModel.Script
+5 - CopyAndExpand.Script
+CreateISO.script
+20091216 616 (Lancelot)
+ScriptingSup.Script
+20091216 615 (Lancelot)
+ScriptingCore.script
+ScriptingSup.Script
+20091215 614 (Lancelot)
+CreateISO.script
+20091215 613 (Galapo)
+ScreenLock.script
+SetResolution.script
+Wallpaper.Script
+Common_Api.script ------ ##### NO version change ##### - ##### NO version change #####
+20091215 612 (Lancelot)
+script.project
+20091214 611 (Lancelot)
+script.project
+Common_Api.script ------ ##### NO version change ##### - ##### NO version change #####
+20091214 610 (Lancelot)
+addDOSutils.script
+20091214 609 (Lancelot)
+7 - OLESupport.Script
+8 - FIPS.Script
+20091213 608 (Lancelot)
+MMC.script
+20091212 607 (Lancelot)
+WinNTSetup_JFX.script
+20091212 606 (Lancelot)
+WinNTSetup_JFX.script
+5 - WOW64_Core.Script
+20091211 605 (Lancelot)
+HijackThis!.script
+20091210 604 (Lancelot)
+Core_Main.script
+MMC.script
+20091210 603 (Lancelot)
+tweaks.script
+bios.bin
+20091209 602 (Lancelot)
+MMC.script
+20091208 601 (Lancelot)
+1 - ProjectInfo.Script ------ ##### NO version change ##### - ##### NO version change #####
+MMC.script
+20091206 600 (Lancelot)
+Explorer.Script
+qEmu.Script
+\Tools\LiveXP\qEmu\ ------------ ### NEW ### (ALL files refreshed)
+20091206 599 (Lancelot)
+EarlyStarter.script
+20091206 598 (Lancelot)
+5 - WOW64_Core.Script ------------ ### NEW ###
+EarlyStarter.script
+20091205 597 (Lancelot)
+script.project
+!Fundamentals.Script
+1 - ProjectInfo.Script
+2 - MakeDirs.Script
+3 - hivesFactory.Script
+4 - BuildModel.Script
+5 - CopyAndExpand.Script
+ImDisk.Script
+Explorer.Script
+Recuva.script
+20091202 596 (Lancelot)
+FixShellWinlogon.Script
+20091202 595 (Lancelot)
+0804Support.Script
+ChineseSupport.Script
+20091202 594 (Lancelot)
+0804Support.Script
+ChineseSupport.Script
+20091202 593 (Lancelot)
+ImgBurnISO.script
+20091202 592 (Lancelot)
+WimBoot.script
+bPatch.exe
+20091202 591 (Lancelot)
+script.project
+HDDScan.script
+HDTune.script
+vFiraDisk.Script
+ATTO Disk Benchmark_L.script ---- ### NEW ###
+20091130 590 (Lancelot)
+5 - TempPE.script
+20091130 589 (Lancelot)
+go2pdf.Script
+20091129 588 (Lancelot)
+TinyHexer.script
+20091128 587 (Lancelot)
+DisplayProperties.Script
+20091128 586 (Lancelot)
+WimBoot.script
+20091127 585 (Lancelot)
+7 - AutoItSupport.Script
+notepad.Script
+20091126 584 (Lancelot)
+0 - OnProjectRun.script
+20091126 583 (Lancelot)
+0 - OnProjectRun.script
+20091126 582 (Lancelot)
+UltraISO.script
+GImageX.script
+LODR-loader.script
+VMWarePlayerWorkstation.Script
+VMXBuilder.script
+0 - OnProjectRun.script
+1 - RegFactory.Script
+3 - LocalizedInfoMore.script
+7 - AutoItSupport.Script
+9 - ProgramFilesPE.Script
+autoruns.Script
+FixShellWinlogon.Script
+MiscSettings.Script
+ShellSecurity.script
+Explorer.Script
+20050902_msi.script
+SetResolution.script
+HDAudio.script
+UniversalVideoDriver.Script
+DrvImpe.script
+HwPnP.script
+xpe-pnp-aio.script
+WimPack.script
+BootSDI.script
+CreateISO.script
+%Tools%\x64\AutoIt3_x64.exe ---- ### NEW ###
+%Tools%\x86\AutoIt3.exe -------- ### NEW ###
+20091124 581 (Galapo)
+0 - OnProjectRun.script
+9 - ProgramFilesPE.Script
+Common_Api.script - ##### NO version change ##### - ##### NO version change #####
+script.project
+20091123 580 (Lancelot)
+BootSDI.script
+20091123 579 (Lancelot)
+FileZilla3.script
+20091120 578 (Galapo)
+Explorer.Script
+20091117 577 (Lancelot)
+7-Zip_File_Manager_SJL.script
+20091117 576 (Lancelot)
+7-Zip_File_Manager_SJL.script
+20091117 575 (Lancelot)
+7-Zip_File_Manager_SJL.script
+20091117 574 (Lancelot)
+7-Zip_File_Manager_SJL.script
+VMWareNIC.script
+20091117 573 (Galapo)
+ExpEnvVar.exe
+x86\ExpEnvVar_x86.exe --- ### NEW ###
+x64\ExpEnvVar_x64.exe --- ### NEW ###
+x86\ExpEnvVar.exe ------- # REMOVED #
+x64\ExpEnvVar.exe ------- # REMOVED #
+20091116 572 (Lancelot)
+OEM_Information_and_Logo.Script
+20091116 571 (Lancelot)
+LODR-Thinstall_Support.script
+20091115 570 (Lancelot)
+OODefrag10-11-12-api.Script
+20091115 569 (Lancelot)
+xCHM.script
+20091115 568 (Lancelot)
+dependency_walker.script
+20091115 567 (Lancelot)
+xCHM.script
+20091115 566 (Lancelot)
+xCHM.script
+20091114 565 (Lancelot)
+regshot.script
+mitec_registry_repair.script
+20091114 564 (Lancelot)
+XnView.script
+NTFSLink.script
+20091114 563 (Lancelot)
+WinMerge.script
+XnView.script
+UniversalVideoDriver.Script
+20091114 562 (Lancelot)
+AutoIt.script
+20091114 561 (Lancelot)
+zonealarm.script
+20091114 560 (Lancelot)
+Getright.script
+20091114 559 (Lancelot)
+Snapshot.script
+20091114 558 (Lancelot)
+OODefrag10-11-12-api.Script
+20091114 557 (Lancelot)
+WinMerge.script
+20091114 556 (Lancelot)
+TinyHexer.script
+20091114 555 (Lancelot)
+TinyHexer.script
+20091114 554 (Lancelot)
+UltraISO.script
+20091114 553 (Lancelot)
+regshot.script
+20091113 552 (Lancelot)
+VGASave_Settings-vga_sys.script
+20091113 551 (Lancelot)
+VGASave_Settings-vga_sys.script        ### NEW ###
+20091113 550 (Lancelot)
+BootSDI.script
+20091111 549 (Lancelot)
+FindTarget_Lance.script
+20091111 548 (Lancelot)
+A_OffByOne.script
+20091111 547 (Lancelot)
+A_OffByOne.script
+20091111 546 (Lancelot)
+Properties_Plus_Arvy.script
+20091111 545 (Lancelot)
+FindTarget_Lance.script        ### NEW ###
+HashTab_olegpov.script         ### NEW ###
+Properties_Plus_Arvy.script    ### NEW ###
+tweaks.script
+script.project
+20091110 544 (Lancelot)
+0 - OnProjectRun.script
+20091110 543 (Lancelot)
+addDOSutils.script
+20091109 542 (Lancelot)
+SumatraPDF.Script
+20091109 541 (Lancelot)
+InfraRecorder.script
+restoration.script
+TrueCrypt.script
+SumatraPDF.Script
+dependency_walker.script
+20091109 540 (Lancelot)
+HxD.script
+20091109 539 (Lancelot)
+HxD.script
+20091109 538 (Lancelot)
+1 - RegFactory.Script
+VMWare.script
+20091108 537 (Lancelot)
+doublecmd.script
+20091108 536 (Lancelot)
+Core_Main.script
+20091108 535 (Lancelot)
+// Scripts moved by +1 version number to solve wb download issue
+\Components\Core\2 Update\20050902_msi.script  --------------------------------- # NEW #
+\Components\Core\2 Update\20090126_WindowsXP-KB955704-x86-ENU_exFat.script ----- # NEW #
+\Components\Core\2 Updates\20050902_msi.script --------------------------------- # REMOVED #
+\Components\Core\2 Updates\20090126_WindowsXP-KB955704-x86-ENU_exFat.script ---- # REMOVED #
+20091108 534 (Lancelot)
+#### NEW ####
+%tools%\x64\7z.dll
+%tools%\x64\7z.exe
+%tools%\x64\7z.sfx
+%tools%\x64\7zCon.sfx
+%tools%\x64\ExpEnvVar.exe
+%tools%\x64\hiderunEx_Info.txt
+%tools%\x86\7z.dll
+%tools%\x86\7z.exe
+%tools%\x86\7z.sfx
+%tools%\x86\7zCon.sfx
+%tools%\x86\ExpEnvVar.exe
+%tools%\x86\hiderunEx_Info.txt
+20091108 533 (Lancelot)
+rdc.script
+20091108 532 (Lancelot)
+Recuva.script
+SelfImage.script
+soft_perfect_file_recovery.script
+RestoreBase.Script
+ShellSecurity.script
+WimBoot.script
+20091107 531 (Lancelot)
+I advice Basic users follow this way:
+Delete .\Projects\LiveXP\Basic\Tweaks\       folder
+Delete .\Projects\LiveXP\Apps\Net\           folder
+Delete .\Projects\LiveXP\Apps\System\        folder
+Delete .\Projects\LiveXP\Apps\Supplementary\ folder
+Delete .\Projects\LiveXP\Apps\Net\OffByOne.script
+Delete .\Projects\LiveXP\Basic\Shells\Addons\msi.script
+Delete .\Projects\LiveXP\Basic\Shells\Addons\ScriptingCore.script
+Delete .\Projects\LiveXP\Basic\Shells\Addons\ScriptingSup.Script
+Delete .\Projects\LiveXP\Basic\Shells\Addons\WindowsXP-KB955704-x86-ENU_exFat.script
+Download with winbuilder.
+For Advanced users: main changes are at 528 - 529 - 530, ReOrganisation Starts from 512.
+20091107 530 (Lancelot)
+Apps\Net\                                        ## All Scripts updated ##
+Apps\Net\A_OffByOne.script   ## NEW     ##
+Apps\Net\OffByOne.script     ## REMOVED ##
+Apps\Supplementary\                              ## All Scripts updated ##
+Apps\System\                                     ## All Scripts updated ##
+20091107 529 (Lancelot)
+***PENetwork.script ----- ####### version number NOT CHANGED #######
+Components\folder.project---------------------------------------------------- ## Added ##
+Components\Core\1 System\addDOSutils.script---------------------------------- ## Added ##
+Components\Core\1 System\dos16bit.Script------------------------------------- ## Added ##
+Components\Core\1 System\LODR-Thinstall_Support.script----------------------- ## Added ##
+Components\Core\1 System\MMC.script------------------------------------------ ## Added ##
+Components\Core\1 System\regedit-api.script---------------------------------- ## Added ##
+Components\Core\1 System\ScriptingCore.script-------------------------------- ## Added ##
+Components\Core\1 System\ScriptingSup.Script--------------------------------- ## Added ##
+Components\Core\1 System\Taskman-api.Script---------------------------------- ## Added ##
+Components\Core\1 System\Accessories\calculator.Script----------------------- ## Added ##
+Components\Core\1 System\Accessories\Hearts.script--------------------------- ## Added ##
+Components\Core\1 System\Accessories\MSPaint.Script-------------------------- ## Added ##
+Components\Core\1 System\Accessories\notepad.Script-------------------------- ## Added ##
+Components\Core\1 System\Accessories\wordpad.Script-------------------------- ## Added ##
+Components\Core\1 System\Network\PEDialup.script----------------------------- ## Added ##
+Components\Core\1 System\Network\PENetwork.script---------------------------- ## Added ## ***
+Components\Core\1 System\Network\rdc.script  -------------------------------- ## Added ##
+Components\Core\2 Updates\20050902_msi.script ------------------------------- ## Added ##
+Components\Core\2 Updates\20090126_WindowsXP-KB955704-x86-ENU_exFat.script -- ## Added ##
+Components\Tweaks\autoKeyboard.Script --------------------------------------- ## Added ##
+Components\Tweaks\autoLocalization.Script ----------------------------------- ## Added ##
+Components\Tweaks\CMDTweaks.Script ------------------------------------------ ## Added ##
+Components\Tweaks\DisplayProperties.Script ---------------------------------- ## Added ##
+Components\Tweaks\driverSigning.Script -------------------------------------- ## Added ##
+Components\Tweaks\EsentlFonts.script ---------------------------------------- ## Added ##
+Components\Tweaks\Explorer shell TWEAKS and SETTINGS.script ----------------- ## Added ##
+Components\Tweaks\folder.project -------------------------------------------- ## Added ##
+Components\Tweaks\ScreenLock.script ----------------------------------------- ## Added ##
+Components\Tweaks\SetResolution.script -------------------------------------- ## Added ##
+Components\Tweaks\toggleKeyboard.Script ------------------------------------- ## Added ##
+Components\Tweaks\tweaks.script --------------------------------------------- ## Added ##
+Components\Tweaks\Wallpaper.Script ------------------------------------------ ## Added ##
+20091107 528 (Lancelot)
+Basic\Tweaks\autoKeyboard.Script ------------------------------ ###### REMOVED ######
+Basic\Tweaks\autoLocalization.Script -------------------------- ###### REMOVED ######
+Basic\Tweaks\CMDTweaks.Script --------------------------------- ###### REMOVED ######
+Basic\Tweaks\DisplayProperties.Script ------------------------- ###### REMOVED ######
+Basic\Tweaks\driverSigning.Script ----------------------------- ###### REMOVED ######
+Basic\Tweaks\EsentlFonts.script ------------------------------- ###### REMOVED ######
+Basic\Tweaks\Explorer shell TWEAKS and SETTINGS.script -------- ###### REMOVED ######
+Basic\Tweaks\folder.project ----------------------------------- ###### REMOVED ######
+Basic\Tweaks\ScreenLock.script -------------------------------- ###### REMOVED ######
+Basic\Tweaks\SetResolution.script ----------------------------- ###### REMOVED ######
+Basic\Tweaks\toggleKeyboard.Script ---------------------------- ###### REMOVED ######
+Basic\Tweaks\tweaks.script ------------------------------------ ###### REMOVED ######
+Basic\Tweaks\Wallpaper.Script --------------------------------- ###### REMOVED ######
+Basic\Shells\Addons\msi.script -------------------------------- ###### REMOVED ######
+Basic\Shells\Addons\ScriptingCore.script ---------------------- ###### REMOVED ######
+Basic\Shells\Addons\ScriptingSup.Script  ---------------------- ###### REMOVED ######
+Basic\Shells\Addons\WindowsXP-KB955704-x86-ENU_exFat.script --- ###### REMOVED ######
+Apps\Net\OffByOne.script -------------------------------------- ###### REMOVED ######
+Apps\Net\PEDialup.script -------------------------------------- ###### REMOVED ######
+Apps\Net\PENetwork.script ------------------------------------- ###### REMOVED ######
+Apps\Net\Remote Connect\rdc.script ---------------------------- ###### REMOVED ######
+Apps\Supplementary\calculator.Script -------------------------- ###### REMOVED ######
+Apps\Supplementary\LODR-loader.script ------------------------- ###### REMOVED ######
+Apps\Supplementary\Games\Hearts.script ------------------------ ###### REMOVED ######
+Apps\Supplementary\Graphics\MSPaint.Script -------------------- ###### REMOVED ######
+Apps\Supplementary\Office\notepad.Script ---------------------- ###### REMOVED ######
+Apps\Supplementary\Office\wordpad.Script ---------------------- ###### REMOVED ######
+Apps\System\addDOSutils.script -------------------------------- ###### REMOVED ######
+Apps\System\dos16bit.Script ----------------------------------- ###### REMOVED ######
+Apps\System\MMC.script ---------------------------------------- ###### REMOVED ######
+Apps\System\Taskman-api.Script -------------------------------- ###### REMOVED ######
+Apps\Registry\regedit-api.script ------------------------------ ###### REMOVED ######
+20091107 527 (Lancelot)
+0 - OnProjectRun.script
+4 - BuildModel.Script
+Core_Main.script
+20091107 526 (Lancelot)
+UniversalVideoDriver.Script
+VirtualPCNIC.script
+ProcessorDrivers.script
+0804Support.Script
+ChineseSupport.Script
+multiprocessor.script
+regCompact.Script
+WimBoot.script
+VirtualBox.script
+Finalize Batch.Script
+SaveBase.Script
+20091107 525 (Lancelot)
+//All Security updated
+DiskCryptor.script
+KeePass.script
+TrueCrypt.script
+HijackThis!.script
+HJHotkey.script
+avastVC.script
+JoshuaKeyFinder.script
+MagicJellyBeanKeyfinder.script
+Ndq.script
+password_renew.script
+WindowsGate.script
+20091106 524 (Lancelot)
+Unlocker.script
+20091105 523 (Lancelot)
+Common_Api.script - ##### NO version change ##### - ##### NO version change #####
+20091105 522 (Lancelot)
+doublecmd.script
+20091105 521 (Lancelot)
+a43_JGL.script
+doublecmd.script
+FAR_Manager2_10_Lite.script
+FAR_Manager2_60_FULL.script
+dependency_walker.script
+20091105 520 (Lancelot)
+hiderunEx_x86.exe ------------------> ####   NEW   ####
+hiderunEx_x64.exe ------------------> ####   NEW   ####
+20091104 519 (Lancelot)
+a43.script -------------------------> #### REMOVED ####
+a43_JGL.script ---------------------> ####   NEW   ####
+doublecmd.script
+FAR_Manager2_10_Lite.script --------> ####   NEW   ####
+FAR_Manager2_60_FULL.script --------> ####   NEW   ####
+HxD.script
+TinyHexer.script
+TreeSizeFreeware_SB.script
+WinMerge.script
+7-Zip_File_Manager_SJL.script ------> ####   NEW   ####
+IZArc.script
+UniExtract.script ------------------> ####   NEW   ####
+ycopy.script
+FindOnClick.script
+superfinder.script
+Unlocker.script --------------------> ####   NEW   ####
+20091104 518 (Lancelot)
+diskinternals_linux_recovery.script==> Moved tO \Apps\HD Tasks\Recover\
+20091104 517 (Lancelot) X 2
+VMWarePlayerWorkstation.Script
+VMXBuilder.script
+vmCrypro.script
+VMWareConverter.script
+20091104 515 (Lancelot)
+windlg.script  -------------------------> #### REMOVED ####
+WD_Data_Lifeguard_Diagnostic.script  ---> ####   NEW   ####
+MBRWhysky.script -----------------------> #### REMOVED ####
+MBRWizard.script -----------------------> ####   NEW   ####
+HDDScan.script -------------------------> ####   NEW   ####
+TestDisk_PhotoRec.script ---------------> ####   NEW   ####
+Acronis-DiskDirector10.script
+HDHacker.script
+HDM85-95.script
+defragger.script
+JKDefrag.script
+OODefrag10-11-12-api.Script
+PowerDefragmenterGUI.script
+chkdsk-GUI.script
+diskscanner12.Script
+HDTune.script
+mitec_msi.script
+mitec_wfa.script
+OverDisk.Script
+disk_redactor.script
+eraser.script
+diskinternals_linux_recovery.script
+edata_unerase.script
+fru.script
+handy_recovery.script
+mispbo_ultimate_data_recovery.script
+ntfs_undelete.script
+pc_inspector_file_recovery.script
+recover_files.script
+Recuva.script
+restoration.script
+smart_data_recovery.script
+soft_perfect_file_recovery.script
+turbo_file_uneraser.script
+undelete_plus.script
+UndeleteOnClick.script
+Acronis-TrueImage91Workstation.Script
+DriveImageXML.script
+GImageX.script
+SelfImage.script
+Snapshot.script
+MBRFix.Script
+cd_recovery.script
+diskinternals_linux_reader.script
+diskinternals_ntfs_reader.script
+diskinternals_zip_repair.script
+partition_find_and_mount.script
+smart_partition_recovery.script
+20091104 514 (Lancelot)
+CDImageGUI.script
+CDWriter.Script
+ImgBurn.script
+InfraRecorder.script
+UltraISO.script
+20091103 513 (Lancelot)
+TDTools.script ------------------------------------> ###  ###  REMOVED REMOVED REMOVED REMOVED ### ###
+20091103 512 (Lancelot)
+adrc_data_recovery_tools.script -------------------> ###  ###  REMOVED REMOVED REMOVED REMOVED ### ###
+20091101 511 (Lancelot)
+WinNTSetup_JFX.script
+20091031 510 (Lancelot)
+WinNTSetup_JFX.script
+20091031 509 (Lancelot)
+xpe_directx.script
+20091029 508 (Galapo)
+0 - OnProjectRun.script
+20091028 507 (Galapo)
+0 - OnProjectRun.script
+20091028 506 (Lancelot)
+ServicesPE.script
+20091027 505 (Lancelot)
+ServicesPE.script
+Explorer shell TWEAKS and SETTINGS.script
+tweaks.script
+20091025 504 (Lancelot)
+Recuva.script
+20091022 503 (Lancelot)
+WimBoot.script
+20091020 502 (Lancelot)
+YY-BootScreen.script
+20091020 501 (Galapo)
+OfflineSysPrep.script
+WimPack.script
+20091018 500 (Lancelot)
+doublecmd.script --------------> ### NEW ###
+dependency_walker.script
+jedi_dependencyviewer.script
+jedi_toolhelpviewer.script
+20091017 499 (Lancelot)
+9 - DefineBootsector.script
+CreateISO.script
+20091016 498 (Galapo)
+HDM85-95.script
+20091016 497 (Lancelot)
+Recuva.script
+20091015 496 (Lancelot)
+FileZilla3.script
+CreateISO.script
+gzip_Web.url --------------> ### NEW ###
+gzip.exe ------------------> ### NEW ###
+20091015 495 (Galapo)
+9 - DefineBootsector.script
+WimBoot.script
+20091015 494 (Galapo)
+WimPack.script
+20091013 493 (Galapo)
+EXEandChangelog.script
+20091013 492 (Lancelot)
+EXEandChangelog.script
+script.project
+20091013 491 (Lancelot)
+ntfs_undelete.script
+20091012 490 (Lancelot)
+default Tools changed to %Tools%=%BaseDir%\Projects\Tools\LiveXP
+script.project
+20091011 489 (Lancelot)
+EsentlFonts.script
+20091010 488 (Lancelot)
+EXEandChangelog.script
+20091010 487 (Lancelot)
+ImgBurnISO.script
+EXEandChangelog.script
+20091010 486 (Lancelot)
+BootSDI.script
+20091010 485 (Lancelot)
+script.project
+vFiraDisk.Script
+20091009 484 (Lancelot)
+WimPack.script
+20091008 483 (Lancelot)
+script.project
+0 - OnProjectRun.script
+freeHive.exe --------------> ### NEW ###
+freeHive_Info.txt ---------> ### NEW ###
+20091008 482 (Lancelot)
+0 - OnProjectRun.script
+20091007 481 (Lancelot)
+script.project
+20091007 480 (Lancelot)
+script.project
+CreateISO.script
+20091006 479 (Lancelot)
+MountStor.script
+20091006 478 (Lancelot)
+BootSDI.script
+20091006 477 (Lancelot)
+BootSDI.script
+20091006 476 (Lancelot)
+CreateISO.script
+20091006 475 (Lancelot)
+DrvImpe.script
+20091006 474 (Lancelot)
+vFiraDisk.Script
+20091005 473 (Lancelot)
+xpe_directx.script
+20091005 472 (Lancelot)
+DrvImpe.script
+20091005 471 (Galapo)
+0 - OnProjectRun.script
+20091004 470 (Lancelot)
+CreateISO.script
+20091003 469 (Lancelot)
+Runscanner.script
+20091003 468 (Galapo)
+script.project
+9 - DefineBootsector.script
+BootSDI.script
+EXEandChangelog.script
+DrvImpe.script
+ImgBurnISO.script
+multiprocessor.script
+VMWare.script
+20091002 467 (Lancelot)
+script.project
+9 - DefineBootsector.script
+20091002 466 (Galapo)
+BootSDI.script
+WimBoot.script
+WimPack.script
+20091001 465 (Lancelot)
+Runscanner.script
+20091001 464 (fxscrpt)
+1 - RegFactory.Script
+Core_Main.script
+25CoreWMI.script
+20091001 463 (Galapo)
+BootSDI.script
+20091001 462 (Galapo)
+0 - OnProjectRun.script
+BootSDI.script
+Imdisk_Installer.script
+20091001 461 (Lancelot)
+script.project
+BootSDI.script
+CreateISO.script
+WimBoot.script
+20090930 460 (Lancelot)
+Common_Api.script ----> #### VERSION DOWNGRADE ####
+EXEandChangelog.script ----> #### Winbuilder.exe DOWNGRADED 077 RC2 ####
+BootSDI.script
+20090930 459 (Lancelot)
+BootSDI.script
+uWin2k3_RamdiskSys.Script
+20090930 458 (Lancelot)
+JKDefrag.script
+20090930 457 (Galapo)
+BootSDI.script
+20090929 456 (Galapo)
+++ 0 - OnProjectRun.script ---------> ### NEW ###
+++ uWin2k3_RamdiskSys.Script ---------> ### NEW ###
+++ 4 Ramdisk\vFiraDisk.Script ---------> ### NEW ###
+++ 6 Other ---------> ### NEW ### [Previously '5 Other'; name change  due to new '4 Ramdisk' branch]
+-- 4 Storage\vFiraDisk.Script -------------------> ###  ###  REMOVED REMOVED REMOVED REMOVED ### ###
+-- 5 Other -------------------> ###  ###  REMOVED REMOVED REMOVED REMOVED ### ###
+9 - DefineBootsector.script
+BootSDI.script
+SaveBase.Script
+script.project
+WimPack.script
+20090929 455 (Lancelot)
+Common_Api.script
+20090928 454 (Lancelot)
+EXEandChangelog.script ----> #### Winbuilder.exe updated 078 sp2 ####
+20090928 453 (Lancelot)
+JKDefrag.script
+EXEandChangelog.script ----> #### Winbuilder.exe updated 078 sp2 ####
+20090928 452 (fxscrpt)
+VMWare.script
+20090928 451 (Galapo)
+++ bPatch.exe ---------> ### NEW ###
+++ Imdisk_Installer.script ---------> ### NEW ###
+script.project
+WimPack.script
+20090927 450 (Lancelot)
+JKDefrag.script
+20090926 449 (Lancelot)
+Runscanner.Script
+20090922 448 (Lancelot)
+BlueScreenView.script
+20090922 447 (Galapo)
+multiprocessor.script
+20090920 446 (Galapo)
+HwPnP.script
+20090920 445 (Galapo)
+9 - DefineBootsector.script
+20090920 444 (Galapo)
+9 - DefineBootsector.script
+20090919 443 (Lancelot)
+DrvImpe.script
+xpe-pnp-aio.script
+20090919 442 (Lancelot)
+vUSBDummyDisk.Script
+20090919 441 (Galapo)
+9 - DefineBootsector.script
+20090919 440 (Galapo)
+AddRemoveUpperFilters.script
+DPs-Build_MassStorageDrivers.script
+ScreenLock.script
+WimPack.script
+20090919 439 (Galapo)
+WimPack.script
+20090918 438 (fxscrpt)
+RemovableDevicesCombo.script
+HwPnP.script
+20090917 437 (Galapo)
+9 - DefineBootsector.script
+20090917 436 (Galapo)
+9 - DefineBootsector.script
+ImgBurnISO.script
+20090916 435 (Lancelot)
+qEmu.Script
+VirtualBox.script
+VMWare.script
+20090916 434 (Lancelot)
+FixShellWinlogon.Script
+MiscSettings.Script
+ShellSecurity.script
+20090916 433 (Galapo)
+9 - DefineBootsector.script
+20090915 432 (Galapo)
+9 - DefineBootsector.script
+20090915 431 (Galapo)
+++ gsar.exe ---------> ### NEW ###
+BootSDI.script
+CreateISO.script
+20090915 430 (Galapo)
+++ 9 - DefineBootsector.script ---------> ### NEW ###
+-- grub4dos.script-------------------> ###  ###  REMOVED REMOVED REMOVED REMOVED ### ###
+9 - ProgramFilesPE.Script
+BootSDI.script
+CreateISO.script
+multiprocessor.script
+script.project
+WimBoot.script
+20090914 429 (Galapo)
+vUSBDummyDisk.Script
+20090914 428 (Galapo)
+CreateISO.script
+WimBoot.script
+20090913 427 (fxscrpt)
+++ RemovableDevicesCombo.script ---------> ### NEW ###
+-- USBSupport.Script-------------------> ###  ###  REMOVED REMOVED REMOVED REMOVED ### ###
+-- IEEE1394.Script --------------------> ###  ###  REMOVED REMOVED REMOVED REMOVED ### ###
+-- usb_keyboard_mouse_hotplug.script --> ###  ###  REMOVED REMOVED REMOVED REMOVED ### ###
+HwPnP.script
+xpe-pnp-aio.script
+20090913 426 (Lancelot)
+partition_find_and_mount.script ----> ### MOVED TO \Apps\HD Tasks\Recover ### (NO Version CHANGE)
+20090912 425 (Lancelot)
+partition_find_and_mount.script
+WimBoot.script ##### NO version change ##### - ##### NO version change #####
+20090912 424 (Galapo)
+9 - ProgramFilesPE.Script
+WimPack.script
+20090911 423 (Lancelot)
+Runscanner.Script
+20090911 422 (Lancelot)
+Runscanner.Script
+partition_find_and_mount.script
+20090910 421 (Lancelot)
+Acronis-TrueImage91Workstation.Script
+20090910 420 (Lancelot)
+PENetwork.script ##### NO version change ##### - ##### NO version change #####
+20090910 419 (Lancelot)
+Acronis-TrueImage91Workstation.Script
+20090910 418 (Lancelot)
+WimPack.script
+Acronis-DiskDirector10.script
+Acronis-TrueImage91Workstation.Script
+20090910 417 (fxscrpt)
+IEEE1394.Script ---------> ### NEW ###
+20090910 416 (Lancelot)
+WimBoot.script ##### NO version change ##### - ##### NO version change #####
+20090909 415 (Galapo)
+WimBoot.script
+WimPack.script
+20090908 414 (Lancelot)
+WimBoot.script
+20090908 413 (fxscrpt)
+HwPnP.script
+xpe-pnp-aio.script
+20090908 412 (Lancelot)
+++ vUSBDummyDisk.Script ---------> ### NEW ###
+-- USBDummyDisk.Script ---------> ###  ###  REMOVED REMOVED REMOVED REMOVED ### ###
+script.project
+20090907 411 (Lancelot)
+++ vFiraDisk.Script ---------> ### NEW ###
+MagicJellyBeanKeyfinder.script
+20090907 410 (Lancelot)
+DPs-MassStorageDrivers_au3.script
+20090907 409 (Lancelot)
+USBDummyDisk.Script ##### NO version change ##### - ##### NO version change #####
+Common_Api.script
+20090907 408 (Lancelot)
+WimPack.script (version fix)
+20090907 407 (fxscrpt)
+1 - RegFactory.Script
+01CoreControlClasses.Script
+15CoreHelp.Script
+USBSupport.Script
+HwPnP.script
+xpe-pnp-aio.script
+20090907 406 (Lancelot)
+WimPack.script
+script.project
+20090904 405 (Lancelot)
+superfinder.script
+20090904 404 (Galapo)
+OODefrag10-11-12-api.Script
+20090902 403 (Lancelot)
+DPs-MassStorageDrivers_au3.script
+20090902 402 (Galapo)
+Common_Api.script
+20090902 401 (Galapo)
+OfflineSysPrep.script
+20090902 400 (Galapo)
+UltraISO.script
+20090831 399 (Lancelot)
+-- hddtune.script ---------> ###  ###  REMOVED REMOVED REMOVED REMOVED ### ###
+++ HDTune.script ---------> ### NEW ###
+20090831 398 (Lancelot)
+PENetwork.script - v37d ##### NO version change ##### - ##### NO version change #####
+20090831 397 (Lancelot)
+PENetwork.script - v37c ##### NO version change ##### - ##### NO version change #####
+20090830 396 (Lancelot)
+++ DiskCryptor.script ---------> ### NEW ###
+20090830 395 (Lancelot)
+regshot.script
+20090829 394 (Galapo)
+++ HDM85-95.script ---------> ### NEW ###
+-- HDM85.script ---------> ###  ###  REMOVED REMOVED REMOVED REMOVED ### ###
+20090829 393 (Galapo)
+VMWareConverter.script
+20090828 392 (Lancelot)
+VMWareConverter.script
+20090827 391 (Lancelot)
+OODefrag10-11-12-api.Script
+20090827 390 (Lancelot)
+WimBoot.script
+20090826 389 (Galapo)
+++ OODefrag10-11-12-api.Script ---------> ### NEW ###
+-- OODefrag10-11-api.Script ---------> ###  ###  REMOVED REMOVED REMOVED REMOVED ### ###
+20090826 388 (Lancelot)
+Common_Api.script
+20090826 387 (Lancelot)
+superfinder.script
+20090824 386 (fxscrpt)
+01CoreControlClasses.Script
+20090823 385 (Lancelot)
+TinyHexer.script
+20090822 384 (Lancelot)
+Explorer shell TWEAKS and SETTINGS.script
+20090822 383 (Lancelot)
+Explorer shell TWEAKS and SETTINGS.script
+20090822 382 (Lancelot)
+Explorer shell TWEAKS and SETTINGS.script
+PENetwork.script - ##### NO version change ##### - ##### NO version change #####
+20090822 381 (Lancelot)
+MBRFix.Script
+20090821 380 (Lancelot)
+BlueScreenView.script
+HijackThis!.script
+Common_Api.script
+20090821 379 (fxscrpt)
+HwPnP.script
+Core_Main.script
+20090821 378 (Lancelot)
+++ BlueScreenView.script ---------> ### NEW ###
+20090821 377 (Lancelot)
+YY-BootScreen.script
+20090819 376 (Lancelot)
+DriveImageXML.script
+SumatraPDF.Script
+20090819 375 (Lancelot)
+DPs-Build_MassStorageDrivers.script
+DPs-MassStorageDrivers_au3.script
+SATA2.script
+20090819 374 (Lancelot)
+USBDummyDisk.Script
+20090819 373 (Lancelot)
+RegScanner.script
+MagicJellyBeanKeyfinder.script
+20090818 372 (Lancelot)
+Common_Api.script
+20090818 371 (Lancelot)
+PEDialup.script
+20090818 370 (Lancelot)
+++ USBDummyDisk.Script ---------> ### NEW ###
+20090815 369 (Lancelot)
+TinyHexer.script
+20090815 368 (Lancelot)
+script.project
+20090815 367 (Lancelot)
+TinyHexer.script X 2
+20090815 366 (Lancelot)
+YY-BootScreen.script
+20090815 365 (Lancelot)
+BootSDI.script
+20090815 364 (Lancelot)
+regedit-api.script
+xpe_directx.script
+20090813 363 (Lancelot)
+tweaks.script
+20090813 362 (Lancelot)
+xpe-pnp-aio.script
+20090813 361 (Lancelot)
+DrvImpe.script
+20090813 360 (Lancelot)
+WimBoot.script
+20090813 359 (Lancelot)
+mitec_registry_repair.script (**Download level changed from minimum to recommended)
+20090812 358 (Lancelot)
+Explorer shell TWEAKS and SETTINGS.script
+20090812 357 (Lancelot)
+xpe_directx.script
+20090812 356 (Lancelot)
+++ Common_Api.script  ---------> ### NEW ###
+script.project
+-- api.script ---------> ###  ###  REMOVED REMOVED REMOVED REMOVED ### ###
+20090812 355 (Lancelot)
+FixShellWinlogon.Script
+20090811 353 (Lancelot)
+DrvImpe.script
+MountStor.script
+20090810 352 (Lancelot)
+RussianSupport.script
+20090810 351 (Lancelot)
+Explorer shell TWEAKS and SETTINGS.script
+20090803 350 (Galapo)
+WimPack.script
+20090803 349 (Galapo)
+ImgBurn.script
+KeePass.script
+TrueCrypt.script
+WinMerge.script
+xCHM.script
+20090729 348 (Galapo)
+BootSDI.script
+WimPack.script
+20090729 347 (Lancelot)
+BootSDI.script X 2
+20090728 345 (Lancelot)
+YY-BootScreen.script
+20090724 344 (Lancelot)
+CreateISO.script
+PENetwork.script
+20090724 343 (Lancelot)
+++ TreeSizeFreeware_SB.script  ---------> ### NEW ###
+20090723 342 (Lancelot)
+-- spybot.script ---------> ###  ###  REMOVED REMOVED REMOVED REMOVED ### ###
+++ HijackThis!.script  ---------> ### NEW ###
+++ HJHotkey.script  ------------> ### NEW ###
+20090721 341 (Lancelot)
+WimPack.script
+20090721 340 (Lancelot)
+dos16bit.Script
+20090721 339 (Lancelot)
+****YOU MUST USE winbuilder minimum 077RC2 - DO NOT USE winbuilder 076 ****
+****YOU MUST USE winbuilder minimum 077RC2 - DO NOT USE winbuilder 076 ****
+****YOU MUST USE winbuilder minimum 077RC2 - DO NOT USE winbuilder 076 ****
+****YOU MUST USE winbuilder minimum 077RC2 - DO NOT USE winbuilder 076 ****
+!Fundamentals.Script
+1 - ProjectInfo.Script
+3 - hivesFactory.Script
+4 - BuildModel.Script
+5 - CopyAndExpand.Script
+DisplayProperties.Script
+InfSupport.Script
+EXEandChangelog.script
+20090718 338 (Lancelot)
+WinNTSetup_JFX.script
+(again available on LiveXP server :) )
+20090716 337 (Lancelot)
+notepad.Script
+Explorer.Script
+ImDisk.Script
+autoKeyboard.Script
+autoCompress.Script
+20090715 336 (Lancelot)
+tightvnc.script X 2
+20090712 335 (Lancelot)
+WinNTSetup_JFX.script
+----> Temporarly removed from download list for author JFX wish/concerns (post48)
+----> Will be available again when updated :)
+----> (LiveXP\Apps\System\Windows Setup\  (version=9))
+20090712 334 (Lancelot)
+WimBoot.script  ---------> ##### BETA Use At Your own Risk #####
+20090711 333 (Lancelot)
+script.project
+20090707 332 (Lancelot)
+3 - LocalizedInfoMore.script
+20090705 331 (Galapo :>)
+DrvImpe.script
+20090705 330 (Lancelot)
+BootSDI.script
+20090704 329 (Lancelot)
+YY-BootScreen.script
+WimBoot.script  ---------> ##### BETA Use At Your own Risk #####
+(NO VERSION INCREASE in order to follow author (Nikzzzz) version number)
+20090702 328 (Lancelot)
+BootSDI.script
+20090628 327 (Lancelot)
+!myOptions.Script
+4 - BuildModel.Script
+5 - CopyAndExpand.Script
+ImDisk.Script
+20090628 326 (Lancelot)
+autoKeyboard.Script --> DOwnload level changed to 1 - ##### No Version Change #####
+autoLocalization.Script --> DOwnload level changed to 1 - ##### No Version Change #####
+20090625 325 (Lancelot)
+YY-BootScreen.script  ---------> ### NEW ###
+script.project
+CreateISO.script
+WimBoot.script  ---------> ##### BETA Use At Your own Risk #####
+(NO VERSION INCREASE in order to follow author (Nikzzzz) version number)
+20090625 324 (Lancelot)
+script.project
+20090624 323 (fxscrpt)
+1 - RegFactory.Script
+Core_Main.script
+03CoreCrypto.script
+10CoreMMC.script
+15CoreHelp.Script
+20CoreNet.script
+35CoreStorage.Script
+80CoreIE.script
+20090623 322 (Lancelot)
+9 - ProgramFilesPE.Script
+20090620 321 (Lancelot)
+WimBoot.script  ---------> ##### BETA Use At Your own Risk #####
+(NO VERSION INCREASE in order to follow author (Nikzzzz) version number)
+20090620 320 (Lancelot)
+CMDTweaks.Script
+driverSigning.Script
+20090618 319 (Galapo)
+BootSDI.script
+20090617 318 (Lancelot)
+CD-Opera.script
+20090616 317 (Lancelot)
+EXEandChangelog.script
+script.project
+20090616 316 (fxscrpt)
+15CoreHelp.Script
+20090616 315 (Lancelot)
+80CoreIE.script
+20090615 314 (fxscrpt)
+EarlyStarter.script
+ESSvc.exe  ---------> ### NEW at %Tools% ###
+usb_keyboard_mouse_hotplug.script
+USBSupport.Script
+20090615 313 (Galapo)
+DPs-Build_MassStorageDrivers.script
+20090615 312 (Lancelot)
+DPs-MassStorageDrivers_au3.script
+20090614 311 (Galapo)
+DPs-Build_MassStorageDrivers.script
+20090613 310 (Lancelot)
+DPs-Build_MassStorageDrivers.script
+DPs-MassStorageDrivers_au3.script
+20090612 309 (Lancelot)
+IZArc.script
+RegEditWB.Script - ##### NO version change ##### - hostosx64 reg.exe support (faster registry editor)
+20090611 308 (Lancelot)
+WinNTSetup_JFX.script
+20090611 307 (Lancelot)
+api.script
+20090610 306 (Lancelot)
+Core_Main.script
+20090610 305 (Lancelot)
+MMC.script
+20090610 304 (Lancelot)
+WinNTSetup_JFX.script
+!WBVerify.Script - ##### NO version change ##### - spaced directory bugy fixed :)
+20090609 303 (Lancelot)
+CreateISO.script
+20090609 302 (Lancelot)
+script.project
+DrvImpe.script
+xpe-pnp-aio.script
+20090607 301 (Lancelot)
+!WBManager.Script
+software_licenses_LivePE.txt
+20090607 300 (Lancelot)
+Finalize Batch.Script
+7z_7za_Copying.txt -  jacklaz post 222 http://www.boot-land.net/forums/index.php?showtopic=7250&view=findpost&p=66268
+7z_License.txt
+7za_License.txt
+software_licenses_LivePE.txt - Nuno Brito post 230 - http://www.boot-land.net/forums/index.php?showtopic=7250&view=findpost&p=66292
+20090607 299 (Lancelot)
+!Fundamentals.Script
+!myOptions.Script
+!WBManager.Script
+20090606 298 (Lancelot)
+RegScanner.script
+20090606 297 (Lancelot)
+CreateISO.script
+20090606 296 (Lancelot)
+CreateISO.script
+20090605 295 (fxscrpt & Lancelot)
+HwPnP.script
+20090605 294 (Lancelot)
+script.project
+api.script
+20090605 293 (Lancelot)
+1 - RegFactory.Script
+Core_Main.script
+20090604 292 (Lancelot)
+1 - ProjectInfo.Script
+20090604 291 (Lancelot)
+!WBManager.Script
+20090604 290 (Lancelot)
+!myOptions.Script
+!WBManager.Script
+!WBVerify.Script - ##### NO version change ##### - Level=0 fixed to Level=1 :)
+20090604 289 (Lancelot)
+addDOSutils.script
+20090604 288 (fxscrpt)
+1 - RegFactory.Script
+Core_Main.script
+15CoreHelp.Script
+20CoreNet.script
+25CoreWMI.script
+30CorePerfLogs.Script
+35CoreStorage.Script
+80CoreIE.script
+20090604 287 (Lancelot)
+script.project
+20090602 286 (Galapo)
+9 - ProgramFilesPE.Script
+20090602 285 (Lancelot)
+addDOSutils.script
+4 - BuildModel.Script
+9 - ProgramFilesPE.Script
+CMDTweaks.Script
+DisplayProperties.Script
+UniversalVideoDriver.Script
+20090601 284 (Lancelot)
+addDOSutils.script
+20090601 283 (Lancelot)
+addDOSutils.script
+20090601 282 (Lancelot)
+RegWizXP.script
+addDOSutils.script
+20090530 281 (Lancelot)
+WinNTSetup_JFX.script
+20090530 280 (Lancelot)
+script.project
+20090529 279 (Lancelot)
+BootSDI.script
+WimPack.script
+20090526 278 (Lancelot)
+CreateISO.script
+20090526 277 (Lancelot)
+DrvImpe.script
+20090523 276 (Lancelot)
+EXEandChangelog.script
+20090523 275 (Lancelot)
+DPs-MassStorageDrivers_au3.script
+20090523 274 (Lancelot)
+DPs-MassStorageDrivers_au3.script
+20090523 273 (fxscrpt)
+VirtualBox.script
+3 - LocalizedInfoMore.script
+2009-May-23 (Galapo)
+FileZilla3.script
+ImgBurn.script
+OODefrag10-11-api.Script
+Runscanner.Script
+TrueCrypt.script
+WinMerge.script
+XnView.script
+20090520 271 (Lancelot)
+WinNTSetup_JFX.script  ---------> ### NEW ###
+20090518 270 (Lancelot)
+3 - hivesFactory.Script
+RegEditWB.Script
+20090517 269 (fxscrpt)
+USBSupport.Script
+20090517 268 (Lancelot)
+3 - LocalizedInfoMore.script
+20090516 267 (Lancelot)
+script.project
+3 - LocalizedInfoMore.script  ---------> ### NEW ###
+20090516 266 (Lancelot)
+HwPnP.script
+20090516 265 (Lancelot)
+PEDialup.script
+20090516 264 (nikzzzz)
+WimBoot.script  ---------> ##### BETA Use At Your own Risk #####
+20090516 263 (fxscrpt)
+HwPnP.script
+usb_keyboard_mouse_hotplug.script
+USBSupport.Script
+20090515 262 (Lancelot)
+MountStor.script
+20090515 261 (Lancelot)
+myNic.Script
+20090513 260 (fxscrpt)
+1 - RegFactory.Script
+01CoreControlClasses.Script
+10CoreMMC.script
+15CoreHelp.Script
+20CoreNet.script
+35CoreStorage.Script
+Core_Main.script
+RegFactory.script
+20090512 259 (Lancelot)
+RegWizXP.script
+20090501 258 (fxscrpt)
+RegFactory.script
+20090501 257 (fxscrpt)
+Core_Main.script
+20090501 256 (fxscrpt)
+Core_Main.script
+20090501 255 (fxscrpt)
+Core_Main.script
+20090507 254 (Lancelot)
+vmCrypro.script
+20090506 253 (Lancelot)
+WimBoot.script  ---------> ##### BETA Use At Your own Risk #####
+20090505 252 (Lancelot)
+WimBoot.script  ---------> ##### BETA Use At Your own Risk #####
+(No version increase in order to follow author (Nikzzzz) version number)
+20090505 251 (Lancelot)
+EarlyStarter.script
+20090504 250 (Lancelot)
+DriveImageXML.script
+20090503 249 (Lancelot)
+4 - BuildModel.Script
+20090502 248 (Lancelot)
+RegEditWB.Script
+20090502 247 (Lancelot)
+script.project
+EXEandChangelog.script
+ImgBurnISO.script
+20090501 246 (Lancelot)
+Core_Main.script
+20090501 245 (fxscrpt)
+20CoreNet.script
+20090501 244 (Lancelot)
+Core_Main.script
+20090501 243 (Lancelot)
+HwPnP.script
+20090501 242 (Lancelot)
+20CoreNet.script
+20090501 241 (Lancelot)
+MountStor.script
+20090430 240 (Lancelot)
+script.project
+RestoreBase.Script
+CreateISO.script
+20090430 239 (Lancelot)
+1 - ProjectInfo.Script
+20090429 238 (Lancelot)
+QemuNIC-W2k3.script
+20090429 237 (Lancelot)
+JKDefrag.script
+api.script
+DPs-MassStorageDrivers_au3.script
+20090429 236 (Lancelot)
+PEDialup.script
+20090429 (fxscrpt)
+35CoreStorage.Script
+20090429 (Lancelot)
+hddtune.script
+20090428 (Lancelot) x 5
+QemuNIC-W2k3.script X 4 - v7 double uploaded
+20090428 (Lancelot) x 2
+WimBoot.script  ---------> ### NEW ###  --- BETA Use your own Risk
+Explorer.Script
+WimPack.script
+BootSDI.script
+CreateISO.script
+20090427 (Lancelot) x 11
+1 - ProjectInfo.Script
+20090427 (Lancelot) x 10
+DPs-MassStorageDrivers_au3.script
+20090427 (Lancelot) x 9
+LODR-Thinstall_Support.script  ---------> ### NEW ###
+20090427 (Lancelot) x 8
+1 - RegFactory.Script
+20090427 (Lancelot) x 7
+BootSDI.script
+WimPack.script
+03CoreCrypto.script
+05CoreScripting.script X 3
+10CoreMMC.script X 2
+15CoreHelp.Script
+20CoreNet.script
+25CoreWMI.script
+35CoreStorage.Script X 3
+Core_Main.script
+20090427 (Lancelot) x 3
+qEmu.Script
+WimPack.script
+BootSDI.script
+20090426 (Lancelot)
+1 - ProjectInfo.Script
+DisplayProperties.Script
+CreateISO.script
+20090425 (Lancelot) X 2
+!WBManager.Script
+!WBVerify.Script
+3 - hivesFactory.Script
+4 - BuildModel.Script
+++ CMDTweaks.Script  ---------> ### NEW ###
+20090425 (Lancelot)
+MountStor.script
+20090424 (fxscrpt)
+VirtualBox.script
+20090424 (Lancelot)
+--asquare_free.script --- ###  ###  REMOVED REMOVED REMOVED REMOVED ### ###
+for ones who are interested, script can be found here
+http://apps.winbuilder.net/LiveXPExtra/Projects/LiveXP/Apps/Security/AntiVirus/!Extra/A-Squared_3_Free.script
+20090423 (Lancelot) X 4
+CDImageGUI.script
+++Apps\Security\AntiVirus\folder.project
+20090423 (Lancelot) X 3
+VirtualBoxNIC_AMD_PCNET.script
+VMWareNIC.script
+20090423 (Lancelot) X 2
+VirtNet Network Adapter.script
+VirtualBoxNIC_AMD_PCNET.script
+VMWareNIC.script
+20090423 (Lancelot)
+VirtualBoxNIC_AMD_PCNET.script --> DOwnload level changed to 0 + selected False
+20090423 (fxscrpt)
+MMC.script
+20090422 (Lancelot) X5
+5 - CopyAndExpand.Script
+20090422 (Lancelot) X4
+5 - CopyAndExpand.Script
+20090422 (Lancelot) X3
+mitec_wfa.script
+TDTools.script
+RoadkilUt.Script
+20090422 (Lancelot) X2
+tweaks.script
+20090422 (Lancelot)
+7z.dll
+7z.exe
+20090421 (fxscrpt)
+EarlyStarter.script
+01CoreControlClasses.Script
+20090421 (Lancelot) x2
+EarlyStarter.script
+20090420 (Lancelot)
+xpe-pnp-aio.script
+20090419 (Lancelot) x3
+1 - RegFactory.Script
+80CoreIE.script
+20090419 (Lancelot) x2
+DPs-MassStorageDrivers_au3.script
+20090419 (Lancelot)
+DPs-MassStorageDrivers_au3
+20090418 (Lancelot)
+EsentlFonts.script
+addDOSutils.script
+20090410 (Lancelot)
+HwPnP.script
+xpe-pnp-aio.script
+Api FreeFSCapture53.script
+MultiRes.script
+20090406 (Lancelot)
+Core_Main.script
+2009-Apr-06 (fxscrpt)
+Explorer.script
+20090405 (Lancelot)
+VMWare.script
+20090404 (Lancelot) X 2
+DrvImpe.script X 2 (version fixed)
+PEDialup.script
+2009-Apr-03 (fxscrpt)
+RegFactory.script
+20090401 (Lancelot)
+MountStor.script
+/Tools/Languages/_default.txt - fixed (==> deleted)
+2009-Mar-28 (fxscrpt)
+10CoreMMC.script
+Core_Main.script
+1 - RegFactory.Script
+2009-Mar-28 (Galapo)
+10CoreMMC.script
+Core_Main.script
+MMC.script
+2009-Mar-27 (Galapo)
+CD-Opera.script
+MMC.script
+2009-Mar-26 (Galapo)
+++LiveXP\Basic\Build\1 - RegFactory.Script (new)
+++LiveXP\Basic\Shells\Addons\EarlyStarter.script (new)
+++LiveXP\Basic\Shells\Core\Core_Main.script (new)
+++LiveXP\Basic\Shells\Core\1 System\01CoreControlClasses.Script (new)
+++LiveXP\Basic\Shells\Core\1 System\02CoreMSI.Script (new)
+++LiveXP\Basic\Shells\Core\1 System\03CoreCrypto.script (new)
+++LiveXP\Basic\Shells\Core\1 System\05CoreScripting.script (new)
+++LiveXP\Basic\Shells\Core\1 System\10CoreMMC.script (new)
+++LiveXP\Basic\Shells\Core\1 System\15CoreHelp.Script (new)
+++LiveXP\Basic\Shells\Core\1 System\20CoreNet.script (new)
+++LiveXP\Basic\Shells\Core\1 System\25CoreWMI.script (new)
+++LiveXP\Basic\Shells\Core\1 System\30CorePerfLogs.Script (new)
+++LiveXP\Basic\Shells\Core\1 System\35CoreStorage.Script (new)
+++LiveXP\Basic\Shells\Core\1 System\80CoreIE.script (new)
+++LiveXP\Basic\Shells\Core\2 Updates (new)
+++LiveXP\Basic\Shells\Core\3 Addons\Flash.script (new)
+++LiveXP\Finish\0 RegFactory\RegFactory.script (new)
+!Fundamentals.Script
+3 - hivesFactory.Script
+CD-Opera.script
+Explorer.Script
+2009-Mar-25 (Galapo)
+script.project
+2009-03-25 (Lancelot)
+-shellexecutecmdopenextensionx64.exe (REMOVED)
+WindowsXP-KB955704-x86-ENU_exFat.script
+JoshuaKeyFinder.script
+MagicJellyBeanKeyfinder.script
+Ndq.script
+2009-Mar-24 (Galapo)
+OfflineSysPrep.script
+2009-Mar-23 (Galapo)
+!Fundamentals.Script
+3 - hivesFactory.Script
+4 - BuildModel.Script
+9 - ProgramFilesPE.Script
+DrvImpe.script
+go2pdf.Script
+MMC.script
+multiprocessor.script
+OfflineSysPrep.script
+RussianSupport.script
+script.project
+SmartDriverBackup.script
+Taskman-api.Script
+WimPack.script
+zonealarm.script
+2009-Mar-21 (Galapo)
+LODR-loader.script
+2009-Mar-20 (Galapo)
+LODR-loader.script
+SetResolution.script
+2009-03-19 (Lancelot)
+DPs-MassStorageDrivers_au3.script
+2009-Mar-19 (Galapo)
+3 - hivesFactory.Script
+VMWare.script
+WindowsXP-KB955704-x86-ENU_exFat.script
+2009-03-18 (Lancelot x 2)
+Acronis-TrueImage91Workstation.Script moved from \Apps\HD Tasks\ to \Apps\HD Tasks\Imaging\
+HxD.script moved from \Apps\Supplementary\ to \Apps\File Tasks\
+2009-Mar-18 (Galapo)
+++'LiveXP\Finish\1 Optimizations\grub4dos.script' new
+BootSDI.script
+multiprocessor.script
+OfflineSysPrep.script
+SetResolution.script
+Wallpaper.Script
+2009-03-18 (Lancelot)
+DPs-MassStorageDrivers_au3.script
+2009-Mar-16 (Galapo)
+!Fundamentals.Script
+2009-Mar-15 (Galapo)
+WinMerge.script
+2009-03-14 (Lancelot)
+WindowsXP-KB955704-x86-ENU_exFat.script
+2009-Mar-14 (Galapo)
+OfflineSysPrep.script
+2009-Mar-11 (Galapo)
+++Tools\cygwin1.dll new
+++Tools\src\mkisofs.rar new
+FileZilla3.script
+mkisofs.exe
+CreateISO.script
+DPs-MassStorageDrivers_au3.script
+MountStor.script
+OfflineSysPrep.script
+XnView.script
+2009-Mar-09 (Galapo)
+script.project
+VMwareAudio.script
+2009-Mar-07 (Galapo)
+PostProc.script
+2009-Mar-06 (Galapo)
+IZArc.script
+MountStor.script
+OfflineSysPrep.script
+2009-Mar-05 (Galapo)
+++'LiveXP\Tools\Finalize Batch.Script' new
+EXEandChangelog.script updated *** LiveXP Winbuilder.exe UPDATED *** (WB 076)
+Tools\sCalculate.exe
+!Fundamentals.Script
+'9 - ProgramFilesPE.Script'
+autoCompress.Script
+autoUPX.Script
+BootSDI.script
+OODefrag10-11-api.Script
+qEmu.Script
+regCompact.Script
+WimPack.script
+2009-Mar-03 (Galapo)
+ImgBurnISO.script
+MountStor.script
+VMWare.script
+WimPack.script
+2009-Feb-26 (Galapo)
+script.project
+2009-Feb-26 (Galapo)
+-LiveXP\Basic\!RestoreBase removed
+-LiveXP\Basic\!RestoreBase\RestoreBase.Script removed
+++Tools\myOptions.exe new
+++LiveXP\Basic\!WBManager\RestoreBase.Script new
+reg2WBSprg.exe
+!Macros.Script
+!WBManager.Script
+CreateISO.script
+SaveBase.Script
+tweaks.script
+WimPack.script
+2009-Feb-22 (Galapo)
+BootSDI.script
+2009-Feb-21 (Galapo)
+FileZilla3.script
+2009-Feb-20 (Galapo)
+'4 - BuildModel.Script'
+api.script
+BootSDI.script
+Explorer.Script
+script.project
+2009-Feb-19 (Galapo)
+%tools%\ExpEnvVar.exe
+Explorer.Script
+UltraISO.script
+2009-Feb-18 (Galapo)
+'9 - ProgramFilesPE.Script'
+Explorer.Script
+script.project
+2009-Feb-17 (Galapo)
+DPs-Build_MassStorageDrivers.script
+FindOnClick.script
+2009-Feb-16 (Galapo)
+DPs-Build_MassStorageDrivers.script
+Explorer.Script
+KeePass.script
+2009-Feb-14 (Galapo)
+DPs-Build_MassStorageDrivers.script
+2009-Feb-13 (Galapo)
+'9 - ProgramFilesPE.Script'
+VMWarePlayerWorkstation.Script
+2009-Feb-12 (Galapo)
+BootSDI.script
+CreateISO.script
+UltraISO.script
+2009-Feb-11 (Galapo)
+'4 - BuildModel.Script'
+Explorer.Script
+2009-Feb-10 (Galapo)
+-LiveXP\Tools\ReOpen.Script removed
++'LiveXP\Drivers\5 Other\ProcessorDrivers.script' new
+'3 - hivesFactory.Script'
+'4 - BuildModel.Script'
+'9 - ProgramFilesPE.Script'
+BootSDI.script
+CreateISO.script
+Explorer.Script
+MMC.script
+tweaks.script
+VMWarePlayerWorkstation.Script
+WimPack.script
+2009-Feb-07 (Galapo)
+DPs-Build_MassStorageDrivers.script
+DPs-Build_MassStorageDrivers-Bin.script
+DPs-MassStorageDrivers_au3.script
+LODR-loader.script
+WindowsXP-KB955704-x86-ENU_exFat.script
+2009-Feb-06 (Galapo)
+++WindowsXP-KB955704-x86-ENU_exFat.script new
+CreateISO.script
+LODR-loader.script
+2009-Feb-05 (Galapo)
+++Apps\Supplementary\LODR-loader.script new
+!WBVerify.Script
+'4 - BuildModel.Script'
+msi.script
+tweaks.script
+2009-Feb-04 (Galapo)
+'Explorer shell TWEAKS and SETTINGS.script'
+WimPack.script
+2009-Feb-03 (Galapo)
+++'Basic\Build\9 - ProgramFilesPE.Script' new
+BootSDI.script
+msi.script
+tweaks.script
+WimPack.script
+2009-Feb-02
+SetResolution.script (note: SetResolution.exe is now located under %SystemRoot%\system32)
+2009-Jan-30 (Galapo)
+-'Apps\HD Tasks\HDM8.script' removed
+-'Apps\HD Tasks\Defrag\AusLogicsDiskDefrag.script' removed
+-'Apps\Security\password_generator.script' removed
+-Apps\Supplementary\ghost_mouse.script removed
+-'Apps\HD Tasks\Recover\meetsoft_partition_recovery.script' removed
+-'Apps\HD Tasks\File Undelete\meetsoft_final_recovery.script' removed
++defragger.script
++dependency_walker.script
++disk_redactor.script
++diskinternals_linux_recovery.script
++edata_unerase.script
++FindOnClick.script updated
++fru.script updated
++handy_recovery.script updated
++ImageCreator.script updated
++jedi_dependencyviewer.script updated
++jedi_toolhelpviewer.script updated
++mispbo_ultimate_data_recovery.script updated
++mitec_network_meter.script updated
++ntfs_undelete.script updated
++OffByOne.script updated
++OverDisk.Script updated
++partition_find_and_mount.script updated
++pc_inspector_file_recovery.script updated
++recover_files.script updated
++restoration.script updated
++smart_data_recovery.script updated
++soft_perfect_file_recovery.script updated
++tightvnc.script updated
++turbo_file_uneraser.script updated
++UltraVNC1.0.2.script updated
++undelete_plus.script updated
++zonealarm.script updated
+20090129 -  (Lancelot) X 2
++DrvImpe.script v1.3.2.0 (Same version number with 130MB)
+20090129 -  (Lancelot)
++DrvImpe.script v1.3.2.0
+20090127 -  (Lancelot)
++asquare_free.script - cosmetic
++avastVC.script - cosmetic
++spybot.script - cosmetic + programfolder changed
+20090126 - update 2 (Lancelot)
+Info - All cosmetic fixes after warning from pedrole15, simply "(blank for none)" line deleted from gui of TextBox
++CDImageGUI.script
++ImgBurn.script
++InfraRecorder.script
++UltraISO.script
++a43.script
++TinyHexer.script
++WinMerge.script
++IZArc.script
++ycopy.script
++FindOnClick.script
++superfinder.script
++HDHacker.script
+20090126 - update 1 (Lancelot)
++4 - BuildModel.Script - Fixed version of v.065 with Peter's tip with name v.064
+2009-Jan-26 - update 2 (Galapo)
++'4 - BuildModel.Script' updated (reverted back to v.063 as v.065 produces no shortcuts and intermittent BSOD; manual download necessary if already upgraded to v.065)
++WimPack.script updated
+2009-Jan-26 - update 1 (Galapo)
++'4 - BuildModel.Script' updated
+20090124 - (Lancelot)
++CreateISO.script
+2009-Jan-24 (Galapo)
++api.script updated (version number not increased, select manually to download)
++OODefrag10-11-api.Script updated
++WimPack.script updated
+20090123 - (Lancelot)
+++\Apps\Net\PEDialup.script - New
++DrvImpe.script - Updated to 1.3.1.9
+2009-Jan-23 - (Lancelot - Galapo)
+++++ **ALL Apps structure Changed** ++++
+++++ **ALL Apps structure Changed** ++++
+++++ **ALL Apps structure Changed** ++++
+++++ **ALL Apps structure Changed** ++++
+++++ **ALL Apps structure Changed** ++++
+It is recommended that users delete entire apps  (or move or copy another place)  folder as scripts have been relocated.
+2009-Jan-22 (Galapo)
++api.script updated (requires WB 075b6c or higher)
++EXEandChangelog.script updated *** LiveXP Winbuilder.exe UPDATED *** (WB 075b6c)
++Explorer.Script updated
++script.project updated
++VMWarePlayerWorkstation.Script updated
+2009-Jan-21 - update 1 & 2(Galapo)
++BootSDI.script updated
++Taskman-api.Script updated
++WinMerge.script updated
+20090120 - (Lancelot)
++script.project
+2009-Jan-20 - update 1 & 2 (Galapo)
++BootSDI.script updated
++script.project updated
++WimPack.script updated
+20090119 - (Lancelot)
++script.project
++WimPack.script
++BootSDI.script
+2009-Jan-19 - update 1, 2 & 3 (Galapo)
+++'Finish\1 Optimizations\WimPack.script' new (replaces !WimPack.script)
+-Basic\Shells\Addons\!WimPack.script removed
++BootSDI.script updated
++OfflineSysPrep.script updated
++RussianSupport.script updated
++script.project updated
+2009-Jan-18 (Galapo)
++RussianSupport.script updated
+2009-Jan-17 - update 2 (Galapo)
++OfflineSysPrep.script updated
+20090117 - update 1 (Lancelot)
++EXEandChangelog.script updated *** LiveXP Winbuilder.exe UPDATED ***
+2009-Jan-16 (Galapo)
+++'Drivers\5 Other\DrvImpe.script' new (replaces DrvImp.script)
+-'Drivers\5 Other\DrvImp.script' removed
++OfflineSysPrep.script updated (updated user_settings.ini)
++MMC.script updated
+20090115 - update 4 (Lancelot)
++DPs-MassStorageDrivers_au3.script
+2009-Jan-15 - update 1, 2 & 3 (Galapo)
+++Apps\Network\WakeOnLanGui.script new
++!WimPack.script updated
++EXEandChangelog.script updated *** LiveXP Winbuilder.exe UPDATED ***
++OfflineSysPrep.script updated
++SetResolution.script updated
+2009-Jan-14 - update 1 & 2 (Galapo)
+++DPs-MassStorageDrivers_au3.script new
++DPs-Build_MassStorageDrivers.script updated
++DPs-Build_MassStorageDrivers-Bin.script updated
++OfflineSysPrep.script updated
++%tools%\AutoIt3.exe updated
+2009-Jan-13 - update 1, 2 & 3 (Galapo)
++DPs-Build_MassStorageDrivers.script updated
++DPs-Build_MassStorageDrivers-Bin.script updated (updated DPs_BASE.exe and mass storage pack)
++FileZilla3.script updated
++HwPnP.script updated (converted Lancelot's fix to api syntax)
++RussianSupport.script updated
+20090112 (Lancelot) x 2
++PENetwork.script (v34)
++HwPnP.script (bug fix line 22 + 44)
+2009-Jan-12 - update 1 & 2 (Galapo)
++AddRemoveUpperFilters.script updated
++EXEandChangelog.script updated
++HwPnP.script updated
++xpe-pnp-aio.script updated
+20090111 (Lancelot) X 2
++script.project (only textbox added)
+2009-Jan-11 - update 2 & 3 (Galapo)
++EXEandChangelog.script updated
++HDM8.script updated
++HDM85.script updated
++script.project updated
+2009-Jan-11 (Galapo)
+++'Projects\LiveXP\Apps\HD tasks\HDM85.script' new
++AddRemoveUpperFilters.script updated
+20090109 (Lancelot) X 2
++zonealarm.script (download to apps fixed)
++script.project (only note added)
++Getright.script (only cosmetics)
++UltraISO.script (only cosmetics)
+20090109 (Lancelot) X 1
++script.project (api_25.script --> api.script)
++HDM8.script (default download selected)
+2009-Jan-08 (Galapo)
++'3 - hivesFactory.Script' updated
++'4 - BuildModel.Script' updated
++Acronis-DiskDirector10.script updated
++Acronis-TrueImage91Workstation.Script updated
++HDM8.script updated
++FindOnClick.script updated
++Getright.script updated
++GImageX.script updated
++script.project updated
++Snapshot.script updated
++UltraISO.script updated
++UndeleteOnClick.script updated
++VMWareConverter.script updated
++VMWarePlayerWorkstation.Script updated
++zonealarm.script updated
+20090108 (Lancelot) - 2
++MountStor.script
++script.project X 4
+20090107 (Lancelot)
++script.project X 2
+2009-Jan-06 (Galapo)
++regedit-api.script updated
+20090105 - update 7 (Lancelot)
++script.project
++EXEandChangelog.script
+20090105 - update 6 (Lancelot)
++CreateISO.script (line 230)
+2009-Jan-05 - update 3, 4 & 5 (Galapo)
++CreateISO.script updated
++DPs-Build_MassStorageDrivers.script updated
++OfflineSysPrep.script updated
++usb_keyboard_mouse_hotplug.script updated
+20090105 - update 2 (Lancelot)
++script.project (Cosmetics + 2 lines added to the end of // Clean up settings)
++MBRFix.Script (Only Cosmetics)
+2009-Jan-05 (Galapo)
++!Fundamentals.Script updated (but no version increase)
++'4 - BuildModel.Script'
+20090103 (Lancelot)
++EXEandChangelog.script ****Winbuilder.exe updated to wb075b5K ----> XP Live CD\Tools\.exe and changelog\===> "Use encoded Winbuilder.exe"
++!Fundamentals.Script
+2009-Jan-02 - update 2 & 3 (Galapo)
++DPs-Build_MassStorageDrivers.script updated
++OfflineSysPrep.script updated
++RussianSupport.script updated
+2009-Jan-02 (Galapo)
+++'Projects\LiveXP\Finish\1 Optimizations\RussianSupport.script' new
++!WBManager.Script updated
++'1 - ProjectInfo.Script' updated
++'7 - OLESupport.Script' updated
++Acronis-TrueImage91Workstation.Script updated
++autoCompress.Script updated
++CDWriter.Script updated
++MBRFix.Script updated
++MBRWhysky.script updated
++OfflineSysPrep.script updated
++PostProc.script updated
++ReOpen.Script updated
++WackGet.script updated
++xpe-pnp-aio.script updated
++ycopy.script updated
+2009-Jan-01 (Galapo)
++!WimPack.script updated
++InfraRecorder.script updated
++UltraISO.script updated
++XnView.script updated
+20081231 (Lancelot)
++script.project
++ImgBurnISO.script
+20081230 (Lancelot)
++qEmu.Script
++HwPnP.script X 2
++script.project X 2
+20081227 (Lancelot)
++EXEandChangelog.script X 3
++Explorer shell TWEAKS and SETTINGS.script
+20081225 (Lancelot)
++SmartDriverBackup.script
++BootSDI.script
++!WBVerify.Script
+20081224 (Lancelot)
++notepad.Script
++EsentlFonts.script
+20081223 (Lancelot)
++HDAudio.script
+20081222 (Lancelot)
++shellwm.script
++avastVC.script
+20081221 (Lancelot)
++api.script
+20081220 (Lancelot)
+++WGet.exe libeay32.dll ssleay32.dll
++Explorer.Script
++DPs-Build_MassStorageDrivers.script
+20081219 (Lancelot)
++!WBVerify.Script
+20081217 (Lancelot)
++script.project
++BootSDI.script
++!WimPack.script
+20081216 (Lancelot)
++EXEandChangelog.script updated (wb075b5B used for x64 compatibility)
++MountStor.script updated (cosmetic fix)
++!WimPack.script updated
+20081210 (Lancelot)
++EXEandChangelog.script updated
++EXEandChangelog.script updated (+cmd added)
++Explorer shell TWEAKS and SETTINGS.script updated (x64 support + cmd added)
+2008-Dec-10 (Galapo)
++FileZilla3.script updated
++Snapshot.script updated
+++Tools\shellexecutecmdopenextensionx64.exe new
+2008-Dec-08 - update 1 & 2 (Galapo)
++OfflineSysPrep.script
++HxD.script updated
+2008-Dec-07 (Galapo)
++TrueCrypt.script updated
++ImDisk.Script updated
++'5 - TempPE.script' updated
+20081206 (Lancelot)
++EXEandChangelog.script Download_Level=0
+2008-Dec-04 (Galapo)
++recuva.script updated
+20081203 - update 3, 4 & 5 (Lancelot)
++script.project updated ('Big Blue Play' text added)
++OfflineSysPrep.script updated (x64 Compatibility adding)
++script.project updated (very minor cosmetic)
++HDAudio.script updated (Selected=False , minor cosmetics)
+2008-Dec-03 - update 1 & 2 (Galapo)
++EXEandChangelog.script updated
++script.project updated (additional variables cleaned)
++ImDisk.Script updated
++'5 - TempPE.script' updated
+2008-Dec-02 - update 1 & 2 (Galapo)
+++Projects\LiveXP\Tools\EXEandChangelog.script new
+++Projects\LiveXP\Tools\LiveXP_changelog.script new
++SetResolution.script updated
++FixShellWinlogon.Script updated
++MiscSettings.Script updated
+

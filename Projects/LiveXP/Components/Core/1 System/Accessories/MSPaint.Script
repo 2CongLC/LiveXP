@@ -1,0 +1,55 @@
+[Main]
+Title=MsPaint
+Type=script
+Level=1
+Description=Includes MS Paint in the PE build
+Author=Boot-Land community
+Contact=http://www.boot-land.net/forums/index.php?showforum=65
+Version=7
+Date=2007-03
+Selected=True
+Locked=True
+Download_Level=1
+Upload=2008-Feb-02 03:45:05
+CertifiedBy=pscEx
+Certification=1144fa8d5658edf00dd7ff4a54e6d9fe
+History007=Lancelot source - Accessories naming
+Certification81=5c9399140be584974461920903dbba9e
+
+[Interface]
+pBevel1=pBevel1,1,12,4,6,133,140
+pCheckBox1="Desktop shortcut",1,3,8,10,122,18,False
+pCheckBox2="Start menu shortcut",1,3,8,48,122,18,True
+pCheckBox3="Quicklaunch shortcut",1,3,8,29,122,18,False
+pRadioGroup1="Start Menu:",1,14,12,70,115,56,Accessories,"Folder Name",0
+pTextBox1=,1,0,12,120,115,21,Accessories
+
+[Variables]
+%ProgramTitle%=MsPaint
+%ProgramEXE%=MsPaint.exe
+%ProgramFolder%=#$pSystemRoot#$p\system32
+
+[process]
+If,%pCheckBox1%,Equal,True,Add_Shortcut,Desktop,,%ProgramFolder%\%ProgramEXE%,%ProgramTitle%
+If,%pCheckBox3%,Equal,True,Add_Shortcut,QuickLaunch,,%ProgramFolder%\%ProgramEXE%,%ProgramTitle%
+If,%pCheckBox2%,Equal,True,Begin
+If,%pRadioGroup1%,Equal,0,IniRead,%ProjectInfo%,TargetStrings,sStartmenu_Accessories,%Startmenu_Folder_Name%
+If,%pRadioGroup1%,Equal,1,Set,%Startmenu_Folder_Name%,%pTextBox1%
+Add_Shortcut,StartMenu,%Startmenu_Folder_Name%,%ProgramFolder%\%ProgramEXE%,%ProgramTitle%
+End
+//If,%pCheckBox1%,Equal,True,Run,%BuildModelScript%,Add-Shortcut,DE,#$pSystemRoot#$p\system32\mspaint.exe,Paint
+//If,%pCheckBox2%,Equal,True,Run,%BuildModelScript%,Add-Shortcut,SM\Graphics,#$pSystemRoot#$p\system32\mspaint.exe,Paint
+//If,%pCheckBox1%,Equal,True,Add_Shortcut,Desktop,,#$pSystemRoot#$p\system32\mspaint.exe
+//If,%pCheckBox2%,Equal,True,Add_Shortcut,StartMenu,%pTextBox1%,#$pSystemRoot#$p\system32\mspaint.exe
+//If,%pCheckBox3%,Equal,True,Add_Shortcut,QuickLaunch,,#$pSystemRoot#$p\system32\mspaint.exe
+require_file,MsPaint.exe
+require_file,mfc42u.dll
+If,ExistFile,%ProjectInfo%,IniWrite,%ProjectInfo%,UPX-Switches,MSPAINT.exe,"-9 --compress-resources=0"
+
+[AuthorEncoded]
+authorlogo.jpg=924,1232
+
+[EncodedFile-AuthorEncoded-authorlogo.jpg]
+lines=0
+0=eJz7f+P/AwYBLzdPNwZGRkYGDyBk+H+bwZlBiJdXiF9IWkhIWkVKTEpFRVZKSlZFTw0E9Ay0dYFA28DA2MTUxNjA0tLa2tLSCRWADGEUFhGREJeQFRWVVZGWklbRU1FQUNEz1dPV0NUztTI2AAJjK3MLU1NTC3MbGysrGxsnJ0cUQw4wCHIwGDAYMDMKMjAJMjILMv4/wiDFwMDEDHQsArCyMTCzMDIB5fQEGBiZmVhYWJlZoXKMQMUsgqxCiobCjomFSk5BCzeyiUw0DmxseghUL8nIwMyIYhYDEwsjMytQSgtoJRMjCwMLK8woBkYmZkEWoElKyo6BiYWNCx+yGm08+PH/LQYeZqA1gsyCDPYMFQ7coTO2TLk843T/08q6dDv140e+LOYwmSfgzr6u1DsuJk/KtfPNXq7705aqf04x0/E9ynK4UVxar91YeyMbV6P/md7LuY8Vsr1YHLh3vBVxc1Y+sO/71i9WstZ/1k0NZ5/Plft9cuxk77Yf37QPpubkTKl03H92n8it19rLBWZ9ON2juOrMZ51PuYdfSx+Ybvi5+NXGiMUh6S+byyz9k94ce2a2WiSf9xavp6zOit6LU8qOPr8TedUi8WyyLc9KVyUG2R4Dy149camt175MXFVx1tHSu6WvzDuDn29VZldGdLXBJP29XZ/2h2wy25Uq7/P8TdnFPe/S+3ecdp1QrPJ7ValN5sv+XfHHnyx3lL01W/WlsP9lkyNeL2N3Zij/zn2bem3F27U1Pldv7nuZvOKD8bqWJQ4iYXUT/+nfzIp8fJcz3WmPbutUIZ6ZxUx8wXu3Pi99ljUlJLjwVVz/X2nvI0slPk6JUG5d07txe/jt8Iq1dbOrtfQnlx2asj8p8Ge96y5/3rCY24GVk717/lbzPHQ2Xjb7yif2tB/uh9ZOOL5g0sGOBs3VPSe5b5gr3DSRU5mxObJbNK337OoNV+8/6g8M3lxaELP9wJSzTmfP39i6RvHmsStvz+bfO/ni4/3c90vn1Fb9Fr//9OXqheU26U/2K/7RkhPVyX2eG8oz5cYGjgYlBmkdveTPMyz6vm6vP+gz3/KrcKLjkhWrLWPO8cTl5j0vebH1hIgzb15g4kmF5wHs/28CACavTYV4nONLLC3JyC/KyU/P18sqSGcYBSML5DJD6ABmHPLGrDwMTABT2Ac486gwMQEAAAACAAAAKAAAAFADAAAAAAAAAQAAAAAAAAAAAAAA
+

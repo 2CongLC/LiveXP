@@ -1,0 +1,241 @@
+[main]
+Title=DPs-MassStorageDrivers_au3
+Description=(x86 only) DPs_MassStorage_DriverPack Integrator with au3 programming
+Selected=False
+Level=6
+Version=25
+Author=saydin77
+Date=15.01.2009
+Download_Level=1
+Mandatory=False
+Contact=http://www.boot-land.net/forums/index.php?showtopic=6339
+Disable="%ScriptDir%\DPs-MassStorageDrivers.script","%ScriptDir%\DPs-Build_MassStorageDrivers.script","%ScriptDir%\SATA2.script","%ScriptDir%\DPs-MassStorageDrivers_MSST.script"
+CertifiedBy=pscEx
+Certification=9fb99cd6694f8484c4e08808a89a38d9
+History001=In nightly packages of dps ql2300.sys v1.7.18 needs to use StorPortExtendedFunction which requires storport.sys which comes from w2k3_sp2. If w2k3_sp1 used as source StorPortExtendedFunction is not present in storport.sys. So WindowsServer2003-KB932755-x86-ENU.exe used to get new version when 2k3sp1 used as source.
+History006=Galapo made follow changes: created "AU3" run method; updated some paths to use %target_sys%; added #$q in necessary places; and some other improvements
+History007=Galapo added Download_Level
+History008=Galapo added saydin77's new changes (v.6 on his website)
+History015=Lancelot: olegpov post 20 fix to v13
+History017=Added - driver selection
+History018=Added - automatic update for all packages
+History020=Lancelot disable adding
+History023=Fixed Driverpack.net stable download link
+History025=Lancelot - x86 check for not process
+Certification81=f2da1f6b2a02b3b333871545c5f975ba
+
+[variables]
+%hotfix.KB932755.name%="WindowsServer2003-KB932755-x86-ENU.exe"
+%hotfix.KB932755.link%="http://download.microsoft.com/download/d/3/b/d3b75486-9d1e-461c-bcf2-d1d4cb6dff74/%hotfix.KB932755.name%"
+%hotfix.KB932755.path%="%GlobalTemplates%\hotfixes\KB932755"
+%dpm.root%="%GlobalTemplates%\dp_mass_storage"
+%dpm.bin.name%="DPs-Build_MassStorageDrivers-Bin.script"
+%dpm.bin.link%="http://livexp.boot-land.net/LiveXP/Drivers/4 Storage/%dpm.bin.name%"
+%dpm.GregB-current.name%="DPs-MassStorageDrivers_Greg_B_Current_Bin.script"
+%dpm.GregB-current.link%="http://apps.winbuilder.net\LiveXPExtra\Projects\LiveXP\Drivers\4 Storage\%dpm.gregB-current.name%"
+%dpm.GregB-stable.name%="DPs-MassStorageDrivers_Greg_B_Stable_Bin.script"
+%dpm.GregB-stable.link%="http://apps.winbuilder.net\LiveXPExtra\Projects\LiveXP\Drivers\4 Storage\%dpm.gregB-stable.name%"
+%dpm.root.custom%="%dpm.root%\custom"
+%noadd%=""
+getfilename=Run,%ScriptFile%,get-filename
+
+[get-options]
+If,NOTEXISTVAR,%GlobalSupport%,Set,%GlobalSupport%,%BaseDir%\Workbench
+If,NOTEXISTVAR,%GlobalTemplates%,Set,%GlobalTemplates%,%GlobalSupport%\Common
+If,%DpScrollBox%,EQUAL,"driverpacks.net - stable package",set,%package%,"stable"
+If,%DpScrollBox%,EQUAL,"driverpacks.net - nightly package",set,%package%,"nightly"
+If,%DpScrollBox%,EQUAL,"DPs-Build_MassStorageDrivers-Bin.script",set,%package%,"bin"
+If,%DpScrollBox%,EQUAL,"DPs-MassStorageDrivers_Greg_B_Current_Bin.script",set,%package%,"GregB-current"
+If,%DpScrollBox%,EQUAL,"DPs-MassStorageDrivers_Greg_B_Stable_Bin.script",set,%package%,"GregB-stable"
+set,%dpm.source%,%dpm.root%\%package%
+If,%DpScrollBox%,EQUAL,"Use Custom Dir",begin
+set,%package%,"custom"
+If,EXISTFILE,"%pFileBox1%\Driverpack*.ini",set,%dpm.source%,%pFileBox1%
+else,set,%dpm.source%,%pFileBox1%
+end
+
+[get-last-version]
+set,%pack-version%,""
+webget,#1,%projecttemp%\v-temp.ini
+IniRead,%projecttemp%\v-temp.ini,"#2","#3","%satir%"
+If,%version%,EQUAL,076,StrFormat,REPLACE,"%satir%"," ","-",%satir2%
+Else,set,%satir2%,%satir%
+StrFormat,SPLIT,"%satir2%","#$c","#4",%pack-version%
+
+[check-versions]
+Run,%ScriptFile%,get-options
+If,%package%,EQUAL,"stable",Run,%ScriptFile%,get-last-version,"http://driverpacks.net/UpdateChecker.php","Versions","DP_MassStorage",1
+If,%package%,EQUAL,"nightly",begin
+ExtractFile,%ScriptFile%,Folder,dp_mass_integrate.au3,%dpm.root%
+ShellExecute,Hide,%tools%\AutoIt3.exe,"#$q%dpm.root%\dp_mass_integrate.au3#$q getinfo nightly"
+IniRead,"%tempdir%\dp-mass-link.ini","nightly","version",%pack-version%
+end
+If,%package%,EQUAL,"bin",Run,%ScriptFile%,get-last-version,"http://livexp.boot-land.net/updates.ini","Updates\LiveXP\Drivers\4 Storage","DPs-Build_MassStorageDrivers-Bin.script",3
+If,%package%,EQUAL,"GregB-current",Run,%ScriptFile%,get-last-version,"http://apps.winbuilder.net/LiveXPExtra/Projects/updates.ini","Updates\LiveXP\Drivers\4 Storage","DPs-MassStorageDrivers_Greg_B_Current_Bin.script",3
+If,%package%,EQUAL,"GregB-stable",Run,%ScriptFile%,get-last-version,"http://apps.winbuilder.net/LiveXPExtra/Projects/updates.ini","Updates\LiveXP\Drivers\4 Storage","DPs-MassStorageDrivers_Greg_B_Stable_Bin.script",3
+
+[process-w2003]
+echo,"Installing Hotfix for Windows 2003"
+If,%OSServicePack%,EQUAL,"sp1",begin
+DirMake,%hotfix.KB932755.path%
+WebGetIfNotExist,%hotfix.KB932755.link%,%hotfix.KB932755.path%\%hotfix.KB932755.name%
+If,NOT,EXISTFILE,%hotfix.KB932755.path%\%hotfix.KB932755.name%,message,"%hotfix.KB932755.name% not found."
+ShellExecute,Hide,%hotfix.KB932755.path%\%hotfix.KB932755.name%,"/q /x:#$q%ProjectTemp%\KB932755#$q"
+ShellExecute,Hide,makecab,"#$q%ProjectTemp%\KB932755\SP2GDR\storport.sys#$q #$q%target_sys%\DRIVERS\STORPORT.SY_#$q"
+ShellExecute,Hide,makecab,"#$q%ProjectTemp%\KB932755\SP2GDR\diskdump.sys#$q #$q%target_sys%\DRIVERS\DISKDUMP.SY_#$q"
+DirDelete,"%ProjectTemp%\KB932755"
+end
+else,begin
+FileCopy,"%source_win%\STORPORT.SY?","%target_sys%\DRIVERS"
+FileCopy,"%source_win%\DISKDUMP.SY?","%target_sys%\DRIVERS"
+end
+
+[select-driver]
+Run,%ScriptFile%,get-options
+If,not,EXISTFILE,"%dpm.source%\DriverPack*.ini",Message,"DriverPack not found",ERROR,5
+If,not,EXISTFILE,"%dpm.source%\DriverPack*.ini",Exit,""
+ExtractFile,%ScriptFile%,Folder,dp_select.au3,%scriptdir%
+WebGetIfNotExist,"http://livexp.boot-land.net/Tools/AutoIt3.exe","%tools%\AutoIt3.exe"
+ShellExecute,Open,"%tools%\AutoIt3.exe","#$q%ScriptDir%\dp_select.au3#$q #$q%dpm.source%#$q #$q%ScriptFile%#$q"
+FileDelete,"%ScriptDir%\dp_select.au3"
+
+[package-download]
+Run,%ScriptFile%,get-options
+DirMake,%dpm.root%
+ExtractFile,%ScriptFile%,Folder,dp_mass_integrate.au3,%dpm.root%
+DirMake,%dpm.source%
+set,%old-version%,"none"
+set,%down%,True
+If,EXISTFILE,"%dpm.source%\version.ini",IniRead,"%dpm.source%\version.ini","main","version",%old-version%
+Run,%ScriptFile%,check-versions
+If,%old-version%,EQUAL,%pack-version%,set,%down%,False
+If,%down%,EQUAL,True,begin
+echo,"Downloading %package% package"
+If,%package%,EQUAL,"stable",Run,%ScriptFile%,get-driverpack.net,latest
+If,%package%,EQUAL,"nightly",Run,%ScriptFile%,get-driverpack.net,nightly
+If,%package%,EQUAL,"bin",Run,%ScriptFile%,"get-bin",%dpm.bin.link%,%dpm.bin.name%
+If,%package%,EQUAL,"GregB-current",Run,%ScriptFile%,"get-bin",%dpm.gregB-current.link%,%dpm.gregB-current.name%
+If,%package%,EQUAL,"GregB-stable",Run,%ScriptFile%,"get-bin",%dpm.gregB-stable.link%,%dpm.gregB-stable.name%
+If,%package%,EQUAL,"custom",message,"Custom Directory selected",ERROR,10
+end
+
+[get-driverpack.net]
+ShellExecute,Hide,%tools%\AutoIt3.exe,"#$q%dpm.root%\dp_mass_integrate.au3#$q download #1 #$q%ProjectTemp%\dpm\#1#$q"
+getfilename,"%ProjectTemp%\dpm\#1\DP_MassStorage*.7z"
+Run,%ScriptFile%,"7z-to-globaltemplates","%ProjectTemp%\dpm\#1\%filename%","%dpm.source%"
+IniRead,"%tempdir%\dp-mass-link.ini",#1,"version",%pack-version%
+IniWrite,%dpm.source%\version.ini,main,version,%pack-version%
+
+[get-bin]
+WebGet,#1,%ScriptDir%\#2
+If,not,EXISTFILE,%ScriptDir%\#2,Exit,"#1 not found"
+Run,%ScriptFile%,extract-bin,#2
+
+[extract-bin]
+If,EXISTDIR,%ProjectTemp%\dpm-bin,DirDelete,%ProjectTemp%\dpm-bin
+DirMake,%ProjectTemp%\dpm-bin
+ExtractAllFiles,%ScriptDir%\#1,MassStorage,%ProjectTemp%\dpm-bin
+getfilename,"%ProjectTemp%\dpm-bin\d*mass*.7z"
+Run,%ScriptFile%,"7z-to-globaltemplates","%ProjectTemp%\dpm-bin\%filename%","%dpm.source%"
+IniRead,"%ScriptDir%\#1","Main","Version",%pack-version%
+FileCreateBlank,"%dpm.source%\version.ini"
+IniWrite,"%dpm.source%\version.ini","main","version",%pack-version%
+
+[7z-to-globaltemplates]
+echo,"Copying drivers to GlobalTemplates..."
+If,NOT,EXISTFILE,#1,message,"#1 - not found"
+ShellExecute,Hide,%tools%\7za.exe,"x #$q#1#$q -y -o#$q#2#$q"
+FileDelete,"#1"
+
+[get-filename]
+set,%filename%,""
+ShellExecute,Hide,cmd,"/c echo [file] > #$q%ProjectTemp%\get-filename.ini#$q"
+ShellExecute,Hide,cmd,"/c for %a in (#$q#1#$q) do echo name=%~nxa >> #$q%ProjectTemp%\get-filename.ini#$q"
+IniRead,"%ProjectTemp%\get-filename.ini","file","name",%filename%
+
+[explore-source]
+Run,%ScriptFile%,get-options
+Run,%ScriptFile%,explore-path,%dpm.source%
+
+[explore-path]
+If,NOT,EXISTDIR,#1,DirMake,#1
+System,FILEREDIRECT,OFF
+If,ExistDir,"#1",ShellExecuteex,Open,explorer,"/e#$c#$q#1#$q"
+System,FILEREDIRECT,ON
+
+[reg-backup]
+RegHiveLoad,"wb-software","%target_sys%\config\software"
+If,#1,EQUAL,"export",begin
+ShellExecute,Hide,"reg.exe","export #$qHKLM\wb-software\Microsoft\Windows\CurrentVersion\Run#$q #$q%ProjectTemp%\wbs-run.reg#$q"
+ShellExecute,Hide,"reg.exe","export #$qHKLM\wb-software\Microsoft\Windows\CurrentVersion\Runonce#$q #$q%ProjectTemp%\wbs-runonce.reg#$q"
+ShellExecute,Hide,"reg.exe","export #$qHKLM\wb-software\Microsoft\Windows\CurrentVersion\Runonceex#$q #$q%ProjectTemp%\wbs-runonceex.reg#$q"
+end
+If,#1,EQUAL,"import",begin
+ShellExecute,Hide,"reg.exe","delete #$qHKLM\wb-software\Microsoft\Windows\CurrentVersion\Run#$q /f"
+ShellExecute,Hide,"reg.exe","import #$q%ProjectTemp%\wbs-run.reg#$q"
+ShellExecute,Hide,"reg.exe","delete #$qHKLM\wb-software\Microsoft\Windows\CurrentVersion\Runonce#$q /f"
+ShellExecute,Hide,"reg.exe","import #$q%ProjectTemp%\wbs-runonce.reg#$q"
+ShellExecute,Hide,"reg.exe","delete #$qHKLM\wb-software\Microsoft\Windows\CurrentVersion\Runonceex#$q /f"
+ShellExecute,Hide,"reg.exe","import #$q%ProjectTemp%\wbs-runonceex.reg#$q"
+FileDelete,"%ProjectTemp%\wbs-*.reg"
+end
+RegHiveUnLoad,"wb-software"
+
+[install]
+Run,%ScriptFile%,get-options
+WebGetIfNotExist,"http://livexp.boot-land.net/Tools/AutoIt3.exe","%tools%\AutoIt3.exe"
+//If,not,EXISTFILE,"%dpm.source%\DriverPack*.ini",Run,%ScriptFile%,"package-download"
+Run,%ScriptFile%,"package-download"
+If,not,EXISTFILE,"%dpm.source%\DriverPack*.ini",Message,"Driverpack not found",ERROR,10
+If,not,EXISTFILE,"%dpm.source%\DriverPack*.ini",Exit,"Driverpack not found"
+ExtractFile,%ScriptFile%,Folder,"dp_mass_integrate.au3",%dpm.root%
+If,%OS%,EQUAL,"W2003",Run,%ScriptFile%,"process-w2003"
+Run,%ScriptFile%,reg-backup,export
+echo,"Installing drivers...."
+ShellExecute,Open,"%tools%\autoit3.exe","#$q%dpm.root%\dp_mass_integrate.au3#$q #$q%dpm.source%#$q #$q%target_win%#$q %OS% #$q%noadd%#$q"
+Run,%ScriptFile%,reg-backup,import
+
+[process]
+If,Not,%SourceArch%,Equal,x86,Exit,"DPs-MassStorageDrivers_au3.script is compatible with only PEx86 builds for NOW"
+Run,%ScriptFile%,install
+
+[Interface]
+DpScrollBox="driverpacks.net - stable package",1,4,99,62,336,21,"driverpacks.net - stable package","driverpacks.net - nightly package",DPs-Build_MassStorageDrivers-Bin.script,DPs-MassStorageDrivers_Greg_B_Current_Bin.script,DPs-MassStorageDrivers_Greg_B_Stable_Bin.script,"Use Custom Dir"
+pTextLabel1="Select Package",1,1,18,62,79,18,8,Normal
+pFileBox1=%dpm.root.custom%,1,13,94,83,344,30,dir
+pTextLabel3="Custom Dir >",1,1,18,90,75,18,8,Normal
+pWebLabel1="Visit driverpacks.net/MassStorage web page",1,10,18,133,217,18,http://driverpacks.net/DriverPacks/DriverPack.php?pag=m
+pWebLabel2="Visit script topic on boot-land.net",1,10,18,156,158,18,http://www.boot-land.net/forums/index.php?showtopic=6339
+pBevel1=pBevel1,1,12,9,48,532,71
+pTextLabel2="[Package Selection]",1,1,18,40,113,18,8,Bold
+pBevel2=pBevel2,1,12,441,48,100,71
+DownloadBtn=Download/Update,1,8,443,50,96,23,package-download
+SelectBtn="Select Drivers",1,8,443,72,96,23,select-driver,True
+ExploreBtn="Explore Path",1,8,443,94,96,23,explore-source
+
+[EncodedFile-AuthorEncoded-dpm-logo.jpg]
+lines=0
+0=eJyVkns40wsYx3+7tM0M21wqKvfb3G9zyY7NdVtUDHUalRUiumxSHEoZFSFGRW5D2mKuI7eEpqaLS0RWjpSOmmuX0+VIO3r64/Tv+b7/vd/3+Tzf5/u8sqeyFwCa6knxBEAgAACtDiB7BrgBcjA4Ag6TQ8ARSKScvIKakgIKpaChoopW09qoo6O1UVNTz8jWVM/AylBT04xgZmVn7+TkpGvi4u7i4Gbr6GT/AwJCIpEKKAV1JSV1e31Nffv/LVkXgEEAWwF/CEgHAGNAEAxIJgI0AAAMhqwG/U/wNTAQBApeNV3RAAgMhUChCHm5nycgMASArsFgta1gcGWSju/RbBVr15DTOdwphKquH43BijlT36Cm57afyenuGVpaZawF/dCvfAAE+QHXwPzYQ371QBgwRBtrJZMAqNVIYAwEA7gAJ0hQtHzGXODM2w/+4xTD4Iib6KaWyiIjRzSMrTzQacyTUBufBoaFw4l0VDe5qeldUzrs66Mbwu5v7SU8D699PFb7vu3ewqrMLRRL9pcg8foLHe4r++bQ3n8/x9fEELrcez1mvqdczn25fKYsuKhUQokl2UrFHovn71KzpB02RvTN1FKqXKR/eVSpYk5X22j8iICSEZCrh/dhg58IGovjHt8PV7mcKnBQScnqYZ2JbKUVUF1nwjDsQskx8mJ9PyEaJaxYkVyJwjrTHhlWbyTNpQ1b3DK2e0FLNxGZ37kXcFq8EjKfFlHejrwwPSdcplXFJahWlF9YsNs5WVL27njKJ6lq+qvdozJAss5KZbUMKNpzr/LyuyNN2yur46z7MbMI4cI/PgVqDylbAEiNlvO7rw8Cw78pufsff3/qVGXiRE/iflEbjmv9kI98k2swMUhllIU2GdKLAHWOqlm9wIB4qSiaOIVs6Tw7cHDTg9748Mg9eQ75LGSXgz/tHGR8oDDiWl//fF4Ey4bGtT7nkW2AaGDWaa8PTeibR7v4imoSTwwzOVcIR68fMN4SnzYrhhLMHcQ7fLeeyrV8u2ydHzvCSfHANetVdl2Vfxqe9yogvvC5AFsq7UK4N7JLehhShgVrG1zCb3Eu7VtEpnrjPitScvgQsc1XnHr2RoSuJZGB0ErauviQwX9cU3H6Rf9zjecfORU78PFl/AJm6G59i7qLplwGbbqqYYhwOzlSYLLQ/52LzYuECpjJ1JPFH5hPmvWuvqjVFhHJb6pZ20pysVXRjXdZ8skOt6LYN0I7AqoZalo7g47tHvvU8/18oMVIgA+vr9XM+cmXlrMkILKsVi+u35eZLaGq5JazDgXoc4waKmyluaRjlKalrALH1wmiXRdFoaOXTvjMsMPZ+50Hb0/qJ/LVjcrq6qfyUJdgggYlilfz6KZiXmb14UNXdXH8xKIQFsdABphKqeqUWftHwfmxPTWRXBtaQfzJk+FZtu87Aw7uIBcTFSkbBJih+pbG2Fn8oHFJ3/aRlN+mMp4JZADNJYdbD/x8BmTSSJf+8Y91B22Fe2zvV2dLamN85p64BonJzcvzDWxKqeAObz1o3mrXZFu3JA6t6OlOHwsKDL1BofvNej/wEWCnzu5ieSh984YoHzBm2uWr4iI+00lHTORxINp8+hQZLw5CH65s7WlrScu5jnGkcbDzL7eYCtOP5EcdkKz5CP76wd7QRu2SiR+Cuk21V6AFXOPhuphj5PRaf+/hjHbTTPxaK5U9m0N0v4naDdOtJ3+vHImNbo2xc3Q9eWivvEDkDa2YESu5MwP+MuLwomPaqK9hJ77UvGqZ9rI8lmmBinPqu6hYJjpVfXQtksbmDljKuby3mXpQdFO6b2s/gbntqnD8i0vN/GiOz4C4UAZssOfaLSXgmcIcj551nQkL046H1RvQJChM9Q8vlQHsPdRxTyRphGiOvxlWIOi8XDm4iEGYpeDbg/X+vGfect2l7iGe7BqWtEySAdrSSnogH8P3MzXxV3wD1WkmGA/Z/Ha7zfm7OPl++Nhnt+lh/ayl4Ql4L3PSs/gNlE5fl7Jh2G5lIIZCjYJWVcChE51jE4ruw9eGy5QnNJSN7seQF5J4UamP6omvcN6E80sXm5w6PPtupSZX93YXBq4rZ9DJg15VxPXdULSmbPxfWVSq2Hic40kpyNXNyU/P18sqSGcYBSMNBLBBaEM27PKqcm7qDEwA3hIF2so9j6wBAAAAAgAAACcAAAAxBgAAAAAAAAEAAAAAAAAAAAAAAA
+
+[AuthorEncoded]
+dpm-logo.jpg=1660,2214
+Logo=dpm-logo.jpg
+
+[EncodedFolders]
+Folder
+
+[Folder]
+dp_select.au3=3916,5222
+dp_mass_integrate.au3=8017,10690
+
+[EncodedFile-Folder-dp_select.au3]
+lines=1
+0=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
+1=b2uh4O5NBjdiJbVvh3tfyMqgD3npZbGAe+OJjtnQrK/uVaY2FyGAr96/X0LIFS6d/k4LOQrzK8Xc8g3nA0lDU7zlg0PX56mfFQzOA5pTFO9DgZikyZwBQnUsZSebLGcn5grpw+jl06ZU6l23k5czepuSh7ukfOkFnPr5yMHip7wrLDTIIaO0Ye9RJU+jfo6NUKQ2QCUv5VRiTzXH2ClqgztgOutVel8htpq88nx1kfSWWe8yD7u4uPy8mE+jihR1dlDl4vuPbvu5Wr3QGSImmyNOMrLnmzd9Uv9uu/vrk01DWPdYxaPrG1I7Wh3Szmj6rFc8cCZ8QfMIkTr+0DA/Zr7VLSnXaB17eMci5iDWVuguYtX7HXmVWjz97TTW1+FkFulkFe3SgucKC/wKlBfKUbRii9q8w9Cd+/kwC/CIai6seLvB3qhBfbuXvW5Ycr78jgfQYsF3v9PvWQzWpxxJN+UnSXupwH6DWavwyr94DkexPFUFatPdmt5ElATforFcX7Vy2a7fIZ4enlvO2bnIw38OYUEzV8Ky9Oeu++PBxX0x9vT+kkrqkfNNENZZbKGJU/FxOw4cYje2zdKljQMSaRYuHK5Su2qAbl3OD3OSH4CIluqbf3aoqanldmmWlyj/PK3uO+qpefXz25g3CPeAbucbOaBzok9wAn40qmGUXfdSh9CC7u6485BPdA59/WpAypV9yKZQc4y7LMoNsbtk97zaPR2aA96veO/vrp+8bJIplBxrqqNk9oeS5Qh2zbONpqY7tNc+DESRQThuROV36qkL2yi98ycgX2LJryu3GbTJRCa1JJOR94+wrM2w7IBIyFqQ+ul3zljR/4d25BVRYJZt7SsYjrhfALwR/vX0GyAxfyjw7kzedMV0MvrcSic/r/8XyeaxfK6dLBzJ6EFbkZkf4rZjVhL1W+0ZDjxZke8WR8WrvXkePRiT3w+7hz1kZLYWcepAQp4sxycVq/k//EfTup0Wfg2TkmkunXjCDaY0z88UFw7cZuvm9neMb/APWuR3N4nONNKYgvTs1JTS7RSyw1ZhgFIwwsCYHQ//mwyyvdyLjHwAQA2fMJPwcrosoBAAAAAgAAACkAAAD/DgAAAAAAAAEAAAAAAAAAAAAAAA
+
+[EncodedFile-Folder-dp_mass_integrate.au3]
+lines=2
+0=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
+1=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
+2=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
+

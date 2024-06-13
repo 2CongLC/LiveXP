@@ -1,0 +1,155 @@
+[Main]
+Title=16 Bit support
+Selected=False
+Locked=True
+Description=This script will add support for DOS programs and windows applications in 16bit adding around 4Mb to your build.
+Author=John Adamopoulos
+Contact=http://www.boot-land.net/forums/index.php?showtopic=151
+Level=1
+Updates=http://beta.boot-land.net
+Version=8
+Date=2006-Okt-30 11:27:20
+Upload=2007-May-04 17:52:34
+Download_Level=1
+CertifiedBy=pscEx
+Certification=4513a49b0e2bfec4bba75e93302e87a6
+HistoryNote=Lancelot - NO 16 Bit support on PEx64
+History005=Galapo added kb16.com to filelist, which provides support for non-US keyboards
+History007=Lancelot 0x3,.."RomFontPointers" fixed
+History008=Lancelot Download_Level=1 - quotes mostly removed - other enhancements on script
+Certification81=965873f04ea09e33d071eef877aeb17b
+
+[Interface]
+pTextLabel1="This script is needed whenever you wish to add 16bit DOS or Windows programs on your build.",1,1,11,16,285,33,8,Normal
+pWebLabel1="Support topic",1,10,22,143,84,18,http://www.boot-land.net/forums/index.php?showtopic=151
+pWebLabel2="What is a 16bit program?",1,10,21,170,165,18,http://en.wikipedia.org/wiki/16-bit_application
+pTextLabel2="Only Windows x86 (32 bit) have 16 bit support.#$xThis script is not processed on PEx64 builds.",1,1,34,68,235,30,8,Normal
+
+[Process]
+If,Not,%SourceArch%,Equal,x86,Exit,"16 Bit Support only Exists on 32bit Windows (PEx32)",WARN
+Expand,%source_win%\KB16.CO_,%target_win%\
+Expand,%source_win%\_DEFAULT.PI_,%target_win%\
+Expand,%source_win%\SYSTEM.IN_,%target_win%\
+Expand,%source_win%\WIN.IN_,%target_win%\
+Expand,%source_win%\ANSI.SY_,%target_sys%
+Expand,%source_win%\AUTOEXEC.NT_,%target_sys%
+Expand,%source_win%\AVICAP32.DL_,%target_sys%
+Expand,%source_win%\AVIFILE.DL_,%target_sys%
+Expand,%source_win%\CONFIG.NT_,%target_sys%
+Expand,%source_win%\COMMAND.CO_,%target_sys%
+Expand,%source_win%\COMM.DR_,%target_sys%
+Expand,%source_win%\COMMDLG.DL_,%target_sys%
+Expand,%source_win%\COMPOBJ.DL_,%target_sys%
+Expand,%source_win%\COUNTRY.SY_,%target_sys%
+Expand,%source_win%\CRTDLL.DL_,%target_sys%
+Expand,%source_win%\CTL3DV2.DL_,%target_sys%
+Expand,%source_win%\DDEML.DL_,%target_sys%
+Expand,%source_win%\DOSX.EX_,%target_sys%
+Expand,%source_win%\ega.cp_,%target_sys%
+Expand,%source_win%\gdi.ex_,%target_sys%
+Expand,%source_win%\himem.sy_,%target_sys%
+Expand,%source_win%\keyboard.dr_,%target_sys%
+Expand,%source_win%\keyboard.sy_,%target_sys%
+Expand,%source_win%\krnl386.ex_,%target_sys%
+Expand,%source_win%\lanman.dr_,%target_sys%
+Expand,%source_win%\lzexpand.dl_,%target_sys%
+If,ExistFile,%source_win%\mapi.dl_,Expand,%source_win%\mapi.dl_,%target_sys%
+Expand,%source_win%\mciavi.dr_,%target_sys%
+Expand,%source_win%\mciseq.dr_,%target_sys%
+Expand,%source_win%\mciwave.dr_,%target_sys%
+Expand,%source_win%\mmsystem.dl_,%target_sys%
+Expand,%source_win%\mouse.dr_,%target_sys%
+Expand,%source_win%\msacm.dl_,%target_sys%
+Expand,%source_win%\mscdexnt.ex_,%target_sys%
+Expand,%source_win%\msvideo.dl_,%target_sys%
+Expand,%source_win%\netapi.dl_,%target_sys%
+Expand,%source_win%\ntdos.sy_,%target_sys%
+Expand,%source_win%\ntdos404.sy_,%target_sys%
+Expand,%source_win%\ntdos411.sy_,%target_sys%
+Expand,%source_win%\ntdos412.sy_,%target_sys%
+Expand,%source_win%\ntdos804.sy_,%target_sys%
+Expand,%source_win%\ntio.sy_,%target_sys%
+Expand,%source_win%\ntio404.sy_,%target_sys%
+Expand,%source_win%\ntio411.sy_,%target_sys%
+Expand,%source_win%\ntio412.sy_,%target_sys%
+Expand,%source_win%\ntio804.sy_,%target_sys%
+Expand,%source_win%\ntvdm.ex_,%target_sys%
+Expand,%source_win%\ntvdmd.dl_,%target_sys%
+Expand,%source_win%\ole2.dl_,%target_sys%
+Expand,%source_win%\ole2disp.dl_,%target_sys%
+Expand,%source_win%\ole2nls.dl_,%target_sys%
+Expand,%source_win%\olecli.dl_,%target_sys%
+Expand,%source_win%\olesvr.dl_,%target_sys%
+Expand,%source_win%\pmspl.dl_,%target_sys%
+Expand,%source_win%\progman.ex_,%target_sys%
+If,ExistFile,%source_win%\rasapi16.dl_,Expand,%source_win%\rasapi16.dl_,%target_sys%
+Expand,%source_win%\redir.ex_,%target_sys%
+Expand,%source_win%\shell.dl_,%target_sys%
+Expand,%source_win%\sound.dr_,%target_sys%
+Expand,%source_win%\storage.dl_,%target_sys%
+Expand,%source_win%\system.dr_,%target_sys%
+Expand,%source_win%\timer.dr_,%target_sys%
+Expand,%source_win%\toolhelp.dl_,%target_sys%
+Expand,%source_win%\typelib.dl_,%target_sys%
+Expand,%source_win%\user.ex_,%target_sys%
+If,ExistFile,%source_win%\vcdex.dl_,Expand,%source_win%\vcdex.dl_,%target_sys%
+Expand,%source_win%\ver.dl_,%target_sys%
+Expand,%source_win%\vga.dr_,%target_sys%
+Expand,%source_win%\wfwnet.dr_,%target_sys%
+Expand,%source_win%\winoldap.mo_,%target_sys%
+Expand,%source_win%\winspool.ex_,%target_sys%
+Expand,%source_win%\wow32.dl_,%target_sys%
+Expand,%source_win%\wowdeb.ex_,%target_sys%
+Expand,%source_win%\wowexec.ex_,%target_sys%
+//ShellExecute,hide,expand.exe,"#$q%source_win%\driver.cab#$q -F:WOWFAX.DLL #$q%target_sys%#$q"
+//ShellExecute,hide,expand.exe,"#$q%source_win%\driver.cab#$q -F:WOWFAXUI.DLL #$q%target_sys%#$q"
+require_file,WOWFAX.DLL,%source_sys%\%drCabFile%
+require_file,WOWFAXUI.DLL,%source_sys%\%drCabFile%
+Expand,%source_win%\win87em.dl_,%target_sys%
+If,Not,ExistDir,%target_win%\system,DirMake,%target_win%\system
+Expand,%source_win%\avicap.dl_,%target_win%\system
+Expand,%source_win%\avifile.dl_,%target_win%\system
+Expand,%source_win%\commdlg.dl_,%target_win%\system
+Expand,%source_win%\keyboard.dr_,%target_win%\system
+Expand,%source_win%\lzexpand.dl_,%target_win%\system
+Expand,%source_win%\mciavi.dr_,%target_win%\system
+Expand,%source_win%\mciseq.dr_,%target_win%\system
+Expand,%source_win%\mciwave.dr_,%target_win%\system
+Expand,%source_win%\mmsystem.dl_,%target_win%\system
+If,ExistFile,%source_win%\vcdex.dl_,Expand,%source_win%\vcdex.dl_,%target_win%\system
+Expand,%source_win%\mouse.dr_,%target_win%\system
+Expand,%source_win%\msvideo.dl_,%target_win%\system
+Expand,%source_win%\olecli.dl_,%target_win%\system
+Expand,%source_win%\olesvr.dl_,%target_win%\system
+Expand,%source_win%\shell.dl_,%target_win%\system
+Expand,%source_win%\stdole.tl_,%target_win%\system
+Expand,%source_win%\system.dr_,%target_win%\system
+If,ExistFile,%source_win%\tapi.dl_,Expand,%source_win%\tapi.dl_,%target_win%\system
+Expand,%source_win%\timer.dr_,%target_win%\system
+Expand,%source_win%\ver.dl_,%target_win%\system
+Expand,%source_win%\vga.dr_,%target_win%\system
+Expand,%source_win%\wfwnet.dr_,%target_win%\system
+RegHiveLoad,Tmp_setupreg_hiv,%target_sys%\setupreg.hiv
+Echo,"Writing new values on registry hive.."
+RegWrite,HKLM,0x2,Tmp_setupreg_hiv\ControlSet001\Control\WOW,cmdline,%SystemRoot%\system32\ntvdm.exe
+RegWrite,HKLM,0x1,Tmp_setupreg_hiv\ControlSet001\Control\WOW,DefaultSeparateVDM,no
+RegWrite,HKLM,0x1,Tmp_setupreg_hiv\ControlSet001\Control\WOW,LPT_timeout,15
+RegWrite,HKLM,0x1,Tmp_setupreg_hiv\ControlSet001\Control\WOW,size,0
+RegWrite,HKLM,0x1,Tmp_setupreg_hiv\ControlSet001\Control\WOW,wowsize,16
+RegWrite,HKLM,0x2,Tmp_setupreg_hiv\ControlSet001\Control\WOW,wowcmdline,"%SystemRoot%\system32\ntvdm.exe -a %SystemRoot%\system32\krnl386"
+RegWrite,HKLM,0x1,Tmp_setupreg_hiv\ControlSet001\Control\WOW,KnownDLLs,"comm.drv commdlg.dll ctl3dv2.dll ddeml.dll keyboard.drv lanman.drv mmsystem.dll mouse.drv netapi.dll olecli.dll olesvr.dll pmspl.dll shell.dll sound.drv system.drv toolhelp.dll vga.drv wfwnet.drv win87em.dll winoldap.mod winsock.dll winspool.exe wowdeb.exe timer.drv rasapi16.dll compobj.dll storage.dll ole2.dll ole2disp.dll ole2nls.dll typelib.dll msvideo.dll avifile.dll msacm.dll mciavi.drv mciseq.drv mciwave.drv progman.exe avicap.dll mapi.dll"
+RegWrite,HKLM,0x4,Tmp_setupreg_hiv\ControlSet001\Control\WOW,SharedWowTimeout,0x00000e10
+RegWrite,HKLM,0x3,Tmp_setupreg_hiv\ControlSet001\Control\WOW,RomFontPointers,b0,52,00,c0,b0,4a,00,c0,b0,4e,00,c0,b0,60,00,c0,c0,60,00,c0,c0,70,00,c0
+//RegWrite,HKLM,0x3,Tmp_setupreg_hiv\ControlSet001\Control\WOW,RomFontPointers,b0,52,00,c0,b0,4a,00,c0,b0,4e,00,c0,b0,60,00,c0,c0,60,00,c0,c0,70,00,c0
+RegWrite,HKLM,0x1,"Tmp_setupreg_hiv\ControlSet001\Control\Session Manager\Environment",PATHEXT,".COM;.EXE;.BAT;.CMD"
+RegWrite,HKLM,0x7,Tmp_setupreg_hiv\ControlSet001\Control\VirtualDeviceDrivers,VDD,""
+RegHiveUnLoad,Tmp_setupreg_hiv
+
+[EncodedFile-AuthorEncoded-authorlogo.jpg]
+lines=1
+0=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
+1=WqyhFk/1vzuge+Iq0/s4HXcknIsblJBBQwSY8bgVXcGtof0RaIQns3LvozFabbdrblEeMQTibXuE11OGFd9oCJg88KvF8vxr57FOK/7CRaYmX3XMhZ1fnNhSB0lw+h382TsctX/FOE9HjRy/1Xb61elGC6ohVmpL/dmbHi6P3kdcCqQuVqsAqEHRf+Gpt62sw+pNCbSfJ/9sLfhotOp5tT8A9p4YSJUqe48prPtNdGoW0ggHPedBv3uNLLJX83ELIBgyDo1t8woSe9QINWYZIfT8EjOejheGrkgsC7W9qngrv5X24wS019+2YpK5nWLxKnbCYWCxGjsaCN5GaLZGv7kKyQqBZTltfA1x9mamwQByc+EY2DF4DPvvwHhCgWtXic40ssLcnIL8rJT8/XyypIZxgFIwvo8kJoaV7s8kukMt4yMAEAS7IIOX6koJ4BAAAAAgAAACoAAAAbDQAAAAAAAAEAAAAAAAAAAAAAAA
+
+[AuthorEncoded]
+authorlogo.jpg=3433,4580
+

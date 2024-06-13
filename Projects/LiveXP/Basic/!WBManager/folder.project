@@ -1,0 +1,5 @@
+[main]
+description=This folder contains the script which supervise if all scripts on this project have correct settings and sets some global configuration parameters. Read them carefully before changing anything.
+Download_Level=0
+Locked=True
+Upload=2007-Sep-18 15:00:11

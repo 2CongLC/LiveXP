@@ -1,0 +1,94 @@
+KIEGÉSZÍTÕ VÉGFELHASZNÁLÓI LICENCSZERZÕDÉS 
+MICROSOFT SZOFTVERHEZ 
+("Kiegészítõ EULA")
+
+FONTOS - KÉRJÜK, FIGYELMESEN OLVASSA EL: A 
+Microsoft operációs rendszerének a jelen Kiegészítõ EULA 
+kíséretében lévõ alkotóelemeire, beleértve minden, képernyõn 
+megjelenõ vagy elektronikusan tárolt dokumentációt is (a 
+továbbiakban az „Operációs rendszer tartozékai"), a jelen 
+Kiegészítõ EULA elõírásai és feltételein kívül annak a Microsoft 
+operációs rendszernek a jogszerû felhasználását engedélyezõ 
+szerzõdésnek („Végfelhasználói licencszerzõdés" vagy „EULA") 
+feltételei és elõírásai az irányadók, amellyel, az alább leírtak 
+szerint a megfelelõ Microsoft operációs rendszer jogosultságát 
+megszerezte.  AZ OPERÁCIÓS RENDSZER 
+TARTOZÉKAINAK TELEPÍTÉSÉVEL, MÁSOLÁSÁVAL, 
+LETÖLTÉSÉVEL, ELÉRÉSÉVEL, ILLETVE BÁRMILYEN 
+EGYÉB MÓDON TÖRTÉNÕ FELHASZNÁLÁSÁVAL ÖN 
+KÖTELEZÕ ÉRVÉNNYEL VÁLLALJA A MEGFELELÕ 
+OPERÁCIÓS RENDSZERRE VONATKOZÓ EULA ÉS A 
+JELEN KIEGÉSZÍTÕ EULA ELÕÍRÁSAIT ÉS FELTÉTELEIT.  
+HA ÖN NEM ÉRT EGYET EZEN ELÕÍRÁSOKKAL ÉS 
+FELTÉTELEKKEL, NEM TELEPÍTHETI, MÁSOLHATJA VAGY 
+HASZNÁLHATJA AZ OPERÁCIÓS RENDSZER 
+TARTOZÉKAIT.
+
+MEGJEGYZÉS:  HA NEM RENDELKEZIK ÉRVÉNYES EULA 
+SZERZÕDÉSSEL VALAMELYIK OLYAN MICROSOFT 
+OPERÁCIÓS RENDSZERHEZ (EZEK KÖZÉ TARTOZIK 
+TÖBBEK KÖZÖTT A MICROSOFT WINDOWS XP 
+PROFESSIONAL, A MICROSOFT WINDOWS 2000 
+PROFESSIONAL, A MICROSOFT WINDOWS 2000 SERVER 
+ÉS A MICROSOFT WINDOWS 2000 ADVANCED SERVER) (a 
+továbbiakban mindegyik „Operációs rendszer"), AMELYIKHEZ 
+AZ OPERÁCIÓS RENDSZER TARTOZÉKAI TÁRSULNAK, 
+NEM JOGOSULT AZ OPERÁCIÓS RENDSZER 
+TARTOZÉKAINAK TELEPÍTÉSÉRE, MÁSOLÁSÁRA, 
+LETÖLTÉSÉRE, ELÉRÉSÉRE VAGY EGYÉB FORMÁBAN 
+TÖRTÉNÕ FELHASZNÁLÁSÁRA, ÉS A JELEN KIEGÉSZÍTÕ 
+EULA SEMMILYEN JOGOT SEM BIZTOSÍT ÖNNEK.
+
+
+A jelen Kiegészítõ EULA szerzõdésben használt nagy 
+kezdõbetûs, és itt másként nem definiált fogalmakra a 
+megfelelõ EULA meghatározásai érvényesek.
+
+Általános rendelkezések. Az Operációs rendszer tartozékait 
+kizárólag a megfelelõ Operációs rendszer frissítéseként, 
+kiegészítéseként, illetve meglévõ funkcióinak cseréjeként kapta, 
+és az Operációs rendszer tartozékainak telepítését követõen 
+ezek az Operációs rendszer részévé válnak. Az Operációs 
+rendszer tartozékainak használati jogát a megfelelõ Operációs 
+rendszerre vonatkozó EULA (amely e hivatkozással e 
+Kiegészítõ EULA részévé válik) és a jelen Kiegészítõ EULA 
+elõírásai és feltételei szerint élvezheti, feltéve, hogy Ön betartja 
+az összes ilyen elõírást és feltételt. Amennyiben és amilyen 
+mértékben az Operációs rendszer tartozékaira vonatkozóan 
+ezen feltételek és elõírások között ellentmondás lenne, a jelen 
+Kiegészítõ EULA feltételei és elõírásai elsõbbséget élveznek.
+
+További jogok és korlátozások.
+
+* Ha az Operációs rendszer több, jogszerûen használt 
+példányával rendelkezik, akkor az Operációs rendszer 
+tartozékait többszörözheti, és egy példányát telepítheti és 
+használhatja az összes olyan számítógépen, amelyen az 
+Operációs rendszer licenccel rendelkezõ példánya fut, feltéve, 
+hogy az Operációs rendszer tartozékait a fenti feltételeknek és 
+elõírásoknak megfelelõen használja.
+* Amennyiben az Operációs rendszer tartozékait nem külsõ 
+adathordozón kapta, az Operációs rendszer tartozékairól egy 
+másolatot készíthet kizárólag archiválási célból vagy az 
+Operációs rendszer tartozékai olyan számítógépre történõ 
+újratelepítése céljából, amelyen az Operációs rendszer 
+tartozékait korábban már telepítették. Az Operációs rendszer 
+tartozékai tekintetében a Microsoft Corporation, helyi 
+képviseletei és vagy beszállítói fenntartanak minden az 
+Operációs rendszer tartozékaiban lévõ, illetve arra vonatkozó 
+jogot és jogcímet. Az összes, itt kifejezetten át nem engedett 
+jogot a Microsoft Corporation, helyi képviseletei és vagy 
+beszállítói fenntartják.
+
+A MEGFELELÕ OPERÁCIÓS RENDSZER EULA 
+SZERZÕDÉSÉBEN TALÁLHATÓ KORLÁTOZOTT GARANCIA 
+(HA VAN ILYEN) ÉRVÉNYES AZ OPERÁCIÓS RENDSZER 
+TARTOZÉKAIRA IS, FELTÉVE, HOGY AZ OPERÁCIÓS 
+RENDSZER TARTOZÉKAINAK HASZNÁLATI JOGÁT A 
+MEGFELELÕ OPERÁCIÓS RENDSZER EULA 
+SZERZÕDÉSÉBEN LÉVÕ KORLÁTOZOTT GARANCIA 
+KERETÉBEN KAPTA. A JELEN KIEGÉSZÍTÕ EULA NEM 
+HOSSZABBÍTJA MEG A KORLÁTOZOTT GARANCIA 
+ÉRVÉNYESSÉGI IDEJÉT.
+
+

@@ -1,0 +1,1299 @@
+[Main]
+Title=MMC
+Level=1
+Selected=True
+Description=Installs the MMC console and its tools in your build
+Author=John Adamopoulos
+Date=2009-Apr-22
+Version=040
+Download_Level=1
+CertifiedBy=pscEx
+Certification=ac427c63d3771486b91086a31721811d
+Contact=http://www.boot-land.net/forums/index.php?showforum=65
+History_Reminder=Lancelot --> NOTE on PE1x64 builds shorcut creations - Check History036
+History001=smileys original beta version edited by psc
+History002=some more registry entries for disk management by psc
+History003=psc add diskpart program to disk management
+History005=psc add OLE Support
+History006=psc remove Register-BASE
+History009=psc fix bug in InstallVirtualDiskService
+History010=Galapo added working administrative tools control panel links
+History011=Galapo improved administrative tools control panel links section
+History012=Galapo added amalux's urlmon.dll fix (http://www.boot-land.net/forums/index.php?showtopic=3866&view=findpost&p=36662)
+History013=Galapo changed Download_Level to 0
+History014=Galapo added mmcndmgr.dll registration to support xpsp3 and better WimPack support
+History015=Galapo updated [WimPackSupport] to latest method
+History016=Galapo altered 010 fix slightly
+History017=Galapo added fxscrpt's modifications to support disabling/enabling devices via device manager
+History018=Galapo moved expanding of dmocx.dl_ from [InstallDiskManagement] to [InstallMMCCore]; altered WimPack functions
+History019=psc adapted startmenu path to buildModel.Script version 058 and higher
+History020=psc use project variables like %OS% rather then reading them from projectinfo.ini
+History021=Galapo removed .msc files from WimPack excludes (new WimPack.exe patches links correctly now)
+History022=Galapo adjusted script for new buildodel $Modelram folder location
+History023=psc add duser.dll
+History024=Galapo removed mmcndmgr.dll registration and altered WimPack commands
+History025=psc made control panel a separate 'shortcut' option
+History028=psc added dmivcitf.dll necessary for diskmanagement under W2003 source
+History029=fxscrpt added msimg32.dll because livexp minimum doesnt work
+History030=Lancelot - check post 1487 - Trying to prevent mmc script naturally causing filecopy overwrite error by using api from wb077Rc1 and NEXXT wb versions http://www.boot-land.net/forums/index.php?s=9285b7a3a7dd5baafe96710949f1cec6&showtopic=2707&pid=69346&st=390&#
+History030=Lancelot - changes made by Lancelot after asking psc at post 1489 - 1491 - 1495
+History030=Lancelot - typo fixed (double slash!) RegHiveLoad,Tmp_software,%target_sys%\\config\software
+History031=Lancelot - some quotes removed , some lines added/modified to fix requirement of PEx64
+History033=Lancelot - %user% folder creation added (in case not exists)
+History033=Lancelot - dmutil line fixed for PEx64
+History034=JFX - If,%SourceArch%,EQUAL,X64,require_file,credui.dll
+History034=JFX - regsvr32.exe#$s/s#$smsxml3.dll for x64 builds
+History035=JFX - msxml3_DLL section added from JFX ---- In script attached reg files overwrite the default value of a key from msxml3.dll to msxml.dll.
+History036=Lancelot - Shortcut Creation Modification Temporarly for PEx64 builds : Only Start Menu Shortcut creation made with hardcoded names, other shortcut creations cancelled, warnings present on log to warn future developments ;)
+History037=JFX - fixed Disk management for NT 5.2 based builds
+History038=Lancelot .reg import methods enhanced, now we have 3 options "NoDebug ReadyReg","NoDebug ConvertReg" (reg_import.au3 from saydin77, works nicely with AutoIt3.exe 3.3.0.0),"Debug reg2wbs" (reg2WBSprg.exe from psc) // Personal note: debug is ~4.6 seconds , nodebug (both) ~2.4 seconds ;) // to copy files now mostly wb native commands used with methods of "mmc v33" on nativeexbarabone (+ usp10.dl) // English names are used as registry entries (more universal)
+History039=JFX - activeds.tlb copy error fixed
+History040=Lancelot WimPackExclude lines modified // reg files scripted for debug // WB-Software - WB-System used overall script --> hives loaded and unloaded totally twice to speed up // other speed improvments // hidden interface with available button
+Certification81=7f0d2f28b82143bbda57bbc841ac1c54
+
+[Interface]
+pCheckBox1="Computer management",1,3,12,77,150,18,True
+pCheckBox2="Device management",1,3,12,96,150,18,True
+pCheckBox3="Disk management",1,3,12,115,150,18,True
+pCheckBox4="Defrag console",1,3,12,134,150,18,True
+pCheckBox5="Services console",1,3,12,153,150,18,True
+pCheckBox6="File sharing console",1,3,12,172,150,18,True
+pCheckBox7=Desktop,1,3,18,250,96,18,False
+pCheckBox8="Start menu",1,3,18,271,96,18,True
+pCheckBox9="User management",1,3,12,191,150,18,True
+pCheckBox10="Control Panel",1,3,17,292,96,18,True
+pTextLabel1="MMC is a collection of basic tools for Windows . This includes device and disk management, defrag, services and file sharing  control. It will add 10MB ~ 15 MB to yor build.",1,1,3,18,438,33,8,Normal
+pTextLabel2="Select which items to install:",1,1,12,56,143,18,8,Normal
+pTextLabel3="Create shortcuts in:",1,1,18,229,120,18,8,Normal
+pBevel1=pBevel1,1,12,7,222,147,97
+Bevel_Reg_Method=Bevel,0,12,323,207,181,68
+TextLabel_Reg_Method="Advanced Setting for Power Users#$xDefault: Debug Process Script",0,1,328,213,170,33,8,Normal
+pScrollBox_Reg_Method="Debug Process Script",0,4,328,249,168,21,"NoDebug ReadyReg","NoDebug ConvertReg","Debug Process Script"
+pButton_Show_Second_Gui=a,1,8,512,294,16,16,Show_Second_Gui,True,True,False,_Show_Second_Gui_,True
+pButton_Show_First_Gui="Click Here to go back Basic GUI",0,8,340,279,162,32,Show_First_Gui,True,True,False,_Show_First_Gui_,True
+
+[Show_Second_Gui]
+Run,%scriptfile%,Second_Gui
+
+[Show_First_Gui]
+Run,%scriptfile%,First_Gui
+
+[Second_Gui]
+Run,%ScriptFile%,Show-Hide-First_Gui,False
+Run,%ScriptFile%,Show-Hide-Second_Gui,True
+
+[First_Gui]
+Run,%ScriptFile%,Show-Hide-Second_Gui,False
+Run,%ScriptFile%,Show-Hide-First_Gui,True
+
+[Show-Hide-Second_Gui]
+Visible,%Bevel_Reg_Method%,#1,PERMANENT
+Visible,%TextLabel_Reg_Method%,#1,PERMANENT
+Visible,%pScrollBox_Reg_Method%,#1,PERMANENT
+//--
+Visible,%pButton_Show_First_Gui%,#1,PERMANENT
+
+[Show-Hide-First_Gui]
+//--
+Visible,%pButton_Show_Second_Gui%,#1,PERMANENT
+
+[Variables]
+$CreateShortcuts$=Run,%ScriptFile%,CreateMMCShortcuts
+$CreateShortcuts1$=Run,%ScriptFile%,CreateMMCShortcuts1
+%ctl%=
+%scr%=
+
+[Verify]
+Call "Version" ($$$,HoJoPE Hives Factory,21);
+Call "Version" ($$$,OLESupport,2);
+Call "Version" ($$$,Build Model,69);
+
+[Process]
+If,Not,ExistFile,%Source_win%\txtsetup.sif,Exit,"MMC.script only for PE1 builds"
+RegHiveLoad,WB-Software,%target_sys%\Config\software
+RegHiveLoad,WB-SYSTEM,%target_sys%\SETUPREG.HIV
+//--
+IniRead,%ProjectInfo%,OS,Type,%OSName%
+IniRead,%ProjectInfo%,OS,ServicePack,%OSServicePack%
+//IniRead,%ProjectInfo%,Cabs,SP_CAB,%spFile%
+Run,%ScriptFile%,InstallMMCCore
+If,%pCheckBox1%,Equal,True,Run,%ScriptFile%,InstallComputerManagement
+If,%pCheckBox2%,Equal,True,Run,%ScriptFile%,InstallDeviceManagement
+If,%pCheckBox3%,Equal,True,Run,%ScriptFile%,InstallDiskManagement
+If,%pCheckBox4%,Equal,True,Run,%ScriptFile%,InstallDefrag
+If,%pCheckBox5%,Equal,True,Run,%ScriptFile%,InstallServices
+If,%pCheckBox6%,Equal,True,Run,%ScriptFile%,InstallFileSharing
+If,%pCheckBox9%,Equal,True,Run,%ScriptFile%,InstallUserManagement
+// psc removed
+//If,%OSName%,Equal,w2003,Run,%ScriptFile%,InstallVirtualDiskService
+//Galapo added mmcndmgr.dll registration to support xpsp3 and better WimPack support +
+//Galapo removed mmcndmgr.dll registration as new HivesFactory script v.056 works without double registration of this file
+//If,%OSName%,Equal,XP,If,%OSServicePack%,Equal,SP3,RegHiveLoad,WB-Software,%target_sys%\Config\software
+//If,%OSName%,Equal,XP,If,%OSServicePack%,Equal,SP3,RegWrite,HKLM,0x1,WB-Software\Microsoft\Windows\CurrentVersion\RunOnceEx\550,mmcndmgr,"regsvr32.exe#$s/s#$smmcndmgr.dll"
+//If,%OSName%,Equal,XP,If,%OSServicePack%,Equal,SP3,RegHiveUnLoad,WB-Software
+//Galapo added mmcndmgr.dll registration to support xpsp3 and better WimPack support -
+If,EXISTVAR,%WimPackExclude%,WimPackExclude,//MMC#$sexclusion#$sfile#$slist,MMCExcludeList.txt
+If,EXISTVAR,%WimPackExclude%,If,%OSName%,Equal,XP,If,%OSServicePack%,Equal,SP3,WimPackExclude,mmcndmgr.dll,MMCExcludeList.txt
+If,EXISTVAR,%WimPackExclude%,If,%OSName%,Equal,XP,If,%OSServicePack%,Equal,SP3,WimPackExclude,mmc.exe,MMCExcludeList.txt
+If,EXISTVAR,%WimPackExclude%,WimPackExclude,dmdlgs.dll,MMCExcludeList.txt
+If,EXISTVAR,%WimPackExclude%,WimPackExclude,dmdskmgr.dll,MMCExcludeList.txt
+If,EXISTVAR,%WimPackExclude%,WimPackExclude,dmserver.dll,MMCExcludeList.txt
+If,EXISTVAR,%WimPackExclude%,WimPackExclude,dmadmin.exe,MMCExcludeList.txt
+Echo,"Registering components..."
+//---------
+If,%pScrollBox_Reg_Method%,Equal,"NoDebug ReadyReg",Begin
+ExtractFile,%ScriptFile%,Folder,reg-software.reg,%ProjectTemp%
+ShellExecute,hide,regedit.exe,"/s reg-software.reg",%ProjectTemp%
+Shellexecute,Hide,cmd.exe,"/C del /q /f #$qreg-software.reg#$q",%ProjectTemp%
+If,EXISTFILE,%ProjectTemp%\reg-software.reg,Echo,"FILE NOT DELETED",WARN
+End
+If,%pScrollBox_Reg_Method%,Equal,"NoDebug ConvertReg",Begin
+ExtractFile,%ScriptFile%,Reg_Normal,reg-software_normal_mmc.reg,%ProjectTemp%
+ExtractFile,%ScriptFile%,reg_import_au3,reg_import.au3,%ProjectTemp%
+ShellExecute,Hide,%tools%\autoit3.exe,"#$q%ProjectTemp%\reg_import.au3#$q #$q%ProjectTemp%\reg-software_normal_mmc.reg#$q",%tools%
+Shellexecute,Hide,cmd.exe,"/C del /q /f #$qreg-software_normal_mmc.reg#$q",%ProjectTemp%
+If,EXISTFILE,%ProjectTemp%\reg-software_normal_mmc.reg,Echo,"FILE NOT DELETED",WARN
+Shellexecute,Hide,cmd.exe,"/C del /q /f #$qreg_import.au3#$q",%ProjectTemp%
+If,EXISTFILE,%ProjectTemp%\reg_import.au3,Echo,"FILE NOT DELETED",WARN
+End
+If,%pScrollBox_Reg_Method%,Equal,"Debug Process Script",Begin
+ExtractFile,%ScriptFile%,Reg_Normal,reg-software_mmc.script,%ProjectTemp%
+Run,%ProjectTemp%\reg-software_mmc.script,Process
+Shellexecute,Hide,cmd.exe,"/C del /q /f #$qreg-software_mmc.script#$q",%ProjectTemp%
+If,EXISTFILE,%ProjectTemp%\reg-software_mmc.script,Echo,"FILE NOT DELETED",WARN
+End
+//---------
+If,%pCheckBox8%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced,StartMenuAdminTools,YES
+//psc added +
+RegWrite,HKLM,0x1,WB-Software\Microsoft\MMC\SnapIns\{58221C67-EA27-11CF-ADCF-00AA00A80033}\NodeTypes\{476e6446-aaff-11d0-b944-00c04fd8d5b0},,
+RegWrite,HKLM,0x1,WB-Software\Microsoft\MMC\SnapIns\{58221C67-EA27-11CF-ADCF-00AA00A80033}\NodeTypes\{476e6448-aaff-11d0-b944-00c04fd8d5b0},,
+RegWrite,HKLM,0x1,WB-Software\Microsoft\MMC\SnapIns\{58221C67-EA27-11CF-ADCF-00AA00A80033}\NodeTypes\{476e6449-aaff-11d0-b944-00c04fd8d5b0},,
+RegWrite,HKLM,0x1,WB-Software\Microsoft\MMC\SnapIns\{58221C67-EA27-11CF-ADCF-00AA00A80033}\NodeTypes\{476e644a-aaff-11d0-b944-00c04fd8d5b0},,
+RegWrite,HKLM,0x1,WB-Software\Microsoft\MMC\SnapIns\{58221C67-EA27-11CF-ADCF-00AA00A80033}\NodeTypes\{5D6179C8-17EC-11D1-9AA9-00C04FD8FE93},,
+RegWrite,HKLM,0x1,WB-Software\Microsoft\MMC\SnapIns\{58221C67-EA27-11CF-ADCF-00AA00A80033}\StandAlone,,
+//--
+//History035 JFX : Memory Management,PagingFiles line fixed (when wrong value NUL: 0 0 pagefile created under PE1x64)
+RegWrite,HKLM,0x7,"WB-SYSTEM\ControlSet001\Control\Session Manager\Memory Management",PagingFiles,""
+//RegWrite,HKLM,0x7,"WB-SYSTEM\ControlSet001\Control\Session Manager\Memory Management",PagingFiles,"NUL: 0 0"
+//Galapo added 017 +
+RegWrite,HKLM,0x4,WB-SYSTEM\ControlSet001\Control\IDConfigDB,CurrentConfig,1
+RegWrite,HKLM,0x4,WB-SYSTEM\ControlSet001\Control\IDConfigDB,UserWaitInterval,30
+RegWrite,HKLM,0x4,WB-SYSTEM\ControlSet001\Control\IDConfigDB\Hardware#$sProfiles\0001,PreferenceOrder,0
+RegWrite,HKLM,0x4,WB-SYSTEM\ControlSet001\Control\IDConfigDB\Hardware#$sProfiles\0001,Pristine,1
+RegWrite,HKLM,0x4,WB-SYSTEM\ControlSet001\Control\IDConfigDB\Hardware#$sProfiles\0001,Aliasable,0
+RegWrite,HKLM,0x1,WB-SYSTEM\ControlSet001\Control\IDConfigDB\Hardware#$sProfiles\0001,FriendlyName,Profile#$s1
+RegWrite,HKLM,0x1,WB-SYSTEM\ControlSet001\Control\IDConfigDB\Hardware#$sProfiles\0001,HwProfileGuid,{e75e1fc0-a7ef-11dc-a9e8-806e6f6e6963}
+RegWrite,HKLM,0x4,WB-SYSTEM\ControlSet001\Control\IDConfigDB\Hardware#$sProfiles\0001,Cloned,1
+RegWrite,HKLM,0x1,WB-SYSTEM\ControlSet001\Control\Session#$sManager\Environment,devmgr_show_details,1
+RegWrite,HKLM,0x1,WB-SYSTEM\ControlSet001\Control\Session#$sManager\Environment,devmgr_show_nonpresent_devices,1
+//Galapo added 017 -
+//psc a lot of changes 025 +
+IniRead,%ProjectInfo%,TargetStrings,sDocuments_and_Settings,%settingsfolder%
+IniRead,%ProjectInfo%,TargetStrings,sStartmenu_Programs,%programsfolder%
+IniRead,%ProjectInfo%,TargetStrings,sAdministrative_Tools,%admintoolsfolder%
+IniRead,%ProjectInfo%,TargetStrings,sAll_Users,%allusers%
+IniRead,%ProjectInfo%,TargetPaths,All_Users,%modelallusers%
+IniRead,%ProjectInfo%,TargetPaths,Default_User,%user%
+StrFormat,PATH,%Modelram%,%Modelram_path%
+Set,%Admin%,%Modelram_path%%modelallusers%\%programsfolder%\%admintoolsfolder%
+Set,%user%,%Modelram_path%%user%\%programsfolder%\%admintoolsfolder%
+If,Not,ExistDir,%Admin%,DirMake,%Admin%
+//History033
+If,Not,ExistDir,%user%,DirMake,%user%
+FileCopy,%user%\*.*,%Admin%
+If,Not,%pCheckBox8%,EQUAL,True,DirDelete,%user%
+RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","Common Administrative Tools",%SettingsDrive%\%settingsfolder%\%allusers%\%programsfolder%\%admintoolsfolder%
+//psc a lot of changes 025 -
+// History035 JFX - The in script attached reg files overwrite the default value of a key from msxml3.dll to msxml.dll. So if you want to add registry capture of regsvr32 /s msxml3.dll, it have to be done on the very end of script.
+// JFX - "regsvr32.exe /s msxml3.dll" from JFX by PE1x64
+If,%SourceArch%,EQUAL,X64,Run,%scriptfile%,msxml3_DLL
+//--
+RegHiveUnLoad,WB-Software
+RegHiveUnLoad,WB-SYSTEM
+
+[InstallMMCCore]
+Echo,"Installing MMC core files..."
+Expand,%source_win%\mmc.ex_,%target_sys%
+Expand,%source_win%\mmcbase.dl_,%target_sys%
+Expand,%source_win%\mmcndmgr.dl_,%target_sys%
+Expand,%source_win%\mmcshext.dl_,%target_sys%
+//History031
+//require_file,msxml.dll
+//require_file,msxmlr.dll
+//require_file,msxml2.dll
+//require_file,msxml2r.dll
+If,%SourceArch%,EQUAL,X86,Expand,%source_win%\msxml.dl_,%target_sys%
+If,%SourceArch%,EQUAL,X86,Expand,%source_win%\msxml2.dl_,%target_sys%
+If,%SourceArch%,EQUAL,X86,Expand,%source_win%\msxml2r.dl_,%target_sys%
+If,%SourceArch%,EQUAL,X86,Expand,%source_win%\msxmlr.dl_,%target_sys%
+Expand,%source_win%\msxml3.dl_,%target_sys%
+//If,%SourceArch%,EQUAL,X64,Begin
+//RegHiveLoad,WB-Software,%target_sys%\Config\software
+//RegWrite,HKLM,0x1,WB-Software\Microsoft\Windows\CurrentVersion\RunOnceEx\550,msxml3,"regsvr32.exe#$s/s#$smsxml3.dll"
+//RegHiveUnLoad,WB-Software
+//End
+Expand,%source_win%\msxml3r.dl_,%target_sys%
+Expand,%source_win%\mlang.da_,%target_sys%
+Expand,%source_win%\mlang.dl_,%target_sys%
+Expand,%source_win%\oleacc.dl_,%target_sys%
+Expand,%source_win%\oleaccrc.dl_,%target_sys%
+Expand,%source_win%\clbcatq.dl_,%target_sys%
+Expand,%source_win%\comres.dl_,%target_sys%
+//History031
+//If,%OS%,EQUAL,W2003,require_file,dmivcitf.dll
+If,%SourceArch%,EQUAL,X64,CopyOrExpand,%source_win%\dmivcitf.dll,%target_sys%
+If,%OS%%SourceArch%,EQUAL,W2003X86,CopyOrExpand,%source_win%\dmivcitf.dll,%target_sys%
+If,Not,EXISTFILE,%target_sys%\urlmon.dll,CopyOrExpand,%source_win%\urlmon.dll,%target_sys%
+CopyOrExpand,%source_win%\duser.dll,%target_sys%
+If,Not,EXISTVAR,%BuildModelScript%,Expand,%source_win%\usp10.dl_,%target_sys%
+If,Not,ExistFile,%target_sys%\lpk.dll,CopyOrExpand,%source_win%\lpk.dll,%target_sys%\lpk.dll
+Expand,%source_win%\mfc42u.dl_,%target_sys%
+Expand,%source_win%\hhsetup.dl_,%target_sys%
+Expand,%source_win%\acledit.dl_,%target_sys%
+Expand,%source_win%\cmprops.dl_,%target_sys%
+Expand,%source_win%\comsnap.dl_,%target_sys%
+Expand,%source_win%\cscui.dl_,%target_sys%
+Expand,%source_win%\es.dl_,%target_sys%
+Expand,%source_win%\ieaksie.dl_,%target_sys%
+Expand,%source_win%\localsec.dl_,%target_sys%
+Expand,%source_win%\mll_hp.dl_,%target_sys%
+Expand,%source_win%\mll_mtf.dl_,%target_sys%
+Expand,%source_win%\mll_qic.dl_,%target_sys%
+Expand,%source_win%\odbcbcp.dl_,%target_sys%
+If,Not,ExistFile,%target_sys%\regsvr32.exe,CopyOrExpand,%source_win%\regsvr32.exe,%target_sys%\regsvr32.exe
+Expand,%source_win%\rsmps.dl_,%target_sys%
+Expand,%source_win%\scrrun.dl_,%target_sys%
+Expand,%source_win%\servdeps.dl_,%target_sys%
+Expand,%source_win%\wbemcntl.dl_,%target_sys%
+Expand,%source_win%\dmocx.dl_,%target_sys%
+If,Not,ExistFile,%target_sys%\msimg32.dll,CopyOrExpand,%source_win%\msimg32.dll,%target_sys%\msimg32.dll
+
+[CreateMMCShortcuts]
+If,%SourceArch%,EQUAL,x86,If,%pCheckBox7%,Equal,True,Run,%BuildModelScript%,Add-Shortcut,"DE\@sAdministrative_Tools","#$pSystemRoot#$p\system32\#1","$"
+If,NOT,%SourceArch%,EQUAL,x86,If,%pCheckBox7%,Equal,True,Echo,"MMC.script: Create Shortcut Desktop on PE x64&IA64 not supported for NOW",Warn
+
+[CreateMMCShortcuts1]
+If,%SourceArch%,EQUAL,x86,Begin
+Set,%Do%,0
+If,%pCheckBox8%,Equal,True,Set,%Do%,1
+If,%pCheckBox10%,Equal,True,Set,%Do%,1
+If,%Do%,EQUAL,1,Run,%BuildModelScript%,Add-Shortcut,AD,"#$pSystemRoot#$p\system32\#1","$"
+End
+If,Not,%SourceArch%,EQUAL,x86,If,%pCheckBox10%,Equal,True,Echo,"MMC.script: Create Shortcut Control Panel on PE x64&IA64 not supported for NOW",Warn
+If,Not,%SourceArch%,EQUAL,x86,If,%pCheckBox8%,Equal,True,Begin
+Echo,"MMC.script: Create Shortcut Start Menu on PE x64&IA64 not supported for NOW , a workaround used with English names",Warn
+Set,%StartMenuFolder%,"Administrative Tools"
+If,#1,Equal,compmgmt.msc,Set,%ShortCutHardcodedName%,"Computer Management"
+If,#1,Equal,devmgmt.msc,Set,%ShortCutHardcodedName%,"Device Manager"
+If,#1,Equal,dfrg.msc,Set,%ShortCutHardcodedName%,"Disk Defragmenter"
+If,#1,Equal,diskmgmt.msc,Set,%ShortCutHardcodedName%,"Disk Management"
+If,#1,Equal,lusrmgr.msc,Set,%ShortCutHardcodedName%,"Local Users and Groups"
+If,#1,Equal,services.msc,Set,%ShortCutHardcodedName%,"Services"
+If,#1,Equal,fsmgmt.msc,Set,%ShortCutHardcodedName%,"Shared Folder"
+Add_Shortcut,StartMenu,%StartMenuFolder%,"#$pSystemRoot#$p\system32\#1",%ShortCutHardcodedName%
+End
+
+[InstallComputerManagement]
+Echo,"Installing computer management..."
+Expand,%source_win%\compmgmt.ms_,%target_sys%
+Expand,%source_win%\mycomput.dl_,%target_sys%
+If,Not,ExistFile,%target_sys%\atl.dll,CopyOrExpand,%source_win%\atl.dll,%target_sys%\atl.dll
+IniWrite,%ProjectInfo%,UPX-Switches,mycomput.dll,"-9 --compress-resources=0"
+$CreateShortcuts$,compmgmt.msc
+$CreateShortcuts1$,compmgmt.msc
+
+[InstallDeviceManagement]
+Echo,"Installing device console..."
+Expand,%source_win%\devmgmt.ms_,%target_sys%
+Expand,%source_win%\devmgr.dl_,%target_sys%
+If,Not,ExistFile,%target_sys%\wmi.dll,CopyOrExpand,%source_win%\wmi.dll,%target_sys%\wmi.dll
+$CreateShortcuts$,devmgmt.msc
+$CreateShortcuts1$,devmgmt.msc
+
+[InstallUserManagement]
+Echo,"Installing user console..."
+Expand,%source_win%\lusrmgr.ms_,%target_sys%
+If,Not,ExistFile,%target_sys%\netplwiz.dll,CopyOrExpand,%source_win%\netplwiz.dll,%target_sys%\netplwiz.dll
+Expand,%source_win%\rasdlg.dl_,%target_sys%
+If,Not,ExistFile,%target_sys%\localsec.dll,CopyOrExpand,%source_win%\localsec.dll,%target_sys%\localsec.dll
+If,Not,ExistFile,%target_sys%\activeds.tlb,CopyOrExpand,%source_sys%\activeds.tlb,%target_sys%
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{5D6179C8-17EC-11D1-9AA9-00C04FD8FE93},,"Microsoft Local Users and Groups MMC Snap-in"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{5D6179C8-17EC-11D1-9AA9-00C04FD8FE93}\InprocServer32,,localsec.dll
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{5D6179C8-17EC-11D1-9AA9-00C04FD8FE93}\InprocServer32,ThreadingModel,Apartment
+RegWrite,HKLM,0x1,WB-Software\Microsoft\MMC\NodeTypes\{476e6448-aaff-11d0-b944-00c04fd8d5b0}\Extensions\NameSpace,{394C052E-B830-11D0-9A86-00C04FD8DBF7},"Event Viewer Extension"
+RegWrite,HKLM,0x1,WB-Software\Microsoft\MMC\NodeTypes\{476e6448-aaff-11d0-b944-00c04fd8d5b0}\Extensions\NameSpace,{58221C69-EA27-11CF-ADCF-00AA00A80033},"Shared Folders Extension"
+RegWrite,HKLM,0x1,WB-Software\Microsoft\MMC\NodeTypes\{476e6448-aaff-11d0-b944-00c04fd8d5b0}\Extensions\NameSpace,{90087284-d6d6-11d0-8353-00a0c90640bf},1.0
+RegWrite,HKLM,0x1,WB-Software\Microsoft\MMC\NodeTypes\{476e6448-aaff-11d0-b944-00c04fd8d5b0}\Extensions\NameSpace,{5D6179C8-17EC-11D1-9AA9-00C04FD8FE93},"Local Users and Groups"
+RegWrite,HKLM,0x2,WB-Software\Microsoft\MMC\NodeTypes\{476e6448-aaff-11d0-b944-00c04fd8d5b0}\Extensions\NameSpace,{7478EF65-8C46-11d1-8D99-00A0C913CAD4},"@#$pSystemRoot#$p\system32\smlogcfg.dll,-736"
+RegWrite,HKLM,0x1,WB-Software\Microsoft\MMC\SnapIns\{5D6179C8-17EC-11D1-9AA9-00C04FD8FE93},NameString,"Local Users and Groups"
+RegWrite,HKLM,0x2,WB-Software\Microsoft\MMC\SnapIns\{5D6179C8-17EC-11D1-9AA9-00C04FD8FE93},NameStringIndirect,"@#$pSystemRoot#$p\system32\localsec.dll,-5026"
+RegWrite,HKLM,0x1,WB-Software\Microsoft\MMC\SnapIns\{5D6179C8-17EC-11D1-9AA9-00C04FD8FE93},About,{5D6179D2-17EC-11D1-9AA9-00C04FD8FE93}
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{080d0d78-f421-11d0-a36e-00c04fb950dc},,"ADs LDAP Pathname Descriptor Object"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{080d0d78-f421-11d0-a36e-00c04fb950dc}\InprocServer32,,activeds.dll
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{080d0d78-f421-11d0-a36e-00c04fb950dc}\InprocServer32,ThreadingModel,Both
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{080d0d78-f421-11d0-a36e-00c04fb950dc}\ProgID,,Pathname
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{080d0d78-f421-11d0-a36e-00c04fb950dc}\TypeLib,,{97d25db0-0363-11cf-abc4-02608c9e7553}
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{080d0d78-f421-11d0-a36e-00c04fb950dc}\Version,,0.0
+RegWrite,HKLM,0x1,WB-Software\Classes\TypeLib\{97d25db0-0363-11cf-abc4-02608c9e7553}\1.0,,"Active DS Type Library"
+RegWrite,HKLM,0x2,WB-Software\Classes\TypeLib\{97d25db0-0363-11cf-abc4-02608c9e7553}\1.0\0\win32,,#$pSystemRoot#$p\system32\activeds.tlb
+RegWrite,HKLM,0x1,WB-Software\Classes\TypeLib\{97d25db0-0363-11cf-abc4-02608c9e7553}\1.0\FLAGS,,0
+RegWrite,HKLM,0x2,WB-Software\Classes\TypeLib\{97d25db0-0363-11cf-abc4-02608c9e7553}\1.0\HELPDIR,,#$pSystemRoot#$p\system32
+$CreateShortcuts$,lusrmgr.msc
+$CreateShortcuts1$,lusrmgr.msc
+
+[InstallDiskManagement]
+Echo,"Installing disk management console..."
+Expand,%source_win%\diskmgmt.ms_,%target_sys%
+Expand,%source_win%\dmdskmgr.dl_,%target_sys%
+Expand,%source_win%\dmdlgs.dl_,%target_sys%
+Expand,%source_win%\dmview.oc_,%target_sys%
+Expand,%source_win%\dmremote.ex_,%target_sys%
+Expand,%source_win%\dmdskres.dl_,%target_sys%
+Expand,%source_win%\fmifs.dl_,%target_sys%
+Expand,%source_win%\ntmsapi.dl_,%target_sys%
+If,Not,ExistFile,%target_sys%\atl.dll,CopyOrExpand,%source_win%\atl.dll,%target_sys%\atl.dll
+If,Not,ExistFile,%target_sys%\cfgmgr32.dll,CopyOrExpand,%source_win%\cfgmgr32.dll,%target_sys%\cfgmgr32.dll
+If,Not,ExistFile,%target_sys%\ifsutil.dll,CopyOrExpand,%source_win%\ifsutil.dll,%target_sys%\ifsutil.dll
+Expand,%source_win%\dmserver.dl_,%target_sys%
+Expand,%source_win%\dmadmin.ex_,%target_sys%
+CopyOrExpand,%source_win%\CABINET.DLL,%target_sys%
+If,Not,ExistFile,%target_sys%\clusapi.dll,CopyOrExpand,%source_win%\clusapi.dll,%target_sys%\clusapi.dll
+Expand,%source_win%\osuninst.dl_,%target_sys%
+Expand,%source_win%\dmintf.dl_,%target_sys%
+//History031
+//If,%OSName%%OSServicePack%,Equal,XPSP2,Run,%ScriptFile%,InstallDComLaunch
+//If,%OSName%%OSServicePack%,Equal,XPSP3,Run,%ScriptFile%,InstallDComLaunch
+//If,%OSName%,Equal,w2003,Run,%ScriptFile%,InstallDComLaunch
+If,%SourceArch%,EQUAL,X64,Run,%ScriptFile%,InstallDComLaunch
+If,%OSName%%OSServicePack%%SourceArch%,Equal,XPSP2X86,Run,%ScriptFile%,InstallDComLaunch
+If,%OSName%%OSServicePack%%SourceArch%,Equal,XPSP3X86,Run,%ScriptFile%,InstallDComLaunch
+If,%OS%%SourceArch%,EQUAL,W2003X86,Run,%ScriptFile%,InstallDComLaunch
+//If,ExistFile,%source_win%\%spCabFile%,ShellExecute,hide,expand.exe,"#$q%source_win%\%spCabFile%#$q -F:dmutil.dll #$q%target_sys%#$q"
+If,%SourceArch%,EQUAL,X86,require_file,dmutil.DLL,%source_sys%\%spCabFile%
+If,%SourceArch%,EQUAL,X64,require_file,dmutil.DLL,%source_sys%\%drCabFile%
+If,%SourceArch%,EQUAL,ia64,require_file,dmutil.DLL,%source_sys%\%spCabFile%
+//History031
+//If,%OSName%,Equal,w2003,Expand,%source_win%\dmivcitf.dl_,%target_sys%
+//If,%OSName%,Equal,w2003,Expand,%source_win%\dmvdsitf.dl_,%target_sys%
+If,%OSName%%SourceArch%,Equal,w2003X86,Expand,%source_win%\dmivcitf.dl_,%target_sys%
+If,%OSName%%SourceArch%,Equal,w2003X86,Expand,%source_win%\dmvdsitf.dl_,%target_sys%
+If,%SourceArch%,Equal,X64,Expand,%source_win%\dmivcitf.dl_,%target_sys%
+If,%SourceArch%,Equal,X64,Expand,%source_win%\dmvdsitf.dl_,%target_sys%
+//psc added +
+Set,%ctl%,%ProjectTemp%\mmc.ctl
+Set,%scr%,%ProjectTemp%\mmc.script.txt
+If,ExistFile,%ctl%,FileDelete,%ctl%
+FileCreateBlank,%ctl%
+TXTAddLine,%ctl%,[DMREG.INF]DM.AddReg,Append
+TXTAddLine,%ctl%,HKLM#$c#$q#$q@-2,Append
+ShellExecute,Hide,%HoJoPEDir%\%HoJoPEexe%,"#$q/S%source_win%\#$q #$q/O%scr%#$q -L2 -TW -C%SourceLocale% #$q-I%ctl%#$q -D0"
+RegHiveUnLoad,WB-Software
+RegHiveUnLoad,WB-SYSTEM
+Exec,%scr%,Process-Hive
+RegHiveLoad,WB-Software,%target_sys%\Config\software
+RegHiveLoad,WB-SYSTEM,%target_sys%\SETUPREG.HIV
+//psc added -
+$CreateShortcuts$,diskmgmt.msc
+$CreateShortcuts1$,diskmgmt.msc
+//psc added +
+Expand,%source_win%\DISKPART.EX_,%target_sys%
+//JFX added History037 +
+If,%OSName%,Equal,w2003,Run,%ScriptFile%,Fix_NT52
+If,%SourceArch%,Equal,X64,Run,%ScriptFile%,Fix_NT52
+//JFX added History037 -
+
+[InstallDefrag]
+Echo,"Installing defrag console..."
+Expand,%source_win%\dfrg.ms_,%target_sys%
+Expand,%source_win%\dfrgres.dl_,%target_sys%
+Expand,%source_win%\dfrgui.dl_,%target_sys%
+Expand,%source_win%\defrag.ex_,%target_sys%
+Expand,%source_win%\dfrgfat.ex_,%target_sys%
+Expand,%source_win%\dfrgntfs.ex_,%target_sys%
+Expand,%source_win%\vssapi.dl_,%target_sys%
+Expand,%source_win%\dfrgsnap.dl_,%target_sys%
+Expand,%source_win%\ipsecsnp.dl_,%target_sys%
+If,Not,ExistFile,%target_sys%\atl.dll,CopyOrExpand,%source_win%\atl.dll,%target_sys%\atl.dll
+If,Not,ExistFile,%target_sys%\activeds.dll,CopyOrExpand,%source_win%\activeds.dll,%target_sys%\activeds.dll
+If,Not,ExistFile,%target_sys%\ADSLDPC.DLL,CopyOrExpand,%source_win%\ADSLDPC.DLL,%target_sys%\ADSLDPC.DLL
+If,Not,ExistFile,%target_sys%\polstore.dll,CopyOrExpand,%source_win%\polstore.dll,%target_sys%\polstore.dll
+If,Not,ExistFile,%target_sys%\ntmarta.dll,CopyOrExpand,%source_win%\ntmarta.dll,%target_sys%\ntmarta.dll
+$CreateShortcuts$,dfrg.msc
+$CreateShortcuts1$,dfrg.msc
+
+[InstallServices]
+Echo,"Installing services console..."
+Expand,%source_win%\services.ms_,%target_sys%
+Expand,%source_win%\filemgmt.dl_,%target_sys%
+If,Not,ExistFile,%target_sys%\atl.dll,CopyOrExpand,%source_win%\atl.dll,%target_sys%\atl.dll
+If,Not,ExistFile,%target_sys%\activeds.dll,CopyOrExpand,%source_win%\activeds.dll,%target_sys%\activeds.dll
+If,Not,ExistFile,%target_sys%\ADSLDPC.DLL,CopyOrExpand,%source_win%\ADSLDPC.DLL,%target_sys%\ADSLDPC.DLL
+If,Not,ExistFile,%target_sys%\cfgmgr32.dll,CopyOrExpand,%source_win%\cfgmgr32.dll,%target_sys%\cfgmgr32.dll
+If,%OSName%,Equal,w2003,Expand,%source_win%\credui.dl_,%target_sys%
+If,%SourceArch%,EQUAL,X64,Expand,%source_win%\credui.dl_,%target_sys%
+$CreateShortcuts$,services.msc
+$CreateShortcuts1$,services.msc
+
+[InstallFileSharing]
+Echo,"Installing file sharing console..."
+If,Not,ExistFile,%target_sys%\filemgmt.dll,CopyOrExpand,%source_win%\filemgmt.dll,%target_sys%\filemgmt.dll
+If,Not,ExistFile,%target_sys%\fsmgmt.msc,CopyOrExpand,%source_win%\fsmgmt.msc,%target_sys%\fsmgmt.msc
+If,Not,ExistFile,%target_sys%\srvsvc.dll,CopyOrExpand,%source_win%\srvsvc.dll,%target_sys%\srvsvc.dll
+If,Not,ExistFile,%target_sys%\atl.dll,CopyOrExpand,%source_win%\atl.dll,%target_sys%\atl.dll
+If,Not,ExistFile,%target_sys%\activeds.dll,CopyOrExpand,%source_win%\activeds.dll,%target_sys%\activeds.dll
+If,Not,ExistFile,%target_sys%\ADSLDPC.DLL,CopyOrExpand,%source_win%\ADSLDPC.DLL,%target_sys%\ADSLDPC.DLL
+If,Not,ExistFile,%target_sys%\cfgmgr32.dll,CopyOrExpand,%source_win%\cfgmgr32.dll,%target_sys%\cfgmgr32.dll
+If,Not,ExistFile,%target_sys%\ntshrui.dll,CopyOrExpand,%source_win%\ntshrui.dll,%target_sys%\ntshrui.dll
+$CreateShortcuts$,fsmgmt.msc
+$CreateShortcuts1$,fsmgmt.msc
+
+[InstallVirtualDiskService]
+Echo,"Installing Virtual disk service..."
+Expand,%source_win%\vds.ex_,%target_sys%
+Expand,%source_win%\vdsbas.dl_,%target_sys%
+Expand,%source_win%\vdsdyndr.dl_,%target_sys%
+Expand,%source_win%\vds_ps.dl_,%target_sys%
+Expand,%source_win%\vdsldr.ex_,%target_sys%
+Expand,%source_win%\vdsutil.dl_,%target_sys%
+//---------
+If,%pScrollBox_Reg_Method%,Equal,"NoDebug ReadyReg",Begin
+ExtractFile,%ScriptFile%,Folder,vds.reg,%ProjectTemp%
+ShellExecute,hide,regedit.exe,"/s vds.reg",%ProjectTemp%
+Shellexecute,Hide,cmd.exe,"/C del /q /f #$qvds.reg#$q",%ProjectTemp%
+If,EXISTFILE,%ProjectTemp%\vds.reg,Echo,"FILE NOT DELETED",WARN
+End
+If,%pScrollBox_Reg_Method%,Equal,"NoDebug ConvertReg",Begin
+ExtractFile,%ScriptFile%,Reg_Normal,vds_normal_mmc.reg,%ProjectTemp%
+ExtractFile,%ScriptFile%,reg_import_au3,reg_import.au3,%ProjectTemp%
+ShellExecute,Hide,%tools%\autoit3.exe,"#$q%ProjectTemp%\reg_import.au3#$q #$q%ProjectTemp%\vds_normal_mmc.reg#$q",%tools%
+Shellexecute,Hide,cmd.exe,"/C del /q /f #$qvds_normal_mmc.reg#$q",%ProjectTemp%
+If,EXISTFILE,%ProjectTemp%\vds_normal_mmc.reg,Echo,"FILE NOT DELETED",WARN
+Shellexecute,Hide,cmd.exe,"/C del /q /f #$qreg_import.au3#$q",%ProjectTemp%
+If,EXISTFILE,%ProjectTemp%\reg_import.au3,Echo,"FILE NOT DELETED",WARN
+End
+If,%pScrollBox_Reg_Method%,Equal,"Debug Process Script",Begin
+ExtractFile,%ScriptFile%,Reg_Normal,vds_mmc.script,%ProjectTemp%
+Run,%ProjectTemp%\vds_mmc.script,Process
+Shellexecute,Hide,cmd.exe,"/C del /q /f #$qvds_mmc.script#$q",%ProjectTemp%
+If,EXISTFILE,%ProjectTemp%\vds_mmc.script,Echo,"FILE NOT DELETED",WARN
+End
+
+[InstallDComLaunch]
+Echo,"Installing DComLaunch service..."
+If,Not,ExistFile,%target_sys%\msv1_0.dll,Expand,%source_win%\msv1_0.dl_,%target_sys%
+RegWrite,HKLM,0x7,WB-SYSTEM\ControlSet001\Services\RpcSs,DependOnService,DcomLaunch,
+RegWrite,HKLM,0x4,WB-SYSTEM\ControlSet001\Enum\Root\LEGACY_DCOMLAUNCH,NextInstance,0x1
+RegWrite,HKLM,0x1,WB-SYSTEM\ControlSet001\Enum\Root\LEGACY_DCOMLAUNCH\0000,Class,LegacyDriver
+RegWrite,HKLM,0x1,WB-SYSTEM\ControlSet001\Enum\Root\LEGACY_DCOMLAUNCH\0000,ClassGUID,{8ECC055D-047F-11D1-A537-0000F8753ED1}
+RegWrite,HKLM,0x4,WB-SYSTEM\ControlSet001\Enum\Root\LEGACY_DCOMLAUNCH\0000,ConfigFlags,0x0
+RegWrite,HKLM,0x1,WB-SYSTEM\ControlSet001\Enum\Root\LEGACY_DCOMLAUNCH\0000,DeviceDesc,"DCOM Services"
+RegWrite,HKLM,0x4,WB-SYSTEM\ControlSet001\Enum\Root\LEGACY_DCOMLAUNCH\0000,Legacy,0x1
+RegWrite,HKLM,0x1,WB-SYSTEM\ControlSet001\Enum\Root\LEGACY_DCOMLAUNCH\0000,Service,DcomLaunch
+RegWrite,HKLM,0x1,WB-SYSTEM\ControlSet001\Enum\Root\LEGACY_DCOMLAUNCH\0000\Control,ActiveService,DcomLaunch
+RegWrite,HKLM,0x1,WB-SYSTEM\ControlSet001\Services\DcomLaunch,Description,"DCOM Services"
+RegWrite,HKLM,0x1,WB-SYSTEM\ControlSet001\Services\DcomLaunch,DisplayName,"DCOM Services"
+RegWrite,HKLM,0x4,WB-SYSTEM\ControlSet001\Services\DcomLaunch,ErrorControl,0x1
+RegWrite,HKLM,0x1,WB-SYSTEM\ControlSet001\Services\DcomLaunch,Group,"Event Log"
+RegWrite,HKLM,0x2,WB-SYSTEM\ControlSet001\Services\DcomLaunch,ImagePath,"svchost -k DcomLaunch"
+RegWrite,HKLM,0x1,WB-SYSTEM\ControlSet001\Services\DcomLaunch,ObjectName,LocalSystem
+RegWrite,HKLM,0x4,WB-SYSTEM\ControlSet001\Services\DcomLaunch,Start,0x2
+RegWrite,HKLM,0x4,WB-SYSTEM\ControlSet001\Services\DcomLaunch,Type,0x20
+RegWrite,HKLM,0x3,WB-SYSTEM\ControlSet001\Services\DcomLaunch,FailureActions,00,00,00,00,00,00,00,00,00,00,00,00,01,00,00,00,00,00,00,00,02,00,00,00,60,ea,00,00
+RegWrite,HKLM,0x1,WB-SYSTEM\ControlSet001\Services\DcomLaunch\Enum,0,Root\LEGACY_DCOMLAUNCH\0000
+RegWrite,HKLM,0x4,WB-SYSTEM\ControlSet001\Services\DcomLaunch\Enum,Count,0x1
+RegWrite,HKLM,0x4,WB-SYSTEM\ControlSet001\Services\DcomLaunch\Enum,NextInstance,0x1
+RegWrite,HKLM,0x2,WB-SYSTEM\ControlSet001\Services\DcomLaunch\Parameters,ServiceDll,rpcss.dll
+
+[Fix_NT52]
+RegWrite,HKLM,0x7,WB-SYSTEM\ControlSet001\Control\Lsa,"Security Packages",kerberos,msv1_0,schannel
+RegWrite,HKLM,0x7,WB-SYSTEM\ControlSet001\Control\Lsa\AccessProviders,ProviderOrder,"Windows NT Access Provider"
+RegWrite,HKLM,0x2,"WB-SYSTEM\ControlSet001\Control\Lsa\AccessProviders\Windows NT AccessProvider",ProviderPath,#$pSystemRoot#$p\system32\ntmarta.dll
+If,Not,ExistFile,%target_sys%\ntmarta.dll,CopyOrExpand,%source_win%\ntmarta.dll,%target_sys%\ntmarta.dll
+
+[msxml3_DLL]
+//RegHiveLoad,"WB-Software","%target_sys%\config\software"
+RegWrite,HKLM,0x1,WB-Software\Classes\.xml,PerceivedType,"-"
+RegWrite,HKLM,0x1,WB-Software\Classes\.xsl,PerceivedType,"-"
+RegWrite,HKLM,0x1,WB-Software\Classes\.xml,,"xmlfile"
+RegWrite,HKLM,0x1,WB-Software\Classes\.xml,"Content Type","text/xml"
+RegWrite,HKLM,0x1,WB-Software\Classes\.xsl,,"xslfile"
+RegWrite,HKLM,0x1,WB-Software\Classes\.xsl,"Content Type","text/xml"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{079AA557-4A18-424A-8EEE-E39F0A8D41B9},,"SAX#$sXML#$sReader"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{079AA557-4A18-424A-8EEE-E39F0A8D41B9}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{079AA557-4A18-424A-8EEE-E39F0A8D41B9}\InProcServer32,ThreadingModel,"Both"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{079AA557-4A18-424A-8EEE-E39F0A8D41B9}\ProgID,,"Msxml2.SAXXMLReader"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{079AA557-4A18-424A-8EEE-E39F0A8D41B9}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{079AA557-4A18-424A-8EEE-E39F0A8D41B9}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{079AA557-4A18-424A-8EEE-E39F0A8D41B9}\VersionIndependentProgID,,"Msxml2.SAXXMLReader"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{2933BF90-7B36-11d2-B20E-00C04F983E60}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{2933BF90-7B36-11d2-B20E-00C04F983E60}\SideBySide,RegVersion,"3.0"
+RegWrite,HKLM,0x4,WB-Software\Classes\CLSID\{2933BF90-7B36-11d2-B20E-00C04F983E60}\SideBySide,RefCount,1
+RegWrite,HKLM,0x4,WB-Software\Classes\CLSID\{2933BF90-7B36-11d2-B20E-00C04F983E60}\SideBySide,Version30RefCount,1
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{2933BF90-7B36-11d2-B20E-00C04F983E60}\TypeLib,,"{D63E0CE2-A0A2-11D0-9C02-00C04FC99C8E}"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{2933BF90-7B36-11d2-B20E-00C04F983E60}\VersionList,3.0,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{2933BF91-7B36-11D2-B20E-00C04F983E60},,"Free#$sThreaded#$sXML#$sDOM#$sDocument"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{2933BF91-7B36-11D2-B20E-00C04F983E60}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{2933BF91-7B36-11D2-B20E-00C04F983E60}\InProcServer32,ThreadingModel,"Both"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{2933BF91-7B36-11D2-B20E-00C04F983E60}\ProgID,,"Microsoft.FreeThreadedXMLDOM.1.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{2933BF91-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{D63E0CE2-A0A2-11D0-9C02-00C04FC99C8E}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{2933BF91-7B36-11D2-B20E-00C04F983E60}\Version,,"1.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{2933BF91-7B36-11D2-B20E-00C04F983E60}\VersionIndependentProgID,,"Microsoft.FreeThreadedXMLDOM"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{2933BF94-7B36-11D2-B20E-00C04F983E60},,"XSL#$sTemplate"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{2933BF94-7B36-11D2-B20E-00C04F983E60}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{2933BF94-7B36-11D2-B20E-00C04F983E60}\InProcServer32,ThreadingModel,"Both"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{2933BF94-7B36-11D2-B20E-00C04F983E60}\ProgID,,"Msxml2.XSLTemplate"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{2933BF94-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{2933BF94-7B36-11D2-B20E-00C04F983E60}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{2933BF94-7B36-11D2-B20E-00C04F983E60}\VersionIndependentProgID,,"Msxml2.XSLTemplate"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{3124C396-FB13-4836-A6AD-1317F1713688},,"SAX#$sXML#$sReader#$s3.0"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{3124C396-FB13-4836-A6AD-1317F1713688}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{3124C396-FB13-4836-A6AD-1317F1713688}\InProcServer32,ThreadingModel,"Both"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{3124C396-FB13-4836-A6AD-1317F1713688}\ProgID,,"Msxml2.SAXXMLReader.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{3124C396-FB13-4836-A6AD-1317F1713688}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{3124C396-FB13-4836-A6AD-1317F1713688}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{3124C396-FB13-4836-A6AD-1317F1713688}\VersionIndependentProgID,,"Msxml2.SAXXMLReader"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{373984C9-B845-449B-91E7-45AC83036ADE},,"XML#$sSchema#$sCache"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{373984C9-B845-449B-91E7-45AC83036ADE}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{373984C9-B845-449B-91E7-45AC83036ADE}\InProcServer32,ThreadingModel,"Both"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{373984C9-B845-449B-91E7-45AC83036ADE}\ProgID,,"Msxml2.XMLSchemaCache"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{373984C9-B845-449B-91E7-45AC83036ADE}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{373984C9-B845-449B-91E7-45AC83036ADE}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{373984C9-B845-449B-91E7-45AC83036ADE}\VersionIndependentProgID,,"Msxml2.XMLSchemaCache"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{379E501F-B231-11D1-ADC1-00805FC752D8},,"MsxmlIsland"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{379E501F-B231-11D1-ADC1-00805FC752D8}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{379E501F-B231-11D1-ADC1-00805FC752D8}\InProcServer32,ThreadingModel,"Apartment"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{379E501F-B231-11D1-ADC1-00805FC752D8}\TypeLib,,"{D63E0CE2-A0A2-11D0-9C02-00C04FC99C8E}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{3D813DFE-6C91-4A4E-8F41-04346A841D9C},,"MXXMLWriter#$s3.0"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{3D813DFE-6C91-4A4E-8F41-04346A841D9C}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{3D813DFE-6C91-4A4E-8F41-04346A841D9C}\InProcServer32,ThreadingModel,"Both"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{3D813DFE-6C91-4A4E-8F41-04346A841D9C}\ProgID,,"Msxml2.MXXMLWriter.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{3D813DFE-6C91-4A4E-8F41-04346A841D9C}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{3D813DFE-6C91-4A4E-8F41-04346A841D9C}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{3D813DFE-6C91-4A4E-8F41-04346A841D9C}\VersionIndependentProgID,,"Msxml2.MXXMLWriter"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{3E784A01-F3AE-4DC0-9354-9526B9370EBA},,"SAXAttributes#$s3.0"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{3E784A01-F3AE-4DC0-9354-9526B9370EBA}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{3E784A01-F3AE-4DC0-9354-9526B9370EBA}\InProcServer32,ThreadingModel,"Apartment"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{3E784A01-F3AE-4DC0-9354-9526B9370EBA}\ProgID,,"Msxml2.SAXAttributes.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{3E784A01-F3AE-4DC0-9354-9526B9370EBA}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{3E784A01-F3AE-4DC0-9354-9526B9370EBA}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{3E784A01-F3AE-4DC0-9354-9526B9370EBA}\VersionIndependentProgID,,"Msxml2.SAXAttributes"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{48123BC4-99D9-11D1-A6B3-00C04FD91555},,"XML#$sDocument"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{48123BC4-99D9-11D1-A6B3-00C04FD91555}\BrowseInPlace,,""
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{48123BC4-99D9-11D1-A6B3-00C04FD91555}\DefaultIcon,,"#$pSystemRoot#$p\system32\msxml3.dll#$c0"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{48123BC4-99D9-11D1-A6B3-00C04FD91555}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{48123BC4-99D9-11D1-A6B3-00C04FD91555}\InProcServer32,ThreadingModel,"Apartment"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{48123BC4-99D9-11D1-A6B3-00C04FD91555}\MiscStatus,,"2228625"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{48123BC4-99D9-11D1-A6B3-00C04FD91555}\ProgID,,"xmlfile"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{48123BC4-99D9-11D1-A6B3-00C04FD91555}\Version,,"1.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{4DD441AD-526D-4A77-9F1B-9841ED802FB0},,"SAXAttributes"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{4DD441AD-526D-4A77-9F1B-9841ED802FB0}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{4DD441AD-526D-4A77-9F1B-9841ED802FB0}\InProcServer32,ThreadingModel,"Apartment"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{4DD441AD-526D-4A77-9F1B-9841ED802FB0}\ProgID,,"Msxml2.SAXAttributes"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{4DD441AD-526D-4A77-9F1B-9841ED802FB0}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{4DD441AD-526D-4A77-9F1B-9841ED802FB0}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{4DD441AD-526D-4A77-9F1B-9841ED802FB0}\VersionIndependentProgID,,"Msxml2.SAXAttributes"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{550DDA30-0541-11D2-9CA9-0060B0EC3D39},,"XML#$sData#$sSource#$sObject"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{550DDA30-0541-11D2-9CA9-0060B0EC3D39}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{550DDA30-0541-11D2-9CA9-0060B0EC3D39}\InProcServer32,ThreadingModel,"Apartment"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{550DDA30-0541-11D2-9CA9-0060B0EC3D39}\ProgID,,"Microsoft.XMLDSO.1.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{550DDA30-0541-11D2-9CA9-0060B0EC3D39}\TypeLib,,"{D63E0CE2-A0A2-11D0-9C02-00C04FC99C8E}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{550DDA30-0541-11D2-9CA9-0060B0EC3D39}\Version,,"1.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{550DDA30-0541-11D2-9CA9-0060B0EC3D39}\VersionIndependentProgID,,"Microsoft.XMLDSO"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{7E3FCEA1-31B4-11D2-AE1F-0080C7337EA1},,"XML#$sViewer#$sMoniker"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{7E3FCEA1-31B4-11D2-AE1F-0080C7337EA1}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{7E3FCEA1-31B4-11D2-AE1F-0080C7337EA1}\InProcServer32,ThreadingModel,"Apartment"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{989D1DC0-B162-11D1-B6EC-D27DDCF9A923},,"XML#$sScript#$sEngine"
+RegWrite,HKLM,0x1,"WB-Software\Classes\CLSID\{989D1DC0-B162-11D1-B6EC-D27DDCF9A923}\Implemented Categories",,""
+RegWrite,HKLM,0x1,"WB-Software\Classes\CLSID\{989D1DC0-B162-11D1-B6EC-D27DDCF9A923}\Implemented Categories\{F0B7A1A1-9847-11CF-8F20-00805F2CD064}",,""
+RegWrite,HKLM,0x1,"WB-Software\Classes\CLSID\{989D1DC0-B162-11D1-B6EC-D27DDCF9A923}\Implemented Categories\{F0B7A1A2-9847-11CF-8F20-00805F2CD064}",,""
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{989D1DC0-B162-11D1-B6EC-D27DDCF9A923}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{989D1DC0-B162-11D1-B6EC-D27DDCF9A923}\InProcServer32,ThreadingModel,"Both"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{989D1DC0-B162-11D1-B6EC-D27DDCF9A923}\OLEScript,,""
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{989D1DC0-B162-11D1-B6EC-D27DDCF9A923}\ProgID,,"XML"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{AFB40FFD-B609-40A3-9828-F88BBE11E4E3},,"Server#$sXML#$sHTTP#$s3.0"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{AFB40FFD-B609-40A3-9828-F88BBE11E4E3}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{AFB40FFD-B609-40A3-9828-F88BBE11E4E3}\InProcServer32,ThreadingModel,"Apartment"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{AFB40FFD-B609-40A3-9828-F88BBE11E4E3}\ProgID,,"Msxml2.ServerXMLHTTP.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{AFB40FFD-B609-40A3-9828-F88BBE11E4E3}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{AFB40FFD-B609-40A3-9828-F88BBE11E4E3}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{AFB40FFD-B609-40A3-9828-F88BBE11E4E3}\VersionIndependentProgID,,"Msxml2.ServerXMLHTTP"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{AFBA6B42-5692-48EA-8141-DC517DCF0EF1},,"Server#$sXML#$sHTTP"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{AFBA6B42-5692-48EA-8141-DC517DCF0EF1}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{AFBA6B42-5692-48EA-8141-DC517DCF0EF1}\InProcServer32,ThreadingModel,"Apartment"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{AFBA6B42-5692-48EA-8141-DC517DCF0EF1}\ProgID,,"Msxml2.ServerXMLHTTP"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{AFBA6B42-5692-48EA-8141-DC517DCF0EF1}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{AFBA6B42-5692-48EA-8141-DC517DCF0EF1}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{AFBA6B42-5692-48EA-8141-DC517DCF0EF1}\VersionIndependentProgID,,"Msxml2.ServerXMLHTTP"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{CFC399AF-D876-11D0-9C10-00C04FC99C8E},,"Msxml"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{CFC399AF-D876-11D0-9C10-00C04FC99C8E}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{CFC399AF-D876-11D0-9C10-00C04FC99C8E}\InProcServer32,ThreadingModel,"Both"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{CFC399AF-D876-11D0-9C10-00C04FC99C8E}\ProgID,,"Msxml"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{CFC399AF-D876-11D0-9C10-00C04FC99C8E}\TypeLib,,"{D63E0CE2-A0A2-11D0-9C02-00C04FC99C8E}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{D2423620-51A0-11D2-9CAF-0060B0EC3D39},,"XML#$sParser"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{D2423620-51A0-11D2-9CAF-0060B0EC3D39}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{D2423620-51A0-11D2-9CAF-0060B0EC3D39}\InProcServer32,ThreadingModel,"Both"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{D2423620-51A0-11D2-9CAF-0060B0EC3D39}\ProgID,,"Microsoft.XMLParser.1.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{D2423620-51A0-11D2-9CAF-0060B0EC3D39}\Version,,"1.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{D2423620-51A0-11D2-9CAF-0060B0EC3D39}\VersionIndependentProgID,,"Microsoft.XMLParser"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{ED8C108E-4349-11D2-91A4-00C04F7969E8},,"XML#$sHTTP#$sRequest"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{ED8C108E-4349-11D2-91A4-00C04F7969E8}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{ED8C108E-4349-11D2-91A4-00C04F7969E8}\InProcServer32,ThreadingModel,"Apartment"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{ED8C108E-4349-11D2-91A4-00C04F7969E8}\ProgID,,"Microsoft.XMLHTTP.1.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{ED8C108E-4349-11D2-91A4-00C04F7969E8}\TypeLib,,"{D63E0CE2-A0A2-11D0-9C02-00C04FC99C8E}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{ED8C108E-4349-11D2-91A4-00C04F7969E8}\VersionIndependentProgID,,"Microsoft.XMLHTTP"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F19-C551-11D3-89B9-0000F81FE221},,"XML#$sParser"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{F5078F19-C551-11D3-89B9-0000F81FE221}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F19-C551-11D3-89B9-0000F81FE221}\InProcServer32,ThreadingModel,"Both"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F19-C551-11D3-89B9-0000F81FE221}\ProgID,,"Msxml2.XMLParser"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F19-C551-11D3-89B9-0000F81FE221}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F19-C551-11D3-89B9-0000F81FE221}\VersionIndependentProgID,,"Msxml2.XMLParser"
+RegWrite,HKLM,0x0,WB-Software\Classes\CLSID\{F5078F27-C551-11D3-89B9-0000F81FE221}
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{F5078F27-C551-11D3-89B9-0000F81FE221}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F27-C551-11D3-89B9-0000F81FE221}\InProcServer32,ThreadingModel,"Apartment"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F27-C551-11D3-89B9-0000F81FE221}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F31-C551-11D3-89B9-0000F81FE221},,"XML#$sParser#$s3.0"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{F5078F31-C551-11D3-89B9-0000F81FE221}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F31-C551-11D3-89B9-0000F81FE221}\InProcServer32,ThreadingModel,"Both"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F31-C551-11D3-89B9-0000F81FE221}\ProgID,,"Msxml2.XMLParser.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F31-C551-11D3-89B9-0000F81FE221}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F31-C551-11D3-89B9-0000F81FE221}\VersionIndependentProgID,,"Msxml2.XMLParser"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F32-C551-11D3-89B9-0000F81FE221},,"XML#$sDOM#$sDocument#$s3.0"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{F5078F32-C551-11D3-89B9-0000F81FE221}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F32-C551-11D3-89B9-0000F81FE221}\InProcServer32,ThreadingModel,"Both"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F32-C551-11D3-89B9-0000F81FE221}\ProgID,,"Msxml2.DOMDocument.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F32-C551-11D3-89B9-0000F81FE221}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F32-C551-11D3-89B9-0000F81FE221}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F32-C551-11D3-89B9-0000F81FE221}\VersionIndependentProgID,,"Msxml2.DOMDocument"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F33-C551-11D3-89B9-0000F81FE221},,"Free#$sThreaded#$sXML#$sDOM#$sDocument#$s3.0"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{F5078F33-C551-11D3-89B9-0000F81FE221}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F33-C551-11D3-89B9-0000F81FE221}\InProcServer32,ThreadingModel,"Both"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F33-C551-11D3-89B9-0000F81FE221}\ProgID,,"Msxml2.FreeThreadedDOMDocument.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F33-C551-11D3-89B9-0000F81FE221}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F33-C551-11D3-89B9-0000F81FE221}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F33-C551-11D3-89B9-0000F81FE221}\VersionIndependentProgID,,"Msxml2.FreeThreadedDOMDocument"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F34-C551-11D3-89B9-0000F81FE221},,"XML#$sSchema#$sCache#$s3.0"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{F5078F34-C551-11D3-89B9-0000F81FE221}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F34-C551-11D3-89B9-0000F81FE221}\InProcServer32,ThreadingModel,"Both"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F34-C551-11D3-89B9-0000F81FE221}\ProgID,,"Msxml2.XMLSchemaCache.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F34-C551-11D3-89B9-0000F81FE221}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F34-C551-11D3-89B9-0000F81FE221}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F34-C551-11D3-89B9-0000F81FE221}\VersionIndependentProgID,,"Msxml2.XMLSchemaCache"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F35-C551-11D3-89B9-0000F81FE221},,"XML#$sHTTP#$s3.0"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{F5078F35-C551-11D3-89B9-0000F81FE221}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F35-C551-11D3-89B9-0000F81FE221}\InProcServer32,ThreadingModel,"Apartment"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F35-C551-11D3-89B9-0000F81FE221}\ProgID,,"Msxml2.XMLHTTP.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F35-C551-11D3-89B9-0000F81FE221}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F35-C551-11D3-89B9-0000F81FE221}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F35-C551-11D3-89B9-0000F81FE221}\VersionIndependentProgID,,"Msxml2.XMLHTTP"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F36-C551-11D3-89B9-0000F81FE221},,"XSL#$sTemplate#$s3.0"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{F5078F36-C551-11D3-89B9-0000F81FE221}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F36-C551-11D3-89B9-0000F81FE221}\InProcServer32,ThreadingModel,"Both"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F36-C551-11D3-89B9-0000F81FE221}\ProgID,,"Msxml2.XSLTemplate.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F36-C551-11D3-89B9-0000F81FE221}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F36-C551-11D3-89B9-0000F81FE221}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F36-C551-11D3-89B9-0000F81FE221}\VersionIndependentProgID,,"Msxml2.XSLTemplate"
+RegWrite,HKLM,0x0,WB-Software\Classes\CLSID\{F5078F37-C551-11D3-89B9-0000F81FE221}
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{F5078F37-C551-11D3-89B9-0000F81FE221}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F37-C551-11D3-89B9-0000F81FE221}\InProcServer32,ThreadingModel,"Apartment"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F37-C551-11D3-89B9-0000F81FE221}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F39-C551-11D3-89B9-0000F81FE221},,"XML#$sData#$sSource#$sObject#$s3.0"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{F5078F39-C551-11D3-89B9-0000F81FE221}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F39-C551-11D3-89B9-0000F81FE221}\InProcServer32,ThreadingModel,"Apartment"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F39-C551-11D3-89B9-0000F81FE221}\ProgID,,"Msxml2.DSOControl.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F39-C551-11D3-89B9-0000F81FE221}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F39-C551-11D3-89B9-0000F81FE221}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F39-C551-11D3-89B9-0000F81FE221}\VersionIndependentProgID,,"Msxml2.DSOControl"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F3F-C551-11D3-89B9-0000F81FE221},,"XML#$sMoniker#$s3.0"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{F5078F3F-C551-11D3-89B9-0000F81FE221}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F3F-C551-11D3-89B9-0000F81FE221}\InProcServer32,ThreadingModel,"Apartment"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F40-C551-11D3-89B9-0000F81FE221},,"XML#$sDocument#$s3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F40-C551-11D3-89B9-0000F81FE221}\BrowseInPlace,,""
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{F5078F40-C551-11D3-89B9-0000F81FE221}\DefaultIcon,,"#$pSystemRoot#$p\system32\msxml3.dll#$c0"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{F5078F40-C551-11D3-89B9-0000F81FE221}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F40-C551-11D3-89B9-0000F81FE221}\InProcServer32,ThreadingModel,"Apartment"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F40-C551-11D3-89B9-0000F81FE221}\MiscStatus,,"2228625"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F40-C551-11D3-89B9-0000F81FE221}\ProgID,,"xmlfile"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F40-C551-11D3-89B9-0000F81FE221}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F41-C551-11D3-89B9-0000F81FE221},,"XML#$sIsland#$s3.0"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{F5078F41-C551-11D3-89B9-0000F81FE221}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F41-C551-11D3-89B9-0000F81FE221}\InProcServer32,ThreadingModel,"Apartment"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F5078F41-C551-11D3-89B9-0000F81FE221}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F11-9C73-11D3-B32E-00C04F990BB4},,"XML#$sDOM#$sDocument"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{F6D90F11-9C73-11D3-B32E-00C04F990BB4}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F11-9C73-11D3-B32E-00C04F990BB4}\InProcServer32,ThreadingModel,"Both"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F11-9C73-11D3-B32E-00C04F990BB4}\ProgID,,"Msxml2.DOMDocument"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F11-9C73-11D3-B32E-00C04F990BB4}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F11-9C73-11D3-B32E-00C04F990BB4}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F11-9C73-11D3-B32E-00C04F990BB4}\VersionIndependentProgID,,"Msxml2.DOMDocument"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F12-9C73-11D3-B32E-00C04F990BB4},,"Free#$sThreaded#$sXML#$sDOM#$sDocument"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{F6D90F12-9C73-11D3-B32E-00C04F990BB4}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F12-9C73-11D3-B32E-00C04F990BB4}\InProcServer32,ThreadingModel,"Both"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F12-9C73-11D3-B32E-00C04F990BB4}\ProgID,,"Msxml2.FreeThreadedDOMDocument"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F12-9C73-11D3-B32E-00C04F990BB4}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F12-9C73-11D3-B32E-00C04F990BB4}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F12-9C73-11D3-B32E-00C04F990BB4}\VersionIndependentProgID,,"Msxml2.FreeThreadedDOMDocument"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F14-9C73-11D3-B32E-00C04F990BB4},,"XML#$sData#$sSource#$sObject"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{F6D90F14-9C73-11D3-B32E-00C04F990BB4}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F14-9C73-11D3-B32E-00C04F990BB4}\InProcServer32,ThreadingModel,"Apartment"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F14-9C73-11D3-B32E-00C04F990BB4}\ProgID,,"Msxml2.DSOControl"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F14-9C73-11D3-B32E-00C04F990BB4}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F14-9C73-11D3-B32E-00C04F990BB4}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F14-9C73-11D3-B32E-00C04F990BB4}\VersionIndependentProgID,,"Msxml2.DSOControl"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F16-9C73-11D3-B32E-00C04F990BB4},,"XML#$sHTTP"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{F6D90F16-9C73-11D3-B32E-00C04F990BB4}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F16-9C73-11D3-B32E-00C04F990BB4}\InProcServer32,ThreadingModel,"Apartment"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F16-9C73-11D3-B32E-00C04F990BB4}\ProgID,,"Msxml2.XMLHTTP"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F16-9C73-11D3-B32E-00C04F990BB4}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F16-9C73-11D3-B32E-00C04F990BB4}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{F6D90F16-9C73-11D3-B32E-00C04F990BB4}\VersionIndependentProgID,,"Msxml2.XMLHTTP"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{FC220AD8-A72A-4EE8-926E-0B7AD152A020},,"MXXMLWriter"
+RegWrite,HKLM,0x2,WB-Software\Classes\CLSID\{FC220AD8-A72A-4EE8-926E-0B7AD152A020}\InProcServer32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{FC220AD8-A72A-4EE8-926E-0B7AD152A020}\InProcServer32,ThreadingModel,"Both"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{FC220AD8-A72A-4EE8-926E-0B7AD152A020}\ProgID,,"Msxml2.MXXMLWriter"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{FC220AD8-A72A-4EE8-926E-0B7AD152A020}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{FC220AD8-A72A-4EE8-926E-0B7AD152A020}\Version,,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\CLSID\{FC220AD8-A72A-4EE8-926E-0B7AD152A020}\VersionIndependentProgID,,"Msxml2.MXXMLWriter"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{032AAC35-8C0E-4D9D-979F-E3B702935576},,"IVBSAXLexicalHandler"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{032AAC35-8C0E-4D9D-979F-E3B702935576}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{032AAC35-8C0E-4D9D-979F-E3B702935576}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{032AAC35-8C0E-4D9D-979F-E3B702935576}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{032AAC35-8C0E-4D9D-979F-E3B702935576}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{0C05D096-F45B-4ACA-AD1A-AA0BC25518DC},,"IVBSAXEntityResolver"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{0C05D096-F45B-4ACA-AD1A-AA0BC25518DC}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{0C05D096-F45B-4ACA-AD1A-AA0BC25518DC}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{0C05D096-F45B-4ACA-AD1A-AA0BC25518DC}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{0C05D096-F45B-4ACA-AD1A-AA0BC25518DC}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{10DC0586-132B-4CAC-8BB3-DB00AC8B7EE0},,"IVBSAXAttributes"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{10DC0586-132B-4CAC-8BB3-DB00AC8B7EE0}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{10DC0586-132B-4CAC-8BB3-DB00AC8B7EE0}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{10DC0586-132B-4CAC-8BB3-DB00AC8B7EE0}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{10DC0586-132B-4CAC-8BB3-DB00AC8B7EE0}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{1299EB1B-5B88-433E-82DE-82CA75AD4E04},,"IVBSAXXMLFilter"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{1299EB1B-5B88-433E-82DE-82CA75AD4E04}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{1299EB1B-5B88-433E-82DE-82CA75AD4E04}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{1299EB1B-5B88-433E-82DE-82CA75AD4E04}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{1299EB1B-5B88-433E-82DE-82CA75AD4E04}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{24FB3297-302D-4620-BA39-3A732D850558},,"IVBSAXDTDHandler"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{24FB3297-302D-4620-BA39-3A732D850558}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{24FB3297-302D-4620-BA39-3A732D850558}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{24FB3297-302D-4620-BA39-3A732D850558}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{24FB3297-302D-4620-BA39-3A732D850558}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF80-7B36-11D2-B20E-00C04F983E60},,"IXMLDOMNode"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF80-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF80-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF80-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF80-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF81-7B36-11D2-B20E-00C04F983E60},,"IXMLDOMDocument"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF81-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF81-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF81-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF81-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF82-7B36-11D2-B20E-00C04F983E60},,"IXMLDOMNodeList"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF82-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF82-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF82-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF82-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF83-7B36-11D2-B20E-00C04F983E60},,"IXMLDOMNamedNodeMap"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF83-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF83-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF83-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF83-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF84-7B36-11D2-B20E-00C04F983E60},,"IXMLDOMCharacterData"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF84-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF84-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF84-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF84-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF85-7B36-11D2-B20E-00C04F983E60},,"IXMLDOMAttribute"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF85-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF85-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF85-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF85-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF86-7B36-11D2-B20E-00C04F983E60},,"IXMLDOMElement"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF86-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF86-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF86-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF86-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF87-7B36-11D2-B20E-00C04F983E60},,"IXMLDOMText"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF87-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF87-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF87-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF87-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF88-7B36-11D2-B20E-00C04F983E60},,"IXMLDOMComment"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF88-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF88-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF88-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF88-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF89-7B36-11D2-B20E-00C04F983E60},,"IXMLDOMProcessingInstruction"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF89-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF89-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF89-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF89-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8A-7B36-11D2-B20E-00C04F983E60},,"IXMLDOMCDATASection"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8A-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8A-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8A-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8A-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8B-7B36-11D2-B20E-00C04F983E60},,"IXMLDOMDocumentType"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8B-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8B-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8B-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8B-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8C-7B36-11D2-B20E-00C04F983E60},,"IXMLDOMNotation"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8C-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8C-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8C-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8C-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8D-7B36-11D2-B20E-00C04F983E60},,"IXMLDOMEntity"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8D-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8D-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8D-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8D-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8E-7B36-11D2-B20E-00C04F983E60},,"IXMLDOMEntityReference"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8E-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8E-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8E-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8E-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8F-7B36-11D2-B20E-00C04F983E60},,"IXMLDOMImplementation"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8F-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8F-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8F-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF8F-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF92-7B36-11D2-B20E-00C04F983E60},,"IXSLProcessor"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF92-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF92-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF92-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF92-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF93-7B36-11D2-B20E-00C04F983E60},,"IXSLTemplate"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF93-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF93-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF93-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF93-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF95-7B36-11D2-B20E-00C04F983E60},,"IXMLDOMDocument2"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF95-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF95-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF95-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF95-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF96-7B36-11D2-B20E-00C04F983E60},,"IXMLDOMDocument3"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF96-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF96-7B36-11D2-B20E-00C04F983E60}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF96-7B36-11D2-B20E-00C04F983E60}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2933BF96-7B36-11D2-B20E-00C04F983E60}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2B8DE2FE-8D2D-11d1-B2FC-00C04FD915A9},,"IXMLDocument2"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2B8DE2FE-8D2D-11d1-B2FC-00C04FD915A9}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2B8DE2FE-8D2D-11d1-B2FC-00C04FD915A9}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2B8DE2FE-8D2D-11d1-B2FC-00C04FD915A9}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2B8DE2FE-8D2D-11d1-B2FC-00C04FD915A9}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2B8DE2FF-8D2D-11D1-B2FC-00C04FD915A9},,"IXMLElement2"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2B8DE2FF-8D2D-11D1-B2FC-00C04FD915A9}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2B8DE2FF-8D2D-11D1-B2FC-00C04FD915A9}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2B8DE2FF-8D2D-11D1-B2FC-00C04FD915A9}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2B8DE2FF-8D2D-11D1-B2FC-00C04FD915A9}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2E01311B-C322-4B0A-BD77-B90CFDC8DCE7},,"IServerXMLHTTPRequest2"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2E01311B-C322-4B0A-BD77-B90CFDC8DCE7}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2E01311B-C322-4B0A-BD77-B90CFDC8DCE7}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2E01311B-C322-4B0A-BD77-B90CFDC8DCE7}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2E01311B-C322-4B0A-BD77-B90CFDC8DCE7}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2E9196BF-13BA-4DD4-91CA-6C571F281495},,"IServerXMLHTTPRequest"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2E9196BF-13BA-4DD4-91CA-6C571F281495}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2E9196BF-13BA-4DD4-91CA-6C571F281495}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2E9196BF-13BA-4DD4-91CA-6C571F281495}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2E9196BF-13BA-4DD4-91CA-6C571F281495}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2ED7290A-4DD5-4B46-BB26-4E4155E77FAA},,"IVBSAXContentHandler"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2ED7290A-4DD5-4B46-BB26-4E4155E77FAA}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2ED7290A-4DD5-4B46-BB26-4E4155E77FAA}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2ED7290A-4DD5-4B46-BB26-4E4155E77FAA}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{2ED7290A-4DD5-4B46-BB26-4E4155E77FAA}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{310AFA62-0575-11D2-9CA9-0060B0EC3D39},,"IDSOControl"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{310AFA62-0575-11D2-9CA9-0060B0EC3D39}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{310AFA62-0575-11D2-9CA9-0060B0EC3D39}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{310AFA62-0575-11D2-9CA9-0060B0EC3D39}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{310AFA62-0575-11D2-9CA9-0060B0EC3D39}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{373984C8-B845-449B-91E7-45AC83036ADE},,"IXMLDOMSchemaCollection"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{373984C8-B845-449B-91E7-45AC83036ADE}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{373984C8-B845-449B-91E7-45AC83036ADE}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{373984C8-B845-449B-91E7-45AC83036ADE}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{373984C8-B845-449B-91E7-45AC83036ADE}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA413-272F-11D2-836F-0000F87A7782},,"IXMLDOMDocumentFragment"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA413-272F-11D2-836F-0000F87A7782}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA413-272F-11D2-836F-0000F87A7782}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA413-272F-11D2-836F-0000F87A7782}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA413-272F-11D2-836F-0000F87A7782}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA425-272F-11D2-836F-0000F87A7782},,"IXTLRuntime"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA425-272F-11D2-836F-0000F87A7782}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA425-272F-11D2-836F-0000F87A7782}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA425-272F-11D2-836F-0000F87A7782}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA425-272F-11D2-836F-0000F87A7782}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA426-272F-11D2-836F-0000F87A7782},,"IXMLDOMParseError"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA426-272F-11D2-836F-0000F87A7782}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA426-272F-11D2-836F-0000F87A7782}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA426-272F-11D2-836F-0000F87A7782}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA426-272F-11D2-836F-0000F87A7782}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA427-272F-11D2-836F-0000F87A7782},,"XMLDOMDocumentEvents"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA427-272F-11D2-836F-0000F87A7782}\ProxyStubClsid,,"{00020420-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA427-272F-11D2-836F-0000F87A7782}\ProxyStubClsid32,,"{00020420-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA427-272F-11D2-836F-0000F87A7782}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA427-272F-11D2-836F-0000F87A7782}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA428-272F-11D2-836F-0000F87A7782},,"IXMLDOMParseError2"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA428-272F-11D2-836F-0000F87A7782}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA428-272F-11D2-836F-0000F87A7782}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA428-272F-11D2-836F-0000F87A7782}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA428-272F-11D2-836F-0000F87A7782}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA429-272F-11D2-836F-0000F87A7782},,"IXMLDOMParseErrorCollection"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA429-272F-11D2-836F-0000F87A7782}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA429-272F-11D2-836F-0000F87A7782}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA429-272F-11D2-836F-0000F87A7782}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3EFAA429-272F-11D2-836F-0000F87A7782}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3F7F31AC-E15F-11D0-9C25-00C04FC99C8E},,"IXMLElement"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3F7F31AC-E15F-11D0-9C25-00C04FC99C8E}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3F7F31AC-E15F-11D0-9C25-00C04FC99C8E}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3F7F31AC-E15F-11D0-9C25-00C04FC99C8E}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{3F7F31AC-E15F-11D0-9C25-00C04FC99C8E}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{4D7FF4BA-1565-4EA8-94E1-6E724A46F98D},,"IMXWriter"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{4D7FF4BA-1565-4EA8-94E1-6E724A46F98D}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{4D7FF4BA-1565-4EA8-94E1-6E724A46F98D}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{4D7FF4BA-1565-4EA8-94E1-6E724A46F98D}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{4D7FF4BA-1565-4EA8-94E1-6E724A46F98D}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B0-DD1B-4664-9A50-C2F40F4BD79A},,"IXMLDOMSchemaCollection2"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B0-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B0-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B0-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B0-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B1-DD1B-4664-9A50-C2F40F4BD79A},,"ISchemaStringCollection"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B1-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B1-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B1-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B1-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B2-DD1B-4664-9A50-C2F40F4BD79A},,"ISchemaItemCollection"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B2-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B2-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B2-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B2-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B3-DD1B-4664-9A50-C2F40F4BD79A},,"ISchemaItem"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B3-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B3-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B3-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B3-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B4-DD1B-4664-9A50-C2F40F4BD79A},,"ISchema"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B4-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B4-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B4-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B4-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B5-DD1B-4664-9A50-C2F40F4BD79A},,"ISchemaParticle"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B5-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B5-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B5-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B5-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B6-DD1B-4664-9A50-C2F40F4BD79A},,"ISchemaAttribute"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B6-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B6-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B6-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B6-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B7-DD1B-4664-9A50-C2F40F4BD79A},,"ISchemaElement"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B7-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B7-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B7-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B7-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B8-DD1B-4664-9A50-C2F40F4BD79A},,"ISchemaType"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B8-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B8-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B8-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B8-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B9-DD1B-4664-9A50-C2F40F4BD79A},,"ISchemaComplexType"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B9-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B9-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B9-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08B9-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BA-DD1B-4664-9A50-C2F40F4BD79A},,"ISchemaAttributeGroup"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BA-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BA-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BA-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BA-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BB-DD1B-4664-9A50-C2F40F4BD79A},,"ISchemaModelGroup"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BB-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BB-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BB-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BB-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BC-DD1B-4664-9A50-C2F40F4BD79A},,"ISchemaAny"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BC-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BC-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BC-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BC-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BD-DD1B-4664-9A50-C2F40F4BD79A},,"ISchemaIdentityConstraint"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BD-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BD-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BD-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BD-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BE-DD1B-4664-9A50-C2F40F4BD79A},,"ISchemaNotation"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BE-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BE-DD1B-4664-9A50-C2F40F4BD79A}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BE-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{50EA08BE-DD1B-4664-9A50-C2F40F4BD79A}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{65725580-9B5D-11D0-9BFE-00C04FC99C8E},,"IXMLElementCollection"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{65725580-9B5D-11D0-9BFE-00C04FC99C8E}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{65725580-9B5D-11D0-9BFE-00C04FC99C8E}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{65725580-9B5D-11D0-9BFE-00C04FC99C8E}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{65725580-9B5D-11D0-9BFE-00C04FC99C8E}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{796E7AC5-5AA2-4EFF-ACAD-3FAAF01A3288},,"IVBSAXLocator"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{796E7AC5-5AA2-4EFF-ACAD-3FAAF01A3288}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{796E7AC5-5AA2-4EFF-ACAD-3FAAF01A3288}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{796E7AC5-5AA2-4EFF-ACAD-3FAAF01A3288}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{796E7AC5-5AA2-4EFF-ACAD-3FAAF01A3288}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{808F4E35-8D5A-4FBE-8466-33A41279ED30},,"IMXReaderControl"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{808F4E35-8D5A-4FBE-8466-33A41279ED30}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{808F4E35-8D5A-4FBE-8466-33A41279ED30}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{808F4E35-8D5A-4FBE-8466-33A41279ED30}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{808F4E35-8D5A-4FBE-8466-33A41279ED30}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{8C033CAA-6CD6-4F73-B728-4531AF74945F},,"IVBSAXXMLReader"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{8C033CAA-6CD6-4F73-B728-4531AF74945F}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{8C033CAA-6CD6-4F73-B728-4531AF74945F}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{8C033CAA-6CD6-4F73-B728-4531AF74945F}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{8C033CAA-6CD6-4F73-B728-4531AF74945F}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{AA634FC7-5888-44A7-A257-3A47150D3A0E},,"IXMLDOMSelection"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{AA634FC7-5888-44A7-A257-3A47150D3A0E}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{AA634FC7-5888-44A7-A257-3A47150D3A0E}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{AA634FC7-5888-44A7-A257-3A47150D3A0E}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{AA634FC7-5888-44A7-A257-3A47150D3A0E}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{C90352F4-643C-4FBC-BB23-E996EB2D51FD},,"IMXNamespacePrefixes"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{C90352F4-643C-4FBC-BB23-E996EB2D51FD}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{C90352F4-643C-4FBC-BB23-E996EB2D51FD}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{C90352F4-643C-4FBC-BB23-E996EB2D51FD}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{C90352F4-643C-4FBC-BB23-E996EB2D51FD}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{C90352F5-643C-4FBC-BB23-E996EB2D51FD},,"IVBMXNamespaceManager"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{C90352F5-643C-4FBC-BB23-E996EB2D51FD}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{C90352F5-643C-4FBC-BB23-E996EB2D51FD}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{C90352F5-643C-4FBC-BB23-E996EB2D51FD}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{C90352F5-643C-4FBC-BB23-E996EB2D51FD}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{C90352F7-643C-4FBC-BB23-E996EB2D51FD},,"IMXXMLFilter"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{C90352F7-643C-4FBC-BB23-E996EB2D51FD}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{C90352F7-643C-4FBC-BB23-E996EB2D51FD}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{C90352F7-643C-4FBC-BB23-E996EB2D51FD}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{C90352F7-643C-4FBC-BB23-E996EB2D51FD}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{D4D4A0FC-3B73-11D1-B2B4-00C04FB92596},,"IXMLAttribute"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{D4D4A0FC-3B73-11D1-B2B4-00C04FB92596}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{D4D4A0FC-3B73-11D1-B2B4-00C04FB92596}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{D4D4A0FC-3B73-11D1-B2B4-00C04FB92596}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{D4D4A0FC-3B73-11D1-B2B4-00C04FB92596}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{D963D3FE-173C-4862-9095-B92F66995F52},,"IVBSAXErrorHandler"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{D963D3FE-173C-4862-9095-B92F66995F52}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{D963D3FE-173C-4862-9095-B92F66995F52}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{D963D3FE-173C-4862-9095-B92F66995F52}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{D963D3FE-173C-4862-9095-B92F66995F52}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{E8917260-7579-4BE1-B5DD-7AFBFA6F077B},,"IVBSAXDeclHandler"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{E8917260-7579-4BE1-B5DD-7AFBFA6F077B}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{E8917260-7579-4BE1-B5DD-7AFBFA6F077B}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{E8917260-7579-4BE1-B5DD-7AFBFA6F077B}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{E8917260-7579-4BE1-B5DD-7AFBFA6F077B}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{ED8C108D-4349-11D2-91A4-00C04F7969E8},,"IXMLHTTPRequest"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{ED8C108D-4349-11D2-91A4-00C04F7969E8}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{ED8C108D-4349-11D2-91A4-00C04F7969E8}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{ED8C108D-4349-11D2-91A4-00C04F7969E8}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{ED8C108D-4349-11D2-91A4-00C04F7969E8}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{F10D27CC-3EC0-415C-8ED8-77AB1C5E7262},,"IMXAttributes"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{F10D27CC-3EC0-415C-8ED8-77AB1C5E7262}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{F10D27CC-3EC0-415C-8ED8-77AB1C5E7262}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{F10D27CC-3EC0-415C-8ED8-77AB1C5E7262}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{F10D27CC-3EC0-415C-8ED8-77AB1C5E7262}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{F52E2B61-18A1-11D1-B105-00805F49916B},,"IXMLDocument"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{F52E2B61-18A1-11D1-B105-00805F49916B}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{F52E2B61-18A1-11D1-B105-00805F49916B}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{F52E2B61-18A1-11D1-B105-00805F49916B}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{F52E2B61-18A1-11D1-B105-00805F49916B}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{FA4BB38C-FAF9-4CCA-9302-D1DD0FE520DB},,"IMXSchemaDeclHandler"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{FA4BB38C-FAF9-4CCA-9302-D1DD0FE520DB}\ProxyStubClsid,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{FA4BB38C-FAF9-4CCA-9302-D1DD0FE520DB}\ProxyStubClsid32,,"{00020424-0000-0000-C000-000000000046}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{FA4BB38C-FAF9-4CCA-9302-D1DD0FE520DB}\TypeLib,,"{F5078F18-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Interface\{FA4BB38C-FAF9-4CCA-9302-D1DD0FE520DB}\TypeLib,Version,"3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.FreeThreadedXMLDOM,,"Free#$sThreaded#$sXML#$sDOM#$sDocument"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.FreeThreadedXMLDOM\CLSID,,"{2933BF91-7B36-11D2-B20E-00C04F983E60}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.FreeThreadedXMLDOM\CurVer,,"Microsoft.FreeThreadedXMLDOM.1.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.FreeThreadedXMLDOM.1.0,,"Free#$sThreaded#$sXML#$sDOM#$sDocument"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.FreeThreadedXMLDOM.1.0\CLSID,,"{2933BF91-7B36-11D2-B20E-00C04F983E60}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLDOM,,"XML#$sDOM#$sDocument"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLDOM\CLSID,,"{2933BF90-7B36-11D2-B20E-00C04F983E60}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLDOM\CurVer,,"Microsoft.XMLDOM.1.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLDOM.1.0,,"XML#$sDOM#$sDocument"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLDOM.1.0\CLSID,,"{2933BF90-7B36-11D2-B20E-00C04F983E60}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLDSO,,"XML#$sData#$sSource#$sObject"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLDSO\CLSID,,"{550DDA30-0541-11D2-9CA9-0060B0EC3D39}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLDSO\CurVer,,"Microsoft.XMLDSO.1.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLDSO.1.0,,"XML#$sData#$sSource#$sObject"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLDSO.1.0\CLSID,,"{550DDA30-0541-11D2-9CA9-0060B0EC3D39}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLHTTP,,"XML#$sHTTP#$sRequest"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLHTTP\CLSID,,"{ED8C108E-4349-11D2-91A4-00C04F7969E8}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLHTTP\CurVer,,"Microsoft.XMLHTTP.1.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLHTTP.1.0,,"XML#$sHTTP#$sRequest"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLHTTP.1.0\CLSID,,"{ED8C108E-4349-11D2-91A4-00C04F7969E8}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLParser,,"XML#$sParser"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLParser\CLSID,,"{D2423620-51A0-11D2-9CAF-0060B0EC3D39}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLParser\CurVer,,"Microsoft.XMLParser.1.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLParser.1.0,,"XML#$sParser"
+RegWrite,HKLM,0x1,WB-Software\Classes\Microsoft.XMLParser.1.0\CLSID,,"{D2423620-51A0-11D2-9CAF-0060B0EC3D39}"
+RegWrite,HKLM,0x1,"WB-Software\Classes\MIME\Database\Content Type\application/xml",CLSID,"{48123BC4-99D9-11D1-A6B3-00C04FD91555}"
+RegWrite,HKLM,0x1,"WB-Software\Classes\MIME\Database\Content Type\application/xml",Extension,".xml"
+RegWrite,HKLM,0x3,"WB-Software\Classes\MIME\Database\Content Type\application/xml",Encoding,08,00,00,00
+RegWrite,HKLM,0x1,"WB-Software\Classes\MIME\Database\Content Type\text/xml",CLSID,"{48123BC4-99D9-11D1-A6B3-00C04FD91555}"
+RegWrite,HKLM,0x1,"WB-Software\Classes\MIME\Database\Content Type\text/xml",Extension,".xml"
+RegWrite,HKLM,0x3,"WB-Software\Classes\MIME\Database\Content Type\text/xml",Encoding,08,00,00,00
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml,,"Msxml"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml\CLSID,,"{CFC399AF-D876-11D0-9C10-00C04FC99C8E}"
+RegWrite,HKLM,0x1,WB-Software\Classes\MSXML.DOMDocument,,"XML#$sDOM#$sDocument"
+RegWrite,HKLM,0x1,WB-Software\Classes\MSXML.DOMDocument\CLSID,,"{2933BF90-7B36-11D2-B20E-00C04F983E60}"
+RegWrite,HKLM,0x1,WB-Software\Classes\MSXML.DOMDocument\CurVer,,"Microsoft.XMLDOM.1.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\MSXML.FreeThreadedDOMDocument,,"Free#$sThreaded#$sXML#$sDOM#$sDocument"
+RegWrite,HKLM,0x1,WB-Software\Classes\MSXML.FreeThreadedDOMDocument\CLSID,,"{2933BF91-7B36-11D2-B20E-00C04F983E60}"
+RegWrite,HKLM,0x1,WB-Software\Classes\MSXML.FreeThreadedDOMDocument\CurVer,,"Microsoft.FreeThreadedXMLDOM.1.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.DOMDocument,,"XML#$sDOM#$sDocument"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.DOMDocument\CLSID,,"{F6D90F11-9C73-11D3-B32E-00C04F990BB4}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.DOMDocument\CurVer,,"Msxml2.DOMDocument.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.DOMDocument.3.0,,"XML#$sDOM#$sDocument#$s3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.DOMDocument.3.0\CLSID,,"{F5078F32-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.DSOControl,,"XML#$sData#$sSource#$sObject"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.DSOControl\CLSID,,"{F6D90F14-9C73-11D3-B32E-00C04F990BB4}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.DSOControl\CurVer,,"Msxml2.DSOControl.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.DSOControl.3.0,,"XML#$sData#$sSource#$sObject#$s3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.DSOControl.3.0\CLSID,,"{F5078F39-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.FreeThreadedDOMDocument,,"Free#$sThreaded#$sXML#$sDOM#$sDocument"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.FreeThreadedDOMDocument\CLSID,,"{F6D90F12-9C73-11D3-B32E-00C04F990BB4}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.FreeThreadedDOMDocument\CurVer,,"Msxml2.FreeThreadedDOMDocument.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.FreeThreadedDOMDocument.3.0,,"Free#$sThreaded#$sXML#$sDOM#$sDocument#$s3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.FreeThreadedDOMDocument.3.0\CLSID,,"{F5078F33-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.MXXMLWriter,,"MXXMLWriter"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.MXXMLWriter\CLSID,,"{FC220AD8-A72A-4EE8-926E-0B7AD152A020}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.MXXMLWriter\CurVer,,"Msxml2.MXXMLWriter.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.MXXMLWriter.3.0,,"MXXMLWriter#$s3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.MXXMLWriter.3.0\CLSID,,"{3D813DFE-6C91-4A4E-8F41-04346A841D9C}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.SAXAttributes,,"SAXAttributes"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.SAXAttributes\CLSID,,"{4DD441AD-526D-4A77-9F1B-9841ED802FB0}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.SAXAttributes\CurVer,,"Msxml2.SAXAttributes.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.SAXAttributes.3.0,,"SAXAttributes#$s3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.SAXAttributes.3.0\CLSID,,"{3E784A01-F3AE-4DC0-9354-9526B9370EBA}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.SAXXMLReader,,"SAX#$sXML#$sReader"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.SAXXMLReader\CLSID,,"{079AA557-4A18-424A-8EEE-E39F0A8D41B9}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.SAXXMLReader\CurVer,,"Msxml2.SAXXMLReader.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.SAXXMLReader.3.0,,"SAX#$sXML#$sReader#$s3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.SAXXMLReader.3.0\CLSID,,"{3124C396-FB13-4836-A6AD-1317F1713688}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.ServerXMLHTTP,,"Server#$sXML#$sHTTP"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.ServerXMLHTTP\CLSID,,"{AFBA6B42-5692-48EA-8141-DC517DCF0EF1}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.ServerXMLHTTP\CurVer,,"Msxml2.ServerXMLHTTP.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.ServerXMLHTTP.3.0,,"Server#$sXML#$sHTTP#$s3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.ServerXMLHTTP.3.0\CLSID,,"{AFB40FFD-B609-40A3-9828-F88BBE11E4E3}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XMLHTTP,,"XML#$sHTTP"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XMLHTTP\CLSID,,"{F6D90F16-9C73-11D3-B32E-00C04F990BB4}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XMLHTTP\CurVer,,"Msxml2.XMLHTTP.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XMLHTTP.3.0,,"XML#$sHTTP#$s3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XMLHTTP.3.0\CLSID,,"{F5078F35-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XMLParser,,"XML#$sParser"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XMLParser\CLSID,,"{F5078F19-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XMLParser\CurVer,,"Msxml2.XMLParser.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XMLParser.3.0,,"XML#$sParser#$s3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XMLParser.3.0\CLSID,,"{F5078F31-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XMLSchemaCache,,"XML#$sSchema#$sCache"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XMLSchemaCache\CLSID,,"{373984C9-B845-449B-91E7-45AC83036ADE}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XMLSchemaCache\CurVer,,"Msxml2.XMLSchemaCache.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XMLSchemaCache.3.0,,"XML#$sSchema#$sCache#$s3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XMLSchemaCache.3.0\CLSID,,"{F5078F34-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XSLTemplate,,"XSL#$sTemplate"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XSLTemplate\CLSID,,"{2933BF94-7B36-11D2-B20E-00C04F983E60}"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XSLTemplate\CurVer,,"Msxml2.XSLTemplate.3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XSLTemplate.3.0,,"XSL#$sTemplate#$s3.0"
+RegWrite,HKLM,0x1,WB-Software\Classes\Msxml2.XSLTemplate.3.0\CLSID,,"{F5078F36-C551-11D3-89B9-0000F81FE221}"
+RegWrite,HKLM,0x0,WB-Software\Classes\TypeLib\{F5078F18-C551-11D3-89B9-0000F81FE221}
+RegWrite,HKLM,0x1,WB-Software\Classes\TypeLib\{F5078F18-C551-11D3-89B9-0000F81FE221}\3.0,,"Microsoft#$sXML#$c#$sv3.0"
+RegWrite,HKLM,0x0,WB-Software\Classes\TypeLib\{F5078F18-C551-11D3-89B9-0000F81FE221}\3.0\0
+RegWrite,HKLM,0x2,WB-Software\Classes\TypeLib\{F5078F18-C551-11D3-89B9-0000F81FE221}\3.0\0\win32,,"#$pSystemRoot#$p\system32\msxml3.dll"
+RegWrite,HKLM,0x1,WB-Software\Classes\TypeLib\{F5078F18-C551-11D3-89B9-0000F81FE221}\3.0\FLAGS,,"0"
+RegWrite,HKLM,0x1,WB-Software\Classes\XML,,"XML#$sScript#$sEngine"
+RegWrite,HKLM,0x1,WB-Software\Classes\XML\CLSID,,"{989D1DC0-B162-11D1-B6EC-D27DDCF9A923}"
+RegWrite,HKLM,0x1,WB-Software\Classes\XML\OLEScript,,""
+RegWrite,HKLM,0x1,WB-Software\Classes\xmlfile,,"XML#$sDocument"
+RegWrite,HKLM,0x3,WB-Software\Classes\xmlfile,EditFlags,00,00,01,00
+RegWrite,HKLM,0x2,WB-Software\Classes\xmlfile,FriendlyTypeName,"@#$pSystemRoot#$p\system32\msxml3r.dll#$c-1"
+RegWrite,HKLM,0x1,WB-Software\Classes\xmlfile\BrowseInPlace,,""
+RegWrite,HKLM,0x1,WB-Software\Classes\xmlfile\CLSID,,"{48123BC4-99D9-11D1-A6B3-00C04FD91555}"
+RegWrite,HKLM,0x2,WB-Software\Classes\xmlfile\DefaultIcon,,"#$pSystemRoot#$p\system32\msxml3.dll#$c0"
+RegWrite,HKLM,0x0,WB-Software\Classes\xmlfile\shell
+RegWrite,HKLM,0x0,WB-Software\Classes\xmlfile\shell\Open
+RegWrite,HKLM,0x1,WB-Software\Classes\xmlfile\shell\Open\command,,"#$qiexplore.exe#$q#$s-nohome"
+RegWrite,HKLM,0x1,WB-Software\Classes\xmlfile\shell\Open\ddeexec,,"#$qfile:#$p1#$q#$c#$c-1#$c#$c#$c#$c#$c"
+RegWrite,HKLM,0x1,WB-Software\Classes\xmlfile\shell\Open\ddeexec\application,,"IExplore"
+RegWrite,HKLM,0x1,WB-Software\Classes\xmlfile\shell\Open\ddeexec\topic,,"WWW_OpenURL"
+RegWrite,HKLM,0x1,WB-Software\Classes\xslfile,,"XSL#$sStylesheet"
+RegWrite,HKLM,0x3,WB-Software\Classes\xslfile,EditFlags,00,00,01,00
+RegWrite,HKLM,0x2,WB-Software\Classes\xslfile,FriendlyTypeName,"@#$pSystemRoot#$p\system32\msxml3r.dll#$c-2"
+RegWrite,HKLM,0x1,WB-Software\Classes\xslfile\BrowseInPlace,,""
+RegWrite,HKLM,0x1,WB-Software\Classes\xslfile\CLSID,,"{48123BC4-99D9-11D1-A6B3-00C04FD91555}"
+RegWrite,HKLM,0x2,WB-Software\Classes\xslfile\DefaultIcon,,"#$pSystemRoot#$p\system32\msxml3.dll#$c1"
+RegWrite,HKLM,0x0,WB-Software\Classes\xslfile\shell
+RegWrite,HKLM,0x0,WB-Software\Classes\xslfile\shell\Open
+RegWrite,HKLM,0x1,WB-Software\Classes\xslfile\shell\Open\command,,"#$qiexplore.exe#$q#$s-nohome"
+RegWrite,HKLM,0x1,WB-Software\Classes\xslfile\shell\Open\ddeexec,,"#$qfile:#$p1#$q#$c#$c-1#$c#$c#$c#$c#$c"
+RegWrite,HKLM,0x1,WB-Software\Classes\xslfile\shell\Open\ddeexec\application,,"IExplore"
+RegWrite,HKLM,0x1,WB-Software\Classes\xslfile\shell\Open\ddeexec\topic,,"WWW_OpenURL"
+//RegHiveUnLoad,"WB-Software"
+
+[EncodedFile-AuthorEncoded-authorlogo.jpg]
+lines=0
+0=eJxlk30003scgH+/vbDZaD/GzBi2eTdl6Ci5ZFdY70TF9T5EKWve3VuXbnbiKmTqUC55TTfuCNVO5Hincja7yrxE9LIik6iE3Tmde8+95z6fP75/POc8n+8/H8UzxSSAY+3y2gWAIAiEKAdQjAJMAINCodAoLBqNhTBqGAi/CYvdhCdobkDQ1cIr0dLV0SPpk/R0KBQajUKx2WDLP2xEQCwWi8PhCBBE0MVr4XXJJH19EplGJhuSyTQLqpESqoWpOY1GMze1srKwsLLa8l8UDwEIBTAABhyEABgEwiFQ0QnoAQAMrvzsv0DCESqqMKWzxwEwEA6HwZFI9DcFwuAAAkJqGqvYau0MxVMYbmH2nLz8dupBb5+MMsGQfKMI/q+IAGFIuIrS2Sk3gzAETAWl+rdTJiGEprGyxzgYysmTI/GU9BuCdpGdfdjpBvGCQgpg4coiBIcAF0D2eEe+HWR8gcmorXtewKcV+i1qFwfgJXdiY4YLZ+Ye2zXwIgbVTfpzRHsCe/psxm/L+L7U+VomwWp++rhLKqtzZlZutjy0ylsVnW24tlSz9OOB9S7HMyfWe3iSqexTF3M0hQgNFnTvriFGMCPp0SKYkFuftV1mOzqdrZSGlB4AXVG0+1maczYsKotVn2ia6H5wVLhFO/uyczR99uXq1ZcfhtqSerMC/XTLvUpEYjQp7JEYlt7ahq6QOqf5kCtWyqapl4hfPI0l09zlkMMDHfy+VYNww4nKyfsNq8Fx0y4W2jYOxdERRzSuU9UX+As/VJssZ+zaH0mcdkhN3rY5lr3P5d6aZ0KAaA3THBjAnncUHo3lG54IuMHt7jLjGiV8bryYFvbbr7QXJa+NK5ubKgJxzZ9ye1/nZLiPf+EW6fvPIN/+zBB7zG1O0onzY7Y4t9A787kyvvaFzqnhgrYAuVC/rwidMqK2vXBi6veqor2Fw3nnH3Eae8W2Tm7hYeEcx0HH26hw6jZzN3pfa5SqV1fgA8ikQhCTPxY9VU5WE3SeYHslS9FxtVszUoKF/dcEvY3xzV6cOYuoSV0Yz33yw06fX0J4E4sOgEdSbTEyaZm9OW59MpJm5OtLhBPNiJMr3ImictZXIW7kytP6+uomu73vYy3DLcvimBrPHWwdkOiIiVH+9rXIK4wh2ThTfbz9jqdJ5lE996hIv09PZkM2WQ+z5RreBY3xxWkJOR64fNYoJfN2rITS2STReYHIJ5yuO721P+eVs1UdQdUyoWxH38iS/js/72rz0XhrWZRn00h5mMqbqu7975PjVKeDssUY+fPwFWKyQYXQM8F8b0eM2IvDuOrv5+shdYksPzYXFNZqWnHc0ayKV1WeWW0ZV+x/ZYneRQ8QnhEeP1PSbd+CexdNkYmTeWbjzouL9WvSepvs90az+PSQUuT174V3nOadcxsXP6orgErWGE8waF3nPVgzwk6v0wmlpeFOnkzc6rqeJen+GP2gBdd+ymGMSX+0537LuTzigpxktErtXQxiEr/Upzp3axA6fEjB9o+xahSnh5MZts9Snlb67eYODCSaDJeyh0xS2GCfq+BS8QQ56nLWrZs/WS+n8l8lqh354wCCMHwrJYJz7DWGQ+rsEUluKgB7kDeUGhwcVLN7tCmHPvdEAejYdcg91FIMZFl3LxzKyt494uhderP5qW1diwgXczg/cGf8colo+apE5fA0YoWtEY0OlfUflf6pV/DA2P/6d/r+LYk15SlD4/vOx85VZiZ/pQ/k1J17G9RdzN2fm9vBepONiSJszzZwm/9c8Vl1rMnD9KHkEKA8NiSA//acVYz8BT2+Op94nONLLC3JyC/KyU/P18sqSGcYBSMLxLJCaD9W7PIrOriLGZgAVhgIJ090br8BAAAAAgAAACkAAABOBQAAAAAAAAEAAAAAAAAAAAAAAA
+
+[AuthorEncoded]
+authorlogo.jpg=1435,1914
+
+[EncodedFolders]
+reg_import_au3
+Reg_Normal
+Folder
+
+[Folder]
+reg-software.reg=9Kb,13Kb
+vds_Tmp_setupreg_Tmp_software.7z=2398,3198
+vds.reg=2836,3782
+
+[EncodedFile-Folder-reg-software.reg]
+lines=3
+0=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
+1=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
+2=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
+3=M24wN9Tmrf+botIzxNqt8MQesS47a9N/YQ8Ucd3ZZrcIPvlMpcN8SVqC1txzPJorIdHUTvK0JF3Xufe9r26X3Fag9J7zOrjGX3uDrw+/ogekQRKureI9zTdqWi2IcVvr3E909Gr+giA0/295FdgEL4RjY1vaNaIewpyaoVcp64Lnbnyd6sjsNZmHM43I3e+NJjn7HfeeWUn1lruRuu8m7mUdXI8/VuOj01xQw9UH3dBraiRlttkDqRWTKVd2w0iGOU+O3vQfOSjplLt+u3/4nOSVvvoeGRT/iFfvfmiXZfiNpu8y8spI/VaIA9ivcKjOJ/S5WwXfVTUKFI1c8seazol5/yjn5XQKcb4kZ7b3Ta+B+Zk2yVRLX001aFpvAPfMFf0xchz7H3lpOn9FBD8AI6wy3ZWPz5dTjuxQsSfVV25LDpiUr2MppeKTsauZvg89o3Hiy0jtN8mz3jOEg89uElz993itR4zNt3ilfMzdd32sCyU985tL6Ttl5Qdd8ZlNJ3pH/00A/a+iljZBU/v+8U16yyKnP50aw8SJyFMebsoV9g9lAtxlTdX4r4On3aaacRoG4jwCaGsl4jQBH/oU/r6aTRddPozTVVa/QAMaw8rvFKzq3iLPRbZJ2boxtb1SuMeNxSzs3gEbCPce2GnnGdqdEjeN1ucE8I/9sQ9R2v1+9oYwRlyz0aQdPWmdxpVnLcip27mqxNZnzJtt5sR1fsq0FplRfK7ck+V++29dDdWmQd9VC8dhwxZlcUZJ8d2/ZtL1hdrYTd7UD+t2dwX2o63iAmdBXzmbIHgSP6s6Qqz9l4/5d6xT3ag70qrrrbhzK937je69Kl5AQ1dkuunL1Fi8iqyH5meWVVfM80V7IKIa3dchrrGDyOrf1pK2+7DpIrtmNkPsm52JXSbS9rq2y7Xp7zSkV1LHnvrk3tyzE9b6nXq8qOh/gRbVgqqbVZ7iql/a5ol797JVVv7DG4Pi2RVWyOJf2MK+5r3TZ+pr3nQzNbzFHIK6zccm2kKB682TkiZWcI5IlpN3MakuP+7TnaMrGVdn28QNk82L6mQ/LzO4ffTyffQJ8+oNaJ/4gnt229opZ8oR+ZGbHdvYmuGWi/2lx1cdTSXjY7h3cCWyi+n0R81LTrON8qyY/8Rl2Dlg8x2/H/ATRvAyh4nBMoSk3XLc5PKylPLErVA3IYRsFIAn7eTGA6Rh27fFTDdiUGJgCP6wkm20CRrgEAAAACAAAAKwAAAFwnAAAAAAAAAQAAAAAAAAAAAAAA
+
+[Reg_Normal]
+reg-software_normal_mmc.reg=10136,13515
+vds_normal_mmc.reg=2833,3778
+reg-software_mmc.script=7715,10287
+vds_mmc.script=2364,3152
+
+[EncodedFile-reg_import_au3-reg_import.au3]
+lines=0
+0=eJyVkmFLwzAQhj+v0P8Q4nAdVFy/K9h1mSt2FpKWIpuUut5qoEtnmsH015vUTUVU9FPu7n3vuZBLvFUOTmTxHK4aMeMlYBd5Q9uyrXCN0nGzE6XTX23KmgsYogvkoeQRhG315m01bvaO5+K0LSrdhiVUfLNtpEIn/SedrHkNOsKa1iN7rmyLiDJcG/Z13TwUNeprV25sl8cRC+++m91xKFRTLTrvNk2a7sQKfZEPUu8TVcL20ogUivLN4Jr0GhTjL8cW03M0MyW5qChs62L1NlFXXbyY3ZC7PIoDP8rnfjALb8mS4e/r2fiM4T8zg5RScpvkKSP0Z+CETP00Sv6BjXzGCMtpHCe/3DOeJplPyTKoi7aF9i/8YCclCBU0QsmmZqA0/iMZjbwOYl55AjWoT3sxtUxyBZHe8GEbB6yR6U5kBVfIGeiNQqmj8xbhATpFnVWfAzxwMXavWJbPwgkZdj/J/ATbegUKmdjLeJzjK0pNj8/MLcgvKtFLLDVmGAUjCxxggtDZjNjlmULPNTEwAQDWZAhVl4k/kgEAAAACAAAAKgAAAGsBAAAAAAAAAQAAAAAAAAAAAAAA
+
+[reg_import_au3]
+reg_import.au3=441,588
+
+[EncodedFile-Reg_Normal-reg-software_normal_mmc.reg]
+lines=3
+0=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
+1=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
+2=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
+3=5uyzW4wXdKpacb4krQlq61FWBRqU4a3teKtL++fc0+VYf0tWI1bqSvmVWrsvtXtZy+brj+F2l/ffXfPlVXKogj2ODbS3z/ZPSBPrLKZHcV2YPFhx0jrNUc1K1gq0ZW3YrzRD/UXemzxep4m4UtbeBr8K6XTnpI9G1XVnmY5SkNOcl7NwcVBs+3+5oM1BzraE8NdRt4PjTZaYPUFMySo7wj1BqO7uG3fwDNazpmLt1u3/5HOidtvYdWBxbaF/rd4ROj+h+0Pco/v5AOupZ9dGweFBib/5Yq22htSMGAIrUhsySxoV9+ynv63QCLbogb3YOxKLQPMid5rhFUR0/zyMyxiv+Kv6bFQJ4T3cFLnjJANboLaAu3JJy159feuJXNS7QlRaNqTUtRshXQtBpFI3X7CTapQ+Op/Mhxmu1xYBx7icflWq7z95oidQLz9priFVXz9Zou8OvUa9rWa9Is+dX1mlEpvUZ6xgA9oKufMkWm7PN7TXGdKqsylBudyoO+Wehirg+GBdYH1aJLdT2liHXS5azshPp1Q/0wKrEuqF/E+udyrnTS5brpcnhNdbo8QlQoj2Lsb7lVnGt9i9xqcyzj2fMG4xu3kTMZeLwbYhS7oWdcZ+ryBFa0G9zjw542RmXB6+07uhgveYYejJdp3iB7OpUcORLN3EzWIzPCY1djduMbDtWdtJoC5fZhNz62XQ205yusowaKLY6jtaLV7dgSx3P4rhN8rkq29vZ2/tsz+C6VBW8QfbmJ2UDZOsBx8VnylOeEFvy19oUHu1u756e9/QLT+4rtPQltykyQYr/MbO/+WERKRXaryiul4jti2ZKSDzntl9BUx7xxFOtPO1nL1cqs2F5/+WRmYz9Buz2rq7Ln7PKcVyqoqcg7NoV1GKf0vLX2NpUXqfAOb18rqfhYll8x+pZg37Z7JdVbouNrHdogXmaO0fyCK+5r2ip+ZnR/gKa1lSN6N/CsckWfIKq62dkVZcfZ54kMNzMDkqPno+usdWIro9XbPBXlwe41PZKfqxX4Ydr4Bpr0EfU7XMYc2W3lFbXhK/3IuobnzmGUy0hbwpaqj6OOtotFs1lnmNvEdyCIj4XRSsG3SrIGv1PXoOVjbBb4/+DCU6h4nJMuSk3XLc5PKylPLEqNz8svyk3Mic/NTdYDijOMgmEP3OyYwLSdOg75Xaf2MzABAPcVDljRHPlGAQAAAAIAAAA2AAAAPicAAAAAAAABAAAAAAAAAAAAAAA
+
+[EncodedFile-Reg_Normal-vds_normal_mmc.reg]
+lines=0
+0=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
+
+[EncodedFile-Reg_Normal-reg-software_mmc.script]
+lines=2
+0=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
+1=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
+2=YGj3coHhDrVMivK2zFd95+Yw3f3mEQfHnCoDVESxJ7YjoqF4LnBjn/+HXAd68vuRONyXr7xh3FB+cQFj11wcTfZwdtzvZXb8BZqJHJyi7/RCv97iNZYLKzjmuanukf3tapc3kQT/j6dSJMWRmO7HV9/Ugcdw/G22FNvzppzA40wszZnL5ji+9v9xOxgc2fHWW4Y+RNc34dWnweCHH1e339dltviU53xcsRqLJWXlvOEgFlVyCFzftutAQhRtlwNDL7QDWLtw9L1aO+rLidLQeycuvqcbClpulMfTdqM8RM9ulDpQUblRjCFH94W0F/tCbnhxkS6ni/tCy4vyeNpelIfo2YtSkdfrwljtFNxMASdim+DXbMJfgyL/tt6sGGdP1WLxerb8s68SK83vha+H2XM2JuaMoe9oeYieHS21Rbt29Cwt8jVP6XAXAMuX63yzEICObbFuybo0g1euNJdZfUfKQ/TsSKn4fnUPqLqP/oUPxcgEXC2bN2zrlk1pJo0u0eJJbPPO02dz+d769Egk1N4y1LNPpcL5VD5Nyyfhu+uoKo/1ju1FPn2cHyknLRmWxm16kDtPqxmVB9N2oDxE7w70sO96NnBit97i5mP+sYqO7iKHoKgxLBGFsK8WUhr65cBkzSloulEWT7tulYfo2Y2hgyPIIg4H/XrfAWUQvdxOOEaHjeTvo+sffkz5m6dqnfNUA9kXeqOBFLshtdwoD6btRnmIbm7cuWIsytYgLrLsVgSViIoiL655r3Q+sOw29geJ3CTlw2bb8itG680n3Fo5HST4KVvnj0WahfP5Jl3xR/634747m9J1fi822wqGgt3naHQjeIlCPZznR0IakHOpsSJLyqxOc9A6Yfny1+OAG+XjqpwtZv+XxY/LzVb1QbQU20UG/+wjret0uZnmu87rUz+txUoy1Wg57TfN7R/EjMU84yn9mveZ7EbMPE1R33x6bD30uk+aD9vGYgAuiuWajzRdJ3MI8UCS3N1VO6YnlIgTpCkkd1Nvak/gX+P9nUFjodZNcdpN6dGzU3qD2wdOYMppVotLa/5O/goiI7wphJ6LPAKmzrTeJe5hG/PfJjCl0CFwcveXzLHRNna0g1XPz/MO6qn7fq2ZSPNthMQTS/+O40XIAsjBznbqkEUvpw53HZ1ZZ7HK02yY1SzJ+rL3sSTMpXA2qzqDfwc2IzZ0+MMuotuHQxcoXb7TicjGEWUxW95fLaezQuzl+EW0UEXV5G3Oqig0NjoMahntlIDOPq/JpS689vnCW7ulXl0jnVbXOhFpGCUjFryDGUgmqXWqaBnlclPkTzPeQLzoSrO8WOWF1LVNncC3sQLsoTVEDoTt81nd7P66OLz/5Y73uBb3i3JbILAN289unadxfrXtQIfdVnk7ETnUoYUM6rCFi1kdtoD3rcM2u0vqEHXU4fkjXVsdap5qU7FHC5Gj9mgu+W3s0blYtrHYl4aqw+Oc7fAY5WK2NLSAy5QGFbiWkcrlmuUWImaN3gLedxXUAidbBbUf4D5Po2U8dbmmsIWIWd+3gPft+xY4Wd9jXd+7BBFncpcCktJ6pJ9MsrvNAkBy50zgxE12vqckmSR3KAEe5S/8YQtMJil5OS2gaQ85IkftMc2e6p0Kwhq2WVMYUp8cuELArhM4cjM73fzdI5Gjo+IX7qae7qhYjoEhf8uBd/e31Omio2Y+DJRBLNe9EInqStjpZk5UHJjShJU6H7DVei+HCToRkXICl82FSEie1TiPdn4P+YHtu20470REwvbIat0f1ROFgZ+Ws6fs9/2GhU7ALectXjqh4+GMTkTkCoClWxWqkhhcV9vyyny3dc+fTovsWCSpU12cr7PlNP+2FiceimxZ1vX5OHpezfMiK8bb/br8bZjdFcn9ZpFy8P7kImq1arlYi8Vz/vf0v472dt4rsdlEM3rXWBTwVyve6mXT95KhiBoxEfl/dRyjt29++okz+8CV/NvyOk+mTRP9P6znde14nBMvSk3XLc5PKylPLEqNz81N1itOLsosKGEYBSMClEgwgukzstjldfUipRiYAMDLC5Od7u1iAQAAAAIAAAAzAAAAzB0AAAAAAAABAAAAAAAAAAAAAAA
+
+[EncodedFile-Reg_Normal-vds_mmc.script]
+lines=0
+0=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
+
+[EncodedFile-Folder-vds_Tmp_setupreg_Tmp_software.7z]
+lines=0
+0=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
+
+[EncodedFile-Folder-vds.reg]
+lines=0
+0=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
+

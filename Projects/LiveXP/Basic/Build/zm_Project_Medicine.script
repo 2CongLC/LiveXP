@@ -1,0 +1,634 @@
+[main]
+Title=Project Medicine
+Description=Everyone needs some medicine now and then - even WB projects
+Selected=True
+Level=1
+Author=JFX, Lancelot
+Contact=http://www.boot-land.net/forums/index.php?showforum=65
+Credits=Fxscrpt providing the already written codes :)
+Date=
+Locked=True
+Download_Level=0
+CertifiedBy=pscEx
+Certification=f3c1c234a20d2b2473b2d2882be25031
+Mandatory=True
+NoWarning=False
+Version=6
+HistoryNote=by having settingsdrive as systemdrive you may notice interesting things ;)
+History002=Lancelot - Common Files back in registry, thanks for JFX reminding.
+History003=Lancelot - JFX request: (post70) "Highly recommand to put storport.sys (for 2003 and x64)" added. (reminder: mass storage scripts updates storport.sys when w2003sp1 source used)
+History004=Lancelot, Galapo - Script name, title, location changed and set mandatory.
+History005=Lancelot only RegAddBoot option now have a checkbox
+History006=Lancelot only capitalization change on 3 values to hunt wb bugies easier.
+Certification81=986c6da3cd44a05338ddbd15a08de77c
+
+[History_Notes]
+////fxscrpt note from FixShellFolders section :
+//-Currently there is no string for common documents - Set,%DirCommonDocuments%,"Documents" used in FixShellFolders section
+//
+////Lancelot notes
+//-Currently there is no string for "CD Burning" and "CommonVideo" AND ProgramFilesDir (x86)
+//----"WB-software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","CommonVideo","blabla...\My Video"
+//----"WB-default\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","CD Burning","blabla...\CD Burning"
+//-->Folders created with hardcoded names
+//----For ProgramFilesDir (x86) " (x86)" added to the available ProgramFiles string
+//
+//Some empty directories created by this script to match registry values available on systemroot ;)
+//
+//[FixShellFolders] have 1 line changed
+//
+//-Some boot issues
+//"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","CD Burning"
+//--value not created during process BUT created during boot BUT with empty value. Writing value during build OR with regaddboot does not fix
+//-->Folder created with hardcoded name
+//
+//"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","Local AppData"
+//--value created during process BUT deleted during boot !!!. Writing value with regaddboot fix.
+//
+//"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","My Pictures"
+//--value created during process BUT deleted during boot !!!. Writing value with regaddboot does not fix.
+//
+//"HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","CommonMusic","blabla...\My Music"
+//--value not created during process BUT created during boot with right value :)
+//
+//"HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","CommonPictures","blabla...\My Pictures"
+//--value not created during process BUT created during boot with right value :)
+//
+//"HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","CommonVideo","blabla...\My Video"
+//--value not created during process BUT created during boot BUT with empty value !!!.  Writing value during build OR with regaddboot does not fix
+//-->Folder created with hardcoded name
+//
+//"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","RecycleBin"
+//-RecycleBin not used -- BUT exists in registry -- Does not exist in my hostos !!! - i deleted it
+//
+//
+////JFX notes
+// quote from JFX pm+
+// The "Shell Folders" and "User Shell Folders" seems already listed in the PE Build registry under:
+//
+// HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders
+// HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders
+//
+// but not all are inside the "ModelRam.exe" which causes problems with some "Windows Installer based" programs.
+// quote from JFX pm-
+
+[Interface]
+pBevel1=pBevel1,1,12,26,124,292,111
+pBevel_copy_or_expand=pBevel2,1,12,27,31,210,45
+pTextLabel2="Folder - Registry match",1,1,47,115,140,18,8,Bold
+CheckBox_PEx64_Addings=PEx64,1,3,33,211,55,19,True
+CheckBox_Addings_From_RF="Adds of RF (+1 modification)",1,3,33,173,163,15,True
+CheckBox_Addings_ExtraA="Adds of None-RF",1,3,33,191,113,17,True
+CheckBox_Addings_ExtraA_RB=RB,1,3,151,191,37,17,False
+pCheckBox_RegAddBoot="JFX special Checkbox for advanced tests",0,3,91,212,219,16,False
+pCheckBox_storport_sys="put storport.sys (for 2003 and x64) ",1,3,33,48,196,18,True
+pTextLabel3="Copy or Expand Addings",1,1,45,23,143,18,8,Bold
+pTextLabel4="Adds missing registry entries and create empty folders of the values in registry",1,1,33,138,279,30,8,Normal
+
+[process]
+Run,%scriptfile%,PE_Addings
+If,%CheckBox_PEx64_Addings%,Equal,True,If,Not,%SourceArch%,Equal,x86,Run,%scriptfile%,PEx64_Addings
+If,%pCheckBox_storport_sys%,Equal,True,Begin
+If,%OS%%SourceArch%,Equal,W2003x86,Run,%scriptfile%,STORPORT_SYS
+If,%SourceArch%,Equal,x64,Run,%scriptfile%,STORPORT_SYS
+End
+
+[STORPORT_SYS]
+If,Not,ExistFile,%target_sys%\DRIVERS\STORPORT.SY?,FileCopy,%source_win%\STORPORT.SY?,%target_sys%\DRIVERS
+
+[PE_Addings]
+Set,%PInfo%,%ProjectInfo%
+IniRead,"%PInfo%","TargetPaths","Target","%tmp%"
+If,%tmp%,Equal,"",Set,%PInfo%,"%ProjectTemp%\ProjectInfo.ini"
+//
+//
+Set,%mram%,""
+IniRead,"%PInfo%","TargetPaths","Model","%mram%"
+If,Not,ExistDir,%mram%,Set,%mram%,%TargetDir%
+//
+//
+If,%RegFactoryState%,Equal,disabled,If,%CheckBox_Addings_From_RF%,Equal,True,run,%scriptfile%,FixShellFolders
+If,%CheckBox_Addings_ExtraA%,Equal,True,run,%scriptfile%,FixShellFoldersLanceAdds
+
+[FixShellFoldersLanceAdds]
+//----All users
+IniRead,"%PInfo%","TargetPaths","All_Users","%alluserstmp%"
+If,Not,%alluserstmp%,Equal,"",Begin
+//-----All users\My Documents
+IniRead,"%PInfo%","TargetStrings","sMy_Documents","%mydoc%"
+If,Not,%mydoc%,Equal,"",Begin
+DirMake,"%mram%\%alluserstmp%\%mydoc%"
+//
+//------All users\My Documents\My Pictures
+IniRead,"%PInfo%","TargetStrings","sMy_Pictures","%mypic%"
+If,Not,%mypic%,Equal,"",DirMake,"%mram%\%alluserstmp%\%mydoc%\%mypic%"
+End
+//
+//-----All users\Local Settings
+IniRead,"%PInfo%","TargetStrings","sLocal_Settings","%localset%"
+If,Not,%localset%,Equal,"",Begin
+DirMake,"%mram%\%alluserstmp%\%localset%"
+//------All users\Local Settings\Temporary Internet Files
+DirMake,"%mram%\%alluserstmp%\%localset%\Temporary Internet Files"
+IniRead,"%PInfo%","TargetStrings","sApplication_Data","%lsappdata%"
+//------All users\Local Settings\Application Data
+If,Not,%lsappdata%,Equal,"",DirMake,"%mram%\%alluserstmp%\%localset%\%lsappdata%"
+End
+//------All users\NetHood
+IniRead,"%PInfo%","TargetStrings","sNetHood","%tmp%"
+If,Not,%tmp%,Equal,"",DirMake,"%mram%\%alluserstmp%\%tmp%"
+//------All users\PrintHood
+IniRead,"%PInfo%","TargetStrings","sPrintHood","%tmp%"
+If,Not,%tmp%,Equal,"",DirMake,"%mram%\%alluserstmp%\%tmp%"
+//------All users\SendTo
+IniRead,"%PInfo%","TargetStrings","sSendTo","%tmp%"
+If,Not,%tmp%,Equal,"",DirMake,"%mram%\%alluserstmp%\%tmp%"
+//------All users\Templates
+//IniRead,"%PInfo%","TargetStrings","sTemplates","%tmp%"
+//If,Not,%tmp%,Equal,"",DirMake,"%mram%\%alluserstmp%\%tmp%"
+//------All users\Desktop
+//IniRead,"%PInfo%","TargetStrings","sDesktop","%tmp%"
+//If,Not,%tmp%,Equal,"",DirMake,"%mram%\%alluserstmp%\%tmp%"
+//
+DirMake,"%mram%\%alluserstmp%\Cookies"
+DirMake,"%mram%\%alluserstmp%\History"
+DirMake,"%mram%\%alluserstmp%\Recent"
+End
+//-----All users\Application Data
+IniRead,"%PInfo%","TargetPaths","Common_Application_Data","%tmp%"
+If,Not,%alluserstmp%,Equal,"",DirMake,"%mram%\%tmp%"
+//
+//-----Default User
+IniRead,"%PInfo%","TargetPaths","Default_User","%defusertmp%"
+If,Not,%defusertmp%,Equal,"",Begin
+//------Default User\NetHood
+IniRead,"%PInfo%","TargetStrings","sNetHood","%tmp%"
+If,Not,%tmp%,Equal,"",DirMake,"%mram%\%defusertmp%\%tmp%"
+//------Default User\PrintHood
+IniRead,"%PInfo%","TargetStrings","sPrintHood","%tmp%"
+If,Not,%tmp%,Equal,"",DirMake,"%mram%\%defusertmp%\%tmp%"
+End
+//
+//
+// DELETE-----Default User\Desktop\RecycleBin
+//IniRead,"%PInfo%","TargetPaths","RecycleBin","%tmp%"
+//If,Not,%alluserstmp%,Equal,"",DirMake,"%mram%\%tmp%"
+RegHiveLoad,WB-Default,%target_sys%\config\default
+Set,%key%,"WB-Default\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders"
+System,ERROROFF
+RegDelete,HKLM,%key%,"RecycleBin"
+RegHiveUnLoad,WB-Default
+//
+//
+Set,%DirCommonDocuments%,"Documents"
+//Settings: %SystemDrive% or %RamDisk%
+IniRead,"%PInfo%","RamDrive","Settings",%TmpDrive%
+//DriveLetter: B: R: or --
+IniRead,"%PInfo%","RamDrive","DriveLetter",%RamDisk%
+IniRead,"%PInfo%","TargetStrings","sProgram_Files",%DirProgramFiles%
+IniRead,"%PInfo%","TargetStrings","sCommon_Files",%DirCommonFiles%
+IniRead,"%PInfo%","TargetStrings","sDocuments_and_Settings",%DirSettings%
+IniRead,"%PInfo%","TargetStrings","sAll_Users",%DirAllUsers%
+IniRead,"%PInfo%","TargetStrings","sApplication_Data",%DirAppData%
+IniRead,"%PInfo%","TargetStrings","sDefault_User",%DirDefaultUser%
+IniRead,"%PInfo%","TargetStrings","sLocal_Settings",%DirLocalSettings%
+IniRead,"%PInfo%","TargetStrings","sMy_Documents",%DirMyDocuments%
+IniRead,"%PInfo%","TargetStrings","sMy_Pictures",%DirMyPictures%
+If,Not,%TmpDrive%,Equal,%RamDisk%,Set,%TmpDrive%,#$psystemdrive#$p
+//
+//
+If,Not,ExistDir,%TargetDir%\%DirProgramFiles%\%DirCommonFiles%,DirMake,%TargetDir%\%DirProgramFiles%\%DirCommonFiles%
+RegHiveLoad,%HiveKey%,%target_sys%\config\software
+RegWrite,HKLM,0x2,%HiveKey%\Microsoft\Windows\CurrentVersion,"CommonFilesDir",#$pSystemDrive#$p\%DirProgramFiles%\%DirCommonFiles%
+RegHiveUnLoad,%HiveKey%
+//
+If,Not,ExistDir,%target_win%\Media,DirMake,%target_win%\Media
+//
+//Hardcoded "My Video" creation
+//"HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" "CommonVideo" "B:\Documents and Settings\All Users\Documents\My Video"
+// ** "My Video" registry adding do not work (also regaddboot do not work), removed from process, only folder created
+////RegHiveLoad,WB-software,%target_sys%\config\software
+////RegWrite,HKLM,0x1,"WB-software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","CommonVideo","%TmpDrive%\%DirSettings%\%DirAllUsers%\%DirCommonDocuments%\My Video"
+////RegHiveUnLoad,WB-software
+////RegAddBoot,HKLM,0x1,"Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","CommonVideo","%TmpDrive%\%DirSettings%\%DirAllUsers%\%DirCommonDocuments%\My Video"
+DirMake,"%mram%\%alluserstmp%\%DirCommonDocuments%\My Video"
+//
+//
+//Hardcoded "CD Burning" creation
+//"HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" "CD Burning" "B:\Documents and Settings\Default User\Local Settings\Application Data\Microsoft\CD Burning"
+// ** "CD Burning" registry adding do not work (also regaddboot do not work), removed from process, only folder created
+////RegHiveLoad,WB-default,%target_sys%\config\default
+////RegWrite,HKLM,0x1,"WB-default\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","CD Burning","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirLocalSettings%\%DirAppData%\Microsoft\CD Burning"
+////RegHiveUnLoad,WB-default
+////RegAddBoot,HKCU,0x1,"Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","CD Burning","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirLocalSettings%\%DirAppData%\Microsoft\CD Burning"
+DirMake,"%mram%\%defusertmp%\%localset%\%lsappdata%\Microsoft\CD Burning"
+//
+//
+//"Local AppData" Already in registry but deleted during boot - regaddboot fixes the issue
+If,%CheckBox_Addings_ExtraA_RB%,Equal,True,RegAddBoot,HKCU,0x1,"Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","Local AppData","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirLocalSettings%\%DirAppData%"
+//
+//"My Pictures" Already in registry but deleted during boot- regaddboot do not fix the issue
+////RegAddBoot,HKCU,0x1,"Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","My Pictures","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirLocalSettings%\%DirAppData%\Microsoft\CD Burning"
+
+[PEx64_Addings]
+//set,%programfilespathinvariable%,programfiles
+Set,%PInfo%,%ProjectInfo%
+IniRead,"%PInfo%","TargetPaths","Target","%tmp%"
+If,%tmp%,Equal,"",Set,%PInfo%,"%ProjectTemp%\ProjectInfo.ini"
+//
+Set,%mram%,""
+IniRead,"%PInfo%","TargetPaths","Model","%mram%"
+If,Not,ExistDir,%mram%,Set,%mram%,%TargetDir%
+//
+IniRead,%PInfo%,TargetStrings,sProgram_Files,%programfiles_dir%
+set,%programfiles_dir_x86%,"%programfiles_dir% (x86)"
+If,Not,ExistDir,%TargetDir%\%programfiles_dir%,DirMake,%TargetDir%\%programfiles_dir%
+If,Not,ExistDir,%TargetDir%\%programfiles_dir_x86%,DirMake,%TargetDir%\%programfiles_dir_x86%
+//
+IniRead,%PInfo%,TargetStrings,sCommon_Files,%commonfiles_dir%
+If,Not,ExistDir,%TargetDir%\%programfiles_dir%\%commonfiles_dir%,DirMake,%TargetDir%\%programfiles_dir%\%commonfiles_dir%
+If,Not,ExistDir,%TargetDir%\%programfiles_dir_x86%\%commonfiles_dir%,DirMake,%TargetDir%\%programfiles_dir_x86%\%commonfiles_dir%
+//
+IniRead,%PInfo%,TargetStrings,sStartmenu_Accessories,%Accessories_Name%
+//
+If,Not,ExistDir,%target_win%\Media,DirMake,%target_win%\Media
+//
+RegHiveLoad,%HiveKey%,%target_sys%\config\software
+RegWrite,HKLM,0x2,%HiveKey%\Microsoft\Windows\CurrentVersion,"CommonFilesDir (x86)",#$pSystemDrive#$p\%programfiles_dir_x86%\%commonfiles_dir%
+RegWrite,HKLM,0x2,%HiveKey%\Microsoft\Windows\CurrentVersion,"ProgramFilesDir (x86)",#$pSystemDrive#$p\%programfiles_dir_x86%
+RegWrite,HKLM,0x2,%HiveKey%\Wow6432Node\Microsoft\Windows\CurrentVersion,"CommonFilesDir",#$pSystemDrive#$p\%programfiles_dir_x86%\%commonfiles_dir%
+RegWrite,HKLM,0x2,%HiveKey%\Wow6432Node\Microsoft\Windows\CurrentVersion,"CommonFilesDir (x86)",#$pSystemDrive#$p\%programfiles_dir_x86%\%commonfiles_dir%
+RegWrite,HKLM,0x2,%HiveKey%\Wow6432Node\Microsoft\Windows\CurrentVersion,"DevicePath",#$pSystemRoot#$p\Inf
+RegWrite,HKLM,0x2,%HiveKey%\Wow6432Node\Microsoft\Windows\CurrentVersion,"MediaPathUnExpanded",#$pSystemRoot#$p\Media
+RegWrite,HKLM,0x2,%HiveKey%\Wow6432Node\Microsoft\Windows\CurrentVersion,"PF_AccessoriesName",%Accessories_Name%
+RegWrite,HKLM,0x2,%HiveKey%\Wow6432Node\Microsoft\Windows\CurrentVersion,"ProgramFilesDir",#$pSystemDrive#$p\%programfiles_dir_x86%
+RegWrite,HKLM,0x2,%HiveKey%\Wow6432Node\Microsoft\Windows\CurrentVersion,"ProgramFilesDir (x86)",#$pSystemDrive#$p\%programfiles_dir_x86%
+RegWrite,HKLM,0x2,%HiveKey%\Wow6432Node\Microsoft\Windows\CurrentVersion,"ProgramFilesPath",#$pprogramfiles#$p
+//RegWrite,HKLM,0x2,%HiveKey%\Wow6432Node\Microsoft\Windows\CurrentVersion,"ProgramFilesPath",#$p%programfilespathinvariable%#$p
+//RegWrite,HKLM,0x2,%HiveKey%\Wow6432Node\Microsoft\Windows\CurrentVersion,"SM_AccessoriesName",%Accessories_Name%
+//RegWrite,HKLM,0x2,%HiveKey%\Wow6432Node\Microsoft\Windows\CurrentVersion,"SM_ConfigureProgramsName","Set Program Access and Defaults"
+//RegWrite,HKLM,0x2,%HiveKey%\Wow6432Node\Microsoft\Windows\CurrentVersion,"SM_GamesName",Games
+//RegWrite,HKLM,0x2,%HiveKey%\Wow6432Node\Microsoft\Windows\CurrentVersion,"WallPaperDir",#$pSystemRoot#$p\Web\WallPaper
+RegHiveUnLoad,%HiveKey%
+//reserved for JFX to make further tests when required
+//set,%pCheckBox_RegAddBoot%,True
+If,%pCheckBox_RegAddBoot%,Equal,True,Begin
+RegAddBoot,HKLM,0x1,Software\Microsoft\Windows\CurrentVersion,"CommonFilesDir (x86)",#$pSystemDrive#$p\%programfiles_dir_x86%\%commonfiles_dir%
+RegAddBoot,HKLM,0x1,Software\Microsoft\Windows\CurrentVersion,"ProgramFilesDir (x86)",#$pSystemDrive#$p\%programfiles_dir_x86%
+RegAddBoot,HKLM,0x1,Software\Wow6432Node\Microsoft\Windows\CurrentVersion,"CommonFilesDir",#$pSystemDrive#$p\%programfiles_dir_x86%\%commonfiles_dir%
+RegAddBoot,HKLM,0x1,Software\Wow6432Node\Microsoft\Windows\CurrentVersion,"CommonFilesDir (x86)",#$pSystemDrive#$p\%programfiles_dir_x86%\%commonfiles_dir%
+RegAddBoot,HKLM,0x1,Software\Wow6432Node\Microsoft\Windows\CurrentVersion,"DevicePath",#$pSystemRoot#$p\Inf
+RegAddBoot,HKLM,0x1,Software\Wow6432Node\Microsoft\Windows\CurrentVersion,"MediaPathUnExpanded",#$pSystemRoot#$p\Media
+RegAddBoot,HKLM,0x1,Software\Wow6432Node\Microsoft\Windows\CurrentVersion,"ProgramFilesDir",#$pSystemDrive#$p\%programfiles_dir_x86%
+RegAddBoot,HKLM,0x1,Software\Wow6432Node\Microsoft\Windows\CurrentVersion,"ProgramFilesDir (x86)",#$pSystemDrive#$p\%programfiles_dir_x86%
+End
+
+[FixShellFolders]
+//1 - RegFactory.Script v19 FixShellFolders section (thanks to fxscrpt)
+//one line changed If,Not,%TmpDrive%,Equal,%RamDisk%,Set,%TmpDrive%,%sysdrive% ----> If,Not,%TmpDrive%,Equal,%RamDisk%,Set,%TmpDrive%,#$psystemdrive#$p
+//Fix missing folders
+Set,%DirCommonDocuments%,"Documents"
+IniRead,"%PInfo%","OS","Type","%OS%"
+IniRead,"%PInfo%","OS","ServicePack","%SP%"
+IniRead,"%PInfo%","RamDrive","Settings",%TmpDrive%
+IniRead,"%PInfo%","RamDrive","DriveLetter",%RamDisk%
+IniRead,"%PInfo%","TargetStrings","sProgram_Files",%DirProgramFiles%
+IniRead,"%PInfo%","TargetStrings","sCommon_Files",%DirCommonFiles%
+IniRead,"%PInfo%","TargetStrings","sDocuments_and_Settings",%DirSettings%
+IniRead,"%PInfo%","TargetStrings","sLocal_Settings",%DirLocalSettings%
+IniRead,"%PInfo%","TargetStrings","sMy_Documents",%DirMyDocuments%
+IniRead,"%PInfo%","TargetStrings","sApplication_Data",%DirAppData%
+IniRead,"%PInfo%","TargetStrings","sStart_Menu",%DirStartMenu%
+IniRead,"%PInfo%","TargetStrings","sDesktop",%DirDesktop%
+IniRead,"%PInfo%","TargetStrings","sStartmenu_Autostart",%DirAutoStart%
+IniRead,"%PInfo%","TargetStrings","sStartmenu_Programs",%DirStartMenuPrograms%
+IniRead,"%PInfo%","TargetStrings","sAdministrative_Tools",%DirAdminTools%
+IniRead,"%PInfo%","TargetStrings","sSendTo",%DirSendTo%
+IniRead,"%PInfo%","TargetStrings","sMy_Pictures",%DirMyPictures%
+IniRead,"%PInfo%","TargetStrings","sPrintHood",%DirPrintHood%
+IniRead,"%PInfo%","TargetStrings","sNetHood",%DirNetHood%
+IniRead,"%PInfo%","TargetStrings","sTemplates",%DirTemplates%
+IniRead,"%PInfo%","TargetStrings","sFavorites",%DirFavorites%
+IniRead,"%PInfo%","TargetStrings","sAll_Users",%DirAllUsers%
+IniRead,"%PInfo%","TargetStrings","sDefault_User",%DirDefaultUser%
+IniRead,"%PInfo%","TargetPaths","Documents_and_Settings",%settingsfolder%
+IniRead,"%PInfo%","TargetPaths","Default_User",%defaultuserfolder%
+IniRead,"%PInfo%","TargetPaths","All_Users",%allusersfolder%
+IniRead,"%PInfo%","TargetPaths","Local_Application_Data",%localappdatafolder%
+IniRead,"%PInfo%","TargetPaths","Application_Data",%appdatafolder%
+IniRead,"%PInfo%","TargetPaths","Common_Application_Data",%commonappdatafolder%
+IniRead,"%PInfo%","TargetPaths","Quick_Launch",%quicklaunchfolder%
+IniRead,"%PInfo%","TargetPaths","Desktop",%desktopfolder%
+IniRead,"%PInfo%","TargetPaths","SendTo",%sendtofolder%
+IniRead,"%PInfo%","TargetPaths","Start_Menu",%startmenufolder%
+IniRead,"%PInfo%","TargetPaths","Startmenu_Programs",%startmenuprogramsfolder%
+IniRead,"%PInfo%","TargetPaths","Startmenu_Autostart",%startmenuautostartfolder%
+IniRead,"%PInfo%","TargetPaths","Administrative_Tools",%admintoolsfolder%
+IniRead,"%PInfo%","TargetPaths","Startmenu_Accessories",%startmenuaccessoriesfolder%
+IniRead,"%PInfo%","TargetPaths","System_Tools",%systemtoolsfolder%
+IniRead,"%PInfo%","TargetPaths","Local_Settings",%localsettingsfolder%
+If,Not,%settingsfolder%,Equal,"",Begin
+Set,%mram%,""
+IniRead,"%PInfo%","TargetPaths","Model","%mram%"
+If,Not,ExistDir,%mram%,Set,%mram%,%TargetDir%
+DirMake,"%mram%\%settingsfolder%"
+If,Not,%defaultuserfolder%,Equal,"",DirMake,"%mram%\%defaultuserfolder%"
+If,Not,%localappdatafolder%,Equal,"",DirMake,"%mram%\%localappdatafolder%"
+If,Not,%allusersfolder%,Equal,"",DirMake,"%mram%\%allusersfolder%"
+If,Not,%appdatafolder%,Equal,"",DirMake,"%mram%\%appdatafolder%"
+If,Not,%commonappdatafolder%,Equal,"",DirMake,"%mram%\%commonappdatafolder%"
+If,Not,%quicklaunchfolder%,Equal,"",DirMake,"%mram%\%quicklaunchfolder%"
+If,Not,%desktopfolder%,Equal,"",DirMake,"%mram%\%desktopfolder%"
+If,Not,%sendtofolder%,Equal,"",DirMake,"%mram%\%sendtofolder%"
+If,Not,%startmenufolder%,Equal,"",DirMake,"%mram%\%startmenufolder%"
+If,Not,%startmenuprogramsfolder%,Equal,"",DirMake,"%mram%\%startmenuprogramsfolder%"
+If,Not,%startmenuautostartfolder%,Equal,"",DirMake,"%mram%\%startmenuautostartfolder%"
+If,Not,%startmenuaccessoriesfolder%,Equal,"",DirMake,"%mram%\%startmenuaccessoriesfolder%"
+If,Not,%systemtoolsfolder%,Equal,"",DirMake,"%mram%\%systemtoolsfolder%"
+Set,%tmp%,%admintoolsfolder%
+StrFormat,REPLACE,%tmp%,%DirDefaultUser%,%DirAllUsers%,%tmp2%
+If,Not,%tmp%,Equal,"",DirMake,"%mram%\%tmp2%"
+//
+If,Not,%localsettingsfolder%,Equal,"",DirMake,"%mram%\%localsettingsfolder%"
+If,Not,%localsettingsfolder%,Equal,"",DirMake,"%mram%\%localsettingsfolder%\History"
+If,Not,%localsettingsfolder%,Equal,"",DirMake,"%mram%\%localsettingsfolder%\Temporary Internet Files"
+If,Not,%localsettingsfolder%,Equal,"",DirMake,"%mram%\%localsettingsfolder%\Temp"
+//
+IniRead,"%PInfo%","TargetPaths","Default_User","%tmp%"
+If,Not,%tmp%,Equal,"",DirMake,"%mram%\%tmp%\Cookies"
+If,Not,%tmp%,Equal,"",DirMake,"%mram%\%tmp%\Recent"
+//
+If,Not,%defaultuserfolder%,Equal,"",Begin
+If,Not,%DirMyDocuments%,Equal,"",DirMake,"%mram%\%defaultuserfolder%\%DirMyDocuments%"
+If,Not,%DirFavorites%,Equal,"",DirMake,"%mram%\%defaultuserfolder%\%DirFavorites%"
+If,Not,%DirTemplates%,Equal,"",DirMake,"%mram%\%defaultuserfolder%\%DirTemplates%"
+If,Not,%DirDesktop%,Equal,"",DirMake,"%mram%\%defaultuserfolder%\%DirDesktop%"
+End
+//
+If,Not,%allusersfolder%,Equal,"",Begin
+If,Not,%DirFavorites%,Equal,"",DirMake,"%mram%\%allusersfolder%\%DirFavorites%"
+If,Not,%DirTemplates%,Equal,"",DirMake,"%mram%\%allusersfolder%\%DirTemplates%"
+If,Not,%DirDesktop%,Equal,"",DirMake,"%mram%\%allusersfolder%\%DirDesktop%"
+If,Not,%DirCommonDocuments%,Equal,"",DirMake,"%mram%\%allusersfolder%\%DirCommonDocuments%"
+If,Not,%DirStartMenuPrograms%,Equal,"",Begin
+DirMake,"%mram%\%allusersfolder%\%DirStartMenuPrograms%"
+If,Not,%DirAutoStart%,Equal,"",Begin
+DirMake,"%mram%\%allusersfolder%\%DirStartMenuPrograms%\%DirAutoStart%"
+End
+End
+End
+End
+//
+//If,Not,%TmpDrive%,Equal,%RamDisk%,Set,%TmpDrive%,%sysdrive%
+If,Not,%TmpDrive%,Equal,%RamDisk%,Set,%TmpDrive%,#$psystemdrive#$p
+//
+RegHiveLoad,WB-Default,%target_sys%\config\default
+Set,%key%,"WB-Default\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders"
+//
+System,ERROROFF
+RegDelete,HKLM,%key%,"AppData"
+RegWrite,HKLM,0x1,%key%,"AppData","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirAppData%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Desktop"
+RegWrite,HKLM,0x1,%key%,"Desktop","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirDesktop%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Local AppData"
+RegWrite,HKLM,0x1,%key%,"Local AppData","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirLocalSettings%\%DirAppData%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Local Settings"
+RegWrite,HKLM,0x1,%key%,"Local Settings","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirLocalSettings%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Personal"
+RegWrite,HKLM,0x1,%key%,"Personal","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirMyDocuments%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Programs"
+RegWrite,HKLM,0x1,%key%,"Programs","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirStartMenuPrograms%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Start Menu"
+RegWrite,HKLM,0x1,%key%,"Start Menu","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirStartMenu%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"StartUp"
+RegWrite,HKLM,0x1,%key%,"StartUp","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirStartMenuPrograms%\%DirAutoStart%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Cache"
+RegWrite,HKLM,0x1,%key%,"Cache","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirLocalSettings%\Temporary Internet Files"
+System,ERROROFF
+RegDelete,HKLM,%key%,"SendTo"
+RegWrite,HKLM,0x1,%key%,"SendTo","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirSendTo%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Cookies"
+RegWrite,HKLM,0x1,%key%,"Cookies","%TmpDrive%\%DirSettings%\%DirDefaultUser%\Cookies"
+System,ERROROFF
+RegDelete,HKLM,%key%,"History"
+RegWrite,HKLM,0x1,%key%,"History","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirLocalSettings%\History"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Recent"
+RegWrite,HKLM,0x1,%key%,"Recent","%TmpDrive%\%DirSettings%\%DirDefaultUser%\Recent"
+System,ERROROFF
+RegDelete,HKLM,%key%,"PrintHood"
+RegWrite,HKLM,0x1,%key%,"PrintHood","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirPrintHood%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"My Pictures"
+RegWrite,HKLM,0x1,%key%,"My Pictures","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirMyPictures%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"NetHood"
+RegWrite,HKLM,0x1,%key%,"NetHood","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirNetHood%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Templates"
+RegWrite,HKLM,0x1,%key%,"Templates","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirTemplates%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Favorites"
+RegWrite,HKLM,0x1,%key%,"Favorites","%TmpDrive%\%DirSettings%\%DirDefaultUser%\%DirFavorites%"
+//
+Set,%key%,"WB-Default\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders"
+//
+System,ERROROFF
+RegDelete,HKLM,%key%,"Temp"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Tmp"
+RegWrite,HKLM,0x2,%key%,"Temp","#$pUserProfile#$p\%DirLocalSettings%\Temp"
+RegWrite,HKLM,0x2,%key%,"Tmp","#$pUserProfile#$p\%DirLocalSettings%\Temp"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Local Settings"
+RegWrite,HKLM,0x2,%key%,"Local Settings","#$pUSERPROFILE#$p\%DirLocalSettings%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Local AppData"
+RegWrite,HKLM,0x2,%key%,"Local AppData","#$pUSERPROFILE#$p\%DirLocalSettings%\%DirAppData%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Personal"
+RegWrite,HKLM,0x2,%key%,"Personal","#$pUserProfile#$p\%DirMyDocuments%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Programs"
+RegWrite,HKLM,0x2,%key%,"Programs","#$pUSERPROFILE#$p\%DirStartMenuPrograms%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Start Menu"
+RegWrite,HKLM,0x2,%key%,"Start Menu","#$pUSERPROFILE#$p\%DirStartMenu%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"StartUp"
+RegWrite,HKLM,0x2,%key%,"StartUp","#$pUSERPROFILE#$p\%DirStartMenuPrograms%\%DirAutoStart%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"AppData"
+RegWrite,HKLM,0x2,%key%,"AppData","#$pUSERPROFILE#$p\%DirAppData%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Desktop"
+RegWrite,HKLM,0x2,%key%,"Desktop","#$pUSERPROFILE#$p\%DirDesktop%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"SendTo"
+RegWrite,HKLM,0x2,%key%,"SendTo","#$pUSERPROFILE#$p\%DirSendTo%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Cache"
+RegWrite,HKLM,0x2,%key%,"Cache","#$pUSERPROFILE#$p\%DirLocalSettings%\Temporary Internet Files"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Cookies"
+RegWrite,HKLM,0x2,%key%,"Cookies","#$pUSERPROFILE#$p\Cookies"
+System,ERROROFF
+RegDelete,HKLM,%key%,"History"
+RegWrite,HKLM,0x2,%key%,"History","#$pUSERPROFILE#$p\%DirLocalSettings%\History"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Recent"
+RegWrite,HKLM,0x2,%key%,"Recent","#$pUSERPROFILE#$p\Recent"
+System,ERROROFF
+RegDelete,HKLM,%key%,"PrintHood"
+RegWrite,HKLM,0x2,%key%,"PrintHood","#$pUSERPROFILE#$p\%DirPrintHood%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"My Pictures"
+RegWrite,HKLM,0x2,%key%,"My Pictures","#$pUSERPROFILE#$p\%DirMyPictures%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"NetHood"
+RegWrite,HKLM,0x2,%key%,"NetHood","#$pUSERPROFILE#$p\%DirNetHood%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Templates"
+RegWrite,HKLM,0x2,%key%,"Templates","#$pUSERPROFILE#$p\%DirTemplates%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Favorites"
+RegWrite,HKLM,0x2,%key%,"Favorites","#$pUSERPROFILE#$p\%DirFavorites%"
+RegHiveUnLoad,WB-Default
+//
+RegHiveLoad,WB-Software,%target_sys%\config\software
+Set,%key%,"WB-Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders"
+//
+System,ERROROFF
+RegDelete,HKLM,%key%,"Desktop"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common NetHood"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Personal"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common PrintHood"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Recent"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common SendTo"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Cookies"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common My Pictures"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Local Settings"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Local AppData"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Cache"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common History"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Administrative Tools"
+RegWrite,HKLM,0x1,%key%,"Common Administrative Tools","%TmpDrive%\%DirSettings%\%DirAllUsers%\%DirStartMenuPrograms%\%DirAdminTools%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common AppData"
+RegWrite,HKLM,0x1,%key%,"Common AppData","%TmpDrive%\%DirSettings%\%DirAllUsers%\%DirAppData%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Desktop"
+RegWrite,HKLM,0x1,%key%,"Common Desktop","%TmpDrive%\%DirSettings%\%DirAllUsers%\%DirDesktop%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Programs"
+RegWrite,HKLM,0x1,%key%,"Common Programs","%TmpDrive%\%DirSettings%\%DirAllUsers%\%DirStartMenuPrograms%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Start Menu"
+RegWrite,HKLM,0x1,%key%,"Common Start Menu","%TmpDrive%\%DirSettings%\%DirAllUsers%\%DirStartMenu%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Startup"
+RegWrite,HKLM,0x1,%key%,"Common Startup","%TmpDrive%\%DirSettings%\%DirAllUsers%\%DirStartMenuPrograms%\%DirAutoStart%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Favorites"
+RegWrite,HKLM,0x1,%key%,"Common Favorites","%TmpDrive%\%DirSettings%\%DirAllUsers%\Favorites"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Templates"
+RegWrite,HKLM,0x1,%key%,"Common Templates","%TmpDrive%\%DirSettings%\%DirAllUsers%\%DirTemplates%"
+// todo : currently not available in projectinfo
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Documents"
+RegWrite,HKLM,0x1,%key%,"Common Documents","%TmpDrive%\%DirSettings%\%DirAllUsers%\%DirCommonDocuments%"
+//
+Set,%key%,"WB-Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders"
+//
+System,ERROROFF
+RegDelete,HKLM,%key%,"Desktop"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common NetHood"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Personal"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common PrintHood"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Recent"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common SendTo"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Cookies"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common My Pictures"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Local Settings"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Local AppData"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Cache"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common History"
+//
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Administrative Tools"
+RegWrite,HKLM,0x2,%key%,"Common Administrative Tools","#$pALLUSERSPROFILE#$p\%DirStartMenuPrograms%\%DirAdminTools%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common AppData"
+RegWrite,HKLM,0x2,%key%,"Common AppData","#$pALLUSERSPROFILE#$p\%DirAppData%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Desktop"
+RegWrite,HKLM,0x2,%key%,"Common Desktop","#$pALLUSERSPROFILE#$p\%DirDesktop%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Programs"
+RegWrite,HKLM,0x2,%key%,"Common Programs","#$pALLUSERSPROFILE#$p\%DirStartMenuPrograms%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Start Menu"
+RegWrite,HKLM,0x2,%key%,"Common Start Menu","#$pALLUSERSPROFILE#$p\%DirStartMenu%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Startup"
+RegWrite,HKLM,0x2,%key%,"Common Startup","#$pALLUSERSPROFILE#$p\%DirStartMenuPrograms%\%DirAutoStart%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Favorites"
+RegWrite,HKLM,0x2,%key%,"Common Favorites","#$pALLUSERSPROFILE#$p\%DirFavorites%"
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Templates"
+RegWrite,HKLM,0x2,%key%,"Common Templates","#$pALLUSERSPROFILE#$p\%DirTemplates%"
+// todo : currently not available in projectinfo
+System,ERROROFF
+RegDelete,HKLM,%key%,"Common Documents"
+RegWrite,HKLM,0x2,%key%,"Common Documents","#$pALLUSERSPROFILE#$p\%DirCommonDocuments%"
+//
+RegHiveUnLoad,WB-Software
+RegHiveLoad,WB-System,%target_sys%\setupreg.hiv
+RegWrite,HKLM,0x2,"WB-System\ControlSet001\Control\Session Manager\Environment","AllUsersProfile","%TmpDrive%\%DirSettings%\%DirAllUsers%"
+RegWrite,HKLM,0x2,"WB-System\ControlSet001\Control\Session Manager\Environment","UserProfile","%TmpDrive%\%DirSettings%\%DirDefaultUser%"
+RegHiveUnLoad,WB-System
+
+[AuthorEncoded]
+Project_Medicine.gif=6153,8204
+Logo=Project_Medicine.gif
+
+[EncodedFile-AuthorEncoded-Project_Medicine.gif]
+lines=2
+0=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
+1=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
+2=AAAAAAAAAQAAAAAAAAAAAAAA
+

@@ -1,0 +1,20 @@
+ERGÄNZENDER ENDBENUTZER-LIZENZVERTRAG FÜR MICROSOFT-SOFTWARE ("ERGÄNZENDES EULA")
+
+
+WICHTIG: BITTE SORGFÄLTIG LESEN – Die Microsoft-Betriebssystemkomponenten, die diesem Ergänzenden EULA beiliegen, unterliegen einschließlich Dokumentation im "Online"- oder elektronischen Format ("BS-Komponenten") den Bestimmungen des Vertrags, unter dem Sie das unten beschriebene anwendbare Microsoft-Betriebssystemprodukt lizenziert haben (jeder ein "Endbenutzer-Lizenzvertrag" oder "EULA"), und den Bestimmungen dieses Ergänzenden EULAs. INDEM SIE DIE BS-KOMPONENTEN INSTALLIEREN, KOPIEREN, DOWNLOADEN, DARAUF ZUGREIFEN ODER SIE ANDERWEITIG VERWENDEN, ERKLÄREN SIE SICH EINVERSTANDEN, DURCH DIE BESTIMMUNGEN DES EULAS DES ANWENDBAREN BETRIEBSSYSTEMPRODUKTS UND DIESES ERGÄNZENDEN EULAS GEBUNDEN ZU SEIN. FALLS SIE DIESEN BESTIMMUNGEN NICHT ZUSTIMMEN, SIND SIE NICHT BERECHTIGT, DIE BS-KOMPONENTEN ZU INSTALLIEREN, ZU KOPIEREN, DOWNZULOADEN, DARAUF ZUZUGREIFEN ODER SIE ZU VERWENDEN.
+
+ANMERKUNG: WENN SIE KEINE ORDNUNGSGEMÄSS LIZENZIERTE KOPIE DES MICROSOFT-BETRIEBSSYSTEMPRODUKTS (EINSCHLIESSLICH, ABER NICHT BESCHRÄNKT AUF MICROSOFT WINDOWS XP PROFESSIONAL, MICROSOFT WINDOWS 2000 PROFESSIONAL, MICROSOFT WINDOWS 2000 SERVER ODER MICROSOFT WINDOWS 2000 ADVANCED SERVER) BESITZEN, FÜR DAS JEDE DER BS-KOMPONENTEN BEREITGESTELLT WERDEN (jedes ein "BS-Produkt"), SIND SIE NICHT BERECHTIGT, DIE BS-KOMPONENTEN ZU INSTALLIEREN, ZU KOPIEREN, DOWNZULOADEN, DARAUF ZUZUGREIFEN ODER SIE ANDERWEITIG ZU VERWENDEN. SIE HABEN AUSSERDEM KEINERLEI RECHTE UNTER DIESEM ERGÄNZENDEN EULA.
+
+In diesem Ergänzenden EULA verwendete Begriffe, die hierin nicht definiert sind, haben die Bedeutung, die im EULA des anwendbaren BS-Produkts dafür festgelegt wurde.
+
+Allgemeines. Die BS-Komponenten werden Ihnen nur zur Verfügung gestellt, um vorhandene Funktionalität des anwendbaren BS-Produkts zu aktualisieren, zu ergänzen oder zu ersetzen. Nach der Installation werden die BS-Komponenten Teil des BS-Produkts. Hiermit wird Ihnen eine Lizenz zur Verwendung der BS-Komponenten gemäß den Bestimmungen des BS-Produkt-EULAs für das anwendbare BS-Produkt (die hiermit durch Bezugnahme Bestandteil dieses Ergänzenden EULAs werden) und den Bestimmungen dieses Ergänzenden EULAs erteilt, vorausgesetzt, Sie halten alle diese Bestimmungen ein. Soweit sich Bestimmungen widersprechen, die für die BS-Komponenten gelten, haben die Bestimmungen dieses Ergänzenden EULAs Vorrang.
+
+Zusätzliche Rechte und Einschränkungen. 
+
+* Wenn Sie mehrere ordnungsgemäß lizenzierte Kopien des BS-Produkts haben, dürfen Sie eine Kopie der BS-Komponenten auf allen Ihren Computern anfertigen, installieren und verwenden, die ordnungsgemäß lizenzierte Kopien des BS-Produkts ausführen, vorausgesetzt, Sie verwenden solche zusätzlichen Kopien der BS-Komponenten unter Einhaltung der oben genannten Bestimmungen. 
+* Wenn Sie die BS-Komponenten nicht auf externen Speichermedien erworben haben, dürfen Sie eine einzige Kopie der BS-Komponenten nur für Archivierungszwecke oder zur Reinstallation der BS-Komponenten auf demselben Computer, auf dem die BS-Komponenten zuvor installiert waren, anfertigen. Microsoft Corporation, ihre Niederlassungen und/oder Lieferanten behalten das Eigentum und alle Rechte an den BS-Komponenten. Microsoft Corporation, ihre Niederlassungen und/oder Lieferanten behalten sich alle nicht ausdrücklich gewährten Rechte vor.
+
+Die gegebenenfalls im EULA des anwendbaren BS-Produkts enthaltene Beschränkte Garantie gilt für die BS-Komponenten, wenn die BS-Komponenten von Ihnen innerhalb der Laufzeit der Beschränkten Garantie im EULA des anwendbaren BS-Produkts lizenziert wurden. Dieses Ergänzende EULA verlängert nicht den Zeitraum, für den die Beschränkte Garantie gewährt wird.
+
+Wenn Sie die BS-Komponenten in DEUTSCHLAND erworben haben, findet der vorstehende Absatz auf Sie keine Anwendung. Stattdessen gelten die anwendbaren gesetzlichen Gewährleistungsregelungen.
+

@@ -1,0 +1,185 @@
+[main]
+Title=Define Fundamentals
+Description=This script defines basic values used later in the build
+Selected=True
+Mandatory=True
+Level=1
+Author=Peter Schlang
+Version=66
+Contact=http://Bootland.pt.vu
+Date=2009-Dec-22
+Credits=
+Download_Level=0
+History054=psc changed to logging by [OnProcessExit]
+History057=psc add %ProjectArchitecture% and [XExtract] section
+History058=psc changed %ProjectArchitecture% to %SourceArch%
+History058=psc starting convert nativeEx_core to use 64 bit source CD
+History062=psc finish convert nativeEx_core to use 64 bit source CD
+History064=psc add %BootFlag%
+History065=psc move creating of projectoinfo.ini to [process]
+History66=pscEx program 'PE1_4WB82' made ready for WinBuilder 082
+CertifiedBy=PE1_4WB82
+Certification=73299eb431deabe595ad6f5b51ff77df
+Certification81=38aafec37cbec0d616c422e0ec9221b2
+
+[Set-Level]
+If,%pRadioButton1%,Equal,True,Set,%HoJoPELevel%,1,PERMANENT
+If,%pRadioButton2%,Equal,True,Set,%HoJoPELevel%,2,PERMANENT
+
+[process]
+IniRead,%ProjectDir%\script.project,Main,Title,%title%
+Set,%Debug%,%pScrollBox2%,PERMANENT
+Run,%ScriptFile%,Set-Level
+Set,%RAMDriveLetter%,%pScrollBox1%,PERMANENT
+// History66 +++
+//If,%pScrollBox3%,Equal,"System Drive",Set,%SettingsDrive%,##$pSystemDrive##$p,PERMANENT
+If,%pScrollBox3%,Equal,"System Drive",Begin
+If,%Version%,SMALLER,081,Set,%SettingsDrive%,##$pSystemDrive##$p,PERMANENT
+Else,Set,%SettingsDrive%,#$pSystemDrive#$p,PERMANENT
+End
+// History66 ---
+If,%pScrollBox3%,Equal,"RAM Drive",Set,%SettingsDrive%,%pScrollBox1%,PERMANENT
+If,%pCheckBox1%,Equal,True,Set,%ClearTarget%,1,PERMANENT
+If,Not,%pCheckBox1%,Equal,True,Set,%ClearTarget%,0,PERMANENT
+If,%pCheckBox3%,Equal,True,Run,%ScriptFile%,Write_UPX
+If,%pCheckBox5%,Equal,True,Run,%ScriptFile%,Write_Compress
+Set,%RegTyp%,0x1,PERMANENT
+If,%pScrollBox1%,Equal,--,Set,%RegTyp%,0x2,PERMANENT
+If,%pScrollBox3%,Equal,"System Drive",Set,%RegTyp%,0x2,PERMANENT
+Set,%bootfix%,%pCheckBox6%,PERMANENT
+Set,%bootflag%,%pTextBox1%,PERMANENT
+If,NotExistDir,%GlobalTemp%,DirMake,%GlobalTemp%
+If,NotExistDir,%GlobalSupport%,DirMake,%GlobalSupport%
+If,NotExistDir,%ProjectTemp%,DirMake,%ProjectTemp%
+If,NotExistDir,%ProjectTemplates%,DirMake,%ProjectTemplates%
+If,NotExistDir,%ProjectCache%,DirMake,%ProjectCache%
+If,NotExistDir,%PPISODir%,DirMake,%PPISODir%
+If,ExistFile,%ProjectInfo%,FileDelete,%ProjectInfo%
+FileCreateBlank,%ProjectInfo%
+Run,%ScriptFile%,Get-OS
+//ExtractFile,%ScriptFile%,Folder,wbVersion.exe,%ProjectTemp%
+//ShellExecute,Hide,%ProjectTemp%\wbVersion.exe,"#$q-F:%ProjectDir%\Script.project#$q -S:Main -K:WBVersion"
+IniWrite,%ProjectDir%\Script.project,Main,WBVersion,%Version%
+If,ExistFile,%ProjectDir%\Basic\!WBManager\!CheckTools.Script,IniWrite,%ProjectDir%\Basic\!WBManager\!CheckTools.Script,Main,Selected,False
+If,EXISTVAR,%HIvesFactoryScript%,Run,%ScriptFile%,Get-Source-Locale
+// now done automatically
+//Run,%ScriptLog%,Process-log
+
+[Get-Source-Locale]
+// History66 +++
+//If,NotExistFile,%HoJoPEdir%\%HoJoPEexe%,ExtractFile,%HIvesFactoryScript%,Exes,%HoJoPEexe%,%HoJoPEdir%
+Exec,%HivesFactoryScript%,ExtractHoJoPE
+// History66 ---
+ShellExecute,Hide,%HoJoPEDir%\%HoJoPEexe%," #$q/O%ProjectInfo%#$q -TL #$q-I%source_win%\Hivedef.inf#$q -D%Debug%"
+IniRead,%ProjectInfo%,OS,SourceLocale,%SourceLocale%
+Set,%SourceLocale%,%SourceLocale%,PERMANENT
+RegRead,HKEY_USERS,".DEFAULT\Control Panel\International",Locale,%Locale%
+Set,%Locale%,%Locale%,PERMANENT
+
+[Get-OS]
+Set,%SDir%,I386
+Set,%OSType%,nil
+Set,%S64Bits%,nil
+Set,%SArch%,nil
+If,Not,ExistVar,%OSType%,If,ExistFile,%SourceDir%\WIN51IP,Run,%ScriptFile%,XP-x86
+If,Not,ExistVar,%OSType%,If,ExistFile,%SourceDir%\WIN51IC,Run,%ScriptFile%,XP-x86
+If,Not,ExistVar,%OSType%,If,ExistFile,%SourceDir%\WIN51IL,Run,%ScriptFile%,W2003-x86
+If,Not,ExistVar,%OSType%,If,ExistFile,%SourceDir%\WIN51ID,Run,%ScriptFile%,W2003-x86
+If,Not,ExistVar,%OSType%,If,ExistFile,%SourceDir%\WIN51IA,Run,%ScriptFile%,W2003-x86
+If,Not,ExistVar,%OSType%,If,ExistFile,%SourceDir%\WIN51IS,Run,%ScriptFile%,W2003-x86
+If,Not,ExistVar,%OSType%,If,ExistFile,%SourceDir%\WIN51IB,Run,%ScriptFile%,W2003-x86
+If,Not,ExistVar,%OSType%,If,ExistFile,%SourceDir%\CDROM_NT.5,Run,%ScriptFile%,W2000
+If,Not,ExistVar,%OSType%,If,ExistFile,%SourceDir%\WIN51AA,Run,%ScriptFile%,W2003-x64
+If,Not,ExistVar,%OSType%,If,ExistFile,%SourceDir%\WIN51AD,Run,%ScriptFile%,W2003-x64
+If,Not,ExistVar,%OSType%,If,ExistFile,%SourceDir%\WIN51AS,Run,%ScriptFile%,W2003-x64
+If,Not,ExistVar,%OSType%,If,ExistFile,%SourceDir%\WIN51AP,Run,%ScriptFile%,XP-x64
+If,Not,ExistVar,%OSType%,If,ExistFile,%SourceDir%\WIN51MP,Run,%ScriptFile%,XP-ia64
+If,Not,ExistVar,%OSType%,If,ExistFile,%SourceDir%\WIN51MA,Run,%ScriptFile%,W2003-ia64
+If,Not,ExistVar,%OSType%,If,ExistFile,%SourceDir%\WIN51MD,Run,%ScriptFile%,W2003-ia64
+If,ExistVar,%OSType%,Set,%OS%,%OSType%,PERMANENT
+Else,Set,%OSType%,nil,PERMANENT
+If,ExistVar,%S64Bits%,Set,%Source64Bits%,%S64Bits%,PERMANENT
+Else,Set,%Source64Bits%,nil,PERMANENT
+If,ExistVar,%SArch%,Set,%SourceArch%,%SArch%,PERMANENT
+Else,Set,%SourceArch%,nil,PERMANENT
+//IniWrite,%ProjectDir%\script.project,Variables,#$ptarget_win#$p,#$pTargetDir#$p\I386
+//IniWrite,%ProjectDir%\script.project,Variables,#$ptarget_sys#$p,#$pTargetDir#$p\I386\System32
+IniWrite,%ProjectDir%\script.project,Variables,#$ptarget_win#$p,#$pTargetDir#$p\%Sdir%
+IniWrite,%ProjectDir%\script.project,Variables,#$ptarget_sys#$p,#$pTargetDir#$p\%Sdir%\System32
+IniWrite,%ProjectDir%\script.project,Variables,#$psource_win#$p,#$pSourceDir#$p\%Sdir%
+IniWrite,%ProjectDir%\script.project,Variables,#$psource_sys#$p,#$pSourceDir#$p\%Sdir%
+
+[W2000]
+Set,%OSType%,W2000
+Set,%S64Bits%,False
+Set,%SArch%,x86
+Set,%Sdir%,I386
+
+[XP-x86]
+Set,%OSType%,XP
+Set,%S64Bits%,False
+Set,%SArch%,x86
+Set,%Sdir%,I386
+
+[XP-x64]
+Set,%OSType%,XP
+Set,%S64Bits%,True
+Set,%SArch%,x64
+Set,%Sdir%,AMD64
+
+[XP-ia64]
+Set,%OSType%,XP
+Set,%S64Bits%,True
+Set,%SArch%,ia64
+
+[W2003-x86]
+Set,%OSType%,W2003
+Set,%S64Bits%,False
+Set,%SArch%,x86
+Set,%Sdir%,I386
+
+[W2003-x64]
+Set,%OSType%,W2003
+Set,%S64Bits%,True
+Set,%SArch%,x64
+Set,%Sdir%,AMD64
+
+[W2003-ia64]
+Set,%OSType%,W2003
+Set,%S64Bits%,True
+Set,%SArch%,ia64
+
+[Interface]
+pBevel1=pBevel1,1,12,6,16,459,36
+pBevel2=pBevel2,1,12,6,61,213,36
+pBevel4=pBevel4,1,12,251,196,215,40
+pBevel5=pBevel5,1,12,6,196,213,88
+pBevel6=pBevel6,1,12,252,61,213,36
+pBevel8=pBevel8,1,12,252,247,213,36
+pCheckBox1="Clear Target before build",1,3,266,206,185,20,True
+pRadioButton1="Project with Command Line Shell",1,11,18,25,207,18,False
+pRadioButton2="Project with Graphical Shell",1,11,264,25,174,18,True
+pScrollBox1=B:,1,4,162,70,42,21,--,B:,R:
+pScrollBox2=0,1,4,412,254,42,21,0,1,2,3
+pScrollBox3="RAM Drive",1,4,360,70,93,21,"RAM Drive","System Drive"
+pTextLabel1="Debug Level",1,1,266,256,120,21,8,Normal
+pTextLabel2="RAM Drive letter:",1,1,18,70,120,21,8,Normal
+pTextLabel3="This option will add the bootfix.bin file to the CD",1,1,22,202,170,29,8,Bold
+pTextLabel4="Before booting you will be asked ""Hit any key to boot from CD""",1,1,22,228,193,31,8,Bold
+pTextLabel5="'Settings' Drive:",1,1,258,70,91,21,8,Normal
+pCheckBox6="Add BootFix",1,3,23,262,181,18,False
+pTextBox1="Boot Flag File",1,0,19,144,100,21,BOOTFLAG
+
+[AuthorEncoded]
+fundamentals.jpg=2Kb,3Kb
+Logo=fundamentals.jpg
+
+[EncodedFile-AuthorEncoded-fundamentals.jpg]
+lines=0
+0=eJyd0Xk41IsaB/DfmDEzGHvG0jAYW5ZuM8hSqIQmZGfsopQs2XcmsoThWEKUPZHIcmYIqcbSMJKjrBNOtsKgQbZyuHWep3v/uX/ce7/vn+/7vM/7ed7D8cOPAN9FQ7whAAKBALcfBRzOAEiDcC9PAMDjFQE48CuHHwB9AA6FwqDscBgMxsEB50Qc4UZwcSFEBQR5j4iLoSXExVAoSZnj8pLSyhgUSkHjmPIJrJqaGlpeS0cTd/q4qhru5xIQBwcHggshws0tgpNCSeH+5xy+AvjhwCXgEhgkDbDxg8D8oMNuAA0AIHbQ3/l1MogNDGGHwuAcnFw/Bih8ABsIDGaDgNnZIZAf3ZgffQDCzy4ghT0LFbS4DJMOOIKLyyqDY841UoUsh1gyqu6B8RycSGERUTFZOXmFY4pq6ic1NLW09c8bGBpdwF+0sraxtSPYO3hcuep57brXjaDgkNCw8IjI2wmJScl3UlKzc+7m5uXfKygsr3hY+aiq+nFN0+9kSnPLs9a2zq7unte03j76u/fDI6Nj4xOMmdm5+YVPnxeXltc3Nr9ube/s7n376QIBYNCv/EcX/w8XGwQChsB+ukBsYT8H+CHsUliowFkL2OUAQWlcHPzIuayyRioHRtWSJeQeOMSJlFGbkV3/Sftb9t/B4v8v2b9g/3YxAAQY9ON5YH5AD9geIcWReGmjxdVnmGepqK9VPFD2QBAXLdOmwZrEZxhkSmC1Rx7HknmwTjsp0ZZtEYX0t4SejU7nsGN+xASeibfaB89TkzslVHwDJ8+Glro+xGNWnaB2orbbvcwvDwJSo+v9T4YUWahFCQavk9OfKRrycAmuxcTpxT0lXlonawg+tBudHXgYcl7Xc8HdH3gL1dJ8reTYg3zp09ScwNvhzwEcAg2HwF+Rm85R+Lb87shoc5SRG8v5LU7rzxPn9+PpAV/rpHPSJ7iZHmP6flRok3qdvMnoHbH0BI1Ywke8iOc3ngNKBQq/kGKo33aLpuPlboB4J4yBycvH2R8pGHCKVmWtlF2ltMRoz/khvb3E5J2+8RktmBOWJHBDMuEq6mkq7hOGw2nmVn7rkWisTdqBnsNy8F+uZiP8hZ0bXPfe6QuSTUSUMkq/k1Kba8KQMh6lVWENdCtvRsiLComSgIib4m9KAjEK0+G9c4vczpuovtwQ7Fwp6jbzwUHu5nbJ5ToCc2lWx+X1xgbUQ7mpW4N7guo+BbjYwYBrKDfOIZZrmnrUzTth+Lr+IL+W75XZo0wFoQa2ExBiyLn5EBrF6tFqVNyjaeGRtS1nY5t2slcxV1fDKSieTzA3UyL26uXBSzdMeQks8PJBSN7joKvhWUIn6Ef7DSzxQFYL+EGQS051j1722MkxU4SZqHEGyBL++iB2ySRvBwyrDO92gZd0BvxZW5hetDBa3ldBFXpeyRg3zV7bAx6PkwBa0KBQgFeZjpnhu60nRLSXWAKfzkhd22Az4xvq9Rcym3gQfX9CRLd4K23mwtq+fj2TI6C2rtN+We/FhVJr3N0982vyOx6eZ9DdhJ2nTKOhOrKv3FFjQrYayc3nqeNMXTpZeFq+SNqmgOLlMQ2gJffiv88F7G/ab6pYcom/P8+mmLjEaB1Eemk41Cc+rfORzVMiZ8mQusf96dQk3rHC5QsD6gn3714RkhfRm7O8tf4SwURuT2O907xyy0bo/VFoheYxumhluk0rpuQ5ThOsVe+Y4bx+jL66OhD+ZdvaIT99xXfVl8EIHq73e+p0XENuXQyx80lYoijGNPJB9tGT/KeaqlFC4jdq8CqGgWiB4Pt90SrqiUWrlZS7v9dRHTNfuWGP36pWNj4lBfAM/GHLm3gavJ3iU/vUEuRdVX8/0M1nL58nrJp7CuKpt4v0Ju8mjJlWeRGv0Bg9/acd7wC47vlrp3nOzH+zRiMuOHOGdwn0YyEtTr6uBxTL0FttRQ+3X8SWqFQE1vOTNof5UzcG3CO4q+LldNBWWZ6aB5IrFVue+wORjAYajBJRn+qbXnKbvKWU1DIqcV5znr3QnnfxmH51iA6vsscrjDzjmWvSfVLkfsECxeu3A23K2NIO1FsoRw8LywxyMur8UKJqPHxvdXJn4+SR+WCLv5TkO+iLgxfOBZgPBku6PZxvDgeXMi2NJLYg2J1aM+G90WmxFycD8tuf2VDSxoIzMDDWVOHx6U4tM5Bzephtxwi/ML8jFQ77Pq+WTZzHS7Qjz9yU4dRAXYmPtEOzsml9rK9j+oltRZVW4ySEx4dU5k1CT6gjJE/8bJXl5CiYa1Z5ib3objoqaM84CNM9p/jRsde/648Rs6Q34OUsNoKBv90yW/WTFzrj6x+SSb0vPduVU6jEyQYg6sG6+S6UF2OxLpazKVch/RG17bpep/sqawqhIA6rPshdKOFTvxsjwDRS+PN66zAJuQL//oUqQjPRsygu71Bby/wYLDTvIpNK2NfXWAtLbC0Ot284c7fG5xAYMh1Q4Fa5xOwShhJ5P9B1197ubzq1UJs2FvNrd2Wcsb1bkujPDrFAQQXL0bHvoHmkMoVWISV5CGCsdTkfRWvEEpdWftsPuSFGLtQuY1+Rle8YWhrqBainx6TW0d3/KF20mOp8IpNFd8IE9xpyEmEKRJCzcoEd893z+tmYhZFPT5BpAmDuSQv99w/I5SafW/gOKBa7GVYvWDrVZFZGPnIgwZGWdQiARJ9ox6F9RSWjq+pnHJCZaVEEd/SrMuLFvhGGGWVWjnMcMs+TixtG3Dx6I1/bYC1dNree4Ve0cGEObp9xZhFGDHpVcwDxTh6mpKz5ujAi/Iz7uSSsM7HFsKqbC44u0qz1MZmm7OmtlfqVh9eSZuyI6ODHTqTb1P1j32DJ+foCnWOWU1OTLwt0hmmfMj+CslYAoZr8VrrSURUFzqCNMeFa10WGX2VQUI1uqKmf75yd+aDiHqkLYcSit37eTQyxutocH6ufGeP9NtrEtctFVgJT/O69eUuraYqvAjW916KoG0Uy1FO1EvZUc2H1LPoeJfhU3Subz+k/lRNlKN7QFY+jZUYwnV7eijYKKduNnFVSCq+Ui/DMw+M579TcbtEh8PaPtunBrr+jlU1XvmlMUZcL1bXcf/yMXQQVLDJbu3tzZnD7UlL5nHVrxuKbjQhGdBKGEr+frNVL/5ST3X7q8UXF3MrJRu+5tNavUrWmVZgPBsFurdedFqy4koGthZdvw5NiQpXawym9+zqQJnx4Xlvw7/wdfVObEpqiEN56iquuIDl7VrZjOCRq0Xyv2HRkenec5KH0G9HBpxj63tP3j+kboQ0pz7+2xH+EzxG/KCj6xyw5C34v7lHSu9Oiar9s2efBpV6Oqco91oX0v9eHXgXv2tblHtSFPaE015fBiQGflBsv2pu9geI0B6NDqitZJsINZFVm20rjSVy2C9TqdhbV1cLWx0ev8TjpJcOhcm13e6W9bboiMxA6/Tz2UVq5rKLtjt0n4uHEPwENvvgaeJwTSCvNS0nMTc0rScwp1ssqSGcYBSMJ7OCC0Ppc2OX7GD+qMTABAPEuCSWQixYwAQAAAAIAAAAsAAAALwoAAAAAAAABAAAAAAAAAAAAAAA
+
+[EncodedFolders]
+Folder
+
+[Folder]
+

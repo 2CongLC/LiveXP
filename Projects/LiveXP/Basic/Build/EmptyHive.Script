@@ -1,0 +1,72 @@
+[main]
+Title=Empty Hive
+Description=This script will create an empty registry hive and fill with user defined data
+Author=Peter Schlang
+Level=20
+contact=http://BootLand.pt.vu
+Selected=False
+Credits=To Microsoft Corporation, wich originally created the registry hives used in windows NT and PE systems.
+Version=6
+Locked=True
+Date=2007-Jan-19 17:25:19
+Upload=2007-Sep-18 15:00:11
+Download_Level=0
+CertifiedBy=pscEx
+Certification=3017e22c462a3e6655955ea451b85fa3
+Certification81=77418d5f9ba97eeb0616ee73ecd5e2c8
+
+[copy-Boot]
+Echo,"Copying boot loader ..."
+ExtractAllFilesIfNotExist,"%EmptyHive%","Boot","#1"
+
+[Comment]
+// #1=target hive name
+// #2=.reg file
+// #3=workhive
+// #4=target hive directory
+
+[create-Blank]
+Echo,"Creating a new #1 hive.."
+If,#1,Equal,sam,Run,%EmptyHive%,create-Blank-sub,#1,#2,#3,%target_sys%\config
+If,#1,Equal,security,Run,%EmptyHive%,create-Blank-sub,#1,#2,#3,%target_sys%\config
+If,#1,Equal,default,Run,%EmptyHive%,create-Blank-sub,#1,#2,#3,%target_sys%\config
+If,#1,Equal,software,Run,%EmptyHive%,create-Blank-sub,#1,#2,#3,%target_sys%\config
+If,#1,Equal,system,Run,%EmptyHive%,create-Blank-sub,#1,#2,#3,%target_sys%\config
+If,#1,Equal,setupreg.hiv,Run,%EmptyHive%,create-Blank-sub,#1,#2,#3,%target_sys%
+
+[create-Blank-sub]
+ExtractFile,"%EmptyHive%","PSC","template.hiv",#4
+If,ExistFile,"#4\#1",FileDelete,"#4\#1"
+FileRename,"#4\template.hiv","#4\#1"
+If,NotExistFile,#4\#1,Exit,"File [#4\#1] was not found!"
+
+[process-runhive]
+ExtractFile,%ScriptFile%,Hives,#2,%ProjectTemp%
+if,NotExistFile,%ProjectTemp%\#2,exit,"#2 was not found!"
+Run,%EmptyHive%,create-Blank,#1,#2,#3,#4
+RegHiveLoad,"#3","#4\#1"
+ShellExecute,"hide","regedit.exe","/s #$q%ProjectTemp%\#2#$q"
+RegHiveUnLoad,"#3"
+FileDelete,"%ProjectTemp%\#2"
+
+[EncodedFolders]
+PSC
+
+[Interface]
+pTextLabel1="This script cannot been run inside a project, even it is checked for run.",1,1,12,52,453,36,9,Bold
+
+[EncodedFile-PSC-template.hiv]
+lines=0
+0=eJzt2LEOwVAUBuDT0g4GRAi2itVkMRp4AA9gkCZtiaRDkRg9gkcwGAxGo9lsEA/gAbzCde69bYLUSiL/l9x7zj33tGk6nsgLfJOI5EoYvDJPuSOTos7hfwwWgf/rbwAAAAAAAIDvGLuTUCXFlEuu7YQQ4bRFo/b9dtmf1AiASyJpEbEkX77dP/dlOc692Txy+l6Nz7Op7pdLvvisYna15XiInyuTnE2syZYHs0Z1Phl6WGE5vDXM9Hozrnep8FJ3VL2s63qgYZVU+NCbe+lVY5H3HsPS5wpvu87Vc4dHu1fNtWXfJp/+PwAAAAAAAAC+6QGTlEC4eJzjKUnNLchJLEnVy8gsYxgFIw4oQKhvOKTjVOfoMDABAH4tB0EePZvzAQAAAAIAAAAmAAAA9gAAAAAAAAABAAAAAAAAAAAAAAA
+
+[PSC]
+template.hiv=320,427
+
+[EncodedFile-AuthorEncoded-emptyhive.jpg]
+lines=0
+0=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
+
+[AuthorEncoded]
+emptyhive.jpg=2Kb,3Kb
+Logo=emptyhive.jpg
+

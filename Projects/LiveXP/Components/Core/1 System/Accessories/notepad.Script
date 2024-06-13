@@ -1,0 +1,236 @@
+[Main]
+Title=Notepad
+Type=script
+Level=1
+Description=Will add Notepad to the PE compilation.
+Author=John Adamopoulos
+Contact=http://www.boot-land.net/forums/index.php?showforum=65
+Version=20
+Date=2008-Aug-13
+Selected=True
+Download_Level=0
+CertifiedBy=pscEx
+Certification=301f8021e0264d263c33af0a5f060d0c
+History012=Lancelot Lucida Console font support added
+History016=Lancelot JFX - big files can be doubleclicked accidently with "unknown" "extensionless file" options, options not selected as default post 1853: http://www.boot-land.net/forums/index.php?showtopic=5429&view=findpost&p=88198
+History019=Lancelot source - Accessories naming
+History020=Lancelot txt reg inf ini associations to default values
+Certification81=775217ac875b045baf78c249e2fb44ff
+
+[Interface]
+pBevel3=pBevel3,1,12,125,71,306,21
+pCheckBox1="Quick Launch",1,3,6,44,87,15,False
+pCheckBox2=Desktop,1,3,6,28,87,15,False
+pCheckBox3=StartMenu,1,3,6,76,87,15,True
+pCheckBox8="Send To",1,3,6,60,87,15,True
+pRadioGroup1="Start Menu:",1,14,8,96,96,56,Accessories,"Folder Name",0
+pTextBox2=,1,0,8,148,96,21,.
+pCheckBox901="Add Lucida Console font (only font for unicode console applications)",1,3,9,291,357,15,True
+pBevel1=pBevel1,1,12,2,3,116,213
+pTextLabel1="Create shortcuts in :",1,1,5,7,104,18,8,Normal
+pTextBox1="Shortcut Name",1,0,9,188,100,21,Notepad
+pBevel2=pBevel2,1,12,120,13,352,271
+pTextLabel2="File types to associate with notepad:",1,1,163,8,186,18,8,Normal
+pCheckBox201=".* (Add Notepad to associated files)",1,3,129,35,197,14,True
+pCheckBox202=".. (Add Notepad to Extensionless File)",1,3,129,55,208,14,True
+pCheckBox203="unknown (Add Notepad to none associated files)",1,3,129,75,259,14,False
+pCheckBox203b=RB,1,3,390,76,34,12,False
+pCheckBox950="Associate Following",1,3,130,96,120,14,True
+pBevel4=pBevel4,1,12,125,102,338,175
+pCheckBox4=.txt,1,3,279,198,48,12,True
+pCheckBox5=".reg (edit)",1,3,279,133,70,12,True
+pCheckBox6=.inf,1,3,190,119,48,12,True
+pCheckBox7=.ini,1,3,190,145,48,12,True
+pCheckBox9=.aev,1,3,130,119,48,12,True
+pCheckBox10=.au3,1,3,367,119,48,12,True
+pCheckBox10p=+,1,3,417,119,25,11,True
+pCheckBox11=.cfg,1,3,130,132,48,12,True
+pCheckBox12=.conf,1,3,130,145,48,12,True
+pCheckBox13=.diz,1,3,130,158,48,12,True
+pCheckBox14=.info,1,3,190,132,48,12,True
+pCheckBox15=.ins,1,3,190,158,48,12,True
+pCheckBox16=.iss,1,3,190,171,48,12,True
+pCheckBox17=.md5,1,3,190,210,48,12,True
+pCheckBox18=.md5sum,1,3,190,223,68,12,True
+pCheckBox19=.nfo,1,3,279,120,48,12,True
+pCheckBox20=.readme,1,3,279,159,62,12,True
+pCheckBox21=.script,1,3,279,172,50,12,True
+pCheckBox22=.sif,1,3,279,185,48,12,True
+pCheckBox23=.a3x,1,3,367,132,45,12,True
+pCheckBox23p=+,1,3,417,132,25,11,True
+pCheckBox24=.link,1,3,190,184,48,12,True
+pCheckBox25=.lst,1,3,190,197,48,12,True
+pCheckBox26=.project,1,3,279,146,62,12,True
+pCheckBox27=.url,1,3,279,211,39,12,True
+pCheckBox28=.shc,1,3,279,224,45,12,True
+pCheckBox29=.pln,1,3,130,171,44,12,True
+pCheckBox30=.mof,1,3,130,184,44,12,True
+pTextLabel3="+ : Set Notepad as default",1,1,133,251,133,18,8,Normal
+
+[Process]
+CopyOrExpand,%source_sys%\notepad.exe,%target_sys%
+If,%pCheckBox901%,Equal,True,Run,%ScriptFile%,lucidafontsupport
+///If,%pCheckBox8%,Equal,True,Run,%BuildModelScript%,Add-Shortcut,"ST","#$pSystemRoot#$p\system32\notepad.exe","%pTextBox1%","-SW:#$pSystemRoot#$p\system32"
+///If,%pCheckBox2%,Equal,True,Run,%BuildModelScript%,Add-Shortcut,"DE","#$pSystemRoot#$p\system32\notepad.exe","%pTextBox1%","-SW:#$pSystemRoot#$p\system32"
+///If,%pCheckBox1%,Equal,True,Run,%BuildModelScript%,Add-Shortcut,"QL","#$pSystemRoot#$p\system32\notepad.exe","%pTextBox1%","-SW:#$pSystemRoot#$p\system32"
+//If,%pCheckBox3%,Equal,True,Run,%BuildModelScript%,Add-Shortcut,"SM\Productivity","#$pSystemRoot#$p\system32\notepad.exe","%pTextBox1%","-SW:#$pSystemRoot#$p\system32"
+If,%pCheckBox2%,Equal,True,Add_Shortcut,Desktop,,#$pSystemRoot#$p\system32\notepad.exe,%pTextBox1%
+If,%pCheckBox1%,Equal,True,Add_Shortcut,QuickLaunch,,#$pSystemRoot#$p\system32\notepad.exe,%pTextBox1%
+If,%pCheckBox8%,Equal,True,Add_Shortcut,SendTo,,#$pSystemRoot#$p\system32\notepad.exe,%pTextBox1%
+//If,%pCheckBox3%,Equal,True,Add_Shortcut,StartMenu,%pTextBox2%,#$pSystemRoot#$p\system32\notepad.exe,%pTextBox1%
+If,%pCheckBox3%,Equal,True,Begin
+If,%pRadioGroup1%,Equal,0,IniRead,%ProjectInfo%,TargetStrings,sStartmenu_Accessories,%Startmenu_Folder_Name%
+If,%pRadioGroup1%,Equal,1,Set,%Startmenu_Folder_Name%,%pTextBox2%
+Add_Shortcut,StartMenu,%Startmenu_Folder_Name%,#$pSystemRoot#$p\system32\notepad.exe,%pTextBox1%
+End
+If,%pCheckBox201%,Equal,True,Run,%ScriptFile%,AssociatedFiles
+If,%pCheckBox202%,Equal,True,Run,%ScriptFile%,ExtensionlessFile
+If,%pCheckBox203%,Equal,True,Run,%ScriptFile%,NoneAssociatedFiles
+IniWrite,%ProjectInfo%,UPX-Switches,notepad.exe,"-9 --compress-resources=0"
+If,%pCheckBox950%,Equal,True,Run,%ScriptFile%,AssociationsIndividual
+
+[AssociationsIndividual]
+RegHiveLoad,WB-Software,%target_sys%\config\software
+Echo,"Writing new values on registry hive.."
+If,%pCheckBox4%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.txt\ShellNew,NullFile,""
+//History013
+//If,%pCheckBox4%,Equal,True,RegWrite,HKLM,0x3,WB-Software\Classes\txtfile,EditFlags,10000
+If,%pCheckBox4%,Equal,True,RegWrite,HKLM,0x4,WB-Software\Classes\txtfile,EditFlags,10000
+If,%pCheckBox4%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\txtfile,FriendlyTypeName,"@#$pSystemRoot#$p\system32\notepad.exe#$c-469"
+If,%pCheckBox4%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\txtfile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+//If,%pCheckBox4%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\txtfile\shell\open\command,,"Notepad #$q%1#$q"
+If,%pCheckBox4%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\txtfile\shell\open\command,,"#$pSystemRoot#$p\system32\NOTEPAD.exe %1"
+If,%pCheckBox4%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\txtfile\shell\print\command,,"#$pSystemRoot#$p\system32\NOTEPAD.exe /p %1"
+If,%pCheckBox5%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\regfile\shell\edit\command,,"#$pSystemRoot#$p\system32\NOTEPAD.exe %1"
+If,%pCheckBox5%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\regfile\shell\print\command,,"#$pSystemRoot#$p\system32\NOTEPAD.EXE /p %1"
+If,%pCheckBox6%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\inffile\shell\open\command,,"#$pSystemRoot#$p\System32\NOTEPAD.EXE %1"
+If,%pCheckBox6%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\inffile\shell\print\command,,"#$pSystemRoot#$p\System32\NOTEPAD.EXE /p %1"
+If,%pCheckBox6%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\inffile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-151"
+If,%pCheckBox7%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\inifile\shell\open\command,,"#$pSystemRoot#$p\System32\NOTEPAD.EXE %1"
+If,%pCheckBox7%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\inifile\shell\print\command,,"#$pSystemRoot#$p\System32\NOTEPAD.EXE /p %1"
+If,%pCheckBox7%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\inifile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-151"
+If,%pCheckBox9%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.aev,,aevfile
+If,%pCheckBox9%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\aevfile\shell,,open
+If,%pCheckBox9%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\aevfile\shell\open\command,,"Notepad #$q%1#$q"
+If,%pCheckBox9%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\aevfile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+If,%pCheckBox10%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.au3,,AutoIt3Script
+If,%pCheckBox10%,Equal,True,If,%pCheckBox10p%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\AutoIt3Script\shell,,Notepad
+If,%pCheckBox10%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\AutoIt3Script\shell\Notepad\command,,"Notepad #$q%1#$q"
+//If,%pCheckBox10%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\AutoIt3Script\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+If,%pCheckBox11%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.cfg,,cfgfile
+If,%pCheckBox11%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\cfgfile\shell,,open
+If,%pCheckBox11%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\cfgfile\shell\open\command,,"Notepad #$q%1#$q"
+If,%pCheckBox11%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\cfgfile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+If,%pCheckBox12%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.conf,,conffile
+If,%pCheckBox12%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\conffile\shell,,open
+If,%pCheckBox12%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\conffile\shell\open\command,,"Notepad #$q%1#$q"
+If,%pCheckBox12%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\conffile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+If,%pCheckBox13%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.diz,,dizfile
+If,%pCheckBox13%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\dizfile\shell,,open
+If,%pCheckBox13%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\dizfile\shell\open\command,,"Notepad #$q%1#$q"
+If,%pCheckBox13%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\dizfile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+If,%pCheckBox14%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.info,,infofile
+If,%pCheckBox14%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\infofile\shell,,open
+If,%pCheckBox14%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\infofile\shell\open\command,,"Notepad #$q%1#$q"
+If,%pCheckBox14%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\infofile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+If,%pCheckBox15%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.ins,,insfile
+If,%pCheckBox15%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\insfile\shell,,open
+If,%pCheckBox15%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\insfile\shell\open\command,,"Notepad #$q%1#$q"
+If,%pCheckBox15%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\insfile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+If,%pCheckBox16%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.iss,,issfile
+If,%pCheckBox16%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\issfile\shell,,open
+If,%pCheckBox16%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\issfile\shell\open\command,,"Notepad #$q%1#$q"
+If,%pCheckBox16%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\issfile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+If,%pCheckBox17%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.md5,,md5file
+If,%pCheckBox17%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\md5file\shell,,open
+If,%pCheckBox17%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\md5file\shell\open\command,,"Notepad #$q%1#$q"
+If,%pCheckBox17%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\md5file\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+If,%pCheckBox18%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.md5sum,,md5sumfile
+If,%pCheckBox18%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\md5sumfile\shell,,open
+If,%pCheckBox18%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\md5sumfile\shell\open\command,,"Notepad #$q%1#$q"
+If,%pCheckBox18%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\md5sumfile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+If,%pCheckBox19%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.nfo,,nfofile
+If,%pCheckBox19%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\nfofile\shell,,open
+If,%pCheckBox19%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\nfofile\shell\open\command,,"Notepad #$q%1#$q"
+If,%pCheckBox19%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\nfofile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+If,%pCheckBox20%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.readme,,readmefile
+If,%pCheckBox20%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\readmefile\shell,,open
+If,%pCheckBox20%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\readmefile\shell\open\command,,"Notepad #$q%1#$q"
+If,%pCheckBox20%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\readmefile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+If,%pCheckBox21%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.script,,scriptfile
+If,%pCheckBox21%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\scriptfile\shell,,open
+If,%pCheckBox21%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\scriptfile\shell\open\command,,"Notepad #$q%1#$q"
+If,%pCheckBox21%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\scriptfile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+If,%pCheckBox22%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.sif,,siffile
+If,%pCheckBox22%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\siffile\shell,,open
+If,%pCheckBox22%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\siffile\shell\open\command,,"Notepad #$q%1#$q"
+If,%pCheckBox22%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\siffile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+If,%pCheckBox23%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.a3x,,AutoIt3XScript
+If,%pCheckBox23%,Equal,True,If,%pCheckBox23p%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\AutoIt3XScript\shell,,Notepad
+If,%pCheckBox23%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\AutoIt3XScript\shell\Notepad\command,,"Notepad #$q%1#$q"
+If,%pCheckBox24%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.link,,linkfile
+If,%pCheckBox24%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\linkfile\shell,,open
+If,%pCheckBox24%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\linkfile\shell\open\command,,"Notepad #$q%1#$q"
+If,%pCheckBox24%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\linkfile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+If,%pCheckBox25%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.lst,,lstfile
+If,%pCheckBox25%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\lstfile\shell,,open
+If,%pCheckBox25%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\lstfile\shell\open\command,,"Notepad #$q%1#$q"
+If,%pCheckBox25%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\lstfile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+If,%pCheckBox26%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.project,,projectfile
+If,%pCheckBox26%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\projectfile\shell,,open
+If,%pCheckBox26%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\projectfile\shell\open\command,,"Notepad #$q%1#$q"
+If,%pCheckBox26%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\projectfile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+//.url -- adds right click of .url files
+If,%pCheckBox27%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.url,,InternetShortcut
+If,%pCheckBox27%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\InternetShortcut\shell\Notepad\command,,"Notepad #$q%1#$q"
+//.scf -- adds right click of .scf files
+If,%pCheckBox28%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.scf,,SHCmdFile
+If,%pCheckBox28%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\SHCmdFile\shell\Notepad\command,,"Notepad #$q%1#$q"
+If,%pCheckBox29%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.pln,,plnfile
+If,%pCheckBox29%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\plnfile\shell,,open
+If,%pCheckBox29%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\plnfile\shell\open\command,,"Notepad #$q%1#$q"
+If,%pCheckBox29%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\plnfile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+If,%pCheckBox30%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\.mof,,moffile
+If,%pCheckBox30%,Equal,True,RegWrite,HKLM,0x1,WB-Software\Classes\moffile\shell,,open
+If,%pCheckBox30%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\moffile\shell\open\command,,"Notepad #$q%1#$q"
+If,%pCheckBox30%,Equal,True,RegWrite,HKLM,0x2,WB-Software\Classes\moffile\DefaultIcon,,"#$pSystemRoot#$p\system32\shell32.dll#$c-152"
+RegHiveUnLoad,WB-Software
+
+[AssociatedFiles]
+set,%AllAssociatedFilesName%,Notepad
+//If,%pCheckBox201name%,Equal,True,set,%AllAssociatedFilesName%,1_Notepad
+hive_load,HKU
+reg_add,0x1,%reg%\Classes\*\Shell,,%AllAssociatedFilesName%
+reg_add,0x1,%reg%\Classes\*\Shell\%AllAssociatedFilesName%\command,,"Notepad #$q%1#$q"
+hive_unload
+
+[ExtensionlessFile]
+hive_load,HKU
+reg_add,0x1,%reg%\Classes\.,,Extensionless_File
+reg_add,0x1,%reg%\Classes\Extensionless_File\shell,,Notepad
+reg_add,0x1,%reg%\Classes\Extensionless_File\shell\Notepad\command,,"Notepad #$q%1#$q"
+hive_unload
+
+[NoneAssociatedFiles]
+hive_load,HKU
+reg_add,0x1,%reg%\Classes\Unknown\Shell,,Notepad
+//regaddboot needed - during boot dll registration reset this value to Open
+//with RegFactory, If you process regadd after RegFactory.script you do not need regaddboot for Unknown registration ;).
+If,%pCheckBox203b%,Equal,True,RegAddBoot,HKLM,0x1,Software\Classes\Unknown\Shell,,Notepad
+reg_add,0x1,%reg%\Classes\Unknown\Shell\Notepad\command,,"Notepad #$q%1#$q"
+hive_unload
+
+[lucidafontsupport]
+CopyOrExpand,%source_win%\lucon.ttf,%target_win%\Fonts
+//RegHiveLoad,WB-Software,%target_sys%\config\software
+//RegWrite,HKLM,0x1,"WB-Software\Microsoft\Windows NT\CurrentVersion\Fonts","Lucida Console (TrueType)",lucon.ttf
+//RegHiveUnLoad,WB-Software
+
+[AuthorEncoded]
+authorlogo.jpg=5879,7841
+
+[EncodedFile-AuthorEncoded-authorlogo.jpg]
+lines=1
+0=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
+1=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
+

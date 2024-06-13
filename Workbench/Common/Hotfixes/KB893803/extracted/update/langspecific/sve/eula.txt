@@ -1,0 +1,83 @@
+KOMPLETTERANDE LICENSAVTAL FÖR MICROSOFTS 
+PROGRAMVARA ("Kompletterande Licensavtal")
+
+
+VIKTIGT:  LÄS NOGGRANT - Operativsystemkomponenterna 
+från Microsoft som medföljer detta Kompletterande Licensavtal, 
+inklusive eventuell "online"- eller elektronisk dokumentation 
+("OS-komponenter"), omfattas av villkoren i avtalet 
+("Licensavtalet") under vilket Ni har licensierat den 
+operativsystemprodukt från Microsoft som anges nedan, samt 
+av villkoren i detta Kompletterande Licensavtal.  GENOM ATT 
+NI INSTALLERAR, FRAMSTÄLLER EXEMPLAR AV, LADDAR 
+NER, FÅR TILLGÅNG TILL ELLER PÅ ANNAT SÄTT 
+ANVÄNDER OS-KOMPONENTERNA, ACCEPTERAR NI 
+VILLKOREN I LICENSAVTALET FÖR TILLÄMPLIG 
+OPERATIVSYSTEMPRODUKT, SAMT DETTA 
+KOMPLETTERANDE LICENSAVTAL. OM NI INTE VILL 
+ACCEPTERA DESSA VILLKOR, HAR NI INTE RÄTT ATT 
+INSTALLERA, FRAMSTÄLLA EXEMPLAR AV, LADDA NER, 
+FÅ TILLGÅNG TILL ELLER ANVÄNDA OS-
+KOMPONENTERNA.
+
+OBS!  OM NI INTE HAR ETT LAGLIGEN LICENSIERAT 
+EXEMPLAR AV OPERATIVSYSTEMPRODUKTEN FRÅN 
+MICROSOFT (INKLUSIVE MICROSOFT WINDOWS XP 
+PROFESSIONAL, MICROSOFT WINDOWS 2000 
+PROFESSIONAL, MICROSOFT WINDOWS 2000 SERVER 
+ELLER MICROSOFT WINDOWS 2000 ADVANCED SERVER) 
+SOM VARJE OS-KOMPONENT TILLHANDAHÅLLS FÖR (var 
+och en kallas för "OS-produkt"), HAR NI INTE RÄTT ATT 
+INSTALLERA, FRAMSTÄLLA EXEMPLAR AV, HÄMTA, HA 
+TILLGÅNG TILL ELLER PÅ ANNAT SÄTT ANVÄNDA OS-
+KOMPONENTERNA OCH NI HAR INGA RÄTTIGHETER 
+ENLIGT DETTA KOMPLETTERANDE LICENSAVTAL.
+
+Termer med inledande versal som används men som inte 
+definieras i detta kompletterande licensavtal, har den innebörd 
+som anges i Licensavtalet för tillämplig OS-produkt.
+
+Allmänt.  OS-komponenterna tillhandahålls er av Microsoft 
+uteslutande som en uppdatering av, tillägg till eller utbyte av 
+den befintliga funktionaliteten hos tillämplig OS-produkt. Vid 
+installation blir OS-komponenterna en del av OS-produkten. Ni 
+beviljas härmed en licens att använda OS-KOMPONENTERNA 
+enligt villkoren i Licensavtalet för tillämplig OS-produkt (vilket 
+härmed ingår i detta kompletterande licensavtal genom denna 
+hänvisning ) samt villkoren i detta Kompletterande Licensavtal, 
+under förutsättning att ni uppfyller samtliga sådana villkor. Om 
+några villkor avseende OS-komponenterna strider mot andra 
+villkor skall villkoren i detta Kompletterande Licensavtal gälla.
+
+Ytterligare rättigheter och begränsningar. 
+
+* Om Ni har flera lagligen licensierade exemplar av OS-
+produkten har Ni rätt att framställa, installera och använda ett 
+exemplar av OS-komponenterna på samtliga Era datorer som 
+kör lagligen licensierade exemplar av OS-produkten under 
+förutsättning att Ni använder sådana ytterligare exemplar av 
+OS-komponenterna i enlighet med villkoren ovan. 
+
+* Såvida ni inte förvärvade OS-komponenterna på externt 
+medium, har ni rätt att framställa ett exemplar av OS-
+komponenterna endast för arkivering eller ominstallation av OS-
+komponenterna på samma dator som OS-komponenterna 
+tidigare installerades på. Microsoft Corporation, dess 
+dotterbolag och/eller leverantörer behåller samtliga rättigheter, 
+äganderätt till och intressen i OS-komponenterna. Microsoft 
+Corporation, dess dotterbolag och/eller leverantörer förbehåller 
+sig alla rättigheter som inte uttryckligen beviljas.
+
+DEN EVENTUELLA BEGRÄNSADE GARANTI SOM INGÅR I 
+LICENSAVTALET FÖR DEN TILLÄMPLIGA OS-PRODUKTEN 
+GÄLLER FÖR OS-KOMPONENTERNA, UNDER 
+FÖRUTSÄTTNING ATT NI LICENSIERADE OS-
+KOMPONENTERNA INOM GARANTIPERIODEN FÖR DEN 
+BEGRÄNSADE GARANTIN I LICENSAVTALET FÖR 
+TILLÄMPLIG OS-PRODUKT. DETTA KOMPLETTERANDE 
+LICENSAVTAL INNEBÄR INTE ATT GARANTIPERIODEN 
+FÖR DEN BEGRÄNSADE GARANTIN FÖRLÄNGS.
+
+
+
+

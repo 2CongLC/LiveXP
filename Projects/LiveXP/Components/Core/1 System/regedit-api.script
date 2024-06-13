@@ -1,0 +1,70 @@
+[Main]
+Title=Registry Editor
+Type=script
+Level=1
+Description=Will add Registry Editor to the PE compilation.
+Author=Radoi Ovidiu
+Contact=http://www.boot-land.net/forums/index.php?showforum=65
+Version=016
+Date=2009-Jan-06
+Selected=True
+Locked=True
+Download_Level=0
+Credits=oviradoi2003@yahoo.com
+CertifiedBy=pscEx
+Certification=bfe553fa39c52763b39098a1bb9d80c5
+History008=modified by Galapo to api
+History009=modified by Galapo for WimPack compatibility
+History010=modified by Galapo to support "windows classic" theme
+History011=Galapo adjusted script to place regedit.exe in %WinDir% rather than %SystemRoot%\system32
+History013=Lancelot removed unnecessary quotes
+History015=Lancelot source - Accessories naming
+History016=Lancelot notepad lines with default values ( SystemRoot )
+Certification81=d2d6e8997a365128d8f7f5ccd0f41736
+
+[Interface]
+pBevel1=pBevel1,1,12,4,6,133,140
+pCheckBox1="Desktop shortcut",1,3,8,10,122,18,False
+pCheckBox2="Start menu shortcut",1,3,8,48,122,18,True
+pCheckBox3="Quicklaunch shortcut",1,3,8,29,122,18,False
+pRadioGroup1="Start Menu:",1,14,12,70,115,56,Accessories,"Folder Name",0
+pTextBox1=,1,0,12,120,115,21,.
+
+[variables]
+%ProgramTitle%=Registry Editor
+%ProgramEXE%=RegEdit.exe
+%ProgramFolder%=#$pSystemRoot#$p
+
+[Process]
+If,%pCheckBox1%,Equal,True,Add_Shortcut,Desktop,,%ProgramFolder%\%ProgramEXE%,%ProgramTitle%
+If,%pCheckBox3%,Equal,True,Add_Shortcut,QuickLaunch,,%ProgramFolder%\%ProgramEXE%,%ProgramTitle%
+If,%pCheckBox2%,Equal,True,Begin
+If,%pRadioGroup1%,Equal,0,IniRead,%ProjectInfo%,TargetStrings,sStartmenu_Accessories,%Startmenu_Folder_Name%
+If,%pRadioGroup1%,Equal,1,Set,%Startmenu_Folder_Name%,%pTextBox1%
+Add_Shortcut,StartMenu,%Startmenu_Folder_Name%,%ProgramFolder%\%ProgramEXE%,%ProgramTitle%
+End
+Hive_Load,HKU
+reg_add,0x1,%reg%\Classes\.reg,,regfile
+reg_add,0x1,%reg%\Classes\regfile,,"Registration Entries"
+reg_add,0x4,%reg%\Classes\regfile,EditFlags,1048576
+reg_add,0x2,%reg%\Classes\regfile\DefaultIcon,,#$pWinDir#$p\regedit.exe#$c1
+//History016 reg_add,0x2,%reg%\Classes\regfile\shell\edit\command,,#$pWinDir#$p\system32\NOTEPAD.EXE#$s#$q#$p1#$q
+reg_add,0x2,%reg%\Classes\regfile\shell\edit\command,,#$pSystemRoot#$p\system32\NOTEPAD.EXE#$s#$p1
+reg_add,0x1,%reg%\Classes\regfile\shell\open,,Mer&ge
+reg_add,0x2,%reg%\Classes\regfile\shell\open\command,,#$pWinDir#$p\regedit.exe#$s#$q#$p1#$q
+//History016 reg_add,0x2,%reg%\Classes\regfile\shell\print\command,,#$pWinDir#$p\system32\NOTEPAD.EXE#$s/p#$s#$q#$p1#$q
+reg_add,0x2,%reg%\Classes\regfile\shell\print\command,,#$pSystemRoot#$p\system32\NOTEPAD.EXE#$s/p#$s#$p1
+Hive_Unload,HKU
+require_file,regedit.exe,,%target_win%
+require_file,aclui.dll
+require_file,clb.dll
+require_file,ulib.dll
+
+[EncodedFile-AuthorEncoded-authorlogo.jpg]
+lines=1
+0=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
+1=1qMPQMybjMbl1yX6aM3tyxYdVm7ClaMHUXHX2zqy0aHc7Z3Jqu7MeeNKqXRzLVLPhj+DJHCNH5MLJer9+YjYojyPJuMPmobjn+L9Bx11vSSaOjJN3MiKF4q6a/pLGlUL2x87nbxFxEU8OnmFitSo9M4mrA0KXqtFqDpkSNEQnlCs+I9y/q6t+/r5/4JpqIRnAPvNPOofbC7XsVuHPW9rUOdWk2QsKut7J7nBrOeXAaNIcUP5Ivlwl0qD0Xx/r7H4HGimN4nONLLC3JyC/KyU/P18sqSGcYBSML9PNC6P082OUDL80tYmACAG5iCV1Q7BDnAQAAAAIAAAAqAAAAvwwAAAAAAAABAAAAAAAAAAAAAAA
+
+[AuthorEncoded]
+authorlogo.jpg=3341,4457
+

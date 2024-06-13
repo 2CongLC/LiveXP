@@ -1,0 +1,104 @@
+CONTRATTO DI LICENZA SUPPLEMENTARE CON 
+L'UTENTE FINALE PER IL SOFTWARE MICROSOFT 
+("Contratto Supplementare")
+
+
+IMPORTANTE - LEGGERE CON ATTENZIONE: i componenti 
+software del sistema operativo Microsoft e l'eventuale 
+documentazione "online" o elettronica ("Componenti del 
+Sistema Operativo") sono soggetti ai termini e alle condizioni 
+del Contratto di Licenza con l'Utente finale ("Contratto") relativo 
+alla copia del prodotto software del sistema operativo Microsoft 
+concessa in licenza e ai termini e alle condizioni del presente 
+Contratto Supplementare. INSTALLANDO, COPIANDO O 
+ALTRIMENTI UTILIZZANDO I COMPONENTI DEL SISTEMA 
+OPERATIVO, L'UTENTE ACCETTA DI ESSERE VINCOLATO 
+DAI TERMINI E DALLE CONDIZIONI DEL RELATIVO 
+CONTRATTO DI LICENZA PER IL PRODOTTO DEL SISTEMA 
+OPERATIVO E DEL PRESENTE CONTRATTO 
+SUPPLEMENTARE. QUALORA L'UTENTE NON ACCETTI I 
+TERMINI E LE CONDIZIONI DEL PRESENTE CONTRATTO 
+SUPPLEMENTARE, ALLORA NON POTRÀ INSTALLARE, 
+COPIARE O UTILIZZARE I COMPONENTI DEL SISTEMA 
+OPERATIVO E DOVRÀ RESTITUIRLI PRONTAMENTE AL 
+RIVENDITORE. IN TALE IPOTESI, QUALORA AL MOMENTO 
+DELL'ACQUISTO IL RIVENDITORE ABBIA EMESSO 
+FATTURA, L'UTENTE POTRÀ OTTENERE IL RIMBORSO 
+DEL PREZZO. DIVERSAMENTE L'UTENTE POTRÀ 
+OTTENERE LA SOSTITUZIONE DEI COMPONENTI DEL 
+SISTEMA OPERATIVO CON ALTRO PRODOTTO DI PARI 
+PREZZO O UN BUONO PER IL FUTURO ACQUISTO DI UN 
+ALTRO PRODOTTO DI PARI PREZZO.
+
+NOTA: QUALORA L'UTENTE NON DISPONGA DI UNA 
+COPIA DI LICENZA VALIDA DEL PRODOTTO DEL SISTEMA 
+OPERATIVO MICROSOFT (COMPRESI, IN VIA 
+ESEMPLIFICATIVA, MICROSOFT WINDOWS XP 
+PROFESSIONAL, MICROSOFT WINDOWS 2000 
+PROFESSIONAL, MICROSOFT WINDOWS 2000 SERVER O 
+MICROSOFT WINDOWS 2000 ADVANCED SERVER) PER IL 
+QUALE CIASCUN COMPONENTE DEL SISTEMA 
+OPERATIVO VIENE FORNITO ("Prodotto del Sistema 
+Operativo"), NON SARÀ AUTORIZZATO A INSTALLARE, 
+COPIARE, SCARICARE, ACCEDERE O ALTRIMENTI 
+UTILIZZARE I COMPONENTI DEL SISTEMA OPERATIVO E 
+NON DISPORRÀ DEI DIRITTI CONCESSI DAL PRESENTE 
+CONTRATTO DI LICENZA SUPPLEMENTARE.
+
+Tutti i termini in maiuscolo contenuti nel presente Contratto 
+Supplementare e non altrimenti definiti avranno il significato 
+assegnato loro nel relativo Contratto di Licenza per il Prodotto 
+del Sistema Operativo.
+
+In generale. I Componenti del Sistema Operativo sono forniti 
+all'utente esclusivamente al fine di aggiornare, integrare o 
+sostituire la funzionalità esistente del relativo Prodotto del 
+Sistema Operativo. Una volta installati, tali Componenti 
+diventano parte del Prodotto del Sistema Operativo. Con il 
+presente Contratto, viene concessa all'utente una licenza di 
+utilizzo dei Componenti del Sistema Operativo in base ai termini 
+e alle condizioni previste dal Contratto di Licenza per il Prodotto 
+del Sistema Operativo applicabile (da considerarsi parte 
+integrante del presente Contratto Supplementare in virtù 
+dell'espresso richiamo) e in base ai termini e alle condizioni del 
+presente Contratto Supplementare, a condizione che si attenga 
+a tutti tali termini e condizioni. Nel caso in cui i termini e le 
+condizioni applicabili ai Componenti del Sistema Operativo 
+contrastino fra loro, i termini e le condizioni specificati nel 
+presente Contratto Supplementare avranno la precedenza.
+
+Diritti e limitazioni aggiuntivi
+
+* Qualora l'utente disponga di più copie validamente concesse 
+in licenza del Prodotto del Sistema Operativo, potrà riprodurre, 
+installare e utilizzare una copia dei Componenti del Sistema 
+Operativo su tutti i computer che eseguono copie validamente 
+concesse in licenza del Prodotto del Sistema Operativo, a 
+condizione che l'utente utilizzi tali copie aggiuntive dei 
+Componenti in conformità con i termini e le condizioni 
+precedentemente specificati. 
+
+* Salvo il caso di acquisto dei Componenti del Sistema 
+Operativo su supporti esterni, l'utente è autorizzato a eseguire 
+un'unica copia dei Componenti esclusivamente per scopi di 
+archiviazione o reinstallazione nel medesimo computer in cui 
+erano precedentemente installati.  Microsoft Corporation, 
+le sue consociate e/o fornitori mantengono la titolarità, i diritti e 
+gli interessi relativi ai Componenti del Sistema Operativo. Tutti i 
+diritti che non siano stati espressamente concessi sono riservati 
+a Microsoft Corporation, alle sue consociate e/o fornitori.
+
+L'EVENTUALE GARANZIA LIMITATA INCLUSA 
+NELL'APPLICABILE CONTRATTO DI LICENZA PER IL 
+PRODOTTO DEL SISTEMA OPERATIVO È VALIDA PER I 
+COMPONENTI DEL SISTEMA OPERATIVO, A CONDIZIONE 
+CHE QUESTI SIANO STATI RICEVUTI IN LICENZA ENTRO IL 
+PERIODO DI VALIDITÀ DELLA GARANZIA LIMITATA 
+DELL'APPLICABILE CONTRATTO DI LICENZA PER IL 
+PRODOTTO DEL SISTEMA OPERATIVO. IL PRESENTE 
+CONTRATTO SUPPLEMENTARE NON ESTENDE IL 
+PERIODO DI VALIDITÀ DELLA GARANZIA LIMITATA.
+
+
+
+

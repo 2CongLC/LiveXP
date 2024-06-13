@@ -1,0 +1,302 @@
+[main]
+Title=OnProjectRun
+Description=This script performs some essential operations on project run
+Selected=True
+Mandatory=True
+Level=1
+Author=Galapo
+Version=26
+Date=2010-Apr-26
+Download_Level=0
+Contact=http://www.boot-land.net/forums/index.php?showforum=65
+History005=Lancelot %isofile% set correct at very begining to fix JonF's Ram_Ram issue. Issue happens when big blue pressed twice
+History006=Lancelot Check post 20 - http://www.boot-land.net/forums/index.php?showtopic=9318&view=findpost&p=81205
+History007=Galapo added support for %TargetWOW64% api check via Arch,x86|x64 call
+History008=Galapo added x64 check to [Arch_check] api section
+History009=Galapo fixed bug with [Arch_check] api section
+History010=Lancelot RF<-->PEx64 precaution added
+History011=Lancelot wb project specific version warning added (ps: currently there are 2 issues waiting to be solved with new wb078sp2,3,4)
+History012=Galapo added further variables to be reset
+History013=Lancelot [AddWowCheck] removed from process
+History014=Lancelot hiderun copied to %tools% with psc's suggestion http://www.boot-land.net/forums/index.php?showtopic=9809&hl=
+History015=Lancelot history 14 commented out, thinking again this is very unneccasary, old scripts only needs x86 version which is already available at %tools%
+History016=Lancelot Dell source check added (I found a Dell Oem cd, info taken from "Dell Oem XP Home SP0 for Dell Inspiron 2800")
+Hisotry017=Lancelot - thanks to JFX - psc changed wb behaviour again http://www.boot-land.net/forums/index.php?showtopic=5429&st=1860#
+Hisotry018=Galapo added UAC check
+Hisotry019=Lancelot now checking both 77RC2 and 80rev3 // interface web link
+Hisotry020=Lancelot seeing rocketero already making custom changes at OnProjectRun script, nlite check behaviour changed. Now visible on interface, easly can be disabled from interface but gives warning (+warnings more informative) on log. post11 http://www.boot-land.net/forums/index.php?showtopic=10695&view=findpost&p=94393
+Hisotry021=Lancelot get rid of unwanted 080 filedelete+dirdelete debug warnings
+History022=Lancelot info here http://support.microsoft.com/kb/121007 - a tip here http://www.theeldergeek.com/disable_83_name_creation.htm - another tip here http://www.boot-land.net/forums/index.php?showtopic=11059 (and one more issue reported on boot-land I remember elsewhere...)
+History022=on xp/2k3 HKLM\SYSTEM\CurrentControlSet\Control\FileSystem\NtfsDisable8dot3NameCreation can be read to clearly detect on os up to win7 ----> http://www.microsoft.com/communities/newsgroups/en-us/default.aspx?dg=microsoft.public.windows.file_system&tid=fa9e19ce-1f0a-4b20-bc5d-dbf0eed182e6&cat=en_US_0d72e935-d8dc-4657-a4fe-1cdd886bab54&lang=en&cr=US&sloc=&p=1
+History022="fsutil behavior query disable8dot3" can be used to get accurate result I guess (0 1 2 3) . For windows up to win7 value is default 0 and on win7 value default is 2 ==> http://groups.google.com/group/microsoft.public.windows.file_system/browse_thread/thread/fa31587e844db43c
+History022=Since I do not have win7 to make tests with fsutil , I prefer a simple directory creation detect method to avoid things which would be quite fast during build.
+History023=Galapo made some language improvements
+History024=Galapo made some language improvements
+History025=Galapo made a check for XP 64-bit non-English sources; http://www.boot-land.net/forums/index.php?showtopic=11177
+History26=pscEx program 'PE1_4WB82' made ready for WinBuilder 082
+CertifiedBy=PE1_4WB82
+Certification=1bc376cd5ee03e3bc1a16f211e9eb09f
+Certification81=50682b64ee877e706ccc22ac5efed7f2
+
+[Interface]
+pCheckBox_nLite="Abort build if nLited source detected",1,3,7,49,216,18,True
+pCheckBox_dell="Abort build if DELL Oem source detected",0,3,9,177,216,18,True
+pCheckBox_UAC="Abort build if UAC enabled",0,3,9,197,200,18,True
+pWebLabel1="Winbuilder 080 rev3",1,10,55,14,200,18,http://winbuilder.net/download.php?view.51
+pTextLabel1="WARNING:#$xNLite is a very good tool to prepare custom setup CD.#$xBut these custom CDs are NON-standard and may cause failure during Project build.#$xProject can NOT fully support custom CD.#$xYou can try your luck by disabling checkbox.#$xHowever, you are responsible for the result.#$xGood luck!",1,1,246,49,259,108,8,Normal
+pWebLabel2="Winbuilder 077 RC2",1,10,166,14,200,18,http://winbuilder.net/download.php?view.42
+pCheckBox_Dot83_check="Abort build if Dot83 support disabled",0,3,9,217,200,18,True,Dot83_check
+pCheckBox_XPx64_check="Provide warning if XPx64 non-English source is detected",0,3,9,236,301,18,True
+
+[Variables]
+%hash%=#
+%wbofficialversiona%=077.102
+%wbofficialversionb%=080
+%WBEXEFileversionnumberb%=80.0.3.0
+%wbofficialversionTitle%=080 Rev3 and 077 RC2
+
+[Process]
+Run,%scriptfile%,Winbuilder_Version_Check
+Set,%RAM_exclude%,"",PERMANENT
+Set,%RAM_exclude%,NIL,PERMANENT
+Set,%BootSectorScript%,"",PERMANENT
+Set,%BootSectorScript,NIL,PERMANENT
+Set,%BootSector%,"",PERMANENT
+Set,%BootSector%,NIL,PERMANENT
+Set,%WimPackScript%,"",PERMANENT
+Set,%WimPackScript%,NIL,PERMANENT
+Set,%ProgramFilesFolder%,"",PERMANENT
+Set,%ProgramFilesFolder%,NIL,PERMANENT
+Set,%ProgramFilesDrive%,"",PERMANENT
+Set,%ProgramFilesDrive%,NIL,PERMANENT
+Set,%AtCD%,"",PERMANENT
+Set,%AtCD%,NIL,PERMANENT
+Set,%AtRAM%,"",PERMANENT
+Set,%AtRAM%,NIL,PERMANENT
+Set,%CDON%,"",PERMANENT
+Set,%CDON%,NIL,PERMANENT
+Set,%AtRAM_force%,"",PERMANENT
+Set,%AtRAM_force%,NIL,PERMANENT
+Set,%AtCD_force%,"",PERMANENT
+Set,%AtCD_force%,NIL,PERMANENT
+//If,EXISTDIR,%ProjectTemplates%\RAM_excluded,DirDelete,%ProjectTemplates%\RAM_excluded
+Shellexecute,Hide,cmd.exe,"/C rd /s /q #$q%ProjectTemplates%\RAM_excluded#$q"
+If,EXISTDIR,%ProjectTemplates%\RAM_excluded,Echo,"Directory NOT DELETED",WARN
+If,%pCheckBox_dell%,Equal,True,Run,%ScriptFile%,dell_source_check
+Run,%ScriptFile%,nLite
+If,%pCheckBox_UAC%,Equal,True,Run,%ScriptFile%,UAC_check
+If,%pCheckBox_Dot83_check%,Equal,True,Run,%ScriptFile%,Dot83_check
+If,%pCheckBox_XPx64_check%,Equal,True,Run,%ScriptFile%,XPx64Non-EnglishCheck
+//History005
+IniRead,%ProjectDir%\script.project,Main,ISOfile,%ISOfilefromScriptProjectMain%
+// History26 +++
+//Set,%ISOfile%,%ISOfilefromScriptProjectMain%,Permanent
+Strformat,filename,%ISOfilefromScriptProjectMain%,%ISOFileName%
+If,%Version%,SMALLER,81,IniRead,%ProjectDir%\script.project,Variables,##$pISOFile##$p,%ISOfilefromScriptProject%
+Else,IniRead,%ProjectDir%\script.project,Variables,#$pISOFile#$p,%ISOfilefromScriptProject%
+If,Not,%ISOfilefromScriptProject%,Equal,%ISODir%\%ISOFileName%,Set,%ISOfile%,%ISODir%\%ISOFileName%,Permanent
+// History26 ---
+//History006
+If,ExistDir,%TargetDir%,ShellExecute,Hide,%Tools%\freeHive.exe,%TargetDir%
+//
+//
+Set,%TargetWOW64%,%SourceArch%,PERMANENT
+If,ExistFile,%SourceDir%\I386\TXTSETUP.SIF,Run,%scriptfile%,SetI386
+If,ExistFile,%SourceDir%\AMD64\TXTSETUP.SIF,Run,%scriptfile%,SetAMD64
+If,ExistFile,%SourceDir%\IA64\TXTSETUP.SIF,Run,%scriptfile%,SetIA64
+//Run,%ScriptFile%,AddWowCheck
+If,Not,%SourceArch%,Equal,x86,If,Not,%RegFactoryState%,Equal,disabled,Exit,"RegFactory only designed to be used with PEx86 builds. (for now :) )"
+//History014 following psc's suggestion
+//History015 FileCopy,%Tools%\%SourceArch%\hiderunEx_%SourceArch%.exe,%Tools%\hiderun.exe,NOWARN
+
+[dell_source_check]
+If,ExistFile,%SourceDir%\$OEM$\!DELL_XP.cab,Run,%scriptfile%,dell_source_check_Halt
+If,ExistFile,%SourceDir%\$OEM$\DELL.INF,Run,%scriptfile%,dell_source_check_Halt
+If,ExistFile,%SourceDir%\$OEM$\DELLBUTN.HTM,Run,%scriptfile%,dell_source_check_Halt
+If,ExistFile,%SourceDir%\$OEM$\DELLSUPPORT.ICO,Run,%scriptfile%,dell_source_check_Halt
+
+[dell_source_check_Halt]
+Halt,"Dell source detected - aborting project build (DELL OEM sources are known to be trouble sources)"
+
+[UAC_check]
+Retrieve,FILEVERSION,%WindowsDir%\system32\ntdll.dll,%ntdll%
+StrFormat,LEFT,%ntdll%,1,%winversion%
+If,%winversion%,Bigger,5,Begin
+Set,%UAC%,1
+System,ERROROFF,2
+RegRead,HKLM,SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System,EnableLUA,%UAC%
+If,NOT,%UAC%,Equal,0,Begin
+Echo,"UAC detected as enabled - aborting project build",WARN
+Halt,"UAC detected as enabled - aborting project build"
+End
+End
+
+[Dot83_check]
+//Check History022
+StrFormat,DATE,%myDate%,yyyymmddhhnn
+Set,%Dot83TestFolder%,%ProjectTemp%\Dot83NameCreationoffTest83Folder%myDate%
+If,ExistDir,%Dot83TestFolder%,DirDelete,%Dot83TestFolder%
+DirMake,%Dot83TestFolder%
+strformat,shortpath,%Dot83TestFolder%,%Dot83TestFolderShortPath%
+If,%Dot83TestFolder%,Equal,%Dot83TestFolderShortPath%,Begin
+Message,"Disable 8.3 Name Creation in NTFS partitions detected as enabled #$x aborting project build. #$x Some parts of project requires 8.3 Name Creation in NTFS partitions support #$x #$x add 8.3 Name Creation in NTFS partitions support to your os or volume #$x and restart your computer to activate 8.3 Name Creation in NTFS partitions support",Information
+Echo,"Disable 8.3 Name Creation in NTFS partitions detected as enabled - aborting project build - add 8.3 Name Creation in NTFS partitions support to your os or volume and restart your computer to activate 8.3 Name Creation in NTFS partitions support",WARN
+Halt,"Disable 8.3 Name Creation in NTFS partitions detected as enabled - aborting project build - add 8.3 Name Creation in NTFS partitions support to your os or volume and restart your computer to activate 8.3 Name Creation in NTFS partitions support"
+End
+DirDelete,%Dot83TestFolder%
+
+[XPx64Non-EnglishCheck]
+If,Not,EXISTDIR,%ProjectTemp%,DirMake,%ProjectTemp%
+// History26 +++
+//ExtractFile,%HivesFactoryScript%,Exes,%HoJoPEexe%,%ProjectTemp%
+Exec,%HivesFactoryScript%,ExtractHoJoPE
+// History26 ---
+// History26 +++
+//ShellExecuteDelete,Hide,%ProjectTemp%\%HoJoPEexe%," #$q/O%ProjectTemp%\OnProjectRun-ProjectInfo.txt#$q -TL #$q-I%source_win%\Hivedef.inf#$q -D0"
+ShellExecute,Hide,%HoJoPEDir%\%HoJoPEexe%," #$q/O%ProjectInfo%#$q -TL #$q-I%source_win%\Hivedef.inf#$q -D%Debug%"
+ShellExecuteDelete,Hide,%HoJoPEdir%\%HoJoPEexe%," #$q/O%ProjectTemp%\OnProjectRun-ProjectInfo.txt#$q -TL #$q-I%source_win%\Hivedef.inf#$q -D0"
+// History26 ---
+IniRead,%ProjectTemp%\OnProjectRun-ProjectInfo.txt,Project,LangID,%LangID%
+Set,%Non-x86%,False
+If,ExistFile,%SourceDir%\AMD64\TXTSETUP.SIF,Set,%Non-x86%,True
+If,ExistFile,%SourceDir%\IA64\TXTSETUP.SIF,Set,%Non-x86%,True
+If,Not,%LangID%,Equal,0409,If,%Non-x86%,Equal,True,Begin
+Echo,"WARNING: XP 64-bit non-English source detected. Such sources remain untested by LiveXP developers due to source unavailability. Use at own risk -- good luck!",WARN
+Echo,"WARNING: XP 64-bit non-English source detected. Such sources remain untested by LiveXP developers due to source unavailability. Use at own risk -- good luck!",WARN
+Echo,"WARNING: XP 64-bit non-English source detected. Such sources remain untested by LiveXP developers due to source unavailability. Use at own risk -- good luck!",WARN
+Echo,"WARNING: XP 64-bit non-English source detected. Such sources remain untested by LiveXP developers due to source unavailability. Use at own risk -- good luck!",WARN
+Echo,"WARNING: XP 64-bit non-English source detected. Such sources remain untested by LiveXP developers due to source unavailability. Use at own risk -- good luck!",WARN
+Echo,"WARNING: XP 64-bit non-English source detected. Such sources remain untested by LiveXP developers due to source unavailability. Use at own risk -- good luck!",WARN
+End
+ShellExecute,Hide,cmd.exe,"/C del /q /f #$q%ProjectTemp%\OnProjectRun-ProjectInfo.txt#$q"
+
+[nLite]
+Set,%nlite%,%ProjectTemp%\nLite.au3
+FileCreateBlank,%nlite%
+FileCreateBlank,%ProjectTemp%\nLite.txt
+TXTAddLine,%nlite%,"$file=FileOpen($cmdline[1]#$c0)",APPEND
+TXTAddLine,%nlite%,"If $file=-1 Then",APPEND
+TXTAddLine,%nlite%,"    MsgBox(0#$c'Error'#$c'Unable to open file: ' & $cmdline[1])",APPEND
+TXTAddLine,%nlite%,"    Exit",APPEND
+TXTAddLine,%nlite%,"EndIf",APPEND
+TXTAddLine,%nlite%,"While 1",APPEND
+TXTAddLine,%nlite%,"    $chars=FileRead($file)",APPEND
+TXTAddLine,%nlite%,"    If @error=-1 Then ExitLoop",APPEND
+TXTAddLine,%nlite%,"    If StringInStr($chars#$c$cmdline[2]) <> 0 Then",APPEND
+TXTAddLine,%nlite%,"		    IniWrite($cmdline[3]#$c$cmdline[4]#$c$cmdline[5]#$c'found')",APPEND
+TXTAddLine,%nlite%,"	  Else",APPEND
+TXTAddLine,%nlite%,"		    IniWrite($cmdline[3]#$c$cmdline[4]#$c$cmdline[5]#$c'not_found')",APPEND
+TXTAddLine,%nlite%,"	  EndIf",APPEND
+TXTAddLine,%nlite%,"Wend",APPEND
+TXTAddLine,%nlite%,"FileClose($file)",APPEND
+ShellExecute,Open,%tools%\AutoIt3.exe,"#$q%nlite%#$q #$q%source_win%\txtsetup.sif#$q #$qCustomized by nLite#$q #$q%ProjectTemp%\nLite.txt#$q nLite String"
+IniRead,%ProjectTemp%\nLite.txt,nLite,String,%nLite_status%
+//FileDelete,%nlite%
+//FileDelete,%ProjectTemp%\nLite.txt
+ShellExecute,Hide,cmd.exe,"/C del /q /f #$q%nlite%#$q"
+If,EXISTFILE,%nlite%,Echo,"FILE NOT DELETED",WARN
+ShellExecute,Hide,cmd.exe,"/C del /q /f #$q%ProjectTemp%\nLite.txt#$q"
+If,EXISTFILE,%ProjectTemp%\nLite.txt,Echo,"FILE NOT DELETED",WARN
+If,%pCheckBox_nLite%,Equal,True,If,%nLite_status%,Equal,found,Begin
+Message,"Source CD is Custom (NOT standard)(Prepared with nLite) - aborting project build",INFORMATION,5
+Echo,"Source CD is Custom (NOT standard)(Prepared with nLite) - aborting project build",WARN
+Halt,"Source CD is Custom (NOT standard)(Prepared with nLite) - aborting project build"
+End
+If,%pCheckBox_nLite%,Equal,False,If,%nLite_status%,Equal,found,Run,%scriptfile%,nLiteGoodLuck
+
+[nLiteGoodLuck]
+Echo,"Source CD is Custom (NOT standard)(Prepared with nLite) - Project does NOT support None-Standard (Custom)(nLited) source - Good Luck",WARN
+Echo,"Source CD is Custom (NOT standard)(Prepared with nLite) - Project does NOT support None-Standard (Custom)(nLited) source - Good Luck",WARN
+Echo,"Source CD is Custom (NOT standard)(Prepared with nLite) - Project does NOT support None-Standard (Custom)(nLited) source - Good Luck",WARN
+Echo,"Source CD is Custom (NOT standard)(Prepared with nLite) - Project does NOT support None-Standard (Custom)(nLited) source - Good Luck",WARN
+Echo,"Source CD is Custom (NOT standard)(Prepared with nLite) - Project does NOT support None-Standard (Custom)(nLited) source - Good Luck",WARN
+Echo,"Source CD is Custom (NOT standard)(Prepared with nLite) - Project does NOT support None-Standard (Custom)(nLited) source - Good Luck",WARN
+Echo,"Source CD is Custom (NOT standard)(Prepared with nLite) - Project does NOT support None-Standard (Custom)(nLited) source - Good Luck",WARN
+Echo,"Source CD is Custom (NOT standard)(Prepared with nLite) - Project does NOT support None-Standard (Custom)(nLited) source - Good Luck",WARN
+Echo,"Source CD is Custom (NOT standard)(Prepared with nLite) - Project does NOT support None-Standard (Custom)(nLited) source - Good Luck",WARN
+Echo,"Source CD is Custom (NOT standard)(Prepared with nLite) - Project does NOT support None-Standard (Custom)(nLited) source - Good Luck",WARN
+Echo,"Source CD is Custom (NOT standard)(Prepared with nLite) - Project does NOT support None-Standard (Custom)(nLited) source - Good Luck",WARN
+Echo,"Source CD is Custom (NOT standard)(Prepared with nLite) - Project does NOT support None-Standard (Custom)(nLited) source - Good Luck",WARN
+
+[AddWowCheck]
+StrFormat,POS,%APISUBDEF%,Arch,%check%
+If,%check%,EQUAL,0,Begin
+Set,%APISUBDEF%,%APISUBDEF%#$cArch,PERMANENT
+IniWrite,%API%,Api_Def,#$pAPISUBDEF#$p,"%APISUBDEF%"
+IniWrite,%API%,ApiVar,Arch,Run#$c#$pAPI#$p#$cArch_check
+IniWrite,%API%,Arch,"Full Syntax","//Arch,x86|x64"
+IniWrite,%API%,Arch,"Default Value","Arch,x86"
+IniWriteTextLine,%API%,Arch_check,"If#$c%hash%1#$cEqual#$cx64#$cIf#$c#$pSourceArch#$p#$cEqual#$cx86#$cExit#$c#$q#$pProgramTitle#$p#$scan#$sonly#$srun#$son#$sPE#$sx64/IA64#$q"
+IniWriteTextLine,%API%,Arch_check,"If#$c%hash%1#$cEqual#$cx86#$cIf#$cNot#$c#$pTargetWOW64#$p#$cEqual#$cx86#$cExit#$c#$q#$pProgramTitle#$p requires WOW64 for PE x64/IA64#$q"
+End
+
+[SetI386]
+Set,%target_win%,%TargetDir%\I386,Permanent
+Set,%target_sys%,%TargetDir%\I386\System32,Permanent
+Set,%source_win%,%SourceDir%\I386,Permanent
+Set,%source_sys%,%SourceDir%\I386,Permanent
+
+[SetAMD64]
+Set,%target_win%,%TargetDir%\AMD64,Permanent
+Set,%target_sys%,%TargetDir%\AMD64\System32,Permanent
+Set,%source_win%,%SourceDir%\AMD64,Permanent
+Set,%source_sys%,%SourceDir%\AMD64,Permanent
+
+[SETIA64]
+Set,%target_win%,%TargetDir%\IA64,Permanent
+Set,%target_sys%,%TargetDir%\IA64\System32,Permanent
+Set,%source_win%,%SourceDir%\IA64,Permanent
+Set,%source_sys%,%SourceDir%\IA64,Permanent
+
+[Winbuilder_Version_Check]
+// History26 +++
+//Set,%versionconfirmed%,Booooo
+If,%Version%,SMALLER,82,Set,%versionconfirmed%,Booooo
+Else,Set,%versionconfirmed%,Yippieee
+// History26 ---
+If,%version%,Equal,%wbofficialversiona%,Set,%versionconfirmed%,Yippieee
+If,Not,%versionconfirmed%,Equal,Yippieee,Begin
+If,%version%,Equal,%wbofficialversionb%,If,ExistFile,%WBExe%,Retrieve,FILEVERSION,%WBExe%,%WBEXEFileversionnumberVar%
+If,%WBEXEFileversionnumberVar%,Equal,%WBEXEFileversionnumberb%,Set,%versionconfirmed%,Yippieee
+End
+//--
+Set,%answerbeforeno%,--
+If,Not,%versionconfirmed%,Equal,Yippieee,Run,%scriptfile%,Winbuilder_Version_Warning_MessageA
+If,Not,%versionconfirmed%,Equal,Yippieee,Run,%scriptfile%,Winbuilder_Version_Warning
+
+[Winbuilder_Version_Warning]
+IniRead,%ProjectDir%\script.project,Main,Title,%ScriptProjectTitleName%
+Echo,"WinBuilder %wbofficialversionTitle% are the official versions of %ScriptProjectTitleName%",WARN
+Echo,"WinBuilder %wbofficialversionTitle% are the official versions of %ScriptProjectTitleName%",WARN
+Echo,"WinBuilder %wbofficialversionTitle% are the official versions of %ScriptProjectTitleName%",WARN
+Echo,"WinBuilder %wbofficialversionTitle% are the official versions of %ScriptProjectTitleName%",WARN
+Echo,"WinBuilder %wbofficialversionTitle% are the official versions of %ScriptProjectTitleName%",WARN
+Echo,"WinBuilder %wbofficialversionTitle% are the official versions of %ScriptProjectTitleName%",WARN
+Echo,"WinBuilder %wbofficialversionTitle% are the official versions of %ScriptProjectTitleName%",WARN
+Echo,"WinBuilder %wbofficialversionTitle% are the official versions of %ScriptProjectTitleName%",WARN
+Echo,"WinBuilder %wbofficialversionTitle% are the official versions of %ScriptProjectTitleName%",WARN
+Echo,"WinBuilder %wbofficialversionTitle% are the official versions of %ScriptProjectTitleName%",WARN
+Echo,"WinBuilder %wbofficialversionTitle% are the official versions of %ScriptProjectTitleName%",WARN
+Echo,"WinBuilder %wbofficialversionTitle% are the official versions of %ScriptProjectTitleName%",WARN
+
+[Winbuilder_Version_Warning_MessageA]
+If,Not,%answerbeforeno%,Equal,answeredno,Run,%scriptfile%,Winbuilder_Version_Warning_MessageB
+
+[Winbuilder_Version_Warning_MessageB]
+Set,%answer%,no
+If,question,"WARNING WARNING WARNING WARNING WARNING WARNING. #$x You are NOT using official winbuilder version of LiveXP. #$x#$x Winbuilder other than official LiveXP version(s) might have DESTRUCTIVE effect on overall scripts, #$x hence using even once may cause troubles.#$x LiveXP project do NOT support your current winbuilder version. #$x#$x#$x To use current Winbuilder application with LiveXP you must know the risks and accept them. #$x Click NO if you do not want to change your winbuilder version hence do NOT ask support or report issues. #$x There will be NO support as well as this screen will NOT come again if you click NO. #$x#$x To use official LiveXP winbuilder version Click Yes #$x#$x#$x Normal Users: just click YES and start your build (Big Blue) again. #$x Have fun :) ",Set,%answer%,yes
+If,%answer%,Equal,yes,Exec,%projectdir%\Tools\EXEandChangelog.script,unpack
+If,%answer%,Equal,no,Run,%scriptfile%,Winbuilder_Version_Warning_MessageC
+
+[Winbuilder_Version_Warning_MessageC]
+IniWriteTextLine,%scriptfile%,Winbuilder_Version_Warning_MessageA,"Set,#$panswerbeforeno#$p,answeredno"
+
+[EncodedFile-AuthorEncoded-OnProjectRun.gif]
+lines=1
+0=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
+1=pQQWenEsIxWuCFHRThE+NYwR9aPxABOAABK1jB/zjq0KiIJMETQCCJMmj4yAJMNQ4hKL+7smGCTQACHLYA/x+6ggAZUGFnILAABKAEcyAOEhADDjAOZuAAUSYQ4+AKiRR+d0AWe7ECUOAJMWUAPsAENxR/OqQFL4AA30A7SfAyzLAz2/ALbuBtf1AH9/YJ+LYaDgCDIWAC2gY5LNEFprAOLtAF2eBSTvEAMuADJFAAOCAGNQALEBECLugK1zYYDuAKDpBtrjB2lAM3OqEFXbAOceALVSACfSAC8lADX8CEGYcwWtBzrrCGVvgZB/ECdTAMg9MHzqADdwB7FdCGeiB+ITAOn+aGeiAAO2cGGiCFDlAHUmg/LQaIDHEHGBYnhTkEghfwh4y4EC8QAiGAABewWQEBADt4nBPwzwsoys9KTS4JKs3TS89MYxgFIwkY8uKXl3l+7wMjAwBKOAlOxSkJbwEAAAACAAAAKAAAADENAAAAAAAAAQAAAAAAAAAAAAAA
+
+[AuthorEncoded]
+OnProjectRun.gif=3453,4604
+Logo=OnProjectRun.gif
+

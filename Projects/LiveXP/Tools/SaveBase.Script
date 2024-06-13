@@ -1,0 +1,130 @@
+[Main]
+Title=SaveBase
+Type=script
+Level=10
+Description=Saves a prebuilt simple project for later use
+Download_Level=1
+Author=Peter Schlang
+Version=16
+Date=2009-Apr-09
+Selected=False
+SourceDir=
+CertifiedBy=pscEx
+Certification=f02b6840f91b0c1947df095b1da2024b
+History016=Download_Level=2 to 1 (LiveXP provides all scripts except apps with download level 1 or 0)
+Certification81=97a025079a50ff5a91b24ae054cd4d00
+
+[Variables]
+%vars%=%ProjectCache%\Base\Project\vars.ini
+%show%=Hide
+%ManagerName%=!WBManager
+%ManagerDir%=%ProjectTemp%\%ManagerName%
+%exename%=WBManager.exe
+%exe%=%ManagerDir%\%exename%
+%Selections%=%ProjectCache%\Base\Project\Selections.ini
+
+[Process]
+If,%Open%,NotEqual,1,Run,%ScriptFile%,Not-Open
+If,%pCheckBox1%,Equal,True,Set,%show%,Open
+If,ExistDir,%ProjectCache%\Base,DirDelete,%ProjectCache%\Base
+DirMake,%ProjectCache%\Base
+DirMake,%ProjectCache%\Base\Project
+If,%pCheckBox3%,Equal,True,Run,%ScriptFile%,DisableThem
+If,%pCheckBox2%,NotEqual,True,Begin
+DirMake,%ProjectCache%\Base\Target
+DirCopy,%TargetDir%\*,%ProjectCache%\Base\Target
+DirMake,%ProjectCache%\Base\Model
+DirCopy,%ModelRam%\*,%ProjectCache%\Base\Model
+End
+Else,Begin
+ShellExecute,%show%,"%Tools%\7za.exe","a -r #$q%ProjectCache%\Base\Target.7z#$q  #$q%TargetDir%\*#$q"
+ShellExecute,%show%,"%Tools%\7za.exe","a -r #$q%ProjectCache%\Base\Model.7z#$q  #$q%ModelRam%\*#$q"
+End
+FileCopy,%PreISOScript%,%ProjectCache%\Base\Project
+FileCopy,%ProjectInfo%,%ProjectCache%\Base\Project
+If,ExistFile,"%vars%",FileDelete,"%vars%"
+FileCreateBlank,"%vars%"
+IniAddSection,"%vars%","Variables"
+AddVariables,"%ProjectDir%\script.project","Variables"
+Run,%ScriptFile%,SaveVar,Debug
+Run,%ScriptFile%,SaveVar,HoJoPELevel
+Run,%ScriptFile%,SaveVar,RAMDriveLetter
+Run,%ScriptFile%,SaveVar,SettingsDrive
+Run,%ScriptFile%,SaveVar,ClearTarget
+Run,%ScriptFile%,SaveVar,RegTyp
+Run,%ScriptFile%,SaveVar,bootfix
+Run,%ScriptFile%,SaveVar,OS
+Run,%ScriptFile%,SaveVar,Open
+Run,%ScriptFile%,SaveVar,Target_prog
+Run,%ScriptFile%,SaveVar,PE_Programs
+Run,%ScriptFile%,SaveVar,ActiveShell
+Run,%ScriptFile%,SaveVar,ExplorerShortcut
+Run,%ScriptFile%,SaveVar,Locale
+Run,%ScriptFile%,SaveVar,DefaultLayout
+Run,%ScriptFile%,SaveVar,spCabFile
+Run,%ScriptFile%,SaveVar,drCabFile
+Run,%ScriptFile%,SaveVar,OSSubType
+Run,%ScriptFile%,SaveVar,OSServicePack
+Run,%ScriptFile%,SaveVar,SourceLocale
+Run,%ScriptFile%,SaveVar,ModelRam
+Run,%ScriptFile%,SaveVar,dllregmethod
+If,EXISTVAR,%RamIsoScript%,Run,%ScriptFile%,SaveVar,RamIsoScript
+If,EXISTVAR,%ImDiskInstallerScript%,Run,%ScriptFile%,SaveVar,ImDiskInstallerScript
+If,EXISTVAR,%BootSectorScript%,Run,%ScriptFile%,SaveVar,BootSectorScript
+If,EXISTVAR,%BootSector%,Run,%ScriptFile%,SaveVar,BootSector
+If,EXISTVAR,%MenuFile_GRUB%,Run,%ScriptFile%,SaveVar,MenuFile_GRUB
+If,EXISTVAR,%MenuAdd_GRUB%,Run,%ScriptFile%,SaveVar,MenuAdd_GRUB
+If,EXISTVAR,%RegFactoryState%,Run,%ScriptFile%,SaveVar,RegFactoryState
+If,EXISTVAR,%ProgramFilesFolder%,Run,%ScriptFile%,SaveVar,ProgramFilesFolder
+If,EXISTVAR,%ProgramFilesDrive%,Run,%ScriptFile%,SaveVar,ProgramFilesDrive
+If,EXISTVAR,%WimPackInclude%,Run,%ScriptFile%,SaveVar,WimPackInclude
+If,EXISTVAR,%WimPackExclude%,Run,%ScriptFile%,SaveVar,WimPackExclude
+If,EXISTVAR,%script.project_loc%,Run,%ScriptFile%,SaveVar,script.project_loc
+If,EXISTVAR,%RAM_exclude%,Run,%ScriptFile%,SaveVar,RAM_exclude
+
+[DisableThem]
+IniWrite,%ScriptFile%,Main,Selected,False
+If,NotExistDir,%ManagerDir%,DirMake,%ManagerDir%
+ExtractFile,%WBMScript%,Folder,%exename%,%ManagerDir%
+If,EXISTFILE,%Selections%,FileDelete,%ProjectCache%\Base\Project\Selections.ini
+ShellExecute,Hide,"%exe%","#$q-P:%ProjectDir%#$q -M:D #$q-O:%Selections%#$q"
+IniWrite,%FundamentalsScript%,Main,Selected,None
+IniRead,%Selections%,Item,Items,%count%
+StrFormat,INC,%count%,1
+IniWrite,%Selections%,Item,Items,%count%
+IniWrite,%Selections%,Item,Item%count%,%FundamentalsScript%
+System,ReScanScripts
+
+[Not-Open]
+Message,"To use this function, the project must be open (before building the ISO)",Error
+Exit,"Project not open"
+
+[Standard-Enable]
+ShellExecute,Hide,"%exe%","#$q-P:%ProjectDir%#$q -M:E #$q-O:%ProjectCache%\Base\Project\Selections.ini#$q"
+System,ReScanScripts
+
+[SaveVar]
+IniWrite,"%vars%","Variables",#$p#1#$p,"%#1%"
+
+[Interface]
+pTextLabel1="This script saves the current build as base build.",1,1,14,20,359,22,9,Bold
+pTextLabel2="Location: %BaseDir%\Workbench\<project name>\Cache\Base",1,1,14,50,414,18,9,Bold
+pCheckBox1="Show progress when compressing",1,3,30,165,200,18,True
+pCheckBox2="Compress Target directory to 7z",1,3,29,134,200,18,True
+pBevel1=pBevel1,1,12,14,83,273,128
+pButton1="Re-Enable Disabled Scripts",1,8,378,136,146,25,Standard-Enable
+pCheckBox3="Disable Scripts after save",1,3,31,103,230,18,True
+
+[AuthorEncoded]
+Singletest.ico=1Kb,1Kb
+Logo=Singletest.ico
+
+[EncodedFolders]
+Folder
+
+[Folder]
+
+[EncodedFile-AuthorEncoded-Singletest.ico]
+lines=0
+0=eJytlr9u21YUh0+QQdLSbl29FkESOOoD6BU6xALKQe7Up6AgQwG09Ak6OQMVmAeIOegBlLk0QMbkUiCAXkEeShlog9PvXlKuRcluWvRSHw9/9DnnnvtPlsgTruNj4d6Vi69EvhGRb4FX8qPU7x9vZ/4jZ2e1cZd7xe3Dpw+y/vWd6OCZGMjpMzkBBQOZoEHBQM7RoGAgSzQoGMgKDQoGYmhQMBA58ZeCgRyhQMFABmhQMJBTNCgYyAQNCgZyjgYFA1miQcFAVmhQMBBDg4IBCaliQj0T6plQDxoUDGSABgUDOUWDgoFM0KBgIOdoUDCQJRoUDGSFBgUDgqgHDQbiZ0b9ZSBHaFAwkAEaFAzkFA0KBjJBg4KBnKNBwUCWaFAwkBUaFAzE0KBgIFJST0klJfWU1IMGBQMZoEHBQE7RoGAgEzQoGMg5GhQMZIkGBQNZoUHBQAwNCuae/awYdbB7QMFABmhQMJBTNCgYyAQNCgZyjgYFA1miQcFAVmhQMPdsPINdXQHWvoOf4Be4ctuI/KxevaTkR4OCgSzRoGAgKzQomHumSzV3VjkvoGAgR2hQMBDO6Ams/zCJ3r71Z1jcfLhYV19z4s294vb5v7Sb9c36X7iPozB8QcjNF/tfziNinhPyJTFhlOdZmvqY11/QzziKqyzPaGkcEeRjHhnQOI4M97y+0piO3r5+ZEDjNKpy38GWLKajs4cGFKbzuMize5ePdsUxCfuFjfOLuWX3/LO76rI42u9hzNuKnEWWX/v73QP36PVeB2GeRpfF3y5FlhV5I7P0bD8//hTkPer8TSSftIiO2x2EecwMFXlBH+6eFdc8uDvPeRy2OyB/HDV+3tVFFnVkWhTRet3On6ZxXBWuXde37UVEsdcB+VNX0J33vcZg6ODmgH9eHGrkL+LWlFJPdldQq+V5UeWtNRszyxkF0Q7k52VrzcZ++eMojvPKqm1Y1eSviup9dLNbj9+Tmd/J8/Qyt8p5+4/LX1W7azau92QT5bZy5QOAbeX8d6c0LOq9SA+538pxXJeFf1Y/7KzZmA3J5bZNPHdPWRRfNkPJa/+dDkLnWodsOlMXmKUXHOQ4VsbiGx3cy1/vgMKdqWG/kzZTeZ2934blefTqfn7f0jS7SjfBaDhn8NtNEX1/cxKGHMzPO/ldOtaMDjq9XmdTn0hOQXHxav/8hpUriImJO/1hP0jKIIi3XxXz4/0viLFfSv44nCaLpIRZ0O9sNhpT9/P9b6Gx32rX+WWwMJwXiWu93jQgqtN5+TvfXLtF+a1W4Y+7JXchPmo0Iqrf3wkI57Hba93ALJj2yrLyIS7oN/iZqKDfGvbJD2E4xr8/82W8cYXV3fiQMnhx4ItxhH/llrPXmwXTWdlN7irrtTtwzeX3yz+dUkHfTW4wmvZ6D/tXtX9vagy87E1HwdCNNkm6/cP1DOv8bjI30143YehlOUsWD9ZT1/+u3DDsoa+I4qqkfMg/YSVs1vuYEJYkszcbN5AF9Rz23wQuJZPjUm+m3a6P+7g4nN8X49IywKlbCKJcRYvq4Hj7U2u1qvRx/NI6lP9zf0QFVdWOopWvDv+z7LvGAGas7r3A6uB4W4F+MmezhMAkePm4+06HDHor6+5Ebie1XXcaK5PGdhrLL8jaPm2s+0np7VFjv37Adlr2acs+aVl5yE5advAPdrJbX7tOl/e28btt4vzvwyPs7f9k/2ysba2d+X7cA+/+ArGeXct4nOMLzsxLz0ktSS0u0ctMzmcYBSML7OOD0EKs2OWNYmqmMDABAAeyCB3TXAkaAQAAAAIAAAAqAAAAEgUAAAAAAAABAAAAAAAAAAAAAAA
+

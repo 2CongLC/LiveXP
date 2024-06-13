@@ -1,0 +1,16 @@
+[Version]
+Signature="$Windows NT$"
+
+[DefaultBranchesServicePacks]
+0=win2k
+
+[DefaultBranchesServicePacks.WinNt51]
+0=wxp
+
+[DefaultBranchesServicePacks.WinNt52]
+0=w2k3
+
+[SourceInfsBranches]
+win2k=update\update_win2k.inf
+wxp=update\update_wxp.inf
+w2k3=update\update_w2k3.inf

@@ -1,0 +1,52 @@
+[Main]
+Title=locale Additions
+Level=8
+Description=locale Additions needed, especially font issues
+Selected=True
+Mandatory=True
+Author=Peter Schlang
+Contact=
+Date=2008-Oct-22
+Version=8
+History=5 psc in original by Galapo and Lancelot: changed logic, add Hungarian
+History=6 Galapo added missing French default regional settings
+History=7 Galapo removed v.6 additions since missing regional settings was due to a bug with HoJoPE
+Download_Level=0
+Credits=Lancelot, Galapo for their first construction
+History008=Lancelot version+level updated to syncronise with nativeex development
+CertifiedBy=pscEx
+Certification=9478c592b288f3c1d0f075871e49c808
+Certification81=133536fddd15986cb79726b15e0a6545
+
+[Interface]
+pTextLabel1="Currently Locale Addition Fix Supports:",1,1,8,14,280,18,9,Bold
+pTextLabel2="source Hungarian: ARIALBD.TTF and C_1252.NLS added",1,1,7,52,467,19,8,Bold
+pTextLabel3="source Turkish: ARIALBD.TTF and C_1252.NLS are added to fix font problem",1,1,7,69,453,19,8,Bold
+
+[Variables]
+%do1%=arialbd
+%do2%=c1252
+%max_do%=2
+
+[Process]
+IniRead,%ProjectInfo%,OS,SourceLocale,%locale%
+If,EXISTSECTION,%ScriptFile%,%locale%,Run,%ScriptFile%,%Locale%
+Loop,%ScriptFile%,The-Loop,1,%max_do%
+
+[The-Loop]
+If,%%do#c%%,EQUAL,1,Run,%ScriptFile%,%do#c%
+
+[0000041f]
+Set,%%do1%%,1
+Set,%%do2%%,1
+
+[0000040e]
+Set,%%do1%%,1
+Set,%%do2%%,1
+
+[arialbd]
+If,NotExistFile,%target_sys%\c_1252.nls,CopyOrExpand,%source_sys%\c_1252.nls,%target_sys%
+
+[c1252]
+If,NotExistFile,%target_win%\Fonts\arialbd.ttf,CopyOrExpand,%source_win%\arialbd.ttf,%target_win%\Fonts
+
